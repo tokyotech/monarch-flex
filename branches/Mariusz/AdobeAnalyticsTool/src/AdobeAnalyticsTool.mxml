@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="creationCompleteHandler(event)" close="closeHandler(event)" layout="absolute" width="1030" height="700" title="Adobe Analytics Tool" minHeight="710" minWidth="1035" maxHeight="710" maxWidth="1035" showGripper="false" backgroundImage="@Embed(source='../images/background.jpg')" borderColor="#3C3C3C" backgroundGradientAlphas="[1.0, 1.0]" color="#5D5D5D" backgroundGradientColors="[#D7D7D7, #515151]" alpha="0.93" backgroundColor="#000000" cornerRadius="12" xmlns:local="*">
+	
+	<mx:Script>
+		<![CDATA[
+		
+			import mx.controls.Alert;
+			
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//							GUI EVENT HANDLERS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+			/**
+			 * 	Event handler which listens to the sign in window events.
+			 */
+			private function signInWindowCloseHandler(event:cSignInEvent):void
+			{
+				if(event.mType == event.SIGN_IN) {
+					mEngine.loginToAccount(event.mUserName, event.mPassword);
+				}
+				this.enabled = true;
+			}
+			
+			/**
+			 * 	Event handler which listens to the create account window events.
+			 */
+			private function createAccountWindowCloseHandler(event:cCreateAccountEvent):void
+			{
+				if(event.mType == event.CREATE_ACCOUNT) {
+					
+				}
+				this.enabled = true;
+			}
+			
+			/**
+			 * 	Function which lanuches a sign in window.
+			 */
+			private function signInClickHandler(event:Event):void
+			{
+				var signInWindow:cSignInWindow = new cSignInWindow();
+				signInWindow.open(true);
+				signInWindow.addEventListener("cSignInEvent", signInWindowCloseHandler);
+				signInWindow.alwaysInFront = true;
+				this.enabled = false;
+			}
+			
+			/**
+			 * 	Function which lanuches a sign out window.
+			 */
+			private function signOutClickHandler(event:Event):void
+			{
+				mSignInLabel.visible = true;
+				mSignOutLabel.visible = false;
+				mFullNameSeparator.visible = false;
+				mUserNameLabel.text = "";
+				mMainViewStack.selectedIndex = 0;
+				Alert.show("You successfully logged out of your account.", "Log Out Successful");
+			}
+			
+			/**
+			 * 	Function which launches a create account window.
+			 */
+			private function createAccountClickHandler(event:Event):void
+			{
+				var createAccountWindow:cCreateAccountWindow = new cCreateAccountWindow();
+				createAccountWindow.open(true);
+				createAccountWindow.addEventListener("cCreateAccountEvent", createAccountWindowCloseHandler);
+				createAccountWindow.alwaysInFront = true;
+				this.enabled = false;
+			}
+			
+			
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//							ENGINE EVENT HANDLERS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+			/**
+			 * 	Event handler which signals to the main window that the engine has recieved
+			 *  a loggin in response from the server.
+			 */
+			private function loggedInServiceHandler(event:cLogginEvent):void
+			{
+				mSignInLabel.visible = false;
+				mSignOutLabel.visible = true;
+				mFullNameSeparator.visible = true;
+				mUserNameLabel.text = "WELCOME " + event.mFullName;
+				mMainViewStack.selectedIndex = 1;
+			}
+			
+			
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//							WINDOW EVENT HANDLERS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+			/**
+			 * 	Event handler triggered when the main window first opens.
+			 */
+			private function creationCompleteHandler(event:Event):void
+			{
+				
+			}
+			
+			/**
+			 * 	Event handler triggered when the main window is about ot close.
+			 */
+			private function closeHandler(event:Event):void
+			{
+				
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:HRule x="10" y="60" width="1013" height="7" strokeColor="#606060" id="mHRule1"/>
+	<mx:Text x="10" y="10" text="ADOBE&#xd;" fontSize="20" color="#F70202" textAlign="center" fontWeight="bold" fontFamily="Verdana" width="87" id="mADOBEText"/>
+	<mx:Text x="10" y="34" text="Community Analytics" fontSize="12" color="#1C94B2" id="mCommunityAnalyticsText"/>
+	<mx:Label x="974" y="5" text="Sign In" click="signInClickHandler(event)" id="mSignInLabel" color="#0CE10C" fontSize="12" textDecoration="underline"/>
+	<mx:Label x="970" y="5" text="Sign Out" click="signOutClickHandler(event)" id="mSignOutLabel" color="#0CE10C" fontSize="12" textDecoration="underline" visible="false"/>
+	<mx:Label x="848" y="5" text="Create Account" click="createAccountClickHandler(event)" id="mCreateAccountLabel" color="#0CE10C" fontSize="12" textDecoration="underline"/>
+	<mx:TextInput x="762" y="34" width="212" text="Search..." id="mSearchTextBox"/>
+	<mx:Button x="982" y="34" label="Go" color="#ECECEC"/>
+	<mx:ViewStack x="10" y="63" id="mMainViewStack" width="1013" height="625">
+		<local:cMainViewCanvas backgroundColor="#FFFFFF" id="mMainViewCanvas">
+		</local:cMainViewCanvas>
+		<local:cLoggedInHomeCanvas>
+		</local:cLoggedInHomeCanvas>
+		<local:cCommBrowserCanvas>
+		</local:cCommBrowserCanvas>
+	</mx:ViewStack>
+	<mx:VRule x="960" y="6" width="3" height="16"/>
+	<mx:VRule x="832" y="7" width="3" height="16" id="mFullNameSeparator" visible="false"/>
+	<local:cEngine id="mEngine" LoggedInCreatedEvent="loggedInServiceHandler(event)">
+	</local:cEngine>
+	<mx:Label x="378" y="5" fontSize="12" textAlign="right" width="442" color="#D1C613" id="mUserNameLabel"/>
+</mx:WindowedApplication>
