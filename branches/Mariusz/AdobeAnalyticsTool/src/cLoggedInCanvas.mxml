@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" show="showCanvasHandler(event)" width="1013" height="625" backgroundAlpha="0.1" backgroundColor="#FFFFFF" xmlns:local="*">
+	
+	<mx:Metadata>
+		[Event(name="CreateCommunityGroupEvent", type="cCreateCommunityGroupEvent")]
+	</mx:Metadata>
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+		
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//							GUI EVENT HANDLERS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+		
+			/**
+			 * 	Function which switches the mMyCommViewStack index to 0 (home).
+			 */
+			private function createCommBackLabelClickedHandler(event:Event):void
+			{
+				mMyCommViewStack.selectedIndex = 0;
+			}
+			
+			/**
+			 * 	Detects a request to create a community group. It will fire an event to notify
+			 * 	that a community group should be created.
+			 */
+			private function createCommunityGroupHandler(event:cCreateCommunityGroupEvent):void
+			{
+				var e:cCreateCommunityGroupEvent = new cCreateCommunityGroupEvent("CreateCommunityGroupEvent");
+				e.mCommName = event.mCommName;
+				e.mKeywords = event.mKeywords;
+				this.dispatchEvent(e);
+			}
+			
+		
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//						   CANVAS EVENT HANDLERS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+			/**
+			 * 	Detects a create community groups request from cMyCommHomeCanvas and
+			 *  opens the create community group canvas.
+			 */
+			private function openCreateCommGroupCanvasHandler(event:Event):void
+			{
+				mMyCommViewStack.selectedIndex = 1;
+			}
+			
+			/**
+			 *	Function which gets called each time this canvas is selected by the parent. It
+			 * 	will select the cMyCommHomeCanvas as the default canvas within this component and
+			 *  update its internal user information.
+			 */
+			private function showCanvasHandler(event:Event):void
+			{
+				mMyCommViewStack.selectedIndex = 0;
+				mMyCommHomeCanvas.updateInformation(mCommunityGroups);
+			}
+			
+			
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//						   MEMBER FUNCTIONS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+			/**
+			 * 	Function which updates the users information within this canvas component to be used
+			 *  at a later time.
+			 */
+			public function updateInformation(communityGroups:ArrayCollection):void
+			{
+				mCommunityGroups = communityGroups;
+			}
+			
+			
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//						   MEMBER FUNCTIONS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+			// reference to the users community group information object
+			private var mCommunityGroups:ArrayCollection = null;
+				
+		]]>
+	</mx:Script>
+	
+	<mx:HRule x="0" y="33" width="1013" height="7" strokeColor="#606060" id="mHRule1"/>
+	<mx:ViewStack x="0" y="40" id="mNavigatorViewStack" width="1013" height="585">
+		<mx:ViewStack id="mMyCommViewStack" label="My Community Groups" width="1013" height="585">
+			<local:cMyCommHomeCanvas id="mMyCommHomeCanvas" OpenCreateCommunityGroupCanvasEvent="openCreateCommGroupCanvasHandler(event)" label="My Community Groups" height="577" width="1003">
+			</local:cMyCommHomeCanvas>
+			<local:cCreateCommunityGroupCanvas id="mcreateCommunityGroupCanvas" CreateCommunityGroupEvent="createCommunityGroupHandler(event)" BackLabelClickedEvent="createCommBackLabelClickedHandler(event)" height="577" width="1003">
+			</local:cCreateCommunityGroupCanvas>
+		</mx:ViewStack>
+		<mx:ViewStack id="mAllCommViewStack" label="All Community Groups" width="1013" height="585">
+			<mx:Canvas label="All Community Groups" width="100%" height="100%" backgroundColor="#00D8FF">
+			</mx:Canvas>
+		</mx:ViewStack>
+	</mx:ViewStack>
+	<mx:ButtonBar x="354" y="10" dataProvider="mNavigatorViewStack" color="#D7D7D7">
+	</mx:ButtonBar>
+</mx:Canvas>

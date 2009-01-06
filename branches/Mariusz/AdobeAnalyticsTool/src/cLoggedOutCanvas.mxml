@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="1013" height="625" backgroundAlpha="0.1">
+	<mx:Label x="26" y="37" text="Top Community Groups" fontFamily="Times New Roman" fontSize="24" textDecoration="underline" color="#BEBEBE" alpha="1.0" id="mHomeLoggedOutAccountLabel"/>
+	<mx:Label x="494" y="37" text="News" fontFamily="Times New Roman" fontSize="24" textDecoration="underline" color="#BEBEBE" alpha="1.0" id="mHomeLoggedOutAccountLabel0"/>
+	<mx:VRule x="464" y="37" width="3" height="552"/>
+	<mx:Label x="278" y="571" text="See All Community Groups" width="169" textAlign="right" color="#FFFFFF" id="mSeeAllCommLabel"/>
+	<mx:VBox x="26" y="77" height="486" width="421" id="mTopCommVBox" backgroundColor="#FFFFFF" backgroundAlpha="0.1" verticalScrollPolicy="on">
+	</mx:VBox>
+	<mx:VBox x="496" y="77" height="486" width="495" backgroundColor="#FFFFFF" backgroundAlpha="0.1" id="mNewsVBox" verticalScrollPolicy="on">
+	</mx:VBox>
+	
+</mx:Canvas>

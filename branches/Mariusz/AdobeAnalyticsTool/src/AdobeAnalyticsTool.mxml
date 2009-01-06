@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="creationCompleteHandler(event)" close="closeHandler(event)" layout="absolute" width="1030" height="700" title="Adobe Analytics Tool" minHeight="710" minWidth="1035" maxHeight="710" maxWidth="1035" showGripper="false" backgroundImage="@Embed(source='../images/background.jpg')" borderColor="#3C3C3C" backgroundGradientAlphas="[1.0, 1.0]" color="#5D5D5D" backgroundGradientColors="[#D7D7D7, #515151]" alpha="0.93" backgroundColor="#000000" cornerRadius="12" xmlns:local="*">
+<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="creationCompleteHandler(event)" close="closeHandler(event)" layout="absolute" width="1030" height="700" title="Adobe Community Analytics" minHeight="710" minWidth="1035" maxHeight="710" maxWidth="1035" showGripper="false" backgroundImage="@Embed(source='../images/background.jpg')" borderColor="#3C3C3C" backgroundGradientAlphas="[1.0, 1.0]" color="#5D5D5D" backgroundGradientColors="[#D7D7D7, #515151]" alpha="0.93" backgroundColor="#000000" cornerRadius="12" xmlns:local="*">
 	
 	<mx:Script>
-		<![CDATA[
-		
+		<![CDATA[		
 			import mx.controls.Alert;
+			
+			// hold user account information
+			private var mAccountInformation:cAccountInformation = null;
 			
 			///////////////////////////////////////////////////////////////////////////////////
 			//
@@ -29,7 +31,7 @@
 			private function createAccountWindowCloseHandler(event:cCreateAccountEvent):void
 			{
 				if(event.mType == event.CREATE_ACCOUNT) {
-					
+					mEngine.createAccount(event.mFullName, event.mUserName, event.mPassword);
 				}
 				this.enabled = true;
 			}
@@ -41,9 +43,59 @@
 			{
 				var signInWindow:cSignInWindow = new cSignInWindow();
 				signInWindow.open(true);
+				signInWindow.nativeWindow.x = nativeWindow.x + (nativeWindow.width - signInWindow.nativeWindow.width) / 2;
+				signInWindow.nativeWindow.y = nativeWindow.y + (nativeWindow.height - signInWindow.nativeWindow.height) / 2;
 				signInWindow.addEventListener("cSignInEvent", signInWindowCloseHandler);
 				signInWindow.alwaysInFront = true;
 				this.enabled = false;
+			}
+			
+			/**
+			 * 	Called when the user hovers the mouse over the sign in label.
+			 */
+			private function signInRollOverHandler(event:Event):void
+			{
+				mSignInLabel.setStyle("color", "0xFF6666");
+			}
+			
+			/**
+			 * 	Called when the user hovers the mouse away from the sign in label.
+			 */
+			private function signInRollOutHandler(event:Event):void
+			{
+				mSignInLabel.setStyle("color", "0x11d30c");
+			}
+			
+			/**
+			 * 	Called when the user hovers the mouse over the sign out label.
+			 */
+			private function signOutRollOverHandler(event:Event):void
+			{
+				mSignOutLabel.setStyle("color", "0xFF6666");
+			}
+			
+			/**
+			 * 	Called when the user hovers the mouse away from the sign out label.
+			 */
+			private function signOutRollOutHandler(event:Event):void
+			{
+				mSignOutLabel.setStyle("color", "0x11d30c");
+			}
+			
+			/**
+			 * 	Called when the user hovers the mouse over the create account label.
+			 */
+			private function createAccountRollOverHandler(event:Event):void
+			{
+				mCreateAccountLabel.setStyle("color", "0xFF6666");
+			}
+			
+			/**
+			 * 	Called when the user hovers the mouse away from the sign out label.
+			 */
+			private function createAccountRollOutHandler(event:Event):void
+			{
+				mCreateAccountLabel.setStyle("color", "0x11d30c");
 			}
 			
 			/**
@@ -66,9 +118,27 @@
 			{
 				var createAccountWindow:cCreateAccountWindow = new cCreateAccountWindow();
 				createAccountWindow.open(true);
+				createAccountWindow.nativeWindow.x = nativeWindow.x + (nativeWindow.width - createAccountWindow.nativeWindow.width) / 2;
+				createAccountWindow.nativeWindow.y = nativeWindow.y + (nativeWindow.height - createAccountWindow.nativeWindow.height) / 2;
 				createAccountWindow.addEventListener("cCreateAccountEvent", createAccountWindowCloseHandler);
 				createAccountWindow.alwaysInFront = true;
 				this.enabled = false;
+			}
+			
+			
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//							CHILD CANVAS EVENT HANDLERS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+			/**
+			 * 	Detects that a community group should be created. It will call the engine object 
+			 *  to service the request.
+			 */
+			private function createCommunityGroupEventHandler(event:cCreateCommunityGroupEvent):void
+			{
+				mEngine.createCommunity(event.mCommName, event.mKeywords, mAccountInformation.mUserId);
 			}
 			
 			
@@ -80,7 +150,7 @@
 			
 			/**
 			 * 	Event handler which signals to the main window that the engine has recieved
-			 *  a loggin in response from the server.
+			 *  a logged in response from the server.
 			 */
 			private function loggedInServiceHandler(event:cLogginEvent):void
 			{
@@ -89,6 +159,21 @@
 				mFullNameSeparator.visible = true;
 				mUserNameLabel.text = "WELCOME " + event.mFullName;
 				mMainViewStack.selectedIndex = 1;
+				mAccountInformation = new cAccountInformation(event.mFullName,
+															  event.mUserName,
+															  event.mPassword,
+															  event.mUserId,
+															  event.mCommunities);
+				mLoggedInCanvas.updateInformation(event.mCommunities);
+			}
+			
+			/**
+			 *	Event handler which signals to the main window that the engine has recieved
+			 *  a newly created community group response from the server.
+			 */
+			private function newComunityCreatedServiceHandler(event:cNewCommunityEvent):void
+			{
+				
 			}
 			
 			
@@ -103,11 +188,13 @@
 			 */
 			private function creationCompleteHandler(event:Event):void
 			{
-				
+				var screenBounds:Rectangle = Screen.mainScreen.bounds;
+                nativeWindow.x = (screenBounds.width - nativeWindow.width) / 2;
+                nativeWindow.y = (screenBounds.height - nativeWindow.height) / 2;
 			}
 			
 			/**
-			 * 	Event handler triggered when the main window is about ot close.
+			 * 	Event handler triggered when the main window is about to close.
 			 */
 			private function closeHandler(event:Event):void
 			{
@@ -120,22 +207,21 @@
 	<mx:HRule x="10" y="60" width="1013" height="7" strokeColor="#606060" id="mHRule1"/>
 	<mx:Text x="10" y="10" text="ADOBE&#xd;" fontSize="20" color="#F70202" textAlign="center" fontWeight="bold" fontFamily="Verdana" width="87" id="mADOBEText"/>
 	<mx:Text x="10" y="34" text="Community Analytics" fontSize="12" color="#1C94B2" id="mCommunityAnalyticsText"/>
-	<mx:Label x="974" y="5" text="Sign In" click="signInClickHandler(event)" id="mSignInLabel" color="#0CE10C" fontSize="12" textDecoration="underline"/>
-	<mx:Label x="970" y="5" text="Sign Out" click="signOutClickHandler(event)" id="mSignOutLabel" color="#0CE10C" fontSize="12" textDecoration="underline" visible="false"/>
-	<mx:Label x="848" y="5" text="Create Account" click="createAccountClickHandler(event)" id="mCreateAccountLabel" color="#0CE10C" fontSize="12" textDecoration="underline"/>
+	<mx:Label x="974" y="5" text="Sign In" rollOver="signInRollOverHandler(event)" rollOut="signInRollOutHandler(event)" click="signInClickHandler(event)" id="mSignInLabel" color="#0CE10C" fontSize="12" textDecoration="underline"/>
+	<mx:Label x="970" y="5" text="Sign Out" rollOver="signOutRollOverHandler(event)" rollOut="signOutRollOutHandler(event)" click="signOutClickHandler(event)" id="mSignOutLabel" color="#0CE10C" fontSize="12" textDecoration="underline" visible="false"/>
+	<mx:Label x="848" y="5" text="Create Account" rollOver="createAccountRollOverHandler(event)" rollOut="createAccountRollOutHandler(event)" click="createAccountClickHandler(event)" id="mCreateAccountLabel" color="#0CE10C" fontSize="12" textDecoration="underline"/>
 	<mx:TextInput x="762" y="34" width="212" text="Search..." id="mSearchTextBox"/>
 	<mx:Button x="982" y="34" label="Go" color="#ECECEC"/>
 	<mx:ViewStack x="10" y="63" id="mMainViewStack" width="1013" height="625">
-		<local:cMainViewCanvas backgroundColor="#FFFFFF" id="mMainViewCanvas">
-		</local:cMainViewCanvas>
-		<local:cLoggedInHomeCanvas>
-		</local:cLoggedInHomeCanvas>
-		<local:cCommBrowserCanvas>
-		</local:cCommBrowserCanvas>
+		<local:cLoggedOutCanvas backgroundColor="#FFFFFF" id="mLoggedOutCanvas">
+		</local:cLoggedOutCanvas>
+		<local:cLoggedInCanvas id="mLoggedInCanvas" CreateCommunityGroupEvent="createCommunityGroupEventHandler(event)">
+		</local:cLoggedInCanvas>
 	</mx:ViewStack>
 	<mx:VRule x="960" y="6" width="3" height="16"/>
 	<mx:VRule x="832" y="7" width="3" height="16" id="mFullNameSeparator" visible="false"/>
-	<local:cEngine id="mEngine" LoggedInCreatedEvent="loggedInServiceHandler(event)">
+	<local:cEngine id="mEngine" LoggedInCreatedEvent="loggedInServiceHandler(event)"
+							 	NewCommunityCreatedEvent="newComunityCreatedServiceHandler(event)">
 	</local:cEngine>
 	<mx:Label x="378" y="5" fontSize="12" textAlign="right" width="442" color="#D1C613" id="mUserNameLabel"/>
 </mx:WindowedApplication>

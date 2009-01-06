@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="390" height="92" cornerRadius="20" alpha="1.0" backgroundColor="#FFFFFF" backgroundAlpha="0.0">
+	
+	<mx:Metadata>
+		
+	</mx:Metadata>
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			
+			/**
+			 * 
+			 */
+			private function mainPanelRollOverHandler(event:Event):void
+			{
+				mMainPanelCanvas.setStyle("borderColor", "0xffe400");
+			}
+			
+			/**
+			 * 
+			 */
+			private function mainPanelRollOutHandler(event:Event):void
+			{
+				mMainPanelCanvas.setStyle("borderColor", "0xb7babc");
+			}
+			
+		]]>
+	</mx:Script>
+	<mx:Canvas x="6" y="6" width="377" height="80" rollOver="mainPanelRollOverHandler(event)" rollOut="mainPanelRollOutHandler(event)" backgroundColor="#65ACC9" borderStyle="solid" cornerRadius="19" backgroundAlpha="0.4" id="mMainPanelCanvas" borderColor="#4B4A4A" alpha="1.0">
+		<mx:Label x="89" y="43" rollOver="mainPanelRollOverHandler(event)" rollOut="mainPanelRollOutHandler(event)" text="Created on December 12, 2030" width="276" fontFamily="Arial" id="mDateLabel" color="#BFBFBF"/>
+		<mx:Label x="89" y="55" rollOver="mainPanelRollOverHandler(event)" rollOut="mainPanelRollOutHandler(event)" text="Creator : Mariusz Choroszy" width="276" fontFamily="Arial" id="mCreatorLabel" color="#BFBFBF"/>
+		<mx:Label x="89" y="12" rollOver="mainPanelRollOverHandler(event)" rollOut="mainPanelRollOutHandler(event)" text="Some Communty Group" fontSize="16" width="276" id="mCommNameLabel" color="#ECECEC"/>
+		<mx:Canvas x="17" y="8" rollOver="mainPanelRollOverHandler(event)" rollOut="mainPanelRollOutHandler(event)" width="64" height="64" backgroundImage="@Embed(source='../images/sample.jpg')" id="mImageCanvas">
+		</mx:Canvas>
+	</mx:Canvas>
+</mx:Canvas>

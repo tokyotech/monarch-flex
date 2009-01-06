@@ -236,7 +236,7 @@
     		 */
     		private function createAccountHTTPServiceResultHandler(event:ResultEvent):void
     		{
-    			/*var xmlTree:XML = XML(event.result);
+    			var xmlTree:XML = XML(event.result);
     			var  userAccountInformationList:XMLListCollection = new XMLListCollection(xmlTree.elements("UserAccountInformation"));
 				if(userAccountInformationList.children().length() > 0) {    				
     				var e:cLogginEvent = new cLogginEvent("LoggedInCreatedEvent");
@@ -255,7 +255,7 @@
     				Alert.show("There was an error in trying to create an account.\nPlease try again.", 
     				           "Account Creation Failed Message");
     			}
-    			return;*/
+    			return;
     		}
     		
     		/*
@@ -263,7 +263,7 @@
     		 */
     		private function addCommintyHTTPServiceResultHandler(event:ResultEvent):void
     		{	    			
-    			/*var xmlTree:XML = XML(event.result);
+    			var xmlTree:XML = XML(event.result);
     			var  newCommunityInformationList:XMLListCollection = new XMLListCollection(xmlTree.elements("CommunityInformation"));
 				if(newCommunityInformationList.children().length() > 0) {    		
 									
@@ -295,7 +295,7 @@
     				Alert.show("The community name you chose is already in use.\Please choose a different community name.", 
     				           "Community Creation Failed Message");
     			}
-    			return;*/
+    			return;
     		}
     		
     		/*
