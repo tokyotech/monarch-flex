@@ -152,26 +152,26 @@
 			 * 	Event handler which signals to the main window that the engine has recieved
 			 *  a logged in response from the server.
 			 */
-			private function loggedInServiceHandler(event:cLogginEvent):void
+			private function loggedInServiceHandler(event:cLoggedinEvent):void
 			{
 				mSignInLabel.visible = false;
 				mSignOutLabel.visible = true;
 				mFullNameSeparator.visible = true;
 				mUserNameLabel.text = "WELCOME " + event.mFullName;
-				mMainViewStack.selectedIndex = 1;
 				mAccountInformation = new cAccountInformation(event.mFullName,
 															  event.mUserName,
 															  event.mPassword,
 															  event.mUserId,
 															  event.mCommunities);
-				mLoggedInCanvas.updateInformation(event.mCommunities);
+				mLoggedInCanvas.updateInformation(mAccountInformation);
+				mMainViewStack.selectedIndex = 1;
 			}
 			
 			/**
 			 *	Event handler which signals to the main window that the engine has recieved
 			 *  a newly created community group response from the server.
 			 */
-			private function newComunityCreatedServiceHandler(event:cNewCommunityEvent):void
+			private function newCommunityCreatedServiceHandler(event:cNewCommunityEvent):void
 			{
 				
 			}
@@ -221,7 +221,7 @@
 	<mx:VRule x="960" y="6" width="3" height="16"/>
 	<mx:VRule x="832" y="7" width="3" height="16" id="mFullNameSeparator" visible="false"/>
 	<local:cEngine id="mEngine" LoggedInCreatedEvent="loggedInServiceHandler(event)"
-							 	NewCommunityCreatedEvent="newComunityCreatedServiceHandler(event)">
+							 	NewCommunityCreatedEvent="newCommunityCreatedServiceHandler(event)">
 	</local:cEngine>
 	<mx:Label x="378" y="5" fontSize="12" textAlign="right" width="442" color="#D1C613" id="mUserNameLabel"/>
 </mx:WindowedApplication>

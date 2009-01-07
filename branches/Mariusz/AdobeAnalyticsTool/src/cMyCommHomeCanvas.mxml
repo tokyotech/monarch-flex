@@ -3,12 +3,16 @@
 	
 	<mx:Metadata>
 		[Event(name="OpenCreateCommunityGroupCanvasEvent", type="flash.events.Event")]
+		[Event(name="OpenCommunityGroupBrowserCanvasEvent", type="cCommGroupGraphicClickedEvent")]
 	</mx:Metadata>
 	
 	<mx:Script>
 		<![CDATA[
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
+			import mx.effects.Fade;
+			import mx.effects.Move;
+			import mx.effects.Tween;
 			
 			///////////////////////////////////////////////////////////////////////////////////
 			//
@@ -42,6 +46,28 @@
 				mCreateCommLabel.setStyle("color", "0x11d30c");
 			}
 			
+			/**
+			 *  Event handler called when the user clicks on the cmmunity group graphic whithin this canvas.
+			 * 	Fires an event signaling that a community has been selected by the user.
+			 */
+			private function commGroupGraphicClickedHandler(event:cCommGroupGraphicClickedEvent):void
+			{
+				var i:int
+				var communityGroupEntry:cCommunityGroupEntry;
+				for(i = 0; i < mUserAccountInformation.mCommunities.length; i++) {
+					communityGroupEntry = cCommunityGroupEntry(mUserAccountInformation.mCommunities.getItemAt(i));
+					if(communityGroupEntry.mId == event.mCommGroupId) {
+						var e:cCommGroupGraphicClickedEvent = new cCommGroupGraphicClickedEvent("OpenCommunityGroupBrowserCanvasEvent");
+						e.mCommGroupName = event.mCommGroupName;
+						e.mCommGroupId = event.mCommGroupId;
+						e.mCreator = mUserAccountInformation.mUserName;
+						e.mWebsites = communityGroupEntry.mWebsites;
+						this.dispatchEvent(e);
+						return;
+					}
+				}
+			}
+			
 			
 			///////////////////////////////////////////////////////////////////////////////////
 			//
@@ -50,12 +76,11 @@
 			///////////////////////////////////////////////////////////////////////////////////
 			
 			/**
-			 *  Function which will display the graphics for this canvas component after it has been
-			 * 	initialized.
+			 *  Called when this canvas has been opened.
 			 */
 			private function showCanvasHandler(event:Event):void
-			{
-				// **   ADD CODE HERE TOMORROW ** //
+			{		
+				
 			}
 			
 			
@@ -67,11 +92,39 @@
 			
 			/**
 			 *  Function which updates the users information within this canvas component to be used
-			 *  at a later time.
+			 *  at a later time. Also displays the graphics for this canvas component.
 			 */
-			public function updateInformation(communityGroups:ArrayCollection):void
+			public function updateInformation(userAccountInformation:cAccountInformation):void
 			{
-				mCommunityGroups = communityGroups;
+				mUserAccountInformation = userAccountInformation;
+				
+				mMyCommVBox.removeAllChildren();
+				
+				var delay:int = 100;
+				var i:int;
+				var communityGroupEntry:cCommunityGroupEntry;
+				for(i = 0; i < mUserAccountInformation.mCommunities.length; i++) {
+					communityGroupEntry = cCommunityGroupEntry(mUserAccountInformation.mCommunities.getItemAt(i));
+					var commGroupGraphicEntry:cCommGroupLargeGraphic = new cCommGroupLargeGraphic();
+					commGroupGraphicEntry.addEventListener("cCommGroupGraphicClickedEvent", commGroupGraphicClickedHandler);
+					commGroupGraphicEntry.updateInformation(communityGroupEntry.mName,
+															mUserAccountInformation.mUserName,
+															"",
+															communityGroupEntry.mWebsites.length.toString(),
+															communityGroupEntry.mId);								
+					commGroupGraphicEntry.alpha = 0.3;					
+					mMyCommVBox.addChild(commGroupGraphicEntry);
+					// animate
+					var fade:Fade = new Fade();
+					fade.alphaFrom = 0.3;
+					fade.alphaTo = 0.8;
+					fade.duration = 500;
+					fade.startDelay = delay;
+					fade.target = commGroupGraphicEntry;
+					fade.play();
+					
+					delay+=200;	
+				}	
 			}
 			
 			
@@ -82,7 +135,7 @@
 			///////////////////////////////////////////////////////////////////////////////////
 			
 			// reference to the users community group information object
-			private var mCommunityGroups:ArrayCollection = null;
+			private var mUserAccountInformation:cAccountInformation = null;
 			
 		]]>
 	</mx:Script>

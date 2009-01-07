@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Module xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="0" height="0">
 	<mx:Metadata>		
-		[Event(name="LoggedInCreatedEvent", type="cLogginEvent")]
+		[Event(name="LoggedInCreatedEvent", type="cLoggedinEvent")]
 		[Event(name="CommunityCreatedEvent", type="flash.events.Event")]
 		[Event(name="NewCommunityCreatedEvent", type="cNewCommunityEvent")]
 		[Event(name="NewWebsiteCreatedEvent", type="cNewWebsiteEvent")]
@@ -165,8 +165,8 @@
     			var xmlTree:XML = XML(event.result);
     			var  userAccountInformationList:XMLListCollection = new XMLListCollection(xmlTree.elements("UserAccountInformation"));
 				if(userAccountInformationList.children().length() > 0) {    				
-    				Alert.show("You have successfully logged in.", "Login Successful");
-    				var e:cLogginEvent = new cLogginEvent("LoggedInCreatedEvent");
+    				//Alert.show("You have successfully logged in.", "Login Successful");
+    				var e:cLoggedinEvent = new cLoggedinEvent("LoggedInCreatedEvent");
     				e.mFullName = userAccountInformationList.elements("fullName").toString();
     				e.mUserName = userAccountInformationList.elements("userName").toString();
     				e.mPassword = userAccountInformationList.elements("password").toString();
@@ -239,7 +239,7 @@
     			var xmlTree:XML = XML(event.result);
     			var  userAccountInformationList:XMLListCollection = new XMLListCollection(xmlTree.elements("UserAccountInformation"));
 				if(userAccountInformationList.children().length() > 0) {    				
-    				var e:cLogginEvent = new cLogginEvent("LoggedInCreatedEvent");
+    				var e:cLoggedinEvent = new cLoggedinEvent("LoggedInCreatedEvent");
     				e.mFullName = userAccountInformationList.elements("fullName").toString();
     				e.mUserName = userAccountInformationList.elements("userName").toString();
     				e.mPassword = userAccountInformationList.elements("password").toString();

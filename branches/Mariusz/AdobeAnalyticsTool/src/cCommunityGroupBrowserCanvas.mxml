@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" show="showCanvasHandler(event)" width="1012" height="577" backgroundColor="#FFFFFF" backgroundAlpha="0.1" alpha="1.0">
+
+	<mx:Metadata>
+		[Event(name="BackLabelClickedEvent", type="flash.events.Event")]
+	</mx:Metadata>
+
+	<mx:Script>
+		<![CDATA[
+			import mx.effects.Fade;
+			import mx.effects.Move;
+			import mx.effects.Tween;
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//							 GUI EVENT HANDLERS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+			/**
+			 * 	Called when the user clicks on the edit label.
+			 */
+			private function backLabelClickHandler(event:Event):void
+			{
+				var e:Event = new Event("BackLabelClickedEvent");
+				this.dispatchEvent(e);
+			}
+			
+			/**
+			 * 	Called when the user hovers the mouse over the back label.
+			 */
+			private function backLabelRollOverHandler(event:Event):void
+			{
+				mBackLabel.setStyle("color", "0xFF6666");
+			}
+			
+			/**
+			 * 	Called when the user hovers the mouse away from the back label.
+			 */
+			private function backLabelRollOutHandler(event:Event):void
+			{
+				mBackLabel.setStyle("color", "0x11d30c");
+			}
+			
+			/**
+			 * 	Called when the user clicks on the edit label.
+			 */
+			private function editLabelClickHandler(event:Event):void
+			{
+				
+			}
+			
+			/**
+			 * 	Called when the user hovers the mouse over the edit label.
+			 */
+			private function editLabelRollOverHandler(event:Event):void
+			{
+				mEditLabel.setStyle("color", "0xFF6666");
+			}
+			
+			/**
+			 * 	Called when the user hovers the mouse away from the edit label.
+			 */
+			private function editLabelRollOutHandler(event:Event):void
+			{
+				mEditLabel.setStyle("color", "0x11d30c");
+			}
+			
+			/**
+			 * 	Called when the user clicks on the add website label.
+			 */
+			private function addWebsiteClickHandler(event:Event):void
+			{
+				
+			}
+			
+			/**
+			 * 	Called when the user hovers the mouse over the add website label.
+			 */
+			private function addWebsiteRollOverHandler(event:Event):void
+			{
+				mAddNewWebsiteLabel.setStyle("color", "0xFF6666");
+			}
+			
+			/**
+			 * 	Called when the user hovers the mouse away from the add website label.
+			 */
+			private function addWebsiteRollOutHandler(event:Event):void
+			{
+				mAddNewWebsiteLabel.setStyle("color", "0x11d30c");
+			}
+			
+			/**
+			 * 	Called when the user clicks on the remove website label.
+			 */
+			private function removeWebsiteClickHandler(event:Event):void
+			{
+				if(mRemoveWebsiteLabelEnabled) {
+					var i:int = 0;
+					for(i; i < mMyWebsitesVBox.getChildren().length; i++) {
+						if(mMyWebsitesVBox.getChildAt(i) is cWebsiteLargeGraphic) {
+							var websiteGraphic:cWebsiteLargeGraphic = cWebsiteLargeGraphic(mMyWebsitesVBox.getChildAt(i));
+							websiteGraphic.showRemoveWebsiteLabel();
+						}
+					}
+					mMyWebsitesVBox.setStyle("backgroundColor", "0x000000");
+					
+					// animate
+					var move:Move = new Move();
+					move.xFrom = mRemoveWebsitesLabel.x;
+					move.xTo = mRemoveWebsitesLabel.x - 50;
+					move.target = mRemoveWebsitesLabel;
+					move.duration = 500;
+					move.play();
+					
+					mSmallXLabel.visible = true;
+					var fade:Fade = new Fade();
+					fade.alphaFrom = 0;
+					fade.alphaTo = 1;
+					fade.duration = 500;
+					fade.target = mSmallXLabel;
+					fade.play();
+					
+					mRemoveWebsitesLabel.enabled = false;
+				}
+			}
+			
+			/**
+			 * 
+			 */
+			private function smallXClickHandler(event:Event):void
+			{
+				var i:int = 0;
+					for(i; i < mMyWebsitesVBox.getChildren().length; i++) {
+						if(mMyWebsitesVBox.getChildAt(i) is cWebsiteLargeGraphic) {
+							var websiteGraphic:cWebsiteLargeGraphic = cWebsiteLargeGraphic(mMyWebsitesVBox.getChildAt(i));
+							websiteGraphic.hideRemoveWebsiteLabel();
+						}
+					}
+					mMyWebsitesVBox.setStyle("backgroundColor", "0xffffff");
+					
+					// animate
+					var move:Move = new Move();
+					move.xFrom = mRemoveWebsitesLabel.x;
+					move.xTo = mRemoveWebsitesLabel.x + 50;
+					move.target = mRemoveWebsitesLabel;
+					move.duration = 500;
+					move.play();
+						
+					var fade:Fade = new Fade();
+					fade.alphaFrom = 1;
+					fade.alphaTo = 0;
+					fade.duration = 500;
+					fade.target = mSmallXLabel;
+					fade.play();
+					mSmallXLabel.visible = false;
+					
+					mRemoveWebsitesLabel.enabled = true;
+			}
+			
+			/**
+			 * 	Called when the user hovers the mouse over the remove website label.
+			 */
+			private function removeWebsiteRollOverHandler(event:Event):void
+			{
+				if(mRemoveWebsiteLabelEnabled) {
+					mRemoveWebsitesLabel.setStyle("color", "0xFF6666");
+				}
+			}
+			
+			/**
+			 * 	Called when the user hovers the mouse away from the remove website label.
+			 */
+			private function removeWebsiteRollOutHandler(event:Event):void
+			{
+				if(mRemoveWebsiteLabelEnabled) {
+					mRemoveWebsitesLabel.setStyle("color", "0x11d30c");
+				}
+			}
+			
+			
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//							 CANVAS EVENT HANDLERS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+			/**
+			 * 
+			 */
+			private function showCanvasHandler(event:Event):void
+			{
+				mMyWebsitesVBox.removeAllChildren();
+				
+				var i:int;
+				var delay:int = 100;
+				for(i = 0; i < mWebsites.length; i++) {
+					var websiteEntry:cWebsiteEntry = cWebsiteEntry(mWebsites.getItemAt(i));
+					var websiteGraphic:cWebsiteLargeGraphic = new cWebsiteLargeGraphic();
+					websiteGraphic.updateInformation(websiteEntry.mName,
+												     websiteEntry.mURL,
+												     "");
+					mMyWebsitesVBox.addChild(websiteGraphic);
+					
+					websiteGraphic.alpha = 0.3;
+					var fade:Fade = new Fade();
+					fade.alphaFrom = 0.3;
+					fade.alphaTo = 0.8;
+					fade.duration = 500;
+					fade.startDelay = delay;
+					fade.target = websiteGraphic;
+					fade.play();
+					
+					delay+=200;		
+				}
+				
+				if(mCommGroupName.length == 0) {
+					mCommunityGroupNameLable.text = "[Name Not Available]";
+				}
+				else {
+					mCommunityGroupNameLable.text = mCommGroupName;
+				}
+				if(mCreator.length == 0) {
+					mCreatorLabel.text = "Created by : [Not Available]";
+				}
+				else {
+					mCreatorLabel.text = "Created by : " + mCreator;
+				}
+				if(mDateCreated.length == 0) {
+					mDateCreatedLabel.text = "Created on : [Not Available]";	
+				}
+				else {
+					mDateCreatedLabel.text = "Created on : " + mDateCreated;
+				}
+			}
+			
+			
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//							 MEMBER FUNCTIONS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+			/**
+			 * 
+			 */
+			public function updateInformation(commGroupName:String,
+										      commGroupId:int,
+										      creator:String,
+										      dateCreated:String,
+									     	  websites:ArrayCollection):void
+			{
+				mCommGroupName = commGroupName;
+				mCommGroupId = commGroupId;
+				mCreator = creator;
+				mDateCreated = dateCreated;
+				mWebsites = websites;
+			}
+			
+			
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//							   DATA MEMBERS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+			// community group name
+			private var mCommGroupName:String = "";
+			// community group id
+			private var mCommGroupId:int = 0;
+			// creator of the community
+			private var mCreator:String = "";
+			// date community group was created
+			private var mDateCreated:String = "";
+			// websites for the community
+			private var mWebsites:ArrayCollection = null;
+			
+			// variable used to enable and disable the remove website label
+			private var mRemoveWebsiteLabelEnabled:Boolean = true;
+			
+		]]>
+	</mx:Script>
+
+	<mx:Label x="10" y="17" text="Back" color="#11D30C" fontSize="14" textDecoration="underline" id="mBackLabel" click="backLabelClickHandler(event)" rollOut="backLabelRollOutHandler(event)" rollOver="backLabelRollOverHandler(event)"/>
+	<mx:Label x="838" y="19" text="Edit" color="#11D30C" fontSize="12" textDecoration="normal" id="mEditLabel" rollOut="editLabelRollOutHandler(event)" rollOver="editLabelRollOverHandler(event)" click="editLabelClickHandler(event)"/>
+	<mx:Label x="885" y="19" text="Add New Website" color="#11D30C" fontSize="12" textDecoration="normal" id="mAddNewWebsiteLabel" click="addWebsiteClickHandler(event)" rollOut="addWebsiteRollOutHandler(event)" rollOver="addWebsiteRollOverHandler(event)"/>
+	<mx:Label x="323" y="153" text="Remove Websites" color="#11D30C" fontSize="12" textDecoration="normal" id="mRemoveWebsitesLabel" click="removeWebsiteClickHandler(event)" rollOut="removeWebsiteRollOutHandler(event)" rollOver="removeWebsiteRollOverHandler(event)"/>
+	<mx:VRule x="874" y="20" height="16.5" width="3"/>
+	<mx:VRule x="500" y="149" height="418" width="3"/>
+	<mx:Canvas x="10" y="48" width="64" height="64" id="mIcon" backgroundImage="@Embed(source='../images/sample.jpg')">
+	</mx:Canvas>
+	<mx:Label x="92" y="46" text="Some Community Group Name" fontSize="24" color="#DFDFDF" id="mCommunityGroupNameLable" width="724"/>
+	<mx:Label x="10" y="149" text="My Websites" fontSize="16" color="#DFDFDF" textDecoration="underline"/>
+	<mx:Label x="563" y="149" text="All Websites" fontSize="16" color="#DFDFDF" textDecoration="underline"/>
+	<mx:VBox x="10" y="182" height="385" width="430" id="mMyWebsitesVBox" backgroundColor="#FFFFFF" backgroundAlpha="0.1" verticalScrollPolicy="on">
+	</mx:VBox>
+	<mx:VBox height="385" width="439" id="mMyWebsitesVBox0" x="563" y="182" backgroundColor="#FFFFFF" backgroundAlpha="0.1" verticalScrollPolicy="on">
+	</mx:VBox>
+	<mx:Label x="92" y="81" text="Created by : Mariusz Choroszy" color="#DFDFDF" id="mCreatorLabel" width="349"/>
+	<mx:Label x="92" y="94" text="Date Created : December 12, 2030" color="#DFDFDF" id="mDateCreatedLabel" width="349"/>
+	<mx:Canvas x="400" y="153" width="20" height="20" click="smallXClickHandler(event)" toolTip="Close the remove website feature" backgroundImage="@Embed(source='../images/smallX.png')" id="mSmallXLabel" backgroundAlpha="1.0" alpha="1.0" visible="false">
+	</mx:Canvas>
+</mx:Canvas>

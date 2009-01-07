@@ -53,14 +53,28 @@
 			}
 			
 			/**
+			 * 	Detects request to view a particular community group and launches the community
+			 *  group browser canvas.
+			 */
+			private function openCommunityGroupBrowserCanvasHandler(event:cCommGroupGraphicClickedEvent):void
+			{
+				mMyCommViewStack.selectedIndex = 2;
+				mCommunityGroupBrowserCanvas.updateInformation(event.mCommGroupName,
+															   event.mCommGroupId,
+															   event.mCreator,
+															   "",
+															   event.mWebsites);
+			}
+			
+			/**
 			 *	Function which gets called each time this canvas is selected by the parent. It
 			 * 	will select the cMyCommHomeCanvas as the default canvas within this component and
 			 *  update its internal user information.
 			 */
 			private function showCanvasHandler(event:Event):void
-			{
+			{	
+				mMyCommHomeCanvas.updateInformation(mUserAccountInformation);				
 				mMyCommViewStack.selectedIndex = 0;
-				mMyCommHomeCanvas.updateInformation(mCommunityGroups);
 			}
 			
 			
@@ -74,9 +88,9 @@
 			 * 	Function which updates the users information within this canvas component to be used
 			 *  at a later time.
 			 */
-			public function updateInformation(communityGroups:ArrayCollection):void
+			public function updateInformation(userAccountInformation:cAccountInformation):void
 			{
-				mCommunityGroups = communityGroups;
+				mUserAccountInformation = userAccountInformation;	
 			}
 			
 			
@@ -87,7 +101,7 @@
 			///////////////////////////////////////////////////////////////////////////////////
 			
 			// reference to the users community group information object
-			private var mCommunityGroups:ArrayCollection = null;
+			private var mUserAccountInformation:cAccountInformation = null;
 				
 		]]>
 	</mx:Script>
@@ -95,10 +109,12 @@
 	<mx:HRule x="0" y="33" width="1013" height="7" strokeColor="#606060" id="mHRule1"/>
 	<mx:ViewStack x="0" y="40" id="mNavigatorViewStack" width="1013" height="585">
 		<mx:ViewStack id="mMyCommViewStack" label="My Community Groups" width="1013" height="585">
-			<local:cMyCommHomeCanvas id="mMyCommHomeCanvas" OpenCreateCommunityGroupCanvasEvent="openCreateCommGroupCanvasHandler(event)" label="My Community Groups" height="577" width="1003">
+			<local:cMyCommHomeCanvas id="mMyCommHomeCanvas" OpenCommunityGroupBrowserCanvasEvent="openCommunityGroupBrowserCanvasHandler(event)" OpenCreateCommunityGroupCanvasEvent="openCreateCommGroupCanvasHandler(event)" label="My Community Groups" height="577" width="1012">
 			</local:cMyCommHomeCanvas>
-			<local:cCreateCommunityGroupCanvas id="mcreateCommunityGroupCanvas" CreateCommunityGroupEvent="createCommunityGroupHandler(event)" BackLabelClickedEvent="createCommBackLabelClickedHandler(event)" height="577" width="1003">
+			<local:cCreateCommunityGroupCanvas id="mCreateCommunityGroupCanvas" CreateCommunityGroupEvent="createCommunityGroupHandler(event)" BackLabelClickedEvent="createCommBackLabelClickedHandler(event)" height="577" width="1003">
 			</local:cCreateCommunityGroupCanvas>
+			<local:cCommunityGroupBrowserCanvas id="mCommunityGroupBrowserCanvas" BackLabelClickedEvent="createCommBackLabelClickedHandler(event)">
+			</local:cCommunityGroupBrowserCanvas>
 		</mx:ViewStack>
 		<mx:ViewStack id="mAllCommViewStack" label="All Community Groups" width="1013" height="585">
 			<mx:Canvas label="All Community Groups" width="100%" height="100%" backgroundColor="#00D8FF">
