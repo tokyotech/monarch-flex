@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="creationCompleteHandler(event)" width="1012" height="577" xmlns:ns1="*" backgroundColor="#FFFFFF" backgroundAlpha="0.2">
+
+	<mx:Metadata>
+		[Event(name="BackLabelClickedEvent", type="flash.events.Event")]
+	</mx:Metadata>
+
+	<mx:Script>
+		<![CDATA[
+			import mx.messaging.channels.StreamingAMFChannel;
+			import mx.controls.Alert;
+			
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//						   EVENT HANDLERS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+
+			/**
+			 * 	Called when the user clicks on the edit label.
+			 */
+			private function backLabelClickHandler(event:Event):void
+			{
+				var e:Event = new Event("BackLabelClickedEvent");
+				this.dispatchEvent(e);
+			}
+			
+			/**
+			 * 	Called when the user hovers the mouse over the back label.
+			 */
+			private function backLabelRollOverHandler(event:Event):void
+			{
+				mBackLabel.setStyle("color", "0xFF6666");
+			}
+			
+			/**
+			 * 	Called when the user hovers the mouse away from the back label.
+			 */
+			private function backLabelRollOutHandler(event:Event):void
+			{
+				mBackLabel.setStyle("color", "0x11d30c");
+			}
+			
+			/**
+			 *  
+			 */
+			 private function lineChartCanvasCreateHandler(event:Event):void
+			 {
+			 	mLineChartCanvas.updateInformation(mAnalyticsParser);
+			 }
+			 
+			
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//						   MEMBER FUNCTIONS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+			/**
+			 * 
+			 */
+			public function updateInformation(analyticsParser:cAnalyticsParser,
+											  websiteName:String,
+									          websiteURL:String,
+											  websiteType:String):void
+			{
+				mWebsiteName = websiteName;
+				mWebsiteURL = websiteURL;
+				mWebsiteType = websiteType;
+				mAnalyticsParser = analyticsParser;
+			} 
+			
+			
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//						   CANVAS EVENT HANDLERS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+			/**
+			 * 
+			 */
+			private function creationCompleteHandler(event:Event):void
+			{
+				if(mWebsiteName.length == 0) {
+					mWebsiteNameLabel.text = "[Website Name Not Available]";
+				}
+				else {
+					mWebsiteNameLabel.text = mWebsiteName;
+				}
+				if(mWebsiteURL.length == 0) {
+					mWebsiteURLLabel.text = "URL : [Not Available]";
+				}
+				else {
+					mWebsiteURLLabel.text = "URL : " + mWebsiteURL;
+				}
+				if(mWebsiteType.length == 0) {
+					mWebsiteTypeLabel.text = "Type : [Not Available]";	
+				}
+				else {
+					mWebsiteTypeLabel.text = "Type : " + mWebsiteType; 	
+				}
+			}
+			
+			
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//						   DATA MEMBERS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+			// website name
+			private var mWebsiteName:String = "";
+			// website URL
+			private var mWebsiteURL:String = "";
+			// website type
+			private var mWebsiteType:String = "";
+			// analytics parser object
+			private var mAnalyticsParser:cAnalyticsParser = null;
+			
+		]]>
+	</mx:Script>
+
+	<mx:Label x="10" y="17" click="backLabelClickHandler(event)" rollOver="backLabelRollOverHandler(event)" rollOut="backLabelRollOutHandler(event)" text="Back" color="#11D30C" fontSize="14" textDecoration="underline" id="mBackLabel" />
+	<mx:ViewStack x="187" y="104" id="mStatGraphicsViewStack" width="815" height="438">
+		<ns1:cLineChartCanvas x="1" y="2" id="mLineChartCanvas" creationComplete="lineChartCanvasCreateHandler(event)">
+		</ns1:cLineChartCanvas>
+	</mx:ViewStack>
+	<mx:Canvas x="938" y="10" width="64" height="64" backgroundImage="@Embed(source='../images/websiteSample.jpg')">
+	</mx:Canvas>
+	<mx:Label x="10" y="71" text="Statistics Options" fontSize="16" textDecoration="underline" color="#F4F4F4"/>
+	<mx:Label x="551" y="10" text="Some Website Name" fontSize="24" color="#DFDFDF" width="379" textAlign="right" id="mWebsiteNameLabel"/>
+	<mx:Label x="662" y="41" text="Type : [Not Available]" color="#DFDFDF" width="268" textAlign="right" id="mWebsiteTypeLabel"/>
+	<mx:Label x="662" y="56" text="URL : [Not Available]" color="#DFDFDF" width="268" textAlign="right" id="mWebsiteURLLabel"/>
+	<mx:RadioButton x="365" y="550" label="1 Year" color="#DDDDDD"/>
+	<mx:RadioButton x="434" y="550" label="9 Months" color="#DDDDDD"/>
+	<mx:RadioButton x="518" y="550" label="6 Months" color="#DDDDDD"/>
+	<mx:RadioButton x="602" y="550" label="1 Month" color="#DDDDDD"/>
+	<mx:RadioButton x="680" y="550" label="2 Weeks" color="#DDDDDD"/>
+	<mx:RadioButton x="762" y="550" label="1 Week" selected="true" color="#DDDDDD"/>
+	<ns1:cStatOptionsAccordion x="10" y="104" id="mStatOptionAccordion">
+	</ns1:cStatOptionsAccordion>
+	<mx:Label x="349" y="77" width="468" textAlign="center" color="#FFFFFF" id="mGraphicDisplayName"/>
+	
+</mx:Canvas>

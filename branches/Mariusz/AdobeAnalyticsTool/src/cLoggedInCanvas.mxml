@@ -3,6 +3,7 @@
 	
 	<mx:Metadata>
 		[Event(name="CreateCommunityGroupEvent", type="cCreateCommunityGroupEvent")]
+		[Event(name="RequestWebsiteStatsEvent", type="cWebsiteGraphicClickedEvent")]
 	</mx:Metadata>
 	
 	<mx:Script>
@@ -22,6 +23,14 @@
 			private function createCommBackLabelClickedHandler(event:Event):void
 			{
 				mMyCommViewStack.selectedIndex = 0;
+			}
+			
+			/**
+			 * Function which switches the mMyCommViewStack index to 3 (website browser).
+			 */
+			private function WebsiteBrowserBackClickedHandler(event:Event):void
+			{
+				mMyCommViewStack.selectedIndex = 2;
 			}
 			
 			/**
@@ -67,6 +76,22 @@
 			}
 			
 			/**
+			 *	Detects request to view particular website statistics and fires a request to the engine.
+			 */
+			private function openWebsiteStatBrowserCanvasHandler(event:cWebsiteGraphicClickedEvent):void
+			{
+				var e:cWebsiteGraphicClickedEvent = new cWebsiteGraphicClickedEvent("RequestWebsiteStatsEvent");
+				e.mWebsiteName = event.mWebsiteName;
+				e.mCommGroupId = event.mCommGroupId;
+				
+				mWebsiteSelectedName = e.mWebsiteName;
+				mWebsiteSelectedURL = e.mWebsiteURL;
+				mWebsiteSelectedType = e.mWebsiteType;
+				
+				this.dispatchEvent(e);
+			}
+			
+			/**
 			 *	Function which gets called each time this canvas is selected by the parent. It
 			 * 	will select the cMyCommHomeCanvas as the default canvas within this component and
 			 *  update its internal user information.
@@ -93,15 +118,32 @@
 				mUserAccountInformation = userAccountInformation;	
 			}
 			
+			/**
+			 * 
+			 */
+			public function openWebsiteStatsBrowserCanvas(analyticsParser:cAnalyticsParser):void
+			{
+				mMyCommViewStack.selectedIndex = 3;
+				mWebsiteStatsBrowserCanvas.updateInformation(analyticsParser,
+															 mWebsiteSelectedName,
+															 mWebsiteSelectedURL,
+															 mWebsiteSelectedType);
+			}
+			
 			
 			///////////////////////////////////////////////////////////////////////////////////
 			//
-			//						   MEMBER FUNCTIONS
+			//						   DATA MEMBERS
 			//
 			///////////////////////////////////////////////////////////////////////////////////
 			
 			// reference to the users community group information object
 			private var mUserAccountInformation:cAccountInformation = null;
+			
+			// selected website information (temporary - changes each time a website is selected)
+			private var mWebsiteSelectedName:String = "";
+			private var mWebsiteSelectedURL:String = "";
+			private var mWebsiteSelectedType:String = "";
 				
 		]]>
 	</mx:Script>
@@ -113,8 +155,10 @@
 			</local:cMyCommHomeCanvas>
 			<local:cCreateCommunityGroupCanvas id="mCreateCommunityGroupCanvas" CreateCommunityGroupEvent="createCommunityGroupHandler(event)" BackLabelClickedEvent="createCommBackLabelClickedHandler(event)" height="577" width="1003">
 			</local:cCreateCommunityGroupCanvas>
-			<local:cCommunityGroupBrowserCanvas id="mCommunityGroupBrowserCanvas" BackLabelClickedEvent="createCommBackLabelClickedHandler(event)">
+			<local:cCommunityGroupBrowserCanvas id="mCommunityGroupBrowserCanvas" OpenWebsiteStatBrowserCanvasEvent="openWebsiteStatBrowserCanvasHandler(event)" BackLabelClickedEvent="createCommBackLabelClickedHandler(event)">
 			</local:cCommunityGroupBrowserCanvas>
+			<local:cWebsiteStatsBrowserCanvas id="mWebsiteStatsBrowserCanvas" BackLabelClickedEvent="WebsiteBrowserBackClickedHandler(event)">
+			</local:cWebsiteStatsBrowserCanvas>
 		</mx:ViewStack>
 		<mx:ViewStack id="mAllCommViewStack" label="All Community Groups" width="1013" height="585">
 			<mx:Canvas label="All Community Groups" width="100%" height="100%" backgroundColor="#00D8FF">

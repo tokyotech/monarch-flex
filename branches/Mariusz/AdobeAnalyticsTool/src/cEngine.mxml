@@ -330,15 +330,15 @@
     		}
     		
     		/**
-    		 * 
+    		 * 	Detects that the HTTP service component has returned analytics data from the server. 
     		 */
     		private function analyticsHTTPServiceResultHandler(event:ResultEvent):void
     		{    			
-    			/*var xmlTree:XML = XML(event.result);
+    			var xmlTree:XML = XML(event.result);
 				var analysisParser:cAnalyticsParser = new cAnalyticsParser(xmlTree);
 				var e:cAnalysisDataReadyEvent = new cAnalysisDataReadyEvent("AnalyticsReadyEvent");
 				e.mAnalysisParser = analysisParser;				
-				dispatchEvent(e);*/
+				dispatchEvent(e);
     		}
     		
     	]]>

@@ -141,6 +141,15 @@
 				mEngine.createCommunity(event.mCommName, event.mKeywords, mAccountInformation.mUserId);
 			}
 			
+			/**
+			 * 	Detects that website statistics data should be fetched from the server. It requests
+			 *  this through the engine.
+			 */
+			private function requestWebsiteStatHandler(event:cWebsiteGraphicClickedEvent):void
+			{
+				mEngine.getAnalytics(event.mCommGroupId, event.mWebsiteName);
+			}
+			
 			
 			///////////////////////////////////////////////////////////////////////////////////
 			//
@@ -174,6 +183,15 @@
 			private function newCommunityCreatedServiceHandler(event:cNewCommunityEvent):void
 			{
 				
+			}
+			
+			/**
+			 * 	Event handler which signals to the main window that the engine has recieved
+			 *  website statitics data.
+			 */
+			private function analyticsReadyHandler(event:cAnalysisDataReadyEvent):void
+			{
+				mLoggedInCanvas.openWebsiteStatsBrowserCanvas(event.mAnalysisParser);
 			}
 			
 			
@@ -215,13 +233,14 @@
 	<mx:ViewStack x="10" y="63" id="mMainViewStack" width="1013" height="625">
 		<local:cLoggedOutCanvas backgroundColor="#FFFFFF" id="mLoggedOutCanvas">
 		</local:cLoggedOutCanvas>
-		<local:cLoggedInCanvas id="mLoggedInCanvas" CreateCommunityGroupEvent="createCommunityGroupEventHandler(event)">
+		<local:cLoggedInCanvas id="mLoggedInCanvas" RequestWebsiteStatsEvent="requestWebsiteStatHandler(event)" CreateCommunityGroupEvent="createCommunityGroupEventHandler(event)">
 		</local:cLoggedInCanvas>
 	</mx:ViewStack>
 	<mx:VRule x="960" y="6" width="3" height="16"/>
 	<mx:VRule x="832" y="7" width="3" height="16" id="mFullNameSeparator" visible="false"/>
 	<local:cEngine id="mEngine" LoggedInCreatedEvent="loggedInServiceHandler(event)"
-							 	NewCommunityCreatedEvent="newCommunityCreatedServiceHandler(event)">
+							 	NewCommunityCreatedEvent="newCommunityCreatedServiceHandler(event)"
+							  	AnalyticsReadyEvent="analyticsReadyHandler(event)">
 	</local:cEngine>
 	<mx:Label x="378" y="5" fontSize="12" textAlign="right" width="442" color="#D1C613" id="mUserNameLabel"/>
 </mx:WindowedApplication>

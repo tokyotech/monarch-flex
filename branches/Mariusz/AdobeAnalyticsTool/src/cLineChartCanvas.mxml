@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="815" height="438" backgroundColor="#FFFFFF" backgroundAlpha="0.2">
+
+	<mx:Script>
+		<![CDATA[
+			
+			import mx.charts.BarChart;
+			import mx.charts.CategoryAxis;
+			import mx.charts.Legend;
+			import mx.charts.LineChart;
+			import mx.charts.LinearAxis;
+			import mx.charts.series.BarSeries;
+			import mx.charts.series.LineSeries;
+			import mx.collections.ArrayCollection;
+			import mx.controls.Button;
+			import mx.graphics.Stroke;
+			import mx.controls.Alert;
+			
+			
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//							 MEMBER FUNCTIONS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+			/**
+			 * 
+			 */
+			public function updateInformation(analyticsParser:cAnalyticsParser):void
+			{				
+				mLineChart.setStyle("color", "0xEEEEEE");
+				mLineChart.setStyle("fontSize", "12");
+				mLineChart.showDataTips = true;
+				
+				var seriesCollection:Array = new Array();
+				var series:LineSeries = new LineSeries();
+				var stroke:Stroke = new Stroke();
+				
+        		stroke.color = 0xFF0000;
+        		stroke.weight = 3;
+ 				series.setStyle("lineStroke", stroke);
+        		series.xField = "";
+        		series.yField = "";  
+        		series.displayName = "Hello"; 
+				
+				seriesCollection.push(series);
+				
+				// set vertical and horizontal axis properties
+				var vAxis:LinearAxis = new LinearAxis();
+				vAxis.title = "Keywords";
+				vAxis.displayName = "";
+				vAxis.maximum = 1;		
+				mLineChart.verticalAxis = vAxis;
+				
+				var hAxis:LinearAxis = new LinearAxis();
+				hAxis.title = "Time";
+				hAxis.displayName = "Trend (Days)";
+				//hAxis.maximum = xScale;
+				hAxis.minimum = 1228950994
+				hAxis.maximum = 1229107651;
+				mLineChart.horizontalAxis = hAxis;
+				
+				// date stuff
+				var date:Date = new Date(1228950994*1000);
+				var D:Number = date.getDate();
+				var M:Number = date.getMonth()+ 1; //because Returns the month (0 for January, 1 for February, and so on)
+				var Y:Number = date.getFullYear();
+
+				var curr:String = (M + "/" + D + "/" + Y);
+				//Alert.show(curr);
+			}
+			
+			
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//							 DATA MEMBERS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+		]]>
+	</mx:Script>
+
+	<mx:LineChart x="0" y="0" id="mLineChart" width="815" height="401" color="#EEEEEE">
+		<mx:series>
+			<mx:LineSeries displayName="Series 1"/>
+		</mx:series>
+	</mx:LineChart>
+	<mx:Legend dataProvider="{mLineChart}" x="0" y="409" width="815" height="29" color="#DEDEDE"/>
+	
+</mx:Canvas>

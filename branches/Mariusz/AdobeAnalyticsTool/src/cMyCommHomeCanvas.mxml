@@ -47,7 +47,7 @@
 			}
 			
 			/**
-			 *  Event handler called when the user clicks on the cmmunity group graphic whithin this canvas.
+			 *  Event handler called when the user clicks on the community group graphic whithin this canvas.
 			 * 	Fires an event signaling that a community has been selected by the user.
 			 */
 			private function commGroupGraphicClickedHandler(event:cCommGroupGraphicClickedEvent):void

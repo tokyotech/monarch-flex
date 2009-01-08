@@ -3,6 +3,7 @@
 
 	<mx:Metadata>
 		[Event(name="BackLabelClickedEvent", type="flash.events.Event")]
+		[Event(name="OpenWebsiteStatBrowserCanvasEvent", type="cWebsiteGraphicClickedEvent")]
 	</mx:Metadata>
 
 	<mx:Script>
@@ -124,6 +125,7 @@
 					fade.play();
 					
 					mRemoveWebsitesLabel.enabled = false;
+					mRemoveWebsiteLabelEnabled = false;
 				}
 			}
 			
@@ -158,6 +160,7 @@
 					mSmallXLabel.visible = false;
 					
 					mRemoveWebsitesLabel.enabled = true;
+					mRemoveWebsiteLabelEnabled = true;
 			}
 			
 			/**
@@ -180,6 +183,22 @@
 				}
 			}
 			
+			/**
+			 * 	Event handler called when the user clicks on the website graphic whithin this canvas.
+			 * 	Fires an event signaling that a website has been selected by the user.
+			 */
+			private function websiteGraphicClickedHandler(event:cWebsiteGraphicClickedEvent):void
+			{
+				if(mRemoveWebsiteLabelEnabled) {
+					var e:cWebsiteGraphicClickedEvent = new cWebsiteGraphicClickedEvent("OpenWebsiteStatBrowserCanvasEvent");
+					e.mWebsiteName = event.mWebsiteName;
+					e.mWebsiteURL = event.mWebsiteURL;
+					e.mWebsiteType = event.mWebsiteType;
+					e.mCommGroupId = mCommGroupId;
+					this.dispatchEvent(e);
+				}
+			}
+			
 			
 			///////////////////////////////////////////////////////////////////////////////////
 			//
@@ -188,7 +207,7 @@
 			///////////////////////////////////////////////////////////////////////////////////
 			
 			/**
-			 * 
+			 *  Event handler called when this canvas opens.
 			 */
 			private function showCanvasHandler(event:Event):void
 			{
@@ -199,6 +218,7 @@
 				for(i = 0; i < mWebsites.length; i++) {
 					var websiteEntry:cWebsiteEntry = cWebsiteEntry(mWebsites.getItemAt(i));
 					var websiteGraphic:cWebsiteLargeGraphic = new cWebsiteLargeGraphic();
+					websiteGraphic.addEventListener("cWebsiteGraphicClickedEvent", websiteGraphicClickedHandler);
 					websiteGraphic.updateInformation(websiteEntry.mName,
 												     websiteEntry.mURL,
 												     "");
