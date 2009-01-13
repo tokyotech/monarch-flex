@@ -8,7 +8,6 @@
 	<mx:Script>
 		<![CDATA[
 			import mx.events.EffectEvent;
-		
 			import mx.controls.Alert;
 			import mx.effects.Fade;
 			import mx.effects.Move;

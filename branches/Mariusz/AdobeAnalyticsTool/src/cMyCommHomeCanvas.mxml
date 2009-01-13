@@ -47,6 +47,94 @@
 			}
 			
 			/**
+			 * 	Fires an event signaling that the user has clicked the remove
+			 *  community groups label.
+			 */
+			private function removeCommClickHandler(event:Event):void
+			{
+				if(mRemoveCommGroupLabelEnabled) {
+					var i:int = 0;
+					for(i; i < mMyCommVBox.getChildren().length; i++) {
+						if(mMyCommVBox.getChildAt(i) is cCommGroupLargeGraphic) {
+							var commGroupGraphic:cCommGroupLargeGraphic = cCommGroupLargeGraphic(mMyCommVBox.getChildAt(i));
+							commGroupGraphic.showRemoveCommGroupsLabel();
+						}
+					}
+					mMyCommVBox.setStyle("backgroundColor", "0x000000");
+					
+					// animate
+					var move:Move = new Move();
+					move.xFrom = mRemoveCommGroupsLabel.x;
+					move.xTo = mRemoveCommGroupsLabel.x - 30;
+					move.target = mRemoveCommGroupsLabel;
+					move.duration = 500;
+					move.play();
+					
+					mSmallXLabel.visible = true;
+					var fade:Fade = new Fade();
+					fade.alphaFrom = 0;
+					fade.alphaTo = 1;
+					fade.duration = 500;
+					fade.target = mSmallXLabel;
+					fade.play();
+					
+					mRemoveCommGroupsLabel.enabled = false;
+					mRemoveCommGroupLabelEnabled = false;
+				}
+			}
+			
+			/**
+			 * 	Fires an event signaling that the user has clicked the small X
+			 * 	label.
+			 */
+			private function smallXClickHandler(event:Event):void
+			{
+				var i:int = 0;
+					for(i; i < mMyCommVBox.getChildren().length; i++) {
+						if(mMyCommVBox.getChildAt(i) is cCommGroupLargeGraphic) {
+							var commGroupGraphic:cCommGroupLargeGraphic = cCommGroupLargeGraphic(mMyCommVBox.getChildAt(i));
+							commGroupGraphic.hideRemoveWebsiteLabel();
+						}
+					}
+					mMyCommVBox.setStyle("backgroundColor", "0xffffff");
+					
+					// animate
+					var move:Move = new Move();
+					move.xFrom = mRemoveCommGroupsLabel.x;
+					move.xTo = mRemoveCommGroupsLabel.x + 30;
+					move.target = mRemoveCommGroupsLabel;
+					move.duration = 500;
+					move.play();
+						
+					var fade:Fade = new Fade();
+					fade.alphaFrom = 1;
+					fade.alphaTo = 0;
+					fade.duration = 500;
+					fade.target = mSmallXLabel;
+					fade.play();
+					mSmallXLabel.visible = false;
+					
+					mRemoveCommGroupsLabel.enabled = true;
+					mRemoveCommGroupLabelEnabled = true;
+			}
+			
+			/**
+			 * 	Called when the user hovers the mouse over the remove community group label.
+			 */
+			private function removeCommRollOverHandler(event:Event):void
+			{
+				mRemoveCommGroupsLabel.setStyle("color", "0xFF6666");
+			}
+			
+			/**
+			 * 	Called when the user hovers the mouse away from the remove community group label.
+			 */
+			private function removeCommRollOutHandler(event:Event):void
+			{
+				mRemoveCommGroupsLabel.setStyle("color", "0x11d30c");
+			}
+			
+			/**
 			 *  Event handler called when the user clicks on the community group graphic whithin this canvas.
 			 * 	Fires an event signaling that a community has been selected by the user.
 			 */
@@ -107,11 +195,17 @@
 					communityGroupEntry = cCommunityGroupEntry(mUserAccountInformation.mCommunities.getItemAt(i));
 					var commGroupGraphicEntry:cCommGroupLargeGraphic = new cCommGroupLargeGraphic();
 					commGroupGraphicEntry.addEventListener("cCommGroupGraphicClickedEvent", commGroupGraphicClickedHandler);
+					var justCreated:Boolean = false;
+					if(communityGroupEntry.mJustCreated) {
+						justCreated = true;
+						communityGroupEntry.mJustCreated = false;
+					}
 					commGroupGraphicEntry.updateInformation(communityGroupEntry.mName,
 															mUserAccountInformation.mUserName,
 															"",
 															communityGroupEntry.mWebsites.length.toString(),
-															communityGroupEntry.mId);								
+															communityGroupEntry.mId,
+															justCreated);								
 					commGroupGraphicEntry.alpha = 0.3;					
 					mMyCommVBox.addChild(commGroupGraphicEntry);
 					// animate
@@ -137,6 +231,9 @@
 			// reference to the users community group information object
 			private var mUserAccountInformation:cAccountInformation = null;
 			
+			// variable used to enable and disable the remove website label
+			private var mRemoveCommGroupLabelEnabled:Boolean = true;
+			
 		]]>
 	</mx:Script>
 	
@@ -144,8 +241,11 @@
 	<mx:Label x="20" y="10" text="My Community Groups" fontFamily="Times New Roman" fontSize="24" textDecoration="underline" color="#BEBEBE" alpha="1.0" id="mHomeLoggedOutAccountLabel"/>
 	<mx:Label x="467" y="10" text="News" fontFamily="Times New Roman" fontSize="24" textDecoration="underline" color="#BEBEBE" alpha="1.0" id="mHomeLoggedOutAccountLabel0"/>
 	<mx:Label x="283" y="21" text="Create Community Group" rollOver="createCommRollOverHandler(event)" rollOut="createCommRollOutHandler(event)" click="createCommClickHandler(event)" color="#13BB33" textAlign="center" textDecoration="underline" id="mCreateCommLabel"/>
-	<mx:VBox x="20" y="50" height="507" width="410" id="mMyCommVBox" backgroundColor="#FFFFFF" backgroundAlpha="0.1" verticalScrollPolicy="on">
+	<mx:Label x="252" y="536" text="Remove Community Groups" rollOver="removeCommRollOverHandler(event)" rollOut="removeCommRollOutHandler(event)" click="removeCommClickHandler(event)" color="#13BB33" textAlign="center" textDecoration="normal" id="mRemoveCommGroupsLabel" fontSize="12"/>
+	<mx:VBox x="20" y="50" height="478" width="410" id="mMyCommVBox" backgroundColor="#FFFFFF" backgroundAlpha="0.1" verticalScrollPolicy="on">
 	</mx:VBox>
 	<mx:VBox x="467" y="50" height="507" width="505" id="mNewsVBox" verticalScrollPolicy="on" backgroundColor="#FFFFFF" backgroundAlpha="0.1">
 	</mx:VBox>
+	<mx:Canvas x="408" y="537" width="20" height="20" backgroundImage="@Embed(source='../images/smallX.png')" click="smallXClickHandler(event)" id="mSmallXLabel" visible="false" toolTip="Close the remove community group feature">
+	</mx:Canvas>
 </mx:Canvas>

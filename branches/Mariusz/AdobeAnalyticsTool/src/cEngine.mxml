@@ -2,6 +2,7 @@
 <mx:Module xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="0" height="0">
 	<mx:Metadata>		
 		[Event(name="LoggedInCreatedEvent", type="cLoggedinEvent")]
+		[Event(name="AccountCreatedEvent", type="cLoggedinEvent")]
 		[Event(name="CommunityCreatedEvent", type="flash.events.Event")]
 		[Event(name="NewCommunityCreatedEvent", type="cNewCommunityEvent")]
 		[Event(name="NewWebsiteCreatedEvent", type="cNewWebsiteEvent")]
@@ -239,7 +240,7 @@
     			var xmlTree:XML = XML(event.result);
     			var  userAccountInformationList:XMLListCollection = new XMLListCollection(xmlTree.elements("UserAccountInformation"));
 				if(userAccountInformationList.children().length() > 0) {    				
-    				var e:cLoggedinEvent = new cLoggedinEvent("LoggedInCreatedEvent");
+    				var e:cLoggedinEvent = new cLoggedinEvent("AccountCreatedEvent");
     				e.mFullName = userAccountInformationList.elements("fullName").toString();
     				e.mUserName = userAccountInformationList.elements("userName").toString();
     				e.mPassword = userAccountInformationList.elements("password").toString();
@@ -285,6 +286,7 @@
 					}
 					
 					var community:cCommunityGroupEntry = new cCommunityGroupEntry(communityId, communityName, websites, keywords);
+					community.mJustCreated = true;
     				var e:cNewCommunityEvent = new cNewCommunityEvent("NewCommunityCreatedEvent");
     				e.mCommunityGroupEntry = community;
 			 		dispatchEvent(e);

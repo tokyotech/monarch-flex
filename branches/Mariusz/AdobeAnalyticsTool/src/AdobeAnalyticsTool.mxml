@@ -2,7 +2,8 @@
 <mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="creationCompleteHandler(event)" close="closeHandler(event)" layout="absolute" width="1030" height="700" title="Adobe Community Analytics" minHeight="710" minWidth="1035" maxHeight="710" maxWidth="1035" showGripper="false" backgroundImage="@Embed(source='../images/background.jpg')" borderColor="#3C3C3C" backgroundGradientAlphas="[1.0, 1.0]" color="#5D5D5D" backgroundGradientColors="[#D7D7D7, #515151]" alpha="0.93" backgroundColor="#000000" cornerRadius="12" xmlns:local="*">
 	
 	<mx:Script>
-		<![CDATA[		
+		<![CDATA[
+			import mx.collections.ArrayCollection;		
 			import mx.controls.Alert;
 			
 			// hold user account information
@@ -163,17 +164,29 @@
 			 */
 			private function loggedInServiceHandler(event:cLoggedinEvent):void
 			{
-				mSignInLabel.visible = false;
-				mSignOutLabel.visible = true;
-				mFullNameSeparator.visible = true;
-				mUserNameLabel.text = "WELCOME " + event.mFullName;
-				mAccountInformation = new cAccountInformation(event.mFullName,
-															  event.mUserName,
-															  event.mPassword,
-															  event.mUserId,
-															  event.mCommunities);
+				loggedInMainCanvasInformationUpdate(event.mFullName,
+													event.mUserName,
+													event.mPassword,
+													event.mUserId,
+													event.mCommunities);
 				mLoggedInCanvas.updateInformation(mAccountInformation);
 				mMainViewStack.selectedIndex = 1;
+			}
+			
+			/**
+			 *  Event handler which signals to the main window that the engine has recieved
+			 *  an account created response from the server.
+			 */
+			private function accountCreatedServiceHandler(event:cLoggedinEvent):void
+			{
+				loggedInMainCanvasInformationUpdate(event.mFullName,
+													event.mUserName,
+													event.mPassword,
+													event.mUserId,
+													event.mCommunities);
+				mLoggedInCanvas.updateInformation(mAccountInformation);
+				mMainViewStack.selectedIndex = 1; 
+				mLoggedInCanvas.openMyCommHomeCanvas();
 			}
 			
 			/**
@@ -182,7 +195,9 @@
 			 */
 			private function newCommunityCreatedServiceHandler(event:cNewCommunityEvent):void
 			{
-				
+				mAccountInformation.mCommunities.addItemAt(event.mCommunityGroupEntry, 0);
+				mLoggedInCanvas.updateInformation(mAccountInformation);
+				mLoggedInCanvas.openMyCommHomeCanvas();
 			}
 			
 			/**
@@ -219,6 +234,33 @@
 				
 			}
 			
+			
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//							MEMBER FUNCTIONS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+			/**
+			 * 
+			 */
+			private function loggedInMainCanvasInformationUpdate(fullName:String,
+													   			 userName:String,
+													   			 password:String,
+													   			 userId:int,
+													   			 communities:ArrayCollection):void
+			{
+				mSignInLabel.visible = false;
+				mSignOutLabel.visible = true;
+				mFullNameSeparator.visible = true;
+				mUserNameLabel.text = "WELCOME " + fullName
+				mAccountInformation = new cAccountInformation(fullName,
+															  userName,
+															  password,
+															  userId,
+															  communities);
+			}
+			
 		]]>
 	</mx:Script>
 	
@@ -227,7 +269,7 @@
 	<mx:Text x="10" y="34" text="Community Analytics" fontSize="12" color="#1C94B2" id="mCommunityAnalyticsText"/>
 	<mx:Label x="974" y="5" text="Sign In" rollOver="signInRollOverHandler(event)" rollOut="signInRollOutHandler(event)" click="signInClickHandler(event)" id="mSignInLabel" color="#0CE10C" fontSize="12" textDecoration="underline"/>
 	<mx:Label x="970" y="5" text="Sign Out" rollOver="signOutRollOverHandler(event)" rollOut="signOutRollOutHandler(event)" click="signOutClickHandler(event)" id="mSignOutLabel" color="#0CE10C" fontSize="12" textDecoration="underline" visible="false"/>
-	<mx:Label x="848" y="5" text="Create Account" rollOver="createAccountRollOverHandler(event)" rollOut="createAccountRollOutHandler(event)" click="createAccountClickHandler(event)" id="mCreateAccountLabel" color="#0CE10C" fontSize="12" textDecoration="underline"/>
+	<mx:Label text="Create Account" rollOver="createAccountRollOverHandler(event)" rollOut="createAccountRollOutHandler(event)" click="createAccountClickHandler(event)" id="mCreateAccountLabel" color="#0CE10C" fontSize="12" textDecoration="underline" x="848" y="5"/>
 	<mx:TextInput x="762" y="34" width="212" text="Search..." id="mSearchTextBox"/>
 	<mx:Button x="982" y="34" label="Go" color="#ECECEC"/>
 	<mx:ViewStack x="10" y="63" id="mMainViewStack" width="1013" height="625">
@@ -239,8 +281,9 @@
 	<mx:VRule x="960" y="6" width="3" height="16"/>
 	<mx:VRule x="832" y="7" width="3" height="16" id="mFullNameSeparator" visible="false"/>
 	<local:cEngine id="mEngine" LoggedInCreatedEvent="loggedInServiceHandler(event)"
+							 	AccountCreatedEvent="accountCreatedServiceHandler(event)"
 							 	NewCommunityCreatedEvent="newCommunityCreatedServiceHandler(event)"
 							  	AnalyticsReadyEvent="analyticsReadyHandler(event)">
 	</local:cEngine>
-	<mx:Label x="378" y="5" fontSize="12" textAlign="right" width="442" color="#D1C613" id="mUserNameLabel"/>
+	<mx:Label x="383" y="5" fontSize="12" textAlign="right" width="442" color="#D1C613" id="mUserNameLabel"/>
 </mx:WindowedApplication>

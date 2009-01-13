@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Window xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" close="closingHandler(event)" width="376" height="206" backgroundColor="#828282" showStatusBar="false" showTitleBar="false" showInAutomationHierarchy="false" showGripper="false" minHeight="206" minWidth="376" maxHeight="206" maxWidth="376">
+<mx:Window xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="creationCompleteHandler(event)" layout="absolute" close="closingHandler(event)" width="376" height="206" backgroundColor="#828282" showStatusBar="false" showTitleBar="false" showInAutomationHierarchy="false" showGripper="false" minHeight="206" minWidth="376" maxHeight="206" maxWidth="376">
 	
 	<mx:Metadata>
 		[Event(name="createAccountEvent", type="cCreateAccountEvent")]
@@ -83,6 +83,14 @@
 			private function closingHandler(event:Event):void
 			{
 				cancelProcess();
+			}
+			
+			/**
+			 * 	Event handler called when the window is first created.
+			 */
+			private function creationCompleteHandler(event:Event):void
+			{
+				mFullNameTextBox.setFocus();
 			}
 			
 			

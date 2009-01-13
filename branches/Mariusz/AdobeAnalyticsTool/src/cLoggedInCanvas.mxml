@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" show="showCanvasHandler(event)" width="1013" height="625" backgroundAlpha="0.1" backgroundColor="#FFFFFF" xmlns:local="*">
-	
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="showCanvasHandler(event)" show="showCanvasHandler(event)" width="1013" height="625" backgroundAlpha="0.1" backgroundColor="#FFFFFF" xmlns:local="*">
 	<mx:Metadata>
 		[Event(name="CreateCommunityGroupEvent", type="cCreateCommunityGroupEvent")]
 		[Event(name="RequestWebsiteStatsEvent", type="cWebsiteGraphicClickedEvent")]
@@ -97,7 +96,7 @@
 			 *  update its internal user information.
 			 */
 			private function showCanvasHandler(event:Event):void
-			{	
+			{					
 				mMyCommHomeCanvas.updateInformation(mUserAccountInformation);				
 				mMyCommViewStack.selectedIndex = 0;
 			}
@@ -119,7 +118,7 @@
 			}
 			
 			/**
-			 * 
+			 * 	Selects the website statistics browser canvas within the mMyCommViewStack.
 			 */
 			public function openWebsiteStatsBrowserCanvas(analyticsParser:cAnalyticsParser):void
 			{
@@ -128,6 +127,18 @@
 															 mWebsiteSelectedName,
 															 mWebsiteSelectedURL,
 															 mWebsiteSelectedType);
+			}
+			
+			/**
+			 *  Selects the my community home canvas within the mMyCommViewStack.
+			 *  Function used when this canvas has been selected in the past by
+			 * 	mMyCommViewStack must be altered.
+			 */
+			public function openMyCommHomeCanvas():void
+			{
+				if(mMyCommViewStack != null) {
+					mMyCommViewStack.selectedIndex = 0;
+				}
 			}
 			
 			
@@ -151,7 +162,7 @@
 	<mx:HRule x="0" y="33" width="1013" height="7" strokeColor="#606060" id="mHRule1"/>
 	<mx:ViewStack x="0" y="40" id="mNavigatorViewStack" width="1013" height="585">
 		<mx:ViewStack id="mMyCommViewStack" label="My Community Groups" width="1013" height="585">
-			<local:cMyCommHomeCanvas id="mMyCommHomeCanvas" OpenCommunityGroupBrowserCanvasEvent="openCommunityGroupBrowserCanvasHandler(event)" OpenCreateCommunityGroupCanvasEvent="openCreateCommGroupCanvasHandler(event)" label="My Community Groups" height="577" width="1012">
+			<local:cMyCommHomeCanvas id="mMyCommHomeCanvas" show="showCanvasHandler(event)" OpenCommunityGroupBrowserCanvasEvent="openCommunityGroupBrowserCanvasHandler(event)" OpenCreateCommunityGroupCanvasEvent="openCreateCommGroupCanvasHandler(event)" label="My Community Groups" height="577" width="1012">
 			</local:cMyCommHomeCanvas>
 			<local:cCreateCommunityGroupCanvas id="mCreateCommunityGroupCanvas" CreateCommunityGroupEvent="createCommunityGroupHandler(event)" BackLabelClickedEvent="createCommBackLabelClickedHandler(event)" height="577" width="1003">
 			</local:cCreateCommunityGroupCanvas>

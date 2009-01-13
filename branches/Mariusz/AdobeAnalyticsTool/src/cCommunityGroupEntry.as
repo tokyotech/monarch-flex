@@ -35,6 +35,9 @@ package
 		public var mWebsites:ArrayCollection = new ArrayCollection();
 		/** The collection of keywords for this community **/
 		public var mKeywords:ArrayCollection = new ArrayCollection();
+		
+		/** Used to track if the entry was just created or not **/
+		public var mJustCreated:Boolean = false;
 
 	}
 }

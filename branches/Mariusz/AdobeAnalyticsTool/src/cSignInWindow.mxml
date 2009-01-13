@@ -55,7 +55,7 @@
 			}
 			
 			/**
-			 * 
+			 * 	Event handler called when the window is first created.
 			 */
 			private function creationCompleteHandler(event:Event):void
 			{
