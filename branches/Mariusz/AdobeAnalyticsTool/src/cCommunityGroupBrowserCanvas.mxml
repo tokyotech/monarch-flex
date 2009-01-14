@@ -4,6 +4,7 @@
 	<mx:Metadata>
 		[Event(name="BackLabelClickedEvent", type="flash.events.Event")]
 		[Event(name="OpenWebsiteStatBrowserCanvasEvent", type="cWebsiteGraphicClickedEvent")]
+		[Event(name="OpenWebsiteCreatorWindowEvent", type="flash.events.Event")]
 	</mx:Metadata>
 
 	<mx:Script>
@@ -74,7 +75,8 @@
 			 */
 			private function addWebsiteClickHandler(event:Event):void
 			{
-				
+				var e:Event = new Event("OpenWebsiteCreatorWindowEvent");
+				this.dispatchEvent(e);
 			}
 			
 			/**

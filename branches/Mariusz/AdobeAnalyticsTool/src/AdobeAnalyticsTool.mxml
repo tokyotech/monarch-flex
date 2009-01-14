@@ -6,6 +6,7 @@
 			import mx.controls.ProgressBar;
 			import mx.collections.ArrayCollection;		
 			import mx.controls.Alert;
+			import air.net.URLMonitor;
 			
 			// hold user account information
 			private var mAccountInformation:cAccountInformation = null;
@@ -47,12 +48,44 @@
 			 */
 			private function signInClickHandler(event:Event):void
 			{
-				var signInWindow:cSignInWindow = new cSignInWindow();
-				signInWindow.open(true);
-				signInWindow.nativeWindow.x = nativeWindow.x + (nativeWindow.width - signInWindow.nativeWindow.width) / 2;
-				signInWindow.nativeWindow.y = nativeWindow.y + (nativeWindow.height - signInWindow.nativeWindow.height) / 2;
-				signInWindow.addEventListener("cSignInEvent", signInWindowCloseHandler);
-				signInWindow.alwaysInFront = true;
+				if(mConnectedToInternet) {
+					var signInWindow:cSignInWindow = new cSignInWindow();
+					signInWindow.open(true);
+					signInWindow.nativeWindow.x = nativeWindow.x + (nativeWindow.width - signInWindow.nativeWindow.width) / 2;
+					signInWindow.nativeWindow.y = nativeWindow.y + (nativeWindow.height - signInWindow.nativeWindow.height) / 2;
+					signInWindow.addEventListener("cSignInEvent", signInWindowCloseHandler);
+					signInWindow.alwaysInFront = true;
+					this.enabled = false;
+				}
+			}
+			
+			/**
+			 * 	Event handler which listens to the create website window events.
+			 */
+			private function websiteCreatedWindowCloseHandler(event:cCreateWebsiteEvent):void
+			{
+				if(event.mType == event.CREATE_WEBSITE) {
+					
+					Alert.show(event.mWebsiteName + "  " + event.mWebsiteType + "  " + event.mWebsiteURL);
+					
+					//mEngine.createAccount(event.mFullName, event.mUserName, event.mPassword);
+					//mLoader.visible = true;
+	            	//mLoader.play();
+				}
+				this.enabled = true;
+			}
+			
+			/**
+			 * 	Detects a request to launch the website creator window.
+			 */
+			private function openWebsiteCreatorWindowHandler(event:Event):void
+			{
+				var websiteCreatorWindow:cCreateWebsiteWindow = new cCreateWebsiteWindow();
+				websiteCreatorWindow.open(true);
+				websiteCreatorWindow.nativeWindow.x = nativeWindow.x + (nativeWindow.width - websiteCreatorWindow.nativeWindow.width) / 2;
+				websiteCreatorWindow.nativeWindow.y = nativeWindow.y + (nativeWindow.height - websiteCreatorWindow.nativeWindow.height) / 2;
+				websiteCreatorWindow.addEventListener("cCreateWebsiteEvent", websiteCreatedWindowCloseHandler);
+				websiteCreatorWindow.alwaysInFront = true;
 				this.enabled = false;
 			}
 			
@@ -61,7 +94,9 @@
 			 */
 			private function signInRollOverHandler(event:Event):void
 			{
-				mSignInLabel.setStyle("color", "0xFF6666");
+				if(mConnectedToInternet) {
+					mSignInLabel.setStyle("color", "0xFF6666");
+				}
 			}
 			
 			/**
@@ -69,7 +104,9 @@
 			 */
 			private function signInRollOutHandler(event:Event):void
 			{
-				mSignInLabel.setStyle("color", "0x11d30c");
+				if(mConnectedToInternet) {
+					mSignInLabel.setStyle("color", "0x11d30c");
+				}
 			}
 			
 			/**
@@ -77,7 +114,9 @@
 			 */
 			private function signOutRollOverHandler(event:Event):void
 			{
-				mSignOutLabel.setStyle("color", "0xFF6666");
+				if(mConnectedToInternet) {
+					mSignOutLabel.setStyle("color", "0xFF6666");
+				}
 			}
 			
 			/**
@@ -85,7 +124,9 @@
 			 */
 			private function signOutRollOutHandler(event:Event):void
 			{
-				mSignOutLabel.setStyle("color", "0x11d30c");
+				if(mConnectedToInternet) {
+					mSignOutLabel.setStyle("color", "0x11d30c");
+				}
 			}
 			
 			/**
@@ -93,7 +134,9 @@
 			 */
 			private function createAccountRollOverHandler(event:Event):void
 			{
-				mCreateAccountLabel.setStyle("color", "0xFF6666");
+				if(mConnectedToInternet) {
+					mCreateAccountLabel.setStyle("color", "0xFF6666");
+				}
 			}
 			
 			/**
@@ -101,7 +144,9 @@
 			 */
 			private function createAccountRollOutHandler(event:Event):void
 			{
-				mCreateAccountLabel.setStyle("color", "0x11d30c");
+				if(mConnectedToInternet) {
+					mCreateAccountLabel.setStyle("color", "0x11d30c");
+				}
 			}
 			
 			/**
@@ -109,12 +154,14 @@
 			 */
 			private function signOutClickHandler(event:Event):void
 			{
-				mSignInLabel.visible = true;
-				mSignOutLabel.visible = false;
-				mFullNameSeparator.visible = false;
-				mUserNameLabel.text = "";
-				mMainViewStack.selectedIndex = 0;
-				Alert.show("You successfully logged out of your account.", "Log Out Successful");
+				if(mConnectedToInternet) {
+					mSignInLabel.visible = true;
+					mSignOutLabel.visible = false;
+					mFullNameSeparator.visible = false;
+					mUserNameLabel.text = "";
+					mMainViewStack.selectedIndex = 0;
+					Alert.show("You successfully logged out of your account.", "Log Out Successful");
+				}	
 			}
 			
 			/**
@@ -122,13 +169,15 @@
 			 */
 			private function createAccountClickHandler(event:Event):void
 			{
-				var createAccountWindow:cCreateAccountWindow = new cCreateAccountWindow();
-				createAccountWindow.open(true);
-				createAccountWindow.nativeWindow.x = nativeWindow.x + (nativeWindow.width - createAccountWindow.nativeWindow.width) / 2;
-				createAccountWindow.nativeWindow.y = nativeWindow.y + (nativeWindow.height - createAccountWindow.nativeWindow.height) / 2;
-				createAccountWindow.addEventListener("cCreateAccountEvent", createAccountWindowCloseHandler);
-				createAccountWindow.alwaysInFront = true;
-				this.enabled = false;
+				if(mConnectedToInternet) {
+					var createAccountWindow:cCreateAccountWindow = new cCreateAccountWindow();
+					createAccountWindow.open(true);
+					createAccountWindow.nativeWindow.x = nativeWindow.x + (nativeWindow.width - createAccountWindow.nativeWindow.width) / 2;
+					createAccountWindow.nativeWindow.y = nativeWindow.y + (nativeWindow.height - createAccountWindow.nativeWindow.height) / 2;
+					createAccountWindow.addEventListener("cCreateAccountEvent", createAccountWindowCloseHandler);
+					createAccountWindow.alwaysInFront = true;
+					this.enabled = false;
+				}
 			}
 			
 			
@@ -244,6 +293,36 @@
 			
 			///////////////////////////////////////////////////////////////////////////////////
 			//
+			//						SYSTEM MONITOR EVENT HANDLERS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+			/**
+			 * 	System monitor event handler which is notified if the connection to the interned
+			 *  becomes brocken. It will notify the user of the event.
+			 */
+			private function serverConnectionStatusChangeHandler(event:StatusEvent):void
+			{
+				if(!mURLMonitor.available) {
+					mConnectionStatusLabel.text = "Connection Status : Not Connected";
+					mConnectionStatusLabel.setStyle("color", "0xFF0000");
+					mMainViewStack.enabled = false;
+					mConnectedToInternet = false;
+					Alert.show("The connection to the server has been broken. Please check your internet " + 
+							   "connection and restart the application.", "Connection Error");
+				}
+				else
+				{
+					mConnectionStatusLabel.text = "Connection Status : Connected";
+					mConnectionStatusLabel.setStyle("color", "0x00FF00");
+					mMainViewStack.enabled = true;
+					mConnectedToInternet = true;
+				}
+			}
+			
+			
+			///////////////////////////////////////////////////////////////////////////////////
+			//
 			//							WINDOW EVENT HANDLERS
 			//
 			///////////////////////////////////////////////////////////////////////////////////
@@ -260,8 +339,16 @@
                 mLoader.visible = false;
                 mLoader.x = (nativeWindow.width - mLoader.width) / 2;
 				mLoader.y = (nativeWindow.height - mLoader.height) / 2;
-                this.addChild(mLoader);   
+                this.addChild(mLoader); 
+                
+                var urlRequest:URLRequest = new URLRequest("http://www.adobe.com");
+                mURLMonitor = new URLMonitor(urlRequest);  
+                mURLMonitor.pollInterval = 3000;
+                mURLMonitor.addEventListener(StatusEvent.STATUS, serverConnectionStatusChangeHandler);
+                mURLMonitor.start();
 			}
+			
+			
 			
 			/**
 			 * 	Event handler triggered when the main window is about to close.
@@ -305,26 +392,31 @@
 			//
 			///////////////////////////////////////////////////////////////////////////////////
 			
+			// loader used to display a loading status to the user
 			private var mLoader:cLoadingIndicator = new cLoadingIndicator();
+			// object which monitors internet connection for the application
+			private var mURLMonitor:URLMonitor = null;
+			// connection status variable
+			private var mConnectedToInternet:Boolean = false;
 			
 		]]>
 	</mx:Script>
 	
 	<mx:HRule x="10" y="60" width="1013" height="7" strokeColor="#606060" id="mHRule1"/>
-	<mx:Text x="10" y="10" text="ADOBE&#xd;" fontSize="20" color="#F70202" textAlign="center" fontWeight="bold" fontFamily="Verdana" width="87" id="mADOBEText"/>
-	<mx:Text x="10" y="34" text="Community Analytics" fontSize="12" color="#1C94B2" id="mCommunityAnalyticsText"/>
-	<mx:Label x="974" y="5" text="Sign In" rollOver="signInRollOverHandler(event)" rollOut="signInRollOutHandler(event)" click="signInClickHandler(event)" id="mSignInLabel" color="#0CE10C" fontSize="12" textDecoration="underline"/>
-	<mx:Label x="970" y="5" text="Sign Out" rollOver="signOutRollOverHandler(event)" rollOut="signOutRollOutHandler(event)" click="signOutClickHandler(event)" id="mSignOutLabel" color="#0CE10C" fontSize="12" textDecoration="underline" visible="false"/>
-	<mx:Label text="Create Account" rollOver="createAccountRollOverHandler(event)" rollOut="createAccountRollOutHandler(event)" click="createAccountClickHandler(event)" id="mCreateAccountLabel" color="#0CE10C" fontSize="12" textDecoration="underline" x="848" y="5"/>
-	<mx:TextInput x="762" y="34" width="212" text="Search..." id="mSearchTextBox"/>
+	<mx:Text x="10" y="4" text="ADOBE&#xd;" fontSize="20" color="#F70202" textAlign="center" fontWeight="bold" fontFamily="Verdana" width="87" id="mADOBEText"/>
+	<mx:Text x="98" y="12" text="Community Analytics" fontSize="12" color="#1C94B2" id="mCommunityAnalyticsText"/>
+	<mx:Label x="974" y="5" text="Sign In" rollOver="signInRollOverHandler(event)" rollOut="signInRollOutHandler(event)" click="signInClickHandler(event)" id="mSignInLabel" color="#0CE10C" fontSize="12" textDecoration="underline" toolTip="Sign in into a user account"/>
+	<mx:Label x="970" y="5" text="Sign Out" rollOver="signOutRollOverHandler(event)" rollOut="signOutRollOutHandler(event)" click="signOutClickHandler(event)" id="mSignOutLabel" color="#0CE10C" fontSize="12" textDecoration="underline" visible="false" toolTip="Sign out of your account"/>
+	<mx:Label text="Create Account" rollOver="createAccountRollOverHandler(event)" rollOut="createAccountRollOutHandler(event)" click="createAccountClickHandler(event)" id="mCreateAccountLabel" color="#0CE10C" fontSize="12" textDecoration="underline" x="848" y="5" toolTip="Create a new user aacount"/>
+	<mx:TextInput x="762" y="34" width="212" text="Search..." id="mSearchTextBox" toolTip="Search for a community group"/>
 	<mx:Button x="982" y="34" label="Go" color="#ECECEC"/>
-	<mx:ViewStack x="10" y="63" id="mMainViewStack" width="1013" height="625">
+	<mx:ViewStack x="10" y="63" id="mMainViewStack" width="1013" height="625" disabledColor="#373737">
 		<local:cLoggedOutCanvas backgroundColor="#FFFFFF" id="mLoggedOutCanvas">
 		</local:cLoggedOutCanvas>
-		<local:cLoggedInCanvas id="mLoggedInCanvas" RequestWebsiteStatsEvent="requestWebsiteStatHandler(event)" CreateCommunityGroupEvent="createCommunityGroupEventHandler(event)">
+		<local:cLoggedInCanvas id="mLoggedInCanvas" OpenWebsiteCreatorWindowEvent="openWebsiteCreatorWindowHandler(event)" RequestWebsiteStatsEvent="requestWebsiteStatHandler(event)" CreateCommunityGroupEvent="createCommunityGroupEventHandler(event)">
 		</local:cLoggedInCanvas>
 	</mx:ViewStack>
-	<mx:VRule x="960" y="6" width="3" height="16"/>
+	<mx:VRule x="960" y="6" width="3" height="16" id="mSeparator2"/>
 	<mx:VRule x="832" y="7" width="3" height="16" id="mFullNameSeparator" visible="false"/>
 	<local:cEngine id="mEngine" LoggedInCreatedEvent="loggedInServiceHandler(event)"
 							 	AccountCreatedEvent="accountCreatedServiceHandler(event)"
@@ -333,4 +425,5 @@
 							  	FailedEvent="failedServiceHandler(event)">
 	</local:cEngine>
 	<mx:Label x="383" y="5" fontSize="12" textAlign="right" width="442" color="#D1C613" id="mUserNameLabel"/>
+	<mx:Label x="10" y="42" text="Connection Status : Not Connected" id="mConnectionStatusLabel" color="#FF0000" toolTip="Displays internet connection status"/>
 </mx:WindowedApplication>

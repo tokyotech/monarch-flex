@@ -334,8 +334,8 @@
     			else {
     				Alert.show("The website name you chose is already in use.\Please choose a different website name.", 
     				           "Website Insertion Failed Message");
-    			}
-    			return;*/
+    			}*/
+    			return;
     		}
     		
     		/**

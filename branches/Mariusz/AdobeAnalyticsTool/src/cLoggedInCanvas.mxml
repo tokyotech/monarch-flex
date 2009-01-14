@@ -3,6 +3,7 @@
 	<mx:Metadata>
 		[Event(name="CreateCommunityGroupEvent", type="cCreateCommunityGroupEvent")]
 		[Event(name="RequestWebsiteStatsEvent", type="cWebsiteGraphicClickedEvent")]
+		[Event(name="OpenWebsiteCreatorWindowEvent", type="flash.events.Event")]
 	</mx:Metadata>
 	
 	<mx:Script>
@@ -91,6 +92,15 @@
 			}
 			
 			/**
+			 * 	Detects a request to open the create website window and fires a request to the main window.
+			 */
+			private function openWebsiteCreatorWindowHandler(event:Event):void
+			{
+				var e:Event = new Event("OpenWebsiteCreatorWindowEvent");
+				this.dispatchEvent(e);
+			}
+			
+			/**
 			 *	Function which gets called each time this canvas is selected by the parent. It
 			 * 	will select the cMyCommHomeCanvas as the default canvas within this component and
 			 *  update its internal user information.
@@ -166,7 +176,7 @@
 			</local:cMyCommHomeCanvas>
 			<local:cCreateCommunityGroupCanvas id="mCreateCommunityGroupCanvas" CreateCommunityGroupEvent="createCommunityGroupHandler(event)" BackLabelClickedEvent="createCommBackLabelClickedHandler(event)" height="577" width="1003">
 			</local:cCreateCommunityGroupCanvas>
-			<local:cCommunityGroupBrowserCanvas id="mCommunityGroupBrowserCanvas" OpenWebsiteStatBrowserCanvasEvent="openWebsiteStatBrowserCanvasHandler(event)" BackLabelClickedEvent="createCommBackLabelClickedHandler(event)">
+			<local:cCommunityGroupBrowserCanvas id="mCommunityGroupBrowserCanvas" OpenWebsiteCreatorWindowEvent="openWebsiteCreatorWindowHandler(event)" OpenWebsiteStatBrowserCanvasEvent="openWebsiteStatBrowserCanvasHandler(event)" BackLabelClickedEvent="createCommBackLabelClickedHandler(event)">
 			</local:cCommunityGroupBrowserCanvas>
 			<local:cWebsiteStatsBrowserCanvas id="mWebsiteStatsBrowserCanvas" BackLabelClickedEvent="WebsiteBrowserBackClickedHandler(event)">
 			</local:cWebsiteStatsBrowserCanvas>
