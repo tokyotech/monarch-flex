@@ -7,6 +7,7 @@
 		[Event(name="NewCommunityCreatedEvent", type="cNewCommunityEvent")]
 		[Event(name="NewWebsiteCreatedEvent", type="cNewWebsiteEvent")]
 		[Event(name="AnalyticsReadyEvent", type="cAnalysisDataReadyEvent")]
+		[Event(name="FailedEvent", type="flash.events.Event")]
 	</mx:Metadata>
 
     <mx:Script>
@@ -227,6 +228,8 @@
 			 		dispatchEvent(e);
     			}
     			else {
+    				var failed:Event = new Event("FailedEvent");
+    				this.dispatchEvent(failed);
     				Alert.show("The username or password is incorrect.\nLoggin Failed.", 
     				           "Loggin Failed Message");
     			}
@@ -253,6 +256,8 @@
 			 		Alert.show("Your account was successfully created.\nYou are now logged in.", "Account Created");
     			}
     			else {
+    				var failed:Event = new Event("FailedEvent");
+    				this.dispatchEvent(failed);
     				Alert.show("There was an error in trying to create an account.\nPlease try again.", 
     				           "Account Creation Failed Message");
     			}
@@ -294,6 +299,8 @@
     				Alert.show("The community was successfully created.", "Community Created Message");
     			}
     			else {
+    				var failed:Event = new Event("FailedEvent");
+    				this.dispatchEvent(failed);
     				Alert.show("The community name you chose is already in use.\Please choose a different community name.", 
     				           "Community Creation Failed Message");
     			}

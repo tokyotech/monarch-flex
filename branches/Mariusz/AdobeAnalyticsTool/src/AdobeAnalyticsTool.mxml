@@ -3,6 +3,7 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import mx.controls.ProgressBar;
 			import mx.collections.ArrayCollection;		
 			import mx.controls.Alert;
 			
@@ -22,6 +23,8 @@
 			{
 				if(event.mType == event.SIGN_IN) {
 					mEngine.loginToAccount(event.mUserName, event.mPassword);
+					mLoader.visible = true;
+	            	mLoader.play();
 				}
 				this.enabled = true;
 			}
@@ -33,6 +36,8 @@
 			{
 				if(event.mType == event.CREATE_ACCOUNT) {
 					mEngine.createAccount(event.mFullName, event.mUserName, event.mPassword);
+					mLoader.visible = true;
+	            	mLoader.play();
 				}
 				this.enabled = true;
 			}
@@ -140,6 +145,9 @@
 			private function createCommunityGroupEventHandler(event:cCreateCommunityGroupEvent):void
 			{
 				mEngine.createCommunity(event.mCommName, event.mKeywords, mAccountInformation.mUserId);
+				
+				mLoader.visible = true;
+	            mLoader.play();
 			}
 			
 			/**
@@ -149,6 +157,9 @@
 			private function requestWebsiteStatHandler(event:cWebsiteGraphicClickedEvent):void
 			{
 				mEngine.getAnalytics(event.mCommGroupId, event.mWebsiteName);
+				
+				mLoader.visible = true;
+            	mLoader.play();
 			}
 			
 			
@@ -171,6 +182,9 @@
 													event.mCommunities);
 				mLoggedInCanvas.updateInformation(mAccountInformation);
 				mMainViewStack.selectedIndex = 1;
+				
+	            mLoader.stop();
+	            mLoader.visible = false;
 			}
 			
 			/**
@@ -187,6 +201,9 @@
 				mLoggedInCanvas.updateInformation(mAccountInformation);
 				mMainViewStack.selectedIndex = 1; 
 				mLoggedInCanvas.openMyCommHomeCanvas();
+				
+				mLoader.stop();
+	            mLoader.visible = false;
 			}
 			
 			/**
@@ -198,6 +215,9 @@
 				mAccountInformation.mCommunities.addItemAt(event.mCommunityGroupEntry, 0);
 				mLoggedInCanvas.updateInformation(mAccountInformation);
 				mLoggedInCanvas.openMyCommHomeCanvas();
+				
+				mLoader.stop();
+	            mLoader.visible = false;
 			}
 			
 			/**
@@ -207,6 +227,18 @@
 			private function analyticsReadyHandler(event:cAnalysisDataReadyEvent):void
 			{
 				mLoggedInCanvas.openWebsiteStatsBrowserCanvas(event.mAnalysisParser);
+				
+				mLoader.stop();
+	            mLoader.visible = false;
+			}
+			
+			/**
+			 * 	Event handler called to signal that a request to the engine has failed.
+			 */
+			private function failedServiceHandler(event:Event):void
+			{
+				mLoader.stop();
+				mLoader.visible = false;
 			}
 			
 			
@@ -224,6 +256,11 @@
 				var screenBounds:Rectangle = Screen.mainScreen.bounds;
                 nativeWindow.x = (screenBounds.width - nativeWindow.width) / 2;
                 nativeWindow.y = (screenBounds.height - nativeWindow.height) / 2;
+                
+                mLoader.visible = false;
+                mLoader.x = (nativeWindow.width - mLoader.width) / 2;
+				mLoader.y = (nativeWindow.height - mLoader.height) / 2;
+                this.addChild(mLoader);   
 			}
 			
 			/**
@@ -261,6 +298,15 @@
 															  communities);
 			}
 			
+			
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//							MEMBER FUNCTIONS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+			private var mLoader:cLoadingIndicator = new cLoadingIndicator();
+			
 		]]>
 	</mx:Script>
 	
@@ -283,7 +329,8 @@
 	<local:cEngine id="mEngine" LoggedInCreatedEvent="loggedInServiceHandler(event)"
 							 	AccountCreatedEvent="accountCreatedServiceHandler(event)"
 							 	NewCommunityCreatedEvent="newCommunityCreatedServiceHandler(event)"
-							  	AnalyticsReadyEvent="analyticsReadyHandler(event)">
+							  	AnalyticsReadyEvent="analyticsReadyHandler(event)"
+							  	FailedEvent="failedServiceHandler(event)">
 	</local:cEngine>
 	<mx:Label x="383" y="5" fontSize="12" textAlign="right" width="442" color="#D1C613" id="mUserNameLabel"/>
 </mx:WindowedApplication>
