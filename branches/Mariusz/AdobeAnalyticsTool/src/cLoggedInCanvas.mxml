@@ -71,7 +71,7 @@
 				mCommunityGroupBrowserCanvas.updateInformation(event.mCommGroupName,
 															   event.mCommGroupId,
 															   event.mCreator,
-															   "",
+															   event.mTime.toString(),
 															   event.mWebsites);
 			}
 			
@@ -83,10 +83,14 @@
 				var e:cWebsiteGraphicClickedEvent = new cWebsiteGraphicClickedEvent("RequestWebsiteStatsEvent");
 				e.mWebsiteName = event.mWebsiteName;
 				e.mCommGroupId = event.mCommGroupId;
+				e.mWebsiteType = event.mWebsiteType;
+				e.mWebsiteURL = event.mWebsiteURL;
+				e.mWebsiteCreatedTime = event.mWebsiteCreatedTime;
 				
 				mWebsiteSelectedName = e.mWebsiteName;
 				mWebsiteSelectedURL = e.mWebsiteURL;
 				mWebsiteSelectedType = e.mWebsiteType;
+				mWebsiteSelectedCreatedTime = e.mWebsiteCreatedTime;
 				
 				this.dispatchEvent(e);
 			}
@@ -137,7 +141,8 @@
 				mWebsiteStatsBrowserCanvas.updateInformation(analyticsParser,
 															 mWebsiteSelectedName,
 															 mWebsiteSelectedURL,
-															 mWebsiteSelectedType);
+															 mWebsiteSelectedType,
+															 mWebsiteSelectedCreatedTime);
 			}
 			
 			/**
@@ -166,6 +171,7 @@
 			private var mWebsiteSelectedName:String = "";
 			private var mWebsiteSelectedURL:String = "";
 			private var mWebsiteSelectedType:String = "";
+			private var mWebsiteSelectedCreatedTime:String = "";
 				
 		]]>
 	</mx:Script>

@@ -345,6 +345,7 @@
 					e.mWebsiteName = event.mWebsiteName;
 					e.mWebsiteURL = event.mWebsiteURL;
 					e.mWebsiteType = event.mWebsiteType;
+					e.mWebsiteCreatedTime = event.mWebsiteCreatedTime;
 					e.mCommGroupId = mCommGroupId;
 					this.dispatchEvent(e);
 				}
@@ -384,7 +385,8 @@
 					websiteGraphic.addEventListener("cWebsiteGraphicClickedEvent", websiteGraphicClickedHandler);
 					websiteGraphic.updateInformation(websiteEntry.mName,
 												     websiteEntry.mURL,
-												     "");
+												     websiteEntry.mType,
+												     websiteEntry.mCreatedTime.toString());
 					mMyWebsitesVBox.addChild(websiteGraphic);
 					
 					websiteGraphic.alpha = 0.3;
@@ -408,7 +410,8 @@
 					websiteStaticGraphic.addEventListener("cWebsiteStaticLargeGraphicClickedEvent", websiteStaticGraphicClickedHandler);
 					websiteStaticGraphic.updateInformation(websiteEntry.mName,
 												     	   websiteEntry.mURL,
-												           "");
+												           websiteEntry.mType,
+												           websiteEntry.mCreatedTime.toString());
 					mMyWebsitesAllWebsitesVBox.addChild(websiteStaticGraphic);	
 				} 
 				 
@@ -431,7 +434,9 @@
 					mDateCreatedLabel.text = "Created on : [Not Available]";	
 				}
 				else {
-					mDateCreatedLabel.text = "Created on : " + mDateCreated;
+					var currDate:Date = new Date(int(mDateCreated)*1000); 
+					var theDate:String = ((currDate.getMonth()+ 1) + "/" + currDate.getDate() + "/" + currDate.getFullYear());
+					mDateCreatedLabel.text = "Created on : " + theDate;
 				}
 			}
 			

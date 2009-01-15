@@ -49,6 +49,7 @@
 				e.mWebsiteName = mWebsiteName;
 				e.mWebsiteURL = mURL;
 				e.mWebsiteType = mType;
+				e.mWebsiteCreatedTime = mCreatedTime;
 				this.dispatchEvent(e);
 			}
 			
@@ -82,11 +83,13 @@
 			 */
 			public function updateInformation(websiteName:String,
 											  websiteURL:String,
-											  websiteType:String):void
+											  websiteType:String,
+											  websiteCreatedTime:String):void
 			{
 				mWebsiteName = websiteName;
 				mURL = websiteURL;
 				mType = websiteType;
+				mCreatedTime = websiteCreatedTime;
 			}
 			
 			/**
@@ -234,7 +237,14 @@
 				else {
 					mWebsiteType.text = "Type : " + mType;
 				}
-				
+				if(mCreatedTime.length == 0) {
+					mWebsiteCreatedTimeLabel.text = "Created On : [Not Available]"; 	
+				}
+				else {
+					var currDate:Date = new Date(int(mCreatedTime)*1000); 
+					var theDate:String = ((currDate.getMonth()+ 1) + "/" + currDate.getDate() + "/" + currDate.getFullYear());
+					mWebsiteCreatedTimeLabel.text = "Created On : " + theDate;
+				}
 			}
 			
 			/**
@@ -276,6 +286,8 @@
 			private var mURL:String = "";
 			// website type
 			private var mType:String = "";
+			// website create time
+			private var mCreatedTime:String = "";
 			
 			// boolean which tells the component's children if the remove label is visible
 			private var mRemoveLabelOn:Boolean = false;
@@ -288,8 +300,9 @@
 		<mx:Canvas x="12" y="8" width="64" height="64" backgroundImage="@Embed(source='../images/websiteSample.jpg')">
 		</mx:Canvas>
 		<mx:Label x="84" y="13" text="Some Website Name" fontSize="16" color="#ECECEC" id="mWebsiteNameLabel" width="296"/>
-		<mx:Label x="84" y="37" text="Type : Not Available" id="mWebsiteType" color="#ECECEC" width="296"/>
-		<mx:Label x="84" y="50" text="URL : www.xyz.com" id="mWebsiteURLLabel" color="#ECECEC" width="296"/>
+		<mx:Label x="84" y="45" text="Type : Not Available" id="mWebsiteType" color="#ECECEC" width="296" fontFamily="Arial"/>
+		<mx:Label x="84" y="57" text="URL : www.xyz.com" id="mWebsiteURLLabel" color="#ECECEC" width="296" fontFamily="Arial"/>
+		<mx:Label x="84" y="35" text="Some Time" id="mWebsiteCreatedTimeLabel" color="#ECECEC" width="296" fontFamily="Arial"/>
 		<mx:Canvas x="0" y="0" width="390" height="80" click="overlayCanvasClickHandler(event)" rollOver="overlayCanvasRollOverHandler(event)" rollOut="overlayCanvasRollOutHandler(event)" id="mOverlayCanvas" backgroundAlpha="0.01" backgroundColor="#FDFDFD">
 			<mx:Canvas x="306" y="51" width="50" height="20" toolTip="Remove this website from the community group" click="removeWebsiteLabelClickHandler(event)" backgroundColor="#000000" backgroundImage="@Embed(source='../images/removeIcon.jpg')" backgroundAlpha="0.6" id="mRemoveWebsiteLabel" visible="false" verticalScrollPolicy="off" horizontalScrollPolicy="off" useHandCursor="true">
 			</mx:Canvas>

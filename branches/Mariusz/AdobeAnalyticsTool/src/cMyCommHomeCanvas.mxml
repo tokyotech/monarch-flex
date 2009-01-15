@@ -156,6 +156,7 @@
 						e.mCommGroupName = event.mCommGroupName;
 						e.mCommGroupId = event.mCommGroupId;
 						e.mCreator = mUserAccountInformation.mUserName;
+						e.mTime = event.mTime;
 						e.mWebsites = communityGroupEntry.mWebsites;
 						this.dispatchEvent(e);
 						return;
@@ -223,7 +224,7 @@
 					}
 					commGroupGraphicEntry.updateInformation(communityGroupEntry.mName,
 															mUserAccountInformation.mUserName,
-															"",
+															communityGroupEntry.mCreatedTime.toString(),
 															communityGroupEntry.mWebsites.length.toString(),
 															communityGroupEntry.mId,
 															justCreated);								

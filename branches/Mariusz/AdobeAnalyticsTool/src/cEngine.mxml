@@ -185,6 +185,7 @@
     					var communityGroupList:XMLListCollection = new XMLListCollection(userAccountCommunityGroupList.elements("CommunityGroup" + i));
     					var communtyGroupId:int = int(communityGroupList.elements("communityGroupId"));
     					var communtyGroupName:String = communityGroupList.elements("communityGroupName");
+    					var communityGroupCreatedTime:int = int(communityGroupList.elements("communityGroupCreatedTime"));
     					
     					var communityGroupWebsitesList:XMLListCollection = new 
     					                 XMLListCollection(communityGroupList.elements("CommunityGroup" + i + "Websites"));	
@@ -197,8 +198,14 @@
     						var websiteList:XMLListCollection = new XMLListCollection(communityGroupWebsitesList.elements("Website" + j));
     						var websiteId:int = int(websiteList.elements("websiteId"));
     						var websiteName:String = websiteList.elements("websiteName");
+    						var websiteType:String = websiteList.elements("websiteType");
+    						var websiteCreatedTime:int = int(websiteList.elements("websiteCreatedTime"));
     						
-    						var website:cWebsiteEntry = new cWebsiteEntry(websiteId, websiteName, "");
+    						var website:cWebsiteEntry = new cWebsiteEntry(websiteId, 
+    																	  websiteName,
+    																	  "",
+    																	  websiteType,
+    																	  websiteCreatedTime);
     						websites.addItem(website);
     					}
     					
@@ -220,6 +227,7 @@
     					
     					var community:cCommunityGroupEntry = new cCommunityGroupEntry(communtyGroupId,
     																				  communtyGroupName,
+    																				  communityGroupCreatedTime,
     																				  websites,
     																				  keywords);
 					  	communities.addItem(community);														  
@@ -276,6 +284,7 @@
 									
     				var communityName:String = newCommunityInformationList.elements("communityGroupName");
     				var communityId:int = int(newCommunityInformationList.elements("communityGroupId"));
+    				var communityCreatedTime:int = int(newCommunityInformationList.elements("communityGroupCreatedTime"));
     				
     				var  keywordsList:XMLListCollection = new XMLListCollection(xmlTree.elements("CommunityGroupKeywords"));
 
@@ -291,7 +300,11 @@
 						keywords.addItem(keyword);	
 					}
 					
-					var community:cCommunityGroupEntry = new cCommunityGroupEntry(communityId, communityName, websites, keywords);
+					var community:cCommunityGroupEntry = new cCommunityGroupEntry(communityId, 
+																				  communityName, 
+																				  communityCreatedTime, 
+																				  websites, 
+																				  keywords);
 					community.mJustCreated = true;
     				var e:cNewCommunityEvent = new cNewCommunityEvent("NewCommunityCreatedEvent");
     				e.mCommunityGroupEntry = community;

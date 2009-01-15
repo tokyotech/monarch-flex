@@ -24,6 +24,8 @@ package
 		public var mCommGroupId:int = 0;
 		// community group creator
 		public var mCreator:String = "";
+		// community group created time
+		public var mTime:String = "";
 		// community group websites
 		public var mWebsites:ArrayCollection = null;
 	}

@@ -23,5 +23,7 @@ package
 		public var mWebsiteURL:String = "";
 		// website type
 		public var mWebsiteType:String = "";
+		// website create time (Unix time stamp)
+		public var mWebsiteCreatedTime:String = "";
 	}
 }

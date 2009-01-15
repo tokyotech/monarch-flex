@@ -13,6 +13,7 @@
 			import mx.effects.Tween;
 			import mx.events.EffectEvent;
 			
+			
 			///////////////////////////////////////////////////////////////////////////////////
 			//
 			//							   EVENT HANDLERS
@@ -54,6 +55,7 @@
 					var e:cCommGroupGraphicClickedEvent = new cCommGroupGraphicClickedEvent("cCommGroupGraphicClickedEvent");
 					e.mCommGroupName = mCommGroupName;
 					e.mCommGroupId = mId;
+					e.mTime = mDateCreated;
 					this.dispatchEvent(e);
 				}
 			}
@@ -91,7 +93,9 @@
 					mDateLabel.text = "Created on : [Not Available]";
 				}
 				else {
-					mDateLabel.text = "Created on : " + mDateCreated;
+					var currDate:Date = new Date(int(mDateCreated)*1000); 
+					var theDate:String = ((currDate.getMonth()+ 1) + "/" + currDate.getDate() + "/" + currDate.getFullYear());
+					mDateLabel.text = "Created on : " + theDate;
 				}
 				mNumWebsiteLabel.text = "Number Of Websites : " + mNumWebsites
 			}

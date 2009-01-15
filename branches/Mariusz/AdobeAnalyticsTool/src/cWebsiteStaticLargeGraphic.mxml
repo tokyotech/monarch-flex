@@ -76,11 +76,13 @@
 			 */
 			public function updateInformation(websiteName:String,
 											  websiteURL:String,
-											  websiteType:String):void
+											  websiteType:String,
+											  websiteCreatedTime:String):void
 			{
 				mWebsiteName = websiteName;
 				mURL = websiteURL;
 				mType = websiteType;
+				mCreatedTime = websiteCreatedTime;
 			}
 			
 			
@@ -114,7 +116,14 @@
 				else {
 					mWebsiteType.text = "Type : " + mType;
 				}
-				
+				if(mCreatedTime.length == 0) {
+					mWebsiteCreatedTime.text = "Created On : [Not Available]"; 	
+				}
+				else {
+					var currDate:Date = new Date(int(mCreatedTime)*1000); 
+					var theDate:String = ((currDate.getMonth()+ 1) + "/" + currDate.getDate() + "/" + currDate.getFullYear());
+					mWebsiteCreatedTime.text = "Created On : " + theDate;
+				}
 			}
 			
 			/**
@@ -156,6 +165,8 @@
 			private var mURL:String = "";
 			// website type
 			private var mType:String = "";
+			// website created time
+			private var mCreatedTime:String = "";
 			
 		]]>
 	</mx:Script>
@@ -164,8 +175,9 @@
 		<mx:Canvas x="12" y="8" width="64" height="64" backgroundImage="@Embed(source='../images/websiteSample.jpg')">
 		</mx:Canvas>
 		<mx:Label x="84" y="13" text="Some Website Name" fontSize="16" color="#ECECEC" id="mWebsiteNameLabel" width="296"/>
-		<mx:Label x="84" y="37" text="Type : Not Available" id="mWebsiteType" color="#ECECEC" width="296"/>
-		<mx:Label x="84" y="50" text="URL : www.xyz.com" id="mWebsiteURLLabel" color="#ECECEC" width="296"/>
+		<mx:Label x="84" y="35" text="Created On : Not Available" id="mWebsiteCreatedTime" color="#ECECEC" width="262.5" fontFamily="Arial" height="17"/>
+		<mx:Label x="84" y="45" text="Type : Not Available" id="mWebsiteType" color="#ECECEC" width="258" fontFamily="Arial" height="17"/>
+		<mx:Label x="84" y="57" text="URL : www.xyz.com" id="mWebsiteURLLabel" color="#ECECEC" width="253.5" height="18" fontFamily="Arial"/>
 		<mx:Canvas x="0" y="0" width="390" height="80" rollOver="overlayCanvasRollOverHandler(event)" rollOut="overlayCanvasRollOutHandler(event)" id="mOverlayCanvas" backgroundAlpha="0.01" backgroundColor="#FDFDFD">
 			<mx:Canvas x="350" y="40" width="30" height="30" rollOver="addIconRollOverHandler(event)" rollOut="addIconRollOutHandler(event)" click="addIconClickHandler(event)" backgroundImage="@Embed(source='../images/addIcon.png')" visible="true" id="mAddIconCanvas" toolTip="Add this website to this community" alpha="1.0" backgroundAlpha="1.0" borderStyle="solid" cornerRadius="10" backgroundColor="#00FF00">
 			</mx:Canvas>
