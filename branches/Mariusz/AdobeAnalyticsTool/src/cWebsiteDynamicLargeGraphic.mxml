@@ -25,7 +25,7 @@
 			 */
 			private function overlayCanvasRollOverHandler(event:Event):void
 			{
-				if(!mRemoveLabelOn) {
+				if(!mRemoveLabelOn || !mEditLabelOn) {
 					mMainPanelCanvas.setStyle("backgroundColor", "0xdadc19");
 				}
 			}
@@ -35,7 +35,7 @@
 			 */
 			private function overlayCanvasRollOutHandler(event:Event):void
 			{
-				if(!mRemoveLabelOn) {
+				if(!mRemoveLabelOn || !mEditLabelOn) {
 					mMainPanelCanvas.setStyle("backgroundColor", "0x4ad413");
 				}
 			}
@@ -53,11 +53,21 @@
 			}
 			
 			/**
-			 * 
+			 * 	Event handler called when the user clicks on the remove website label when
+			 * 	it's visible.
 			 */
 			private function removeWebsiteLabelClickHandler(event:Event):void
 			{
-				
+				Alert.show("Remove Clicked");
+			}
+			
+			/**
+			 * 	Event handler called when the user clicks on the edit website label when
+			 * 	it's visible.
+			 */
+			private function editWebsiteLabelClickHandler(event:Event):void
+			{
+				Alert.show("Edit Clicked")
 			}
 			
 			
@@ -100,6 +110,30 @@
 				fade.target = mRemoveWebsiteLabel;
 				fade.play();
 				
+				mEditLabelOn = true;
+			}
+			
+			/**
+			 *	Sets the visible property on the remove website label to true; 
+			 */
+			public function showEditWebsiteLabel():void
+			{
+				mEditWebsiteLabel.visible = true;
+				// animate
+				var move:Move = new Move();
+				move.xFrom = mEditWebsiteLabel.x;
+				move.xTo = mEditWebsiteLabel.x + 20;
+				move.target = mEditWebsiteLabel;
+				move.duration = 500;
+				move.play();
+				
+				var fade:Fade = new Fade();
+				fade.alphaFrom = 0;
+				fade.alphaTo = 1;
+				fade.duration = 500;
+				fade.target = mEditWebsiteLabel;
+				fade.play();
+				
 				mRemoveLabelOn = true;
 			}
 			
@@ -107,7 +141,7 @@
 			 * 	Function called after the move effect declared in hideRemoveWebsiteLabel
 			 *  has completed. 
 			 */
-			private function moveEffectEnd(event:Event):void
+			private function moveRemoveWebsiteLabelEffectEnd(event:Event):void
 			{
 				mRemoveWebsiteLabel.visible = false;
 			}
@@ -124,7 +158,7 @@
 				move.target = mRemoveWebsiteLabel;
 				move.duration = 500;
 				move.play();
-				move.addEventListener(EffectEvent.EFFECT_END, moveEffectEnd);
+				move.addEventListener(EffectEvent.EFFECT_END, moveRemoveWebsiteLabelEffectEnd);
 				
 				var fade:Fade = new Fade();
 				fade.alphaFrom = 1;
@@ -134,6 +168,39 @@
 				fade.play();
 				
 				mRemoveLabelOn = false;
+			}
+			
+			/**
+			 * 	Function called after the move effect declared in hideEditWebsiteLabel
+			 *  has completed. 
+			 */
+			private function moveEditWebsiteLabelEffectEnd(event:Event):void
+			{
+				mEditWebsiteLabel.visible = false;
+			}
+			
+			/**
+			 * 	Sets the visible property on the edit website label to false;
+			 */
+			public function hideEditWebsiteLabel():void
+			{	
+				// animate
+				var move:Move = new Move();
+				move.xFrom = mEditWebsiteLabel.x;
+				move.xTo = mEditWebsiteLabel.x - 20;
+				move.target = mEditWebsiteLabel;
+				move.duration = 500;
+				move.play();
+				move.addEventListener(EffectEvent.EFFECT_END, moveEditWebsiteLabelEffectEnd);
+				
+				var fade:Fade = new Fade();
+				fade.alphaFrom = 1;
+				fade.alphaTo = 0;
+				fade.duration = 500;
+				fade.target = mEditWebsiteLabel;
+				fade.play();
+				
+				mEditLabelOn = false;
 			}
 			
 			
@@ -212,6 +279,7 @@
 			
 			// boolean which tells the component's children if the remove label is visible
 			private var mRemoveLabelOn:Boolean = false;
+			private var mEditLabelOn:Boolean = false;
 			
 		]]>
 	</mx:Script>
@@ -224,6 +292,8 @@
 		<mx:Label x="84" y="50" text="URL : www.xyz.com" id="mWebsiteURLLabel" color="#ECECEC" width="296"/>
 		<mx:Canvas x="0" y="0" width="390" height="80" click="overlayCanvasClickHandler(event)" rollOver="overlayCanvasRollOverHandler(event)" rollOut="overlayCanvasRollOutHandler(event)" id="mOverlayCanvas" backgroundAlpha="0.01" backgroundColor="#FDFDFD">
 			<mx:Canvas x="306" y="51" width="50" height="20" toolTip="Remove this website from the community group" click="removeWebsiteLabelClickHandler(event)" backgroundColor="#000000" backgroundImage="@Embed(source='../images/removeIcon.jpg')" backgroundAlpha="0.6" id="mRemoveWebsiteLabel" visible="false" verticalScrollPolicy="off" horizontalScrollPolicy="off" useHandCursor="true">
+			</mx:Canvas>
+			<mx:Canvas x="306" y="51" width="50" height="20" toolTip="Edit this website from the community group" click="editWebsiteLabelClickHandler(event)" backgroundColor="#000000" backgroundImage="@Embed(source='../images/editIcon.jpg')" backgroundAlpha="0.6" id="mEditWebsiteLabel" visible="false" verticalScrollPolicy="off" horizontalScrollPolicy="off" useHandCursor="true">
 			</mx:Canvas>
 		</mx:Canvas>
 	</mx:Canvas>

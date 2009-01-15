@@ -123,8 +123,9 @@
     			mAddKeywordsToCommunityRequestHTTPService.send();
     		}
     		
-    		/*
-    		 *
+    		/**
+    		 *	Function which calls the server side PHP script which inserts a website
+    		 *  into the database.
     		 */
     		public function insertWebsite(communityId:int, 
     		                              userId:int, 
@@ -319,8 +320,11 @@
     		 *
     		 */
     		private function addWebsiteHTTPServiceResultHandler(event:ResultEvent):void
-    		{    			    			    			    			
-    			/*var xmlTree:XML = XML(event.result);
+    		{    	    	
+    			Alert.show(event.result.toString());
+    			return;
+    							    			    			    			
+    			var xmlTree:XML = XML(event.result);
     			var  newWebsiteInformationList:XMLListCollection = new XMLListCollection(xmlTree.elements("WebsiteInformation"));
 				if(newWebsiteInformationList.children().length() > 0) { 
 					var e:cNewWebsiteEvent = new cNewWebsiteEvent("NewWebsiteCreatedEvent");
@@ -329,12 +333,15 @@
 					var URL:String = newWebsiteInformationList.elements("websiteURL");
 			 		e.mWebsiteEntry = new cWebsiteEntry(id, name, URL);
 			 		dispatchEvent(e);
-			 		Alert.show("The website was successfully added.", "Website Inserted Message");
+			 		
+			 		Alert.show("The website was successfully created.", "Website Created Message");
     			}
     			else {
-    				Alert.show("The website name you chose is already in use.\Please choose a different website name.", 
-    				           "Website Insertion Failed Message");
-    			}*/
+    				var failed:Event = new Event("FailedEvent");
+    				this.dispatchEvent(failed);
+    				Alert.show("The website name you chose is already in use. Please choose a different website name.", 
+    				           "Website Creation Failed Message");
+    			}
     			return;
     		}
     		

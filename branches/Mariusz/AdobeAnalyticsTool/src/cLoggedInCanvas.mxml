@@ -3,7 +3,7 @@
 	<mx:Metadata>
 		[Event(name="CreateCommunityGroupEvent", type="cCreateCommunityGroupEvent")]
 		[Event(name="RequestWebsiteStatsEvent", type="cWebsiteGraphicClickedEvent")]
-		[Event(name="OpenWebsiteCreatorWindowEvent", type="flash.events.Event")]
+		[Event(name="OpenWebsiteCreatorWindowEvent", type="cCreateWebsiteEvent")]
 	</mx:Metadata>
 	
 	<mx:Script>
@@ -94,9 +94,10 @@
 			/**
 			 * 	Detects a request to open the create website window and fires a request to the main window.
 			 */
-			private function openWebsiteCreatorWindowHandler(event:Event):void
+			private function openWebsiteCreatorWindowHandler(event:cCreateWebsiteEvent):void
 			{
-				var e:Event = new Event("OpenWebsiteCreatorWindowEvent");
+				var e:cCreateWebsiteEvent = new cCreateWebsiteEvent("OpenWebsiteCreatorWindowEvent");
+				e.mCommunityGroupId = event.mCommunityGroupId;
 				this.dispatchEvent(e);
 			}
 			

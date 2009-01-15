@@ -62,15 +62,16 @@
 			/**
 			 * 	Event handler which listens to the create website window events.
 			 */
-			private function websiteCreatedWindowCloseHandler(event:cCreateWebsiteEvent):void
+			private function createWebsiteWindowCloseHandler(event:cCreateWebsiteEvent):void
 			{
-				if(event.mType == event.CREATE_WEBSITE) {
-					
-					Alert.show(event.mWebsiteName + "  " + event.mWebsiteType + "  " + event.mWebsiteURL);
-					
-					//mEngine.createAccount(event.mFullName, event.mUserName, event.mPassword);
-					//mLoader.visible = true;
-	            	//mLoader.play();
+				if(event.mType == event.CREATE_WEBSITE) {					
+					mEngine.insertWebsite(event.mCommunityGroupId, 
+										  mAccountInformation.mUserId,
+										  event.mWebsiteName,
+										  event.mWebsiteURL,
+										  event.mWebsiteType);
+					mLoader.visible = true;
+	            	mLoader.play();
 				}
 				this.enabled = true;
 			}
@@ -78,13 +79,13 @@
 			/**
 			 * 	Detects a request to launch the website creator window.
 			 */
-			private function openWebsiteCreatorWindowHandler(event:Event):void
+			private function openWebsiteCreatorWindowHandler(event:cCreateWebsiteEvent):void
 			{
 				var websiteCreatorWindow:cCreateWebsiteWindow = new cCreateWebsiteWindow();
 				websiteCreatorWindow.open(true);
 				websiteCreatorWindow.nativeWindow.x = nativeWindow.x + (nativeWindow.width - websiteCreatorWindow.nativeWindow.width) / 2;
 				websiteCreatorWindow.nativeWindow.y = nativeWindow.y + (nativeWindow.height - websiteCreatorWindow.nativeWindow.height) / 2;
-				websiteCreatorWindow.addEventListener("cCreateWebsiteEvent", websiteCreatedWindowCloseHandler);
+				websiteCreatorWindow.addEventListener("cCreateWebsiteEvent", createWebsiteWindowCloseHandler);
 				websiteCreatorWindow.alwaysInFront = true;
 				this.enabled = false;
 			}
@@ -282,6 +283,19 @@
 			}
 			
 			/**
+			 * 	Event handler which signals to the main window that the engine has recieved
+			 *  website created event.
+			 */
+			private function newWebsiteCreatedHandler(event:cNewWebsiteEvent):void
+			{
+				/* NEEDS WORK !!!!!!! */
+				Alert.show(event.mWebsiteEntry.mName);
+				
+				mLoader.stop();
+	            mLoader.visible = false;
+			}
+			
+			/**
 			 * 	Event handler called to signal that a request to the engine has failed.
 			 */
 			private function failedServiceHandler(event:Event):void
@@ -341,7 +355,7 @@
 				mLoader.y = (nativeWindow.height - mLoader.height) / 2;
                 this.addChild(mLoader); 
                 
-                var urlRequest:URLRequest = new URLRequest("http://www.adobe.com");
+                var urlRequest:URLRequest = new URLRequest("http://www.google.com");
                 mURLMonitor = new URLMonitor(urlRequest);  
                 mURLMonitor.pollInterval = 3000;
                 mURLMonitor.addEventListener(StatusEvent.STATUS, serverConnectionStatusChangeHandler);
@@ -422,7 +436,8 @@
 							 	AccountCreatedEvent="accountCreatedServiceHandler(event)"
 							 	NewCommunityCreatedEvent="newCommunityCreatedServiceHandler(event)"
 							  	AnalyticsReadyEvent="analyticsReadyHandler(event)"
-							  	FailedEvent="failedServiceHandler(event)">
+							  	FailedEvent="failedServiceHandler(event)"
+							  	NewWebsiteCreatedEvent="newWebsiteCreatedHandler(event)">
 	</local:cEngine>
 	<mx:Label x="383" y="5" fontSize="12" textAlign="right" width="442" color="#D1C613" id="mUserNameLabel"/>
 	<mx:Label x="10" y="42" text="Connection Status : Not Connected" id="mConnectionStatusLabel" color="#FF0000" toolTip="Displays internet connection status"/>

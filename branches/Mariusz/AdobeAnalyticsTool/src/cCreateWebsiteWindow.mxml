@@ -113,6 +113,7 @@
 				e.mWebsiteType = websiteType;
 				e.mWebsiteName = mWebsiteNameTextBox.text;
 				e.mWebsiteURL = mWebsiteURLTextBox.text;
+				e.mCommunityGroupId = mCommunityGroupId;
 				this.dispatchEvent(e);
 				this.close();
 			}
@@ -127,6 +128,23 @@
 				this.dispatchEvent(e);
 				this.close();
 			}
+			
+			/**
+			 * 	Function which updates the data members for this window.
+			 */
+			public function updateInformation(communityGroupId:int):void
+			{
+				mCommunityGroupId = communityGroupId;
+			}
+			
+			
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//								DATA MEMBERS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+			private var mCommunityGroupId:int = -1;
 			
 		]]>
 	</mx:Script>

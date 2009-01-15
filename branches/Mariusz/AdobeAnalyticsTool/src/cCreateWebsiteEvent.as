@@ -26,5 +26,7 @@ package
 		public var mWebsiteType:String = "";
 		public var mWebsiteName:String = "";
 		public var mWebsiteURL:String = "";
+		public var mCommunityGroupId:int = -1;
+		public var mUserId:int = -1;
 	}
 }
