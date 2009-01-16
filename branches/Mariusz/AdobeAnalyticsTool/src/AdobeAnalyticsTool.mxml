@@ -3,13 +3,10 @@
 	
 	<mx:Script>
 		<![CDATA[
-			import mx.controls.ProgressBar;
 			import mx.collections.ArrayCollection;		
 			import mx.controls.Alert;
 			import air.net.URLMonitor;
-			
-			// hold user account information
-			private var mAccountInformation:cAccountInformation = null;
+	
 			
 			///////////////////////////////////////////////////////////////////////////////////
 			//
@@ -64,8 +61,8 @@
 			 */
 			private function createWebsiteWindowCloseHandler(event:cCreateWebsiteEvent):void
 			{
-				if(event.mType == event.CREATE_WEBSITE) {					
-					mEngine.insertWebsite(event.mCommunityGroupId, 
+				if(event.mType == event.CREATE_WEBSITE) {			
+					mEngine.insertWebsite(mAccountInformation.mSelectedCommunityId, 
 										  mAccountInformation.mUserId,
 										  event.mWebsiteName,
 										  event.mWebsiteURL,
@@ -81,6 +78,7 @@
 			 */
 			private function openWebsiteCreatorWindowHandler(event:cCreateWebsiteEvent):void
 			{
+				mAccountInformation.mSelectedCommunityId = event.mCommunityGroupId;		
 				var websiteCreatorWindow:cCreateWebsiteWindow = new cCreateWebsiteWindow();
 				websiteCreatorWindow.open(true);
 				websiteCreatorWindow.nativeWindow.x = nativeWindow.x + (nativeWindow.width - websiteCreatorWindow.nativeWindow.width) / 2;
@@ -274,7 +272,7 @@
 			 * 	Event handler which signals to the main window that the engine has recieved
 			 *  website statitics data.
 			 */
-			private function analyticsReadyHandler(event:cAnalysisDataReadyEvent):void
+			private function analyticsReadyServiceHandler(event:cAnalysisDataReadyEvent):void
 			{
 				mLoggedInCanvas.openWebsiteStatsBrowserCanvas(event.mAnalysisParser);
 				
@@ -286,10 +284,18 @@
 			 * 	Event handler which signals to the main window that the engine has recieved
 			 *  website created event.
 			 */
-			private function newWebsiteCreatedHandler(event:cNewWebsiteEvent):void
-			{
-				/* NEEDS WORK !!!!!!! */
-				Alert.show(event.mWebsiteEntry.mName);
+			private function newWebsiteCreatedServiceHandler(event:cNewWebsiteEvent):void
+			{				
+				/* adds the newly website entry to the appropriate community group entry */
+				for(var i:int = 0; i < mAccountInformation.mCommunities.length; i++) {
+					var entry:cCommunityGroupEntry = cCommunityGroupEntry(mAccountInformation.mCommunities.getItemAt(i));
+					if(entry.mId == mAccountInformation.mSelectedCommunityId) {
+						
+						entry.mWebsites.addItem(event.mWebsiteEntry);
+					}
+				}
+				mLoggedInCanvas.updateInformation(mAccountInformation);
+				mLoggedInCanvas.addWebsiteToCommGroupBrowerCanvas(event.mWebsiteEntry);
 				
 				mLoader.stop();
 	            mLoader.visible = false;
@@ -362,8 +368,6 @@
                 mURLMonitor.start();
 			}
 			
-			
-			
 			/**
 			 * 	Event handler triggered when the main window is about to close.
 			 */
@@ -406,6 +410,8 @@
 			//
 			///////////////////////////////////////////////////////////////////////////////////
 			
+			// hold user account information
+			private var mAccountInformation:cAccountInformation = null;
 			// loader used to display a loading status to the user
 			private var mLoader:cLoadingIndicator = new cLoadingIndicator();
 			// object which monitors internet connection for the application
@@ -427,7 +433,9 @@
 	<mx:ViewStack x="10" y="63" id="mMainViewStack" width="1013" height="625" disabledColor="#373737">
 		<local:cLoggedOutCanvas backgroundColor="#FFFFFF" id="mLoggedOutCanvas">
 		</local:cLoggedOutCanvas>
-		<local:cLoggedInCanvas id="mLoggedInCanvas" OpenWebsiteCreatorWindowEvent="openWebsiteCreatorWindowHandler(event)" RequestWebsiteStatsEvent="requestWebsiteStatHandler(event)" CreateCommunityGroupEvent="createCommunityGroupEventHandler(event)">
+		<local:cLoggedInCanvas id="mLoggedInCanvas" OpenWebsiteCreatorWindowEvent="openWebsiteCreatorWindowHandler(event)" 
+													RequestWebsiteStatsEvent="requestWebsiteStatHandler(event)" 
+													CreateCommunityGroupEvent="createCommunityGroupEventHandler(event)">
 		</local:cLoggedInCanvas>
 	</mx:ViewStack>
 	<mx:VRule x="960" y="6" width="3" height="16" id="mSeparator2"/>
@@ -435,9 +443,9 @@
 	<local:cEngine id="mEngine" LoggedInCreatedEvent="loggedInServiceHandler(event)"
 							 	AccountCreatedEvent="accountCreatedServiceHandler(event)"
 							 	NewCommunityCreatedEvent="newCommunityCreatedServiceHandler(event)"
-							  	AnalyticsReadyEvent="analyticsReadyHandler(event)"
+							  	AnalyticsReadyEvent="analyticsReadyServiceHandler(event)"
 							  	FailedEvent="failedServiceHandler(event)"
-							  	NewWebsiteCreatedEvent="newWebsiteCreatedHandler(event)">
+							  	NewWebsiteCreatedEvent="newWebsiteCreatedServiceHandler(event)">
 	</local:cEngine>
 	<mx:Label x="383" y="5" fontSize="12" textAlign="right" width="442" color="#D1C613" id="mUserNameLabel"/>
 	<mx:Label x="10" y="42" text="Connection Status : Not Connected" id="mConnectionStatusLabel" color="#FF0000" toolTip="Displays internet connection status"/>

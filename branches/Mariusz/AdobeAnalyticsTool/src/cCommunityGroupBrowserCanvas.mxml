@@ -5,6 +5,7 @@
 		[Event(name="BackLabelClickedEvent", type="flash.events.Event")]
 		[Event(name="OpenWebsiteStatBrowserCanvasEvent", type="cWebsiteGraphicClickedEvent")]
 		[Event(name="OpenWebsiteCreatorWindowEvent", type="cCreateWebsiteEvent")]
+		[Event(name="EditWebsiteLabelClickedEvent", type="cEditWebsiteEvent")]
 	</mx:Metadata>
 
 	<mx:Script>
@@ -352,6 +353,17 @@
 			}
 			
 			/**
+			 * 	Event handler called when the user clicks on the edit website label whithin this a website graphic.
+			 * 	Fires an event signaling that the user wants to edit the website.
+			 */
+			private function editWebsiteHandler(event:cEditWebsiteEvent):void
+			{
+				var e:cEditWebsiteEvent = new cEditWebsiteEvent("EditWebsiteLabelClickedEvent");
+				// COPY event data members to e
+				this.dispatchEvent(e);
+			}
+			
+			/**
 			 * 
 			 */
 			private function websiteStaticGraphicClickedHandler(event:cWebsiteStaticLargeGraphicClickedEvent):void
@@ -383,6 +395,7 @@
 					var websiteEntry:cWebsiteEntry = cWebsiteEntry(mWebsites.getItemAt(i));
 					var websiteGraphic:cWebsiteDynamicLargeGraphic = new cWebsiteDynamicLargeGraphic();
 					websiteGraphic.addEventListener("cWebsiteGraphicClickedEvent", websiteGraphicClickedHandler);
+					websiteGraphic.addEventListener("cEditWebsiteEvent", editWebsiteHandler);
 					websiteGraphic.updateInformation(websiteEntry.mName,
 												     websiteEntry.mURL,
 												     websiteEntry.mType,
@@ -445,12 +458,27 @@
 			 */
 			private function hideCanvasHandler(event:Event):void
 			{
-				if(!mRemoveWebsitesLabel.enabled) {
-					
+				if(mSmallXRemoveLabel.visible) {
 					mRemoveWebsitesLabel.x = mRemoveWebsitesLabel.x + 50;
+					mEditWebsiteLabel.x = mEditWebsiteLabel.x + 50;
+					mSeparator1.x = mSeparator1.x + 50;
+				}
+				
+				if(mSmallXEditLabel.visible) {
+					mEditWebsiteLabel.x = mEditWebsiteLabel.x + 30;
+				}
+				
+				if(mSmallXRemoveLabel.visible || mSmallXEditLabel.visible) {
 					mRemoveWebsitesLabel.setStyle("color", "0x11d30c");
+					mEditWebsiteLabel.setStyle("color", "0x11d30c");
 					mSmallXRemoveLabel.visible = false;	
+					mSmallXEditLabel.visible = false;	
 					mRemoveWebsitesLabel.enabled = true;
+					mSeparator1.enabled = true;
+					mEditWebsiteLabel.enabled = true;
+					mMyWebsitesAllWebsitesVBox.enabled = true;
+					mMyWebsitesVBox.setStyle("backgroundColor", "0xffffff");
+					mMyWebsitesAllWebsitesVBox.setStyle("backgroundColor", "0xffffff");
 				}
 			}
 			
@@ -462,7 +490,7 @@
 			///////////////////////////////////////////////////////////////////////////////////
 			
 			/**
-			 * 
+			 * 	Updates the internal information of this object.
 			 */
 			public function updateInformation(commGroupName:String,
 										      commGroupId:int,
@@ -475,6 +503,29 @@
 				mCreator = creator;
 				mDateCreated = dateCreated;
 				mWebsites = websites;
+			}
+			
+			/**
+			 * 	Inserts a website into the two VBoxes which reside in this canvas at the 0th index.
+			 */
+			public function addWebsiteToVBoxes(websiteEntry:cWebsiteEntry):void {
+				
+				var websiteGraphic:cWebsiteDynamicLargeGraphic = new cWebsiteDynamicLargeGraphic();
+				websiteGraphic.addEventListener("cWebsiteGraphicClickedEvent", websiteGraphicClickedHandler);
+				websiteGraphic.addEventListener("cEditWebsiteEvent", editWebsiteHandler);
+				websiteGraphic.updateInformation(websiteEntry.mName,
+											     websiteEntry.mURL,
+											     websiteEntry.mType,
+											     websiteEntry.mCreatedTime.toString());
+				mMyWebsitesVBox.addChildAt(websiteGraphic, 0);
+				
+				var websiteStaticGraphic:cWebsiteStaticLargeGraphic = new cWebsiteStaticLargeGraphic();
+				websiteStaticGraphic.addEventListener("cWebsiteStaticLargeGraphicClickedEvent", websiteStaticGraphicClickedHandler);
+				websiteStaticGraphic.updateInformation(websiteEntry.mName,
+											     	   websiteEntry.mURL,
+											           websiteEntry.mType,
+											           websiteEntry.mCreatedTime.toString());
+				mMyWebsitesAllWebsitesVBox.addChildAt(websiteStaticGraphic, 0);	
 			}
 			
 			

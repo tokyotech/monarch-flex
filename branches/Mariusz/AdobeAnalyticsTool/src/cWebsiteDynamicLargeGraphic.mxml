@@ -3,6 +3,7 @@
 
 	<mx:Metadata>
 		[Event(name="WebsiteGraphicClickedEvent", type="cWebsiteGraphicClickedEvent")]
+		[Event(name="EditWebsiteLabelClickedEvent", type="cEditWebsiteEvent")]
 	</mx:Metadata>
 
 	<mx:Script>
@@ -68,7 +69,9 @@
 			 */
 			private function editWebsiteLabelClickHandler(event:Event):void
 			{
-				Alert.show("Edit Clicked")
+				var e:cEditWebsiteEvent = new cEditWebsiteEvent("cEditWebsiteEvent");
+				
+				this.dispatchEvent(e);
 			}
 			
 			

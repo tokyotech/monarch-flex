@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="1012" height="577">
+	<mx:Metadata>
+		[Event(name="BackLabelClickedEvent", type="flash.events.Event")]
+	</mx:Metadata>
+	
+	<mx:Script>
+		<![CDATA[
+			
+			/**
+			 * 	Called when the user clicks on the edit label.
+			 */
+			private function backLabelClickHandler(event:Event):void
+			{
+				var e:Event = new Event("BackLabelClickedEvent");
+				this.dispatchEvent(e);
+			}
+			
+			/**
+			 * 	Called when the user hovers the mouse over the back label.
+			 */
+			private function backLabelRollOverHandler(event:Event):void
+			{
+				mBackLabel.setStyle("color", "0xFF6666");
+			}
+			
+			/**
+			 * 	Called when the user hovers the mouse away from the back label.
+			 */
+			private function backLabelRollOutHandler(event:Event):void
+			{
+				mBackLabel.setStyle("color", "0x11d30c");
+			}
+			
+		]]>
+	</mx:Script>
+	<mx:Label x="398.5" y="13" text="Regular Expression Editor" fontFamily="Times New Roman" fontSize="20" textDecoration="normal" color="#BEBEBE" alpha="1.0" id="mRegExCanvasTitleLabel" textAlign="center" fontWeight="normal" fontStyle="normal"/>
+	<mx:Label x="10" y="17" text="Back" color="#11D30C" fontSize="14" textDecoration="underline" id="mBackLabel" click="backLabelClickHandler(event)" rollOut="backLabelRollOutHandler(event)" rollOver="backLabelRollOverHandler(event)"/>
+	
+</mx:Canvas>

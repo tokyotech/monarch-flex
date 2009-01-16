@@ -4,6 +4,7 @@
 		[Event(name="CreateCommunityGroupEvent", type="cCreateCommunityGroupEvent")]
 		[Event(name="RequestWebsiteStatsEvent", type="cWebsiteGraphicClickedEvent")]
 		[Event(name="OpenWebsiteCreatorWindowEvent", type="cCreateWebsiteEvent")]
+		[Event(name="EditWebsiteLabelClickedEvent", type="cEditWebsiteEvent")]
 	</mx:Metadata>
 	
 	<mx:Script>
@@ -26,9 +27,17 @@
 			}
 			
 			/**
-			 * Function which switches the mMyCommViewStack index to 3 (website browser).
+			 * Function which switches the mMyCommViewStack index to 2 (website browser).
 			 */
 			private function WebsiteBrowserBackClickedHandler(event:Event):void
+			{
+				mMyCommViewStack.selectedIndex = 2;
+			}
+			
+			/**
+			 * 	Function which switches the mMyCommViewStack index to 2 (website browser).
+			 */
+			private function RegularExpressionEditorBackClickedHandler(event:Event):void
 			{
 				mMyCommViewStack.selectedIndex = 2;
 			}
@@ -116,6 +125,14 @@
 				mMyCommViewStack.selectedIndex = 0;
 			}
 			
+			/**
+			 *	 Detects a request to open the regular expression editor canvas.
+			 */
+			private function editWebsiteLabelClickedHandler(event:cEditWebsiteEvent):void
+			{
+				mMyCommViewStack.selectedIndex = 4;
+			}
+			
 			
 			///////////////////////////////////////////////////////////////////////////////////
 			//
@@ -143,6 +160,13 @@
 															 mWebsiteSelectedURL,
 															 mWebsiteSelectedType,
 															 mWebsiteSelectedCreatedTime);
+			}
+			
+			/**
+			 * 	Calls the addWebsiteToVBoxes function in the cCommunityGroupBrowserCanvas.
+			 */
+			public function addWebsiteToCommGroupBrowerCanvas(websiteEntry:cWebsiteEntry):void {
+				mCommunityGroupBrowserCanvas.addWebsiteToVBoxes(websiteEntry);
 			}
 			
 			/**
@@ -183,10 +207,12 @@
 			</local:cMyCommHomeCanvas>
 			<local:cCreateCommunityGroupCanvas id="mCreateCommunityGroupCanvas" CreateCommunityGroupEvent="createCommunityGroupHandler(event)" BackLabelClickedEvent="createCommBackLabelClickedHandler(event)" height="577" width="1003">
 			</local:cCreateCommunityGroupCanvas>
-			<local:cCommunityGroupBrowserCanvas id="mCommunityGroupBrowserCanvas" OpenWebsiteCreatorWindowEvent="openWebsiteCreatorWindowHandler(event)" OpenWebsiteStatBrowserCanvasEvent="openWebsiteStatBrowserCanvasHandler(event)" BackLabelClickedEvent="createCommBackLabelClickedHandler(event)">
+			<local:cCommunityGroupBrowserCanvas id="mCommunityGroupBrowserCanvas" EditWebsiteLabelClickedEvent="editWebsiteLabelClickedHandler(event)" OpenWebsiteCreatorWindowEvent="openWebsiteCreatorWindowHandler(event)" OpenWebsiteStatBrowserCanvasEvent="openWebsiteStatBrowserCanvasHandler(event)" BackLabelClickedEvent="createCommBackLabelClickedHandler(event)">
 			</local:cCommunityGroupBrowserCanvas>
 			<local:cWebsiteStatsBrowserCanvas id="mWebsiteStatsBrowserCanvas" BackLabelClickedEvent="WebsiteBrowserBackClickedHandler(event)">
 			</local:cWebsiteStatsBrowserCanvas>
+			<local:cRegularExpressionEditorCanvas id="mRegularExpressionEditorCanvas" BackLabelClickedEvent="RegularExpressionEditorBackClickedHandler(event)">
+			</local:cRegularExpressionEditorCanvas>
 		</mx:ViewStack>
 		<mx:ViewStack id="mAllCommViewStack" label="All Community Groups" width="1013" height="585">
 			<mx:Canvas label="All Community Groups" width="100%" height="100%" backgroundColor="#00D8FF">
