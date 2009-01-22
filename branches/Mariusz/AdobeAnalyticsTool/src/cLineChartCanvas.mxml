@@ -26,48 +26,167 @@
 			/**
 			 * 
 			 */
-			public function updateInformation(analyticsParser:cAnalyticsParser):void
-			{				
-				mLineChart.setStyle("color", "0xEEEEEE");
-				mLineChart.setStyle("fontSize", "12");
-				mLineChart.showDataTips = true;
+			public function updateInformation(analyticsParser:cAnalyticsParser,
+											  statOptionSelected:cStatOptionSelectedEvent):void
+			{			
+				if(statOptionSelected == null) { return; }
+
+								
+				var mLineGraphData:Array = new Array();
+			
+				// set the text and axis color and font
+				this.mLineChart.setStyle("color", "Black");
+				this.mLineChart.setStyle("fontSize", "12");
+				this.mLineChart.showDataTips = true;
 				
-				var seriesCollection:Array = new Array();
-				var series:LineSeries = new LineSeries();
-				var stroke:Stroke = new Stroke();
-				
-        		stroke.color = 0xFF0000;
-        		stroke.weight = 3;
- 				series.setStyle("lineStroke", stroke);
-        		series.xField = "";
-        		series.yField = "";  
-        		series.displayName = "Hello"; 
-				
-				seriesCollection.push(series);
-				
-				// set vertical and horizontal axis properties
 				var vAxis:LinearAxis = new LinearAxis();
-				vAxis.title = "Keywords";
-				vAxis.displayName = "";
-				vAxis.maximum = 1;		
-				mLineChart.verticalAxis = vAxis;
+				vAxis.title = statOptionSelected.mTitle;
+				vAxis.displayName = statOptionSelected.mDisplayName;
+				//vAxis.maximum = yScale;		
+				vAxis.minimum = -3;
+				vAxis.maximum = 3;
+				this.mLineChart.verticalAxis = vAxis;
 				
 				var hAxis:LinearAxis = new LinearAxis();
-				hAxis.title = "Time";
-				hAxis.displayName = "Trend (Days)";
-				//hAxis.maximum = xScale;
-				hAxis.minimum = 1228950994
-				hAxis.maximum = 1229107651;
-				mLineChart.horizontalAxis = hAxis;
 				
-				// date stuff
-				var date:Date = new Date(1228950994*1000);
-				var D:Number = date.getDate();
-				var M:Number = date.getMonth()+ 1; //because Returns the month (0 for January, 1 for February, and so on)
-				var Y:Number = date.getFullYear();
+				if(statOptionSelected.mTimeSpan == statOptionSelected.TIME_SPAN_1_WEEK) {
+					hAxis.displayName = "Trend (Past 1 Week)";
+					hAxis.title = "Time (Past 1 Week)";
+				}
+				else if (statOptionSelected.mTimeSpan == statOptionSelected.TIME_SPAN_2_WEEKS) {
+					hAxis.displayName = "Trend (Past 2 Weeks)";
+					hAxis.title = "Time (Past 2 Weeks)";
+				}
+				else if(statOptionSelected.mTimeSpan == statOptionSelected.TIME_SPAN_1_MONTH) {
+					hAxis.displayName = "Trend (Past 1 Month)";
+					hAxis.title = "Time (Past 1 Month)";
+				}
+				else if(statOptionSelected.mTimeSpan == statOptionSelected.TIME_SPAN_6_MONTHS) {
+					hAxis.displayName = "Trend (Past 6 Months)";
+					hAxis.title = "Time (Past 6 Months)";
+				}
+				else if(statOptionSelected.mTimeSpan == statOptionSelected.TIME_SPAN_9_MONTHS) {
+					hAxis.displayName = "Trend (Past 9 Months)";
+					hAxis.title = "Time (Past 9 Months)";
+				}
+				else if(statOptionSelected.mTimeSpan == statOptionSelected.TIME_SPAN_1_YEAR) {
+					hAxis.displayName = "Trend (Past 1 Year)";
+					hAxis.title = "Time (Past 1 Year)";
+				}
+				
+				//hAxis.maximum = xScale;
+				this.mLineChart.horizontalAxis = hAxis;
+				
+				var seriesCollection:Array = new Array();
+				if(statOptionSelected.mType == statOptionSelected.KEYWORD_GOODNESS ||
+				   statOptionSelected.mType == statOptionSelected.LINK_PROFICIENCY ||
+				   statOptionSelected.mType == statOptionSelected.KEYWORD_COUNT ||
+				   statOptionSelected.mType == statOptionSelected.KEYWORD_OVERALL_POSITIVITY)
+				{
+					for(var i:int = 0; i < analyticsParser.mKeywordData.length; i++)
+					{
+						var series:LineSeries = new LineSeries();
+						var keyword:cKeywordAnalyticsEntry = cKeywordAnalyticsEntry(analyticsParser.mKeywordData.getItemAt(i));
+						
+						var x:Number, j:int, y:Number, timeStamp:int;
+						
+						if(statOptionSelected.mType == statOptionSelected.KEYWORD_GOODNESS) {
+							for(j = 0; j < keyword.mTimeCollection.length; j++) {
+								
+								y = Number(keyword.mGoodnessCollection.getItemAt(j));	
+	
+								timeStamp = (int(keyword.mTimeCollection.getItemAt(j)));
+								var currDate:Date = new Date(int(timeStamp)*1000); 
+								var theDate:String = ((currDate.getMonth()+ 1) + "/" + currDate.getDate() + "/" + currDate.getFullYear());
 
-				var curr:String = (M + "/" + D + "/" + Y);
-				//Alert.show(curr);
+								// stats from one week to date
+								if(statOptionSelected.mTimeSpan == statOptionSelected.TIME_SPAN_1_WEEK) {
+									//var day:int = currDate.getDay();
+									var day:String = dayIntToString(currDate.getDay());
+									mLineGraphData.push({(i.toString()):day, ((i+1).toString()):y});
+									
+								}
+										
+								
+							}	
+						}
+						else if(statOptionSelected.mType == statOptionSelected.KEYWORD_PROFICIENCY) {
+							for(j = 0; j < keyword.mTimeCollection.length; j++) {
+								//x = j + 1;
+								x = (Number(keyword.mTimeCollection.getItemAt(j)));
+								y = Number(keyword.mEnglishProficiencyCollection.getItemAt(j));
+								mLineGraphData.push({(i.toString()):x, ((i+1).toString()):y});
+							}	
+						}	
+						else if(statOptionSelected.mType == statOptionSelected.KEYWORD_COUNT) {
+							for(j = 0; j < keyword.mTimeCollection.length; j++) {
+								//x = j + 1;
+								x = (Number(keyword.mTimeCollection.getItemAt(j)));
+								y = Number(keyword.mCountCollection.getItemAt(j));
+								mLineGraphData.push({(i.toString()):x, ((i+1).toString()):y});
+							}	
+						}	
+						else if(statOptionSelected.mType == statOptionSelected.KEYWORD_OVERALL_POSITIVITY) {
+							for(j = 0; j < keyword.mTimeCollection.length; j++) {
+								//x = j + 1;
+								/*x = (Number(keyword.mTimeCollection.getItemAt(j)));
+								y = Number(keyword.mGoodnessCollection.getItemAt(j)) * goodnessWeight + 
+								    Number(keyword.mEnglishProficiencyCollection.getItemAt(j)) * englishProWeight +
+								    Number(keyword.mCountCollection.getItemAt(j));
+								mLineGraphData.push({(i.toString()):x, ((i+1).toString()):y});*/
+							}	
+						}			
+					
+						var stroke:Stroke = new Stroke();
+		        		stroke.color = 0xF8DFF6 >> (i*3);
+		        		stroke.weight = 3;
+		 				series.setStyle("lineStroke", stroke);
+		        		series.xField = i.toString();
+		        		series.yField = (i+1).toString();  
+		        		series.displayName = keyword.mName; 
+						
+						seriesCollection.push(series);
+					}
+				}
+	
+					
+				this.mLineChart.series = seriesCollection;
+				this.mLineChart.dataProvider = mLineGraphData;
+					
+				
+				this.mLineChartLegend.dataProvider = this.mLineChart;
+				this.mLineChartLegend.toolTip = "Not Available";
+			}
+			
+			/**
+			 * 	Converts an interger representation of a day to a that of a string.
+			 */
+			private function dayIntToString(day:int):String
+			{
+				if(day == 0) {
+					return "Monday";
+				}
+				else if(day == 1) {
+					return "Tuesday";
+				}
+				else if(day == 2) {
+					return "Wedesday";
+				}
+				else if(day == 3) {
+					return "Thursday";
+				}
+				else if(day == 4) {
+					return "Friday";
+				}
+				else if(day == 5) {
+					return "Saturday";
+				}
+				else if(day == 6) {
+					return "Sunday";
+				}
+				else {
+					return "Unknown";
+				}
 			}
 			
 			
@@ -85,6 +204,6 @@
 			<mx:LineSeries displayName="Series 1"/>
 		</mx:series>
 	</mx:LineChart>
-	<mx:Legend dataProvider="{mLineChart}" x="0" y="409" width="815" height="29" color="#DEDEDE"/>
+	<mx:Legend dataProvider="{mLineChart}" x="0" y="409" width="815" height="29" color="#DEDEDE" id="mLineChartLegend"/>
 	
 </mx:Canvas>

@@ -2,7 +2,7 @@
 <mx:Accordion xmlns:mx="http://www.adobe.com/2006/mxml" width="169" height="463" alpha="0.4" borderColor="#C1C1C1">
 	
 	<mx:Metadata>
-		
+		[Event(name="StatOptionSelectedEvent", type="cStatOptionSelectedEvent")]
 	</mx:Metadata>
 	
 	<mx:Script>
@@ -21,6 +21,11 @@
 			private function keywordGoodnessRadioButtonChangeHandler(event:Event):void
 			{
 				disableKeywordOverallProficiencyWeightGUI();
+				var e:cStatOptionSelectedEvent = new cStatOptionSelectedEvent("StatOptionSelectedEvent");
+				e.mType = e.KEYWORD_GOODNESS;
+				e.mTitle = "Keyword Goodness";
+				e.mDisplayName = "Keyword Goodness Rating";
+				this.dispatchEvent(e);
 			}
 			
 			/**
@@ -28,7 +33,12 @@
 			 */
 			private function keywordProficiencyRadioButtonChangeHandler(event:Event):void
 			{
-				disableKeywordOverallProficiencyWeightGUI();	
+				disableKeywordOverallProficiencyWeightGUI();
+				var e:cStatOptionSelectedEvent = new cStatOptionSelectedEvent("StatOptionSelectedEvent");
+				e.mType = e.KEYWORD_PROFICIENCY;
+				e.mTitle = "Keyword Proficiency";
+				e.mDisplayName = "Keyword Proficiency Rating";
+				this.dispatchEvent(e);	
 			}
 			
 			/**
@@ -37,6 +47,11 @@
 			private function keywordCountRadioButtonChangeHandler(event:Event):void
 			{
 				disableKeywordOverallProficiencyWeightGUI();
+				var e:cStatOptionSelectedEvent = new cStatOptionSelectedEvent("StatOptionSelectedEvent");
+				e.mType = e.KEYWORD_COUNT;
+				e.mTitle = "Keyword Count";
+				e.mDisplayName = "Keyword Count";
+				this.dispatchEvent(e);	
 			}
 			
 			/**
@@ -45,6 +60,11 @@
 			private function keywordOverallRadioButtonChangeHandler(event:Event):void
 			{
 				enableKeywordOverallProficiencyWeightGUI();
+				var e:cStatOptionSelectedEvent = new cStatOptionSelectedEvent("StatOptionSelectedEvent");
+				e.mType = e.KEYWORD_OVERALL_POSITIVITY;
+				e.mTitle = "Keyword Overall Positivity";
+				e.mDisplayName = "Keyword Overall Positivity";
+				this.dispatchEvent(e);	
 			}
 			
 			/**

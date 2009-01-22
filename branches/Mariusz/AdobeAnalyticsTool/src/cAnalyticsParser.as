@@ -24,30 +24,68 @@ package
 		 */
 		public function cAnalyticsParser(xmlTree:XML):void
 		{						
-			/*var  analysisInformationList:XMLListCollection = new XMLListCollection(xmlTree.elements("Information"));
+			var  analysisInformationList:XMLListCollection = new XMLListCollection(xmlTree.elements("Information"));
 			if(analysisInformationList.children().length() > 0) {    				
 				var communityId:int = int(analysisInformationList.elements("communityId"));
 				var websiteName:String = analysisInformationList.elements("websiteName").toString();
 				
 				var  keywordsList:XMLListCollection = new XMLListCollection(xmlTree.elements("Keywords"));
 				var i:int, j:int, k:int;
-				for(i = 0; i < keywordsList.children().length(); i++)
+				//for(i = 0; i < keywordsList.children().length(); i++)
+				for(i = 0; i < 2; i++) // REMOVE
 				{		
-					var keywordList:XMLListCollection = new XMLListCollection(keywordsList.elements("Keyword" + i));
+					//var keywordList:XMLListCollection = new XMLListCollection(keywordsList.elements("Keyword" + i));
 					
-					for(j = 0; j < keywordList.children().length(); j=+2)
+					//for(j = 0; j < keywordList.children().length(); j=+2)
+					for(j = 0; j < 1; j=+2) // REMOVE
 					{		
-						var keywordInformationList:XMLListCollection = new XMLListCollection(keywordList.elements("KeywordInformation"));
-						var keywordName:String = keywordInformationList.elements("keywordName");	
+						//var keywordInformationList:XMLListCollection = new XMLListCollection(keywordList.elements("KeywordInformation"));
+						//var keywordName:String = keywordInformationList.elements("keywordName");	
 						
-						var dataList:XMLListCollection = new XMLListCollection(keywordList.elements("Data"));
+						//var dataList:XMLListCollection = new XMLListCollection(keywordList.elements("Data"));
 						
 						var timeCollection:ArrayCollection = new ArrayCollection();
 						var countCollection:ArrayCollection = new ArrayCollection();
 						var goodnessCollection:ArrayCollection = new ArrayCollection();
 						var englishProficiencyCollection:ArrayCollection = new ArrayCollection();
 						
-						for(k = 0; k < dataList.children().length(); k++)
+						var keywordName:String = "Keyword : " + i;
+						
+						// REMOVE \/ \/ \/ \/ //
+						var time:int = 1228522900;
+						var count:int = 120;
+						var goodness:Number = 0.89;
+						var englishProficiency:Number = 0.88;
+						
+						timeCollection.addItem(time);
+						countCollection.addItem(count);
+						goodnessCollection.addItem(goodness);
+						englishProficiencyCollection.addItem(englishProficiency);
+						
+						var time:int = 1332136896;
+						var count:int = 89;
+						var goodness:Number = 0.4;
+						var englishProficiency:Number = 0.78;
+						
+						// store the metrics in their appropriate collections
+						timeCollection.addItem(time);
+						countCollection.addItem(count);
+						goodnessCollection.addItem(goodness);
+						englishProficiencyCollection.addItem(englishProficiency);
+						
+						var time:int = 1428828193;
+						var count:int = 90;
+						var goodness:Number = 0.56;
+						var englishProficiency:Number = 1.1;
+						
+						// store the metrics in their appropriate collections
+						timeCollection.addItem(time);
+						countCollection.addItem(count);
+						goodnessCollection.addItem(goodness);
+						englishProficiencyCollection.addItem(englishProficiency);
+						// ^^^^^^ REMOVE //
+						
+						/*for(k = 0; k < dataList.children().length(); k++)
 						{
 							var statInformationList:XMLListCollection = new XMLListCollection(dataList.elements("Stat" + k));
 						
@@ -61,7 +99,7 @@ package
 							countCollection.addItem(count);
 							goodnessCollection.addItem(goodness);
 							englishProficiencyCollection.addItem(englishProficiency);
-						}
+						}*/
 						var keywordAnalyticsEntry:cKeywordAnalyticsEntry = new cKeywordAnalyticsEntry(0,
 																									  keywordName,
 																									  timeCollection,
@@ -118,16 +156,16 @@ package
 				}
 				
 				// now poluate the 10 post popular links based on count value
-				for(i = 0; i < mLinksData.length; i++)
+				/*for(i = 0; i < mLinksData.length; i++)
 				{
 					var link:cLinkAnalyticsEntry = cLinkAnalyticsEntry(mLinksData.getItemAt(i));
 					
-					link.
 					
-				}
+					
+				}*/
 				
 				
-			} // end if*/
+			} // end if
 		} // end function
 		
 		
