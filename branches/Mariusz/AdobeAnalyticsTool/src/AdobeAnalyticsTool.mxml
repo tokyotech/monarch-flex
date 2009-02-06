@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="creationCompleteHandler(event)" close="closeHandler(event)" layout="absolute" width="1030" height="700" title="Adobe Community Analytics" minHeight="710" minWidth="1035" maxHeight="710" maxWidth="1035" showGripper="false" backgroundImage="@Embed(source='../images/background.jpg')" borderColor="#3C3C3C" backgroundGradientAlphas="[1.0, 1.0]" color="#5D5D5D" backgroundGradientColors="[#D7D7D7, #515151]" alpha="0.93" backgroundColor="#000000" cornerRadius="12" xmlns:local="*">
+<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="creationCompleteHandler(event)" close="closeHandler(event)" layout="absolute" width="1040" height="710" title="Adobe Community Analytics" showGripper="false" backgroundImage="@Embed(source='../images/background.jpg')" borderColor="#3C3C3C" backgroundGradientAlphas="[1.0, 1.0]" color="#5D5D5D" backgroundGradientColors="[#D7D7D7, #515151]" alpha="0.93" backgroundColor="#000000" cornerRadius="12" xmlns:local="*">
 	
 	<mx:Script>
 		<![CDATA[
@@ -114,7 +114,7 @@
 			private function signOutRollOverHandler(event:Event):void
 			{
 				if(mConnectedToInternet) {
-					mSignOutLabel.setStyle("color", "0xFF6666");
+					mSignOutButton.setStyle("color", "0xFF6666");
 				}
 			}
 			
@@ -124,7 +124,7 @@
 			private function signOutRollOutHandler(event:Event):void
 			{
 				if(mConnectedToInternet) {
-					mSignOutLabel.setStyle("color", "0x11d30c");
+					mSignOutButton.setStyle("color", "0x11d30c");
 				}
 			}
 			
@@ -134,7 +134,7 @@
 			private function createAccountRollOverHandler(event:Event):void
 			{
 				if(mConnectedToInternet) {
-					mCreateAccountLabel.setStyle("color", "0xFF6666");
+					mCreateAccountButton.setStyle("color", "0xFF6666");
 				}
 			}
 			
@@ -144,7 +144,7 @@
 			private function createAccountRollOutHandler(event:Event):void
 			{
 				if(mConnectedToInternet) {
-					mCreateAccountLabel.setStyle("color", "0x11d30c");
+					mCreateAccountButton.setStyle("color", "0x11d30c");
 				}
 			}
 			
@@ -155,8 +155,9 @@
 			{
 				if(mConnectedToInternet) {
 					mSignInLabel.visible = true;
-					mSignOutLabel.visible = false;
-					mFullNameSeparator.visible = false;
+					mSignOutButton.visible = false;
+					mSeparator2.visible = true;
+					mCreateAccountButton.visible = true;
 					mUserNameLabel.text = "";
 					mMainViewStack.selectedIndex = 0;
 					Alert.show("You successfully logged out of your account.", "Log Out Successful");
@@ -393,8 +394,9 @@
 													   			 communities:ArrayCollection):void
 			{
 				mSignInLabel.visible = false;
-				mSignOutLabel.visible = true;
-				mFullNameSeparator.visible = true;
+				mSignOutButton.visible = true;
+				mSeparator2.visible = false;
+				mCreateAccountButton.visible = false;
 				mUserNameLabel.text = "WELCOME " + fullName
 				mAccountInformation = new cAccountInformation(fullName,
 															  userName,
@@ -422,15 +424,10 @@
 		]]>
 	</mx:Script>
 	
-	<mx:HRule x="10" y="60" width="1013" height="7" strokeColor="#606060" id="mHRule1"/>
-	<mx:Text x="10" y="4" text="ADOBE&#xd;" fontSize="20" color="#F70202" textAlign="center" fontWeight="bold" fontFamily="Verdana" width="87" id="mADOBEText"/>
-	<mx:Text x="98" y="12" text="Community Analytics" fontSize="12" color="#1C94B2" id="mCommunityAnalyticsText"/>
-	<mx:Label x="974" y="5" text="Sign In" rollOver="signInRollOverHandler(event)" rollOut="signInRollOutHandler(event)" click="signInClickHandler(event)" id="mSignInLabel" color="#0CE10C" fontSize="12" textDecoration="underline" toolTip="Sign in into a user account"/>
-	<mx:Label x="970" y="5" text="Sign Out" rollOver="signOutRollOverHandler(event)" rollOut="signOutRollOutHandler(event)" click="signOutClickHandler(event)" id="mSignOutLabel" color="#0CE10C" fontSize="12" textDecoration="underline" visible="false" toolTip="Sign out of your account"/>
-	<mx:Label text="Create Account" rollOver="createAccountRollOverHandler(event)" rollOut="createAccountRollOutHandler(event)" click="createAccountClickHandler(event)" id="mCreateAccountLabel" color="#0CE10C" fontSize="12" textDecoration="underline" x="848" y="5" toolTip="Create a new user aacount"/>
-	<mx:TextInput x="762" y="34" width="212" text="Search..." id="mSearchTextBox" toolTip="Search for a community group"/>
-	<mx:Button x="982" y="34" label="Go" color="#ECECEC"/>
-	<mx:ViewStack x="10" y="63" id="mMainViewStack" width="1013" height="625" disabledColor="#373737">
+	<mx:HRule width="1013" height="7" strokeColor="#606060" id="mHRule1" horizontalCenter="2" verticalCenter="-286"/>
+	<mx:Text text="ADOBE&#xd;" fontSize="20" color="#F70202" textAlign="center" fontWeight="bold" fontFamily="Verdana" width="87" id="mADOBEText" horizontalCenter="-461" verticalCenter="-330"/>
+	<mx:Text text="Community Analytics" fontSize="12" color="#1C94B2" id="mCommunityAnalyticsText" horizontalCenter="-349" verticalCenter="-327"/>
+	<mx:ViewStack id="mMainViewStack" width="1013" height="625" disabledColor="#373737" horizontalCenter="2" verticalCenter="26">
 		<local:cLoggedOutCanvas backgroundColor="#FFFFFF" id="mLoggedOutCanvas">
 		</local:cLoggedOutCanvas>
 		<local:cLoggedInCanvas id="mLoggedInCanvas" OpenWebsiteCreatorWindowEvent="openWebsiteCreatorWindowHandler(event)" 
@@ -438,8 +435,7 @@
 													CreateCommunityGroupEvent="createCommunityGroupEventHandler(event)">
 		</local:cLoggedInCanvas>
 	</mx:ViewStack>
-	<mx:VRule x="960" y="6" width="3" height="16" id="mSeparator2"/>
-	<mx:VRule x="832" y="7" width="3" height="16" id="mFullNameSeparator" visible="false"/>
+	<mx:VRule width="3" height="16" id="mSeparator2" horizontalCenter="427" verticalCenter="-330"/>
 	<local:cEngine id="mEngine" LoggedInCreatedEvent="loggedInServiceHandler(event)"
 							 	AccountCreatedEvent="accountCreatedServiceHandler(event)"
 							 	NewCommunityCreatedEvent="newCommunityCreatedServiceHandler(event)"
@@ -447,6 +443,9 @@
 							  	FailedEvent="failedServiceHandler(event)"
 							  	NewWebsiteCreatedEvent="newWebsiteCreatedServiceHandler(event)">
 	</local:cEngine>
-	<mx:Label x="383" y="5" fontSize="12" textAlign="right" width="442" color="#D1C613" id="mUserNameLabel"/>
-	<mx:Label x="10" y="42" text="Connection Status : Not Connected" id="mConnectionStatusLabel" color="#FF0000" toolTip="Displays internet connection status"/>
+	<mx:Label fontSize="12" textAlign="right" width="442" color="#D1C613" id="mUserNameLabel" horizontalCenter="283" verticalCenter="-303"/>
+	<mx:Label text="Connection Status : Not Connected" id="mConnectionStatusLabel" color="#FF0000" toolTip="Displays internet connection status" horizontalCenter="-404" verticalCenter="-302" textAlign="left"/>
+	<mx:Button label="Create Account" rollOver="createAccountRollOverHandler(event)" rollOut="createAccountRollOutHandler(event)" click="createAccountClickHandler(event)" id="mCreateAccountButton" color="#0CE10C" alpha="0.5" horizontalCenter="360" verticalCenter="-329"/>
+	<mx:Button label="Sign In" rollOver="signInRollOverHandler(event)" rollOut="signInRollOutHandler(event)" click="signInClickHandler(event)" id="mSignInLabel" color="#0CE10C" alpha="0.5" horizontalCenter="471" verticalCenter="-330"/>
+	<mx:Button rollOver="signOutRollOverHandler(event)" rollOut="signOutRollOutHandler(event)" click="signOutClickHandler(event)" label="Sign Out"  color="#0CE10C" alpha="0.5" id="mSignOutButton" visible="false" horizontalCenter="467" verticalCenter="-330"/>
 </mx:WindowedApplication>

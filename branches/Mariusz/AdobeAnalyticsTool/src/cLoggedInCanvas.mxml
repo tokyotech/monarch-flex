@@ -81,7 +81,8 @@
 															   event.mCommGroupId,
 															   event.mCreator,
 															   event.mTime.toString(),
-															   event.mWebsites);
+															   event.mWebsites,
+															   event.mKeywords);
 			}
 			
 			/**
@@ -154,19 +155,19 @@
 			 */
 			public function openWebsiteStatsBrowserCanvas(analyticsParser:cAnalyticsParser):void
 			{
-				mMyCommViewStack.selectedIndex = 3;
-				mWebsiteStatsBrowserCanvas.updateInformation(analyticsParser,
+				//mMyCommViewStack.selectedIndex = 3;
+				/*mWebsiteStatsBrowserCanvas.updateInformation(analyticsParser,
 															 mWebsiteSelectedName,
 															 mWebsiteSelectedURL,
 															 mWebsiteSelectedType,
-															 mWebsiteSelectedCreatedTime);
+															 mWebsiteSelectedCreatedTime);*/
 			}
 			
 			/**
 			 * 	Calls the addWebsiteToVBoxes function in the cCommunityGroupBrowserCanvas.
 			 */
 			public function addWebsiteToCommGroupBrowerCanvas(websiteEntry:cWebsiteEntry):void {
-				mCommunityGroupBrowserCanvas.addWebsiteToVBoxes(websiteEntry);
+				//mCommunityGroupBrowserCanvas.addWebsiteToVBoxes(websiteEntry);
 			}
 			
 			/**
@@ -199,18 +200,14 @@
 				
 		]]>
 	</mx:Script>
-	
-	<mx:HRule x="0" y="33" width="1013" height="7" strokeColor="#606060" id="mHRule1"/>
-	<mx:ViewStack x="0" y="40" id="mNavigatorViewStack" width="1013" height="585">
-		<mx:ViewStack id="mMyCommViewStack" label="My Community Groups" width="1013" height="585">
-			<local:cMyCommHomeCanvas id="mMyCommHomeCanvas" show="showCanvasHandler(event)" OpenCommunityGroupBrowserCanvasEvent="openCommunityGroupBrowserCanvasHandler(event)" OpenCreateCommunityGroupCanvasEvent="openCreateCommGroupCanvasHandler(event)" label="My Community Groups" height="577" width="1012">
+	<mx:ViewStack x="0" y="0" id="mNavigatorViewStack" width="1013" height="625">
+		<mx:ViewStack id="mMyCommViewStack" label="My Community Groups" width="1013" height="625">
+			<local:cMyCommHomeCanvas id="mMyCommHomeCanvas" show="showCanvasHandler(event)" OpenCommunityGroupBrowserCanvasEvent="openCommunityGroupBrowserCanvasHandler(event)" OpenCreateCommunityGroupCanvasEvent="openCreateCommGroupCanvasHandler(event)" label="My Community Groups" height="616" width="1012">
 			</local:cMyCommHomeCanvas>
 			<local:cCreateCommunityGroupCanvas id="mCreateCommunityGroupCanvas" CreateCommunityGroupEvent="createCommunityGroupHandler(event)" BackLabelClickedEvent="createCommBackLabelClickedHandler(event)" height="577" width="1003">
 			</local:cCreateCommunityGroupCanvas>
-			<local:cCommunityGroupBrowserCanvas id="mCommunityGroupBrowserCanvas" EditWebsiteLabelClickedEvent="editWebsiteLabelClickedHandler(event)" OpenWebsiteCreatorWindowEvent="openWebsiteCreatorWindowHandler(event)" OpenWebsiteStatBrowserCanvasEvent="openWebsiteStatBrowserCanvasHandler(event)" BackLabelClickedEvent="createCommBackLabelClickedHandler(event)">
+			<local:cCommunityGroupBrowserCanvas id="mCommunityGroupBrowserCanvas" >
 			</local:cCommunityGroupBrowserCanvas>
-			<local:cWebsiteStatsBrowserCanvas id="mWebsiteStatsBrowserCanvas" BackLabelClickedEvent="WebsiteBrowserBackClickedHandler(event)">
-			</local:cWebsiteStatsBrowserCanvas>
 			<local:cRegularExpressionEditorCanvas id="mRegularExpressionEditorCanvas" BackLabelClickedEvent="RegularExpressionEditorBackClickedHandler(event)">
 			</local:cRegularExpressionEditorCanvas>
 		</mx:ViewStack>
@@ -219,6 +216,4 @@
 			</mx:Canvas>
 		</mx:ViewStack>
 	</mx:ViewStack>
-	<mx:ButtonBar x="354" y="10" dataProvider="mNavigatorViewStack" color="#D7D7D7">
-	</mx:ButtonBar>
 </mx:Canvas>

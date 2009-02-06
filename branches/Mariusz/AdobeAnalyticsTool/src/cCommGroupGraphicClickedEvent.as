@@ -28,5 +28,7 @@ package
 		public var mTime:String = "";
 		// community group websites
 		public var mWebsites:ArrayCollection = null;
+		// community group keywords
+		public var mKeywords:ArrayCollection = null;
 	}
 }

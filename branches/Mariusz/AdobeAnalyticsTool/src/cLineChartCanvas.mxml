@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="815" height="438" backgroundColor="#FFFFFF" backgroundAlpha="0.2">
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="815" height="529.45" backgroundColor="#FFFFFF" backgroundAlpha="0.2">
 
 	<mx:Script>
 		<![CDATA[
@@ -101,10 +101,10 @@
 
 								// stats from one week to date
 								if(statOptionSelected.mTimeSpan == statOptionSelected.TIME_SPAN_1_WEEK) {
-									//var day:int = currDate.getDay();
-									var day:String = dayIntToString(currDate.getDay());
+									var day:int = currDate.getHours();
+									//var day:String = dayIntToString(currDate.getDay());
 									mLineGraphData.push({(i.toString()):day, ((i+1).toString()):y});
-									
+									//Alert.show(day + "  " + y);
 								}
 										
 								
@@ -199,11 +199,11 @@
 		]]>
 	</mx:Script>
 
-	<mx:LineChart x="0" y="0" id="mLineChart" width="815" height="401" color="#EEEEEE">
+	<mx:LineChart id="mLineChart" width="815" height="492" color="#EEEEEE" verticalCenter="-19" horizontalCenter="0">
 		<mx:series>
 			<mx:LineSeries displayName="Series 1"/>
 		</mx:series>
 	</mx:LineChart>
-	<mx:Legend dataProvider="{mLineChart}" x="0" y="409" width="815" height="29" color="#DEDEDE" id="mLineChartLegend"/>
+	<mx:Legend dataProvider="{mLineChart}" width="815" height="29" color="#DEDEDE" id="mLineChartLegend" verticalCenter="250" horizontalCenter="0"/>
 	
 </mx:Canvas>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="showCanvasHandler(event)" hide="hideCanvasHandler(event)" show="showCanvasHandler(event)" width="993" height="567" backgroundColor="#FFFFFF" backgroundAlpha="0.1">
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="showCanvasHandler(event)" hide="hideCanvasHandler(event)" show="showCanvasHandler(event)" width="1013" height="615" backgroundColor="#FFFFFF" backgroundAlpha="0.1">
 	
 	<mx:Metadata>
 		[Event(name="OpenCreateCommunityGroupCanvasEvent", type="flash.events.Event")]
@@ -35,7 +35,7 @@
 			 */
 			private function createCommRollOverHandler(event:Event):void
 			{
-				mCreateCommLabel.setStyle("color", "0xFF6666");
+				mCreateCommButton.setStyle("color", "0xFF6666");
 			}
 			
 			/**
@@ -43,103 +43,34 @@
 			 */
 			private function createCommRollOutHandler(event:Event):void
 			{
-				mCreateCommLabel.setStyle("color", "0x11d30c");
+				mCreateCommButton.setStyle("color", "0xd8d8d8");
 			}
 			
 			/**
-			 * 	Fires an event signaling that the user has clicked the remove
-			 *  community groups label.
+			 * 	Fires an event signaling that the user has clicked the home label.
 			 */
-			private function removeCommClickHandler(event:Event):void
+			private function homeLabelClickHandler(event:Event):void
 			{
-				if(mRemoveCommGroupLabelEnabled) {
-					if(mMyCommVBox.getChildren().length > 0) {
-						var i:int = 0;
-						for(i; i < mMyCommVBox.getChildren().length; i++) {
-							if(mMyCommVBox.getChildAt(i) is cCommGroupLargeGraphic) {
-								var commGroupGraphic:cCommGroupLargeGraphic = cCommGroupLargeGraphic(mMyCommVBox.getChildAt(i));
-								commGroupGraphic.showRemoveCommGroupsLabel();
-							}
-						}
-						mMyCommVBox.setStyle("backgroundColor", "0x000000");
-						
-						// animate
-						var move:Move = new Move();
-						move.xFrom = mRemoveCommGroupsLabel.x;
-						move.xTo = mRemoveCommGroupsLabel.x - 30;
-						move.target = mRemoveCommGroupsLabel;
-						move.duration = 500;
-						move.play();
-						
-						mSmallXLabel.visible = true;
-						var fade:Fade = new Fade();
-						fade.alphaFrom = 0;
-						fade.alphaTo = 1;
-						fade.duration = 500;
-						fade.target = mSmallXLabel;
-						fade.play();
-						
-						mRemoveCommGroupsLabel.enabled = false;
-						mRemoveCommGroupLabelEnabled = false;
-					}
-					else { // since there are no community groups registered the action is not allowed and the
-						   // user should be informed
-							Alert.show("There are currently no community groups registered with this account. There is nothing to remove.",
-									   "Action Not Allowed");
-						 }
-				}
+				//var e:Event = new Event("OpenCreateCommunityGroupCanvasEvent");
+				//this.dispatchEvent(e);
 			}
 			
 			/**
-			 * 	Fires an event signaling that the user has clicked the small X
-			 * 	label.
+			 * 	Called when the user hovers the mouse over the home label.
 			 */
-			private function smallXClickHandler(event:Event):void
+			private function homeLabelRollOverHandler(event:Event):void
 			{
-				var i:int = 0;
-					for(i; i < mMyCommVBox.getChildren().length; i++) {
-						if(mMyCommVBox.getChildAt(i) is cCommGroupLargeGraphic) {
-							var commGroupGraphic:cCommGroupLargeGraphic = cCommGroupLargeGraphic(mMyCommVBox.getChildAt(i));
-							commGroupGraphic.hideRemoveWebsiteLabel();
-						}
-					}
-					mMyCommVBox.setStyle("backgroundColor", "0xffffff");
-					
-					// animate
-					var move:Move = new Move();
-					move.xFrom = mRemoveCommGroupsLabel.x;
-					move.xTo = mRemoveCommGroupsLabel.x + 30;
-					move.target = mRemoveCommGroupsLabel;
-					move.duration = 500;
-					move.play();
-						
-					var fade:Fade = new Fade();
-					fade.alphaFrom = 1;
-					fade.alphaTo = 0;
-					fade.duration = 500;
-					fade.target = mSmallXLabel;
-					fade.play();
-					mSmallXLabel.visible = false;
-					
-					mRemoveCommGroupsLabel.enabled = true;
-					mRemoveCommGroupLabelEnabled = true;
+				mHomeButton.setStyle("color", "0xFF6666");
 			}
 			
 			/**
-			 * 	Called when the user hovers the mouse over the remove community group label.
+			 * 	Called when the user hovers the mouse away from the home label.
 			 */
-			private function removeCommRollOverHandler(event:Event):void
+			private function homeLabelRollOutHandler(event:Event):void
 			{
-				mRemoveCommGroupsLabel.setStyle("color", "0xFF6666");
+				mHomeButton.setStyle("color", "0x13bb33");
 			}
 			
-			/**
-			 * 	Called when the user hovers the mouse away from the remove community group label.
-			 */
-			private function removeCommRollOutHandler(event:Event):void
-			{
-				mRemoveCommGroupsLabel.setStyle("color", "0x11d30c");
-			}
 			
 			/**
 			 *  Event handler called when the user clicks on the community group graphic whithin this canvas.
@@ -158,6 +89,7 @@
 						e.mCreator = mUserAccountInformation.mUserName;
 						e.mTime = event.mTime;
 						e.mWebsites = communityGroupEntry.mWebsites;
+						e.mKeywords = communityGroupEntry.mKeywords;
 						this.dispatchEvent(e);
 						return;
 					}
@@ -185,10 +117,6 @@
 			private function hideCanvasHandler(event:Event):void
 			{
 				if(!mRemoveCommGroupLabelEnabled) {
-					mRemoveCommGroupsLabel.x = mRemoveCommGroupsLabel.x + 30;
-					mRemoveCommGroupsLabel.setStyle("color", "0x11d30c");
-					mSmallXLabel.visible = false;
-					mRemoveCommGroupsLabel.enabled = true;
 					mRemoveCommGroupLabelEnabled = true;
 				}
 			}
@@ -258,16 +186,17 @@
 			
 		]]>
 	</mx:Script>
-	
-	<mx:VRule x="447" y="10" height="547" strokeColor="#606060"/>
-	<mx:Label x="20" y="10" text="My Community Groups" fontFamily="Times New Roman" fontSize="24" textDecoration="underline" color="#BEBEBE" alpha="1.0" id="mHomeLoggedOutAccountLabel"/>
-	<mx:Label x="467" y="10" text="News" fontFamily="Times New Roman" fontSize="24" textDecoration="underline" color="#BEBEBE" alpha="1.0" id="mHomeLoggedOutAccountLabel0"/>
-	<mx:Label x="283" y="21" text="Create Community Group" rollOver="createCommRollOverHandler(event)" rollOut="createCommRollOutHandler(event)" click="createCommClickHandler(event)" color="#13BB33" textAlign="center" textDecoration="underline" id="mCreateCommLabel"/>
-	<mx:Label x="252" y="536" text="Remove Community Groups" rollOver="removeCommRollOverHandler(event)" rollOut="removeCommRollOutHandler(event)" click="removeCommClickHandler(event)" color="#13BB33" textAlign="center" textDecoration="normal" id="mRemoveCommGroupsLabel" fontSize="12" toolTip="Remove individual community groups"/>
-	<mx:VBox x="20" y="50" height="478" width="410" id="mMyCommVBox" backgroundColor="#FFFFFF" backgroundAlpha="0.1" verticalScrollPolicy="on">
+	<mx:Label text="My Community Groups" fontFamily="Times New Roman" fontSize="24" textDecoration="normal" color="#BEBEBE" alpha="1.0" id="mHomeLoggedOutAccountLabel" horizontalCenter="-181" verticalCenter="-291" width="481"/>
+	<mx:VBox height="526" width="390" id="mMyCommVBox" backgroundColor="#FFFFFF" backgroundAlpha="0.1" verticalScrollPolicy="off" horizontalCenter="0" verticalCenter="4">
 	</mx:VBox>
-	<mx:VBox x="467" y="50" height="507" width="505" id="mNewsVBox" verticalScrollPolicy="on" backgroundColor="#FFFFFF" backgroundAlpha="0.1">
-	</mx:VBox>
-	<mx:Canvas x="408" y="537" width="20" height="20" backgroundImage="@Embed(source='../images/smallX.png')" click="smallXClickHandler(event)" id="mSmallXLabel" visible="false" toolTip="Close the remove community group feature">
+	<mx:Label text="Home &gt;&gt;" rollOver="homeLabelRollOverHandler(event)" rollOut="homeLabelRollOutHandler(event)" click="homeLabelClickHandler(event)" fontSize="14" color="#13BB33" horizontalCenter="-460" verticalCenter="-291" id="mHomeButton"/>
+	<mx:Button label="Create Community Group" rollOver="createCommRollOverHandler(event)" rollOut="createCommRollOutHandler(event)" click="createCommClickHandler(event)" color="#D8D8D8" alpha="0.5" id="mCreateCommButton" verticalCenter="-292" horizontalCenter="412" fontWeight="bold"/>
+	<mx:Button label="Next --&gt;" color="#D8D8D8" alpha="0.5" horizontalCenter="158" verticalCenter="286" id="mNextCommButton" fontWeight="bold"/>
+	<mx:Button label="&lt;-- Previous" color="#D8D8D8" alpha="0.5" horizontalCenter="-146" verticalCenter="286" id="mPreviousCommButton" fontWeight="bold"/>
+	<mx:Canvas width="141" height="496" borderStyle="solid" cornerRadius="15" backgroundColor="#9AE3E2" backgroundAlpha="0.1" horizontalCenter="274" verticalCenter="-11">
+		<mx:Button label="Newest" width="99" color="#D8D8D8" horizontalCenter="0" verticalCenter="-226" alpha="0.5" id="mNewestButton" fontWeight="bold" fontFamily="Verdana"/>
+		<mx:Button label="Most Viewed" width="99" color="#D8D8D8" horizontalCenter="0" verticalCenter="-196" alpha="0.5" id="mMostViewedButton" fontWeight="bold"/>
+		<mx:Button label="Alphabetical" width="99" color="#D8D8D8" horizontalCenter="0" verticalCenter="-166" alpha="0.5" id="mAlphabeticalButton" fontWeight="bold"/>
 	</mx:Canvas>
+	<mx:HRule width="993" height="14.56" verticalCenter="-277" horizontalCenter="0" alpha="0.5"/>
 </mx:Canvas>

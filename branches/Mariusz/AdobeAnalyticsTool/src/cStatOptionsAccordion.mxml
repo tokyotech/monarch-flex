@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Accordion xmlns:mx="http://www.adobe.com/2006/mxml" width="169" height="463" alpha="0.4" borderColor="#C1C1C1">
+<mx:Accordion xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="showAccordionHandler(event)" show="showAccordionHandler(event)" width="169" height="559.45" alpha="0.7" borderColor="#C1C1C1">
 	
 	<mx:Metadata>
 		[Event(name="StatOptionSelectedEvent", type="cStatOptionSelectedEvent")]
@@ -7,6 +7,7 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
 			
 			///////////////////////////////////////////////////////////////////////////////////
@@ -127,7 +128,7 @@
 			 */
 			private function linkGoodnessWeightSliderChangeHandler(event:Event):void
 			{
-				mLinkProficiencyWeightSlider.value;
+				
 			}
 			
 			/**
@@ -135,7 +136,7 @@
 			 */
 			private function linkProficiencyWeightSliderChangeHandler(event:Event):void
 			{
-				mLinkProficiencyWeightSlider.value;
+				
 			}
 			
 			
@@ -172,10 +173,7 @@
 			 */
 			private function enableLinkOverallProficiencyWeightGUI():void
 			{
-				mLinkGoodnessWeightLabel.enabled = true;
-				mLinkProficiencyWeightLabel.enabled = true;
-				mLinkGoodnessWeightSlider.enabled = true;
-				mLinkProficiencyWeightSlider.enabled = true;
+				
 			}
 			
 			/**
@@ -183,17 +181,146 @@
 			 */
 			private function disableLinkOverallProficiencyWeightGUI():void
 			{
-				mLinkGoodnessWeightLabel.enabled = false;
-				mLinkProficiencyWeightLabel.enabled = false;
-				mLinkGoodnessWeightSlider.enabled = false;
-				mLinkProficiencyWeightSlider.enabled = false;
+				
 			}
 			
+			/**
+			 * 	Updates the internal information of this object.
+			 */
+			public function updateInformation(websites:ArrayCollection,
+											  keywords:ArrayCollection):void
+			{
+				mWebsites = websites;
+				mKeywords = keywords;
+				
+				if(mWebsites != null) {
+					if(mWebsites.length == 0) {
+						mNoWebsitesAvailableLabel.visible = true;
+					}
+					else {
+						mNoWebsitesAvailableLabel.visible = false;
+					}
+				}
+				
+				var websiteEntry:cWebsiteEntry = null;
+				var inc:int = 0;
+				for(var i:int = 0; i < mWebsites.length; i++) {
+					websiteEntry = cWebsiteEntry(mWebsites.getItemAt(i));
+					var websiteGraphic:cAccordionWebsiteGraphicCanvas = new cAccordionWebsiteGraphicCanvas();
+					//websiteStaticGraphic.addEventListener("cWebsiteStaticLargeGraphicClickedEvent", websiteStaticGraphicClickedHandler);
+					websiteGraphic.updateInformation(websiteEntry.mName);
+					websiteGraphic.y = inc;
+					inc += 28;
+					mWebsitesCanvas.addChild(websiteGraphic);	
+				}
+				
+				var keywordEntry:cKeywordEntry = null;
+				inc = 0;
+				for(i = 0; i < mKeywords.length; i++) {
+					keywordEntry = cKeywordEntry(mKeywords.getItemAt(i));
+					var keywordGraphic:cAccordionKeywordGraphicCanvas = new cAccordionKeywordGraphicCanvas();
+					//websiteStaticGraphic.addEventListener("cWebsiteStaticLargeGraphicClickedEvent", websiteStaticGraphicClickedHandler);
+					keywordGraphic.updateInformation(keywordEntry.mName);
+					keywordGraphic.y = inc;
+					inc += 28;
+					mKeywordsSpokenCanvas.addChild(keywordGraphic);	
+				}
+			}
+			
+			
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//						  EVENT HANDLERS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+			/**
+			 * 
+			 */
+			private function keywordSpokenCanvasShowHandler(event:Event):void
+			{
+				if(mKeywords != null) {
+					if(mKeywords.length == 0) {
+						mNoKeywordsAvailableLabel.visible = true;
+					}
+					else {
+						mNoKeywordsAvailableLabel.visible = false;
+					}
+				}
+			}
+			
+			/**
+			 * 
+			 */
+			private function linksSpokenCanvasShowHandler(event:Event):void
+			{
+				if(mLinks != null) {
+					if(mLinks.length == 0) {
+						mNoLinksAvailableLabel.visible = true;
+					}
+					else {
+						mNoLinksAvailableLabel.visible = false;
+					}
+				}
+			}
+			
+			/**
+			 * 
+			 */
+			private function websiteCanvasShowHandler(event:Event):void
+			{
+				if(mWebsites != null) {
+					if(mWebsites.length == 0) {
+						mNoWebsitesAvailableLabel.visible = true;
+					}
+					else {
+						mNoWebsitesAvailableLabel.visible = false;
+					}
+				}
+			}
+			
+			
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//						   ACCORDION EVENT HANDLERS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+			/**
+			 * 
+			 */
+			private function showAccordionHandler(event:Event):void
+			{
+				
+			}
+			
+			
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//							   DATA MEMBERS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+			// community website
+			private var mWebsites:ArrayCollection = null;
+			// community keywords
+			private var mKeywords:ArrayCollection = null;
+			// community links
+			private var mLinks:ArrayCollection = null;
 			
 		]]>
 	</mx:Script>
 	
-	<mx:Canvas label="Keywords" width="100%" height="100%" alpha="1.0" backgroundColor="#D1D1D1" backgroundAlpha="1.0" borderStyle="solid" themeColor="#E41313" color="#DD0A0A" cornerRadius="0">
+	<mx:Canvas label="Websites in Community" creationComplete="websiteCanvasShowHandler(event)" show="websiteCanvasShowHandler(event)" width="100%" height="100%" id="mWebsitesCanvas">
+		<mx:Label text="No Websites Available" horizontalCenter="0" verticalCenter="-218" id="mNoWebsitesAvailableLabel" toolTip="Perhaps no websites are registered"/>
+		</mx:Canvas>
+	<mx:Canvas label="Keywords Spoken" width="100%" height="100%" creationComplete="keywordSpokenCanvasShowHandler(event)" show="keywordSpokenCanvasShowHandler(event)" id="mKeywordsSpokenCanvas">
+		<mx:Label text="No Keywords Available" horizontalCenter="0" verticalCenter="-218" id="mNoKeywordsAvailableLabel" toolTip="Perhaps no keywords where registered"/>
+		</mx:Canvas>
+	<mx:Canvas label="Links Spoken" width="100%" height="100%" creationComplete="linksSpokenCanvasShowHandler(event)" show="linksSpokenCanvasShowHandler(event)" backgroundAlpha="1.0" backgroundColor="#FFFFFF" alpha="1.0" id="mLinksSpokenCanvas">
+		<mx:Label text="No Links Available" horizontalCenter="0" verticalCenter="-218" id="mNoLinksAvailableLabel" toolTip="Perhaps no links where found"/>
+	</mx:Canvas>
+	<mx:Canvas label="Graph Controls" width="100%" height="100%" alpha="1.0" backgroundColor="#D1D1D1" backgroundAlpha="1.0" borderStyle="solid" themeColor="#E41313" color="#DD0A0A" cornerRadius="0" id="mGraphControlsCanvas">
 		<mx:RadioButton x="10" y="5" change="keywordGoodnessRadioButtonChangeHandler(event)" label="Goodness" color="#0B333C" borderColor="#000000" selected="true" id="mKeywordGoodnessRB"/>
 		<mx:RadioButton x="10" y="23" change="keywordProficiencyRadioButtonChangeHandler(event)" label="Proficiency" color="#0B333C" borderColor="#000000" id="mKeywordProficiencyRB"/>
 		<mx:RadioButton x="10" y="41" change="keywordCountRadioButtonChangeHandler(event)" label="Count" color="#0B333C" borderColor="#000000" id="mKeywordCountRB"/>
@@ -202,16 +329,6 @@
 		<mx:HSlider x="10" y="151" change="keywordProficiencyWeightSliderChangeHandler(event)" borderColor="#000000" width="149" allowTrackClick="true" minimum="0" maximum="1" liveDragging="true" value="1" enabled="false" id="mKeywordProficiencyWeightSlider"/>
 		<mx:Label x="10" y="93" text="Goodness Weight" textDecoration="underline" color="#0B333C" enabled="false" id="mKeywordGoodnessWeightLabel"/>
 		<mx:Label x="10" y="131" text="English Proficiency Weight" textDecoration="underline" color="#0B333C" enabled="false" id="mKeywordProficiencyWeightLabel"/>
-	</mx:Canvas>
-	<mx:Canvas label="Links" width="100%" height="100%" backgroundAlpha="1.0" backgroundColor="#D1D1D1" alpha="1.0">
-		<mx:RadioButton x="10" y="3" change="linkGoodnessRadioButtonChangeHandler(event)" label="Goodness" borderColor="#000000" id="mLinksGoodnessRB"/>
-		<mx:RadioButton x="10" y="20.5" change="linkProficiencyRadioButtonChangeHandler(event)" label="English Proficiency" borderColor="#000000" id="mLinksProficiencyRB"/>
-		<mx:RadioButton x="10" y="38" change="linkCountRadioButtonChangeHandler(event)" label="Count" borderColor="#000000" id="mLinksCountRB"/>
-		<mx:RadioButton x="10" y="68" change="linkOverallRadioButtonChangeHandler(event)" label="Overall Positivity" borderColor="#000000" id="mLinksOverallRB"/>
-		<mx:HSlider x="10" y="113.5" change="linkGoodnessWeightSliderChangeHandler(event)" borderColor="#000000" width="150" minimum="0" maximum="1" allowTrackClick="true" liveDragging="true" value="1" enabled="false" id="mLinkGoodnessWeightSlider"/>
-		<mx:HSlider x="10" y="154.5" change="linkProficiencyWeightSliderChangeHandler(event)" borderColor="#000000" width="150" allowTrackClick="true" minimum="0" maximum="1" liveDragging="true" value="1" enabled="false" id="mLinkProficiencyWeightSlider"/>
-		<mx:Label x="10" y="93.5" text="Goodness Weight" textDecoration="underline" color="#0B333C" enabled="false" id="mLinkGoodnessWeightLabel"/>
-		<mx:Label x="10" y="133.5" text="English Proficiency Weight" textDecoration="underline" color="#0B333C" enabled="false" id="mLinkProficiencyWeightLabel"/>
 	</mx:Canvas>
 	
 </mx:Accordion>

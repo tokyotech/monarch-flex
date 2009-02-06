@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" hide="hideCanvasHandler(event)" show="showCanvasHandler(event)" width="1012" height="577" backgroundColor="#FFFFFF" backgroundAlpha="0.1" alpha="1.0">
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="creationCompleteHandler(event)" show="showCanvasHandler(event)" width="1013" height="615" xmlns:ns1="*" backgroundColor="#FFFFFF" backgroundAlpha="0.2">
 
 	<mx:Metadata>
 		[Event(name="BackLabelClickedEvent", type="flash.events.Event")]
-		[Event(name="OpenWebsiteStatBrowserCanvasEvent", type="cWebsiteGraphicClickedEvent")]
-		[Event(name="OpenWebsiteCreatorWindowEvent", type="cCreateWebsiteEvent")]
-		[Event(name="EditWebsiteLabelClickedEvent", type="cEditWebsiteEvent")]
 	</mx:Metadata>
 
 	<mx:Script>
 		<![CDATA[
+			import mx.messaging.channels.StreamingAMFChannel;
 			import mx.events.TweenEvent;
 			import mx.effects.Fade;
 			import mx.effects.Move;
@@ -19,12 +17,12 @@
 			
 			///////////////////////////////////////////////////////////////////////////////////
 			//
-			//							 GUI EVENT HANDLERS
+			//						   EVENT HANDLERS
 			//
 			///////////////////////////////////////////////////////////////////////////////////
-			
+
 			/**
-			 * 	Called when the user clicks on the edit label.
+			 * 	Called when the user clicks on the back label.
 			 */
 			private function backLabelClickHandler(event:Event):void
 			{
@@ -49,443 +47,120 @@
 			}
 			
 			/**
-			 * 	Called when the user clicks on the edit label.
+			 * 	Called when the user clicks on the community label.
 			 */
-			private function editLabelClickHandler(event:Event):void
+			private function communityLabelClickHandler(event:Event):void
+			{
+				//var e:Event = new Event("BackLabelClickedEvent");
+				//this.dispatchEvent(e);
+			}
+			
+			/**
+			 * 	Called when the user hovers the mouse over the community label.
+			 */
+			private function communityLabelRollOverHandler(event:Event):void
+			{
+				mCommunityGroupLabel.setStyle("color", "0xFF6666");
+			}
+			
+			/**
+			 * 	Called when the user hovers the mouse away from the community label.
+			 */
+			private function communityLabelRollOutHandler(event:Event):void
+			{
+				mCommunityGroupLabel.setStyle("color", "0x11d30c");
+			}
+			
+			/**
+			 *  
+			 */
+			 private function lineChartCanvasCreateHandler(event:Event):void
+			 {
+			 	//mLineChartCanvas.updateInformation(mAnalyticsParser, null);
+			 }
+			 
+			 /**
+			 * 
+			 */
+			private function _1YearTimeSpanRadioButtonChangeHandler(event:Event):void
 			{
 				
-			}
-			
-			/**
-			 * 	Called when the user hovers the mouse over the edit label.
-			 */
-			private function editLabelRollOverHandler(event:Event):void
-			{
-				mEditLabel.setStyle("color", "0xFF6666");
-			}
-			
-			/**
-			 * 	Called when the user hovers the mouse away from the edit label.
-			 */
-			private function editLabelRollOutHandler(event:Event):void
-			{
-				mEditLabel.setStyle("color", "0x11d30c");
-			}
-			
-			/**
-			 * 	Called when the user clicks on the add website label.
-			 */
-			private function addWebsiteClickHandler(event:Event):void
-			{
-				var e:cCreateWebsiteEvent = new cCreateWebsiteEvent("OpenWebsiteCreatorWindowEvent");
-				e.mCommunityGroupId = mCommGroupId;
-				this.dispatchEvent(e);
-			}
-			
-			/**
-			 * 	Called when the user hovers the mouse over the add website label.
-			 */
-			private function addWebsiteRollOverHandler(event:Event):void
-			{
-				mAddNewWebsiteLabel.setStyle("color", "0xFF6666");
-			}
-			
-			/**
-			 * 	Called when the user hovers the mouse away from the add website label.
-			 */
-			private function addWebsiteRollOutHandler(event:Event):void
-			{
-				mAddNewWebsiteLabel.setStyle("color", "0x11d30c");
-			}
-			
-			/**
-			 * 	Called when the user clicks on the remove website label.
-			 */
-			private function removeWebsiteClickHandler(event:Event):void
-			{
-				if(mRemoveWebsitesLabel.enabled) {
-					if(mMyWebsitesVBox.getChildren().length > 0) {
-						var i:int = 0;
-						for(i; i < mMyWebsitesVBox.getChildren().length; i++) {
-							if(mMyWebsitesVBox.getChildAt(i) is cWebsiteDynamicLargeGraphic) {
-								var websiteGraphic:cWebsiteDynamicLargeGraphic = cWebsiteDynamicLargeGraphic(mMyWebsitesVBox.getChildAt(i));
-								websiteGraphic.showRemoveWebsiteLabel();
-							}
-						}
-						mMyWebsitesVBox.setStyle("backgroundColor", "0x000000");
-						mMyWebsitesAllWebsitesVBox.setStyle("backgroundColor", "0x000000");
-						
-						// animate
-						var moveSeparator:Move = new Move();
-						moveSeparator.xFrom = mSeparator1.x;
-						moveSeparator.xTo = mSeparator1.x - 50;
-						moveSeparator.target = mSeparator1;
-						moveSeparator.duration = 500;
-						moveSeparator.play();
-						
-						var moveEditWebLabel:Move = new Move();
-						moveEditWebLabel.xFrom = mEditWebsiteLabel.x;
-						moveEditWebLabel.xTo = mEditWebsiteLabel.x - 50;
-						moveEditWebLabel.target = mEditWebsiteLabel;
-						moveEditWebLabel.duration = 500;
-						moveEditWebLabel.play();		
-						
-						var move:Move = new Move();
-						move.xFrom = mRemoveWebsitesLabel.x;
-						move.xTo = mRemoveWebsitesLabel.x - 50;
-						move.target = mRemoveWebsitesLabel;
-						move.duration = 500;
-						move.play();
-						
-						mSmallXRemoveLabel.visible = true;
-						var fade:Fade = new Fade();
-						fade.alphaFrom = 0;
-						fade.alphaTo = 1;
-						fade.duration = 500;
-						fade.target = mSmallXRemoveLabel;
-						fade.play();
-						
-						mRemoveWebsitesLabel.enabled = false;
-						mSeparator1.enabled = false;
-						mEditWebsiteLabel.enabled = false;
-						mMyWebsitesAllWebsitesVBox.enabled = false;
-					}
-					else { // since there are no community groups registered the action is not allowed and the
-						   // user should be informed
-							Alert.show("There are currently no websites registered with this community. There is nothing to remove.",
-									   "Action Not Allowed");
-						 }
-				}
-			}
-			
-			
-			/**
-			 * 	Called when the user clicks on the edit website label.
-			 */
-			private function editWebsiteClickHandler(event:Event):void
-			{
-				if(mRemoveWebsitesLabel.enabled) {
-					if(mMyWebsitesVBox.getChildren().length > 0) {
-						var i:int = 0;
-						for(i; i < mMyWebsitesVBox.getChildren().length; i++) {
-							if(mMyWebsitesVBox.getChildAt(i) is cWebsiteDynamicLargeGraphic) {
-								var websiteGraphic:cWebsiteDynamicLargeGraphic = cWebsiteDynamicLargeGraphic(mMyWebsitesVBox.getChildAt(i));
-								websiteGraphic.showEditWebsiteLabel();
-							}
-						}
-						mMyWebsitesVBox.setStyle("backgroundColor", "0x000000");
-						mMyWebsitesAllWebsitesVBox.setStyle("backgroundColor", "0x000000");
-						
-						// animate
-						var moveEditWebLabel:Move = new Move();
-						moveEditWebLabel.xFrom = mEditWebsiteLabel.x;
-						moveEditWebLabel.xTo = mEditWebsiteLabel.x - 30;
-						moveEditWebLabel.target = mEditWebsiteLabel;
-						moveEditWebLabel.duration = 500;
-						moveEditWebLabel.play();		
-						
-						mSmallXEditLabel.visible = true;
-						var fade:Fade = new Fade();
-						fade.alphaFrom = 0;
-						fade.alphaTo = 1;
-						fade.duration = 500;
-						fade.target = mSmallXEditLabel;
-						fade.play();
-						
-						mRemoveWebsitesLabel.enabled = false;
-						mSeparator1.enabled = false;
-						mEditWebsiteLabel.enabled = false;
-						mMyWebsitesAllWebsitesVBox.enabled = false;
-					}
-					else { // since there are no community groups registered the action is not allowed and the
-						   // user should be informed
-							Alert.show("There are currently no websites registered with this community. There is nothing to edit.",
-									   "Action Not Allowed");
-						 }
-				}
 			}
 			
 			/**
 			 * 
 			 */
-			private function smallXRemoveClickHandler(event:Event):void
+			private function _9MonthsTimeSpanRadioButtonChangeHandler(event:Event):void
 			{
-				var i:int = 0;
-				for(i; i < mMyWebsitesVBox.getChildren().length; i++) {
-					if(mMyWebsitesVBox.getChildAt(i) is cWebsiteDynamicLargeGraphic) {
-						var websiteGraphic:cWebsiteDynamicLargeGraphic = cWebsiteDynamicLargeGraphic(mMyWebsitesVBox.getChildAt(i));
-						websiteGraphic.hideRemoveWebsiteLabel();
-					}
-				}
-				mMyWebsitesVBox.setStyle("backgroundColor", "0xffffff");
-				mMyWebsitesAllWebsitesVBox.setStyle("backgroundColor", "0xffffff");
 				
-				// animate
-				var move:Move = new Move();
-				move.xFrom = mRemoveWebsitesLabel.x;
-				move.xTo = mRemoveWebsitesLabel.x + 50;
-				move.target = mRemoveWebsitesLabel;
-				move.duration = 500;
-				move.play();
-					
-				var fade:Fade = new Fade();
-				fade.alphaFrom = 1;
-				fade.alphaTo = 0;
-				fade.duration = 500;
-				fade.target = mSmallXRemoveLabel;
-				fade.play();
-				
-				mSmallXRemoveLabel.visible = false;
-				
-				var moveSeparator:Move = new Move();
-				moveSeparator.xFrom = mSeparator1.x;
-				moveSeparator.xTo = mSeparator1.x + 50;
-				moveSeparator.target = mSeparator1;
-				moveSeparator.duration = 500;
-				moveSeparator.play();
-				
-				var moveEditWebLabel:Move = new Move();
-				moveEditWebLabel.xFrom = mEditWebsiteLabel.x;
-				moveEditWebLabel.xTo = mEditWebsiteLabel.x + 50;
-				moveEditWebLabel.target = mEditWebsiteLabel;
-				moveEditWebLabel.duration = 500;
-				moveEditWebLabel.play();		
-				
-				mRemoveWebsitesLabel.enabled = true;
-				mSeparator1.enabled = true;
-				mEditWebsiteLabel.enabled = true;
-				mMyWebsitesAllWebsitesVBox.enabled = true;
 			}
 			
 			/**
 			 * 
 			 */
-			private function smallXEditClickHandler(event:Event):void
+			private function _6MonthsTimeSpanRadioButtonChangeHandler(event:Event):void
 			{
-				var i:int = 0;
-				for(i; i < mMyWebsitesVBox.getChildren().length; i++) {
-					if(mMyWebsitesVBox.getChildAt(i) is cWebsiteDynamicLargeGraphic) {
-						var websiteGraphic:cWebsiteDynamicLargeGraphic = cWebsiteDynamicLargeGraphic(mMyWebsitesVBox.getChildAt(i));
-						websiteGraphic.hideEditWebsiteLabel();
-					}
-				}
-				mMyWebsitesVBox.setStyle("backgroundColor", "0xffffff");
-				mMyWebsitesAllWebsitesVBox.setStyle("backgroundColor", "0xffffff");
 				
-				// animate					
-				var fade:Fade = new Fade();
-				fade.alphaFrom = 1;
-				fade.alphaTo = 0;
-				fade.duration = 500;
-				fade.target = mSmallXEditLabel;
-				fade.play();
-				
-				mSmallXEditLabel.visible = false;
-				
-				var moveEditWebLabel:Move = new Move();
-				moveEditWebLabel.xFrom = mEditWebsiteLabel.x;
-				moveEditWebLabel.xTo = mEditWebsiteLabel.x + 30;
-				moveEditWebLabel.target = mEditWebsiteLabel;
-				moveEditWebLabel.duration = 500;
-				moveEditWebLabel.play();		
-				
-				mRemoveWebsitesLabel.enabled = true;
-				mSeparator1.enabled = true;
-				mEditWebsiteLabel.enabled = true;
-				mMyWebsitesAllWebsitesVBox.enabled = true;
-			}
-			
-			/**
-			 * 	Called when the user hovers the mouse over the remove website label.
-			 */
-			private function removeWebsiteRollOverHandler(event:Event):void
-			{
-				if(mRemoveWebsitesLabel.enabled) {
-					mRemoveWebsitesLabel.setStyle("color", "0xFF6666");
-				}
-			}
-			
-			/**
-			 * 	Called when the user hovers the mouse away from the remove website label.
-			 */
-			private function removeWebsiteRollOutHandler(event:Event):void
-			{
-				if(mRemoveWebsitesLabel.enabled) {
-					mRemoveWebsitesLabel.setStyle("color", "0x11d30c");
-				}
-			}
-			
-			/**
-			 * 	Called when the user hovers the mouse over the edit website label.
-			 */
-			private function editWebsiteRollOverHandler(event:Event):void
-			{
-				if(mEditWebsiteLabel.enabled) {
-					mEditWebsiteLabel.setStyle("color", "0xFF6666");
-				}
-			}
-			
-			/**
-			 * 	Called when the user hovers the mouse away from the edit website label.
-			 */
-			private function editWebsiteRollOutHandler(event:Event):void
-			{
-				if(mEditWebsiteLabel.enabled) {
-					mEditWebsiteLabel.setStyle("color", "0x11d30c");
-				}
-			}
-			
-			/**
-			 * 	Event handler called when the user clicks on the website graphic whithin this canvas.
-			 * 	Fires an event signaling that a website has been selected by the user.
-			 */
-			private function websiteGraphicClickedHandler(event:cWebsiteGraphicClickedEvent):void
-			{
-				if(mRemoveWebsitesLabel.enabled) {
-					var e:cWebsiteGraphicClickedEvent = new cWebsiteGraphicClickedEvent("OpenWebsiteStatBrowserCanvasEvent");
-					e.mWebsiteName = event.mWebsiteName;
-					e.mWebsiteURL = event.mWebsiteURL;
-					e.mWebsiteType = event.mWebsiteType;
-					e.mWebsiteCreatedTime = event.mWebsiteCreatedTime;
-					e.mCommGroupId = mCommGroupId;
-					this.dispatchEvent(e);
-				}
-			}
-			
-			/**
-			 * 	Event handler called when the user clicks on the edit website label whithin this a website graphic.
-			 * 	Fires an event signaling that the user wants to edit the website.
-			 */
-			private function editWebsiteHandler(event:cEditWebsiteEvent):void
-			{
-				var e:cEditWebsiteEvent = new cEditWebsiteEvent("EditWebsiteLabelClickedEvent");
-				// COPY event data members to e
-				this.dispatchEvent(e);
 			}
 			
 			/**
 			 * 
 			 */
-			private function websiteStaticGraphicClickedHandler(event:cWebsiteStaticLargeGraphicClickedEvent):void
+			private function _1MonthTimeSpanRadioButtonChangeHandler(event:Event):void
 			{
-				Alert.show("Hello");
-			}
-			
-			
-			///////////////////////////////////////////////////////////////////////////////////
-			//
-			//							 CANVAS EVENT HANDLERS
-			//
-			///////////////////////////////////////////////////////////////////////////////////
-			
-			/**
-			 *  Event handler called when this canvas opens.
-			 */
-			private function showCanvasHandler(event:Event):void
-			{
-				/**
-				 * 	Load in the websites pertaining to the community group selected
-				 */
-				mMyWebsitesVBox.removeAllChildren();
-				mMyWebsitesAllWebsitesVBox.removeAllChildren();
 				
-				var i:int;
-				var delay:int = 100;
-				for(i = 0; i < mWebsites.length; i++) {
-					var websiteEntry:cWebsiteEntry = cWebsiteEntry(mWebsites.getItemAt(i));
-					var websiteGraphic:cWebsiteDynamicLargeGraphic = new cWebsiteDynamicLargeGraphic();
-					websiteGraphic.addEventListener("cWebsiteGraphicClickedEvent", websiteGraphicClickedHandler);
-					websiteGraphic.addEventListener("cEditWebsiteEvent", editWebsiteHandler);
-					websiteGraphic.updateInformation(websiteEntry.mName,
-												     websiteEntry.mURL,
-												     websiteEntry.mType,
-												     websiteEntry.mCreatedTime.toString());
-					mMyWebsitesVBox.addChild(websiteGraphic);
-					
-					websiteGraphic.alpha = 0.3;
-					var fade:Fade = new Fade();
-					fade.alphaFrom = 0.3;
-					fade.alphaTo = 0.8;
-					fade.duration = 500;
-					fade.startDelay = delay;
-					fade.target = websiteGraphic;
-					fade.play();
-					
-					delay+=200;		
-				}
-				
-				/**
-				 * 	Load in all websites
-				 */
-				for(i = 0; i < mWebsites.length; i++) {
-					websiteEntry = cWebsiteEntry(mWebsites.getItemAt(i));
-					var websiteStaticGraphic:cWebsiteStaticLargeGraphic = new cWebsiteStaticLargeGraphic();
-					websiteStaticGraphic.addEventListener("cWebsiteStaticLargeGraphicClickedEvent", websiteStaticGraphicClickedHandler);
-					websiteStaticGraphic.updateInformation(websiteEntry.mName,
-												     	   websiteEntry.mURL,
-												           websiteEntry.mType,
-												           websiteEntry.mCreatedTime.toString());
-					mMyWebsitesAllWebsitesVBox.addChild(websiteStaticGraphic);	
-				} 
-				 
-				/**
-				 * 	Set component properties within this canvas
-				 */
-				if(mCommGroupName.length == 0) {
-					mCommunityGroupNameLable.text = "[Name Not Available]";
-				}
-				else {
-					mCommunityGroupNameLable.text = mCommGroupName;
-				}
-				if(mCreator.length == 0) {
-					mCreatorLabel.text = "Created by : [Not Available]";
-				}
-				else {
-					mCreatorLabel.text = "Created by : " + mCreator;
-				}
-				if(mDateCreated.length == 0) {
-					mDateCreatedLabel.text = "Created on : [Not Available]";	
-				}
-				else {
-					var currDate:Date = new Date(int(mDateCreated)*1000); 
-					var theDate:String = ((currDate.getMonth()+ 1) + "/" + currDate.getDate() + "/" + currDate.getFullYear());
-					mDateCreatedLabel.text = "Created on : " + theDate;
-				}
 			}
 			
 			/**
-			 * 	Event handler called when the canvas closes.
+			 * 
 			 */
-			private function hideCanvasHandler(event:Event):void
+			private function _2WeeksTimeSpanRadioButtonChangeHandler(event:Event):void
 			{
-				if(mSmallXRemoveLabel.visible) {
-					mRemoveWebsitesLabel.x = mRemoveWebsitesLabel.x + 50;
-					mEditWebsiteLabel.x = mEditWebsiteLabel.x + 50;
-					mSeparator1.x = mSeparator1.x + 50;
-				}
-				
-				if(mSmallXEditLabel.visible) {
-					mEditWebsiteLabel.x = mEditWebsiteLabel.x + 30;
-				}
-				
-				if(mSmallXRemoveLabel.visible || mSmallXEditLabel.visible) {
-					mRemoveWebsitesLabel.setStyle("color", "0x11d30c");
-					mEditWebsiteLabel.setStyle("color", "0x11d30c");
-					mSmallXRemoveLabel.visible = false;	
-					mSmallXEditLabel.visible = false;	
-					mRemoveWebsitesLabel.enabled = true;
-					mSeparator1.enabled = true;
-					mEditWebsiteLabel.enabled = true;
-					mMyWebsitesAllWebsitesVBox.enabled = true;
-					mMyWebsitesVBox.setStyle("backgroundColor", "0xffffff");
-					mMyWebsitesAllWebsitesVBox.setStyle("backgroundColor", "0xffffff");
-				}
+				//mStatOptionSelected.mTimeSpan = mStatOptionSelected.TIME_SPAN_2_WEEKS;
+				//mLineChartCanvas.updateInformation(mAnalyticsParser, mStatOptionSelected);
 			}
 			
+			/**
+			 * 
+			 */
+			private function _1WeekTimeSpanRadioButtonChangeHandler(event:Event):void
+			{
+				//mStatOptionSelected.mTimeSpan = mStatOptionSelected.TIME_SPAN_1_WEEK;
+				//mLineChartCanvas.updateInformation(mAnalyticsParser, mStatOptionSelected);
+			}
+			 
+			 /**
+			 * 	Event handler which listens to the cStatOptionsAccordion object events.
+			 */
+			private function statOptionSelectedHandler(event:cStatOptionSelectedEvent):void
+			{
+				// check which time frame to use
+				var timeSpan:int = event.TIME_SPAN_1_YEAR;
+				if(m1WeekSpanRadioButton.selected) {
+					timeSpan = event.TIME_SPAN_1_WEEK;
+				}
+				else if(m2WeeksTimeSpanRadioButton.selected) {
+					timeSpan = event.TIME_SPAN_2_WEEKS;
+				}
+				else if(m1MonthTimeSpanRadioButton.selected) {
+					timeSpan = event.TIME_SPAN_1_MONTH;
+				}
+				else if(m6MonthsTimeSpanRadioButton.selected) {
+					timeSpan = event.TIME_SPAN_6_MONTHS;
+				}
+				else if(m9MonthsTimeSpanRadioButton.selected) {
+					timeSpan = event.TIME_SPAN_9_MONTHS;
+				}
+				event.mTimeSpan = timeSpan;
+				// update the line Chart Canvas
+				//mLineChartCanvas.updateInformation(mAnalyticsParser, event);
+				//mStatOptionSelected = event;
+			}
+			 
 			
 			///////////////////////////////////////////////////////////////////////////////////
 			//
-			//							 MEMBER FUNCTIONS
+			//						   MEMBER FUNCTIONS
 			//
 			///////////////////////////////////////////////////////////////////////////////////
 			
@@ -496,42 +171,49 @@
 										      commGroupId:int,
 										      creator:String,
 										      dateCreated:String,
-									     	  websites:ArrayCollection):void
+									     	  websites:ArrayCollection,
+									     	  keywords:ArrayCollection):void
 			{
 				mCommGroupName = commGroupName;
 				mCommGroupId = commGroupId;
 				mCreator = creator;
 				mDateCreated = dateCreated;
 				mWebsites = websites;
-			}
-			
-			/**
-			 * 	Inserts a website into the two VBoxes which reside in this canvas at the 0th index.
-			 */
-			public function addWebsiteToVBoxes(websiteEntry:cWebsiteEntry):void {
-				
-				var websiteGraphic:cWebsiteDynamicLargeGraphic = new cWebsiteDynamicLargeGraphic();
-				websiteGraphic.addEventListener("cWebsiteGraphicClickedEvent", websiteGraphicClickedHandler);
-				websiteGraphic.addEventListener("cEditWebsiteEvent", editWebsiteHandler);
-				websiteGraphic.updateInformation(websiteEntry.mName,
-											     websiteEntry.mURL,
-											     websiteEntry.mType,
-											     websiteEntry.mCreatedTime.toString());
-				mMyWebsitesVBox.addChildAt(websiteGraphic, 0);
-				
-				var websiteStaticGraphic:cWebsiteStaticLargeGraphic = new cWebsiteStaticLargeGraphic();
-				websiteStaticGraphic.addEventListener("cWebsiteStaticLargeGraphicClickedEvent", websiteStaticGraphicClickedHandler);
-				websiteStaticGraphic.updateInformation(websiteEntry.mName,
-											     	   websiteEntry.mURL,
-											           websiteEntry.mType,
-											           websiteEntry.mCreatedTime.toString());
-				mMyWebsitesAllWebsitesVBox.addChildAt(websiteStaticGraphic, 0);	
+				mKeywords = keywords;
 			}
 			
 			
 			///////////////////////////////////////////////////////////////////////////////////
 			//
-			//							   DATA MEMBERS
+			//						   CANVAS EVENT HANDLERS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+			/**
+			 * 
+			 */
+			private function creationCompleteHandler(event:Event):void
+			{
+				if(mCommGroupName.length == 0) {
+					mCommunityGroupNameLabel.text = "[Community Group Name Not Available]";
+				}
+				else {
+					mCommunityGroupNameLabel.text = mCommGroupName;
+				}
+			}
+			
+			/**
+			 * 
+			 */
+			private function showCanvasHandler(event:Event):void
+			{
+				mStatOptionAccordion.updateInformation(mWebsites, mKeywords);
+			}
+			
+			
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//						   DATA MEMBERS
 			//
 			///////////////////////////////////////////////////////////////////////////////////
 			
@@ -545,31 +227,30 @@
 			private var mDateCreated:String = "";
 			// websites for the community
 			private var mWebsites:ArrayCollection = null;
+			// keywords for the community
+			private var mKeywords:ArrayCollection = null;
 			
 		]]>
 	</mx:Script>
 
-	<mx:Label x="10" y="17" text="Back" color="#11D30C" fontSize="14" textDecoration="underline" id="mBackLabel" click="backLabelClickHandler(event)" rollOut="backLabelRollOutHandler(event)" rollOver="backLabelRollOverHandler(event)"/>
-	<mx:Label x="838" y="19" text="Edit" color="#11D30C" fontSize="12" textDecoration="normal" id="mEditLabel" rollOut="editLabelRollOutHandler(event)" rollOver="editLabelRollOverHandler(event)" click="editLabelClickHandler(event)"/>
-	<mx:Label x="885" y="19" text="Add New Website" color="#11D30C" fontSize="12" textDecoration="normal" id="mAddNewWebsiteLabel" click="addWebsiteClickHandler(event)" rollOut="addWebsiteRollOutHandler(event)" rollOver="addWebsiteRollOverHandler(event)"/>
-	<mx:Label x="323" y="153" text="Remove Websites" color="#11D30C" fontSize="12" textDecoration="normal" id="mRemoveWebsitesLabel" click="removeWebsiteClickHandler(event)" rollOut="removeWebsiteRollOutHandler(event)" rollOver="removeWebsiteRollOverHandler(event)" toolTip="Remove individual websites"/>
-	<mx:VRule x="874" y="20" height="16.5" width="3"/>
-	<mx:VRule x="500" y="149" height="418" width="3"/>
-	<mx:Canvas x="10" y="48" width="64" height="64" id="mIcon" backgroundImage="@Embed(source='../images/sample.jpg')">
-	</mx:Canvas>
-	<mx:Label x="92" y="46" text="Some Community Group Name" fontSize="24" color="#DFDFDF" id="mCommunityGroupNameLable" width="724"/>
-	<mx:Label x="10" y="149" text="My Websites" fontSize="16" color="#DFDFDF" textDecoration="underline"/>
-	<mx:Label x="563" y="149" text="All Websites" fontSize="16" color="#DFDFDF" textDecoration="underline"/>
-	<mx:VBox x="10" y="182" height="385" width="430" id="mMyWebsitesVBox" backgroundColor="#FFFFFF" backgroundAlpha="0.1" verticalScrollPolicy="on">
-	</mx:VBox>
-	<mx:VBox height="385" width="426" id="mMyWebsitesAllWebsitesVBox" x="563" y="182" backgroundColor="#FFFFFF" backgroundAlpha="0.1" verticalScrollPolicy="on" disabledColor="#000000" disabledOverlayAlpha="0.0">
-	</mx:VBox>
-	<mx:Label x="92" y="81" text="Created by : Mariusz Choroszy" color="#DFDFDF" id="mCreatorLabel" width="349"/>
-	<mx:Label x="92" y="94" text="Date Created : December 12, 2030" color="#DFDFDF" id="mDateCreatedLabel" width="349"/>
-	<mx:Canvas x="400" y="153" width="20" height="20" click="smallXRemoveClickHandler(event)" toolTip="Close the remove website feature" backgroundImage="@Embed(source='../images/smallX.png')" id="mSmallXRemoveLabel" backgroundAlpha="1.0" alpha="1.0" visible="false">
-	</mx:Canvas>
-	<mx:Canvas x="279" y="153" width="20" height="20" click="smallXEditClickHandler(event)" toolTip="Close the edit website feature" backgroundImage="@Embed(source='../images/smallX.png')" id="mSmallXEditLabel" backgroundAlpha="1.0" alpha="1.0" visible="false">
-	</mx:Canvas>
-	<mx:VRule x="311" y="153" height="21" id="mSeparator1"/>
-	<mx:Label x="210" y="153" text="Edit Websites" click="editWebsiteClickHandler(event)" rollOut="editWebsiteRollOutHandler(event)" rollOver="editWebsiteRollOverHandler(event)" fontSize="12" color="#11D30C" id="mEditWebsiteLabel"/>
+	<mx:Label click="backLabelClickHandler(event)" rollOver="backLabelRollOverHandler(event)" rollOut="backLabelRollOutHandler(event)" text="Home &gt;&gt;" color="#11D30C" fontSize="14" textDecoration="normal" id="mBackLabel"  verticalCenter="-292" horizontalCenter="-461"/>
+	<mx:Label click="communityLabelClickHandler(event)" rollOver="communityLabelRollOverHandler(event)" rollOut="communityLabelRollOutHandler(event)" text="My Community Groups &gt;&gt;" color="#11D30C" fontSize="14" textDecoration="normal" id="mCommunityGroupLabel"  horizontalCenter="-323" verticalCenter="-292"/>
+	<mx:ViewStack x="187" y="45.55" id="mStatGraphicsViewStack" width="815" height="529.45">
+		<ns1:cLineChartCanvas x="1" y="2" id="mLineChartCanvas" creationComplete="lineChartCanvasCreateHandler(event)">
+		</ns1:cLineChartCanvas>
+	</mx:ViewStack>
+	<mx:Label text="Some Community Group Name" fontSize="24" color="#DFDFDF" width="450" textAlign="left" id="mCommunityGroupNameLabel" horizontalCenter="3" verticalCenter="-292"/>
+	<mx:RadioButton label="1 Year" color="#DDDDDD" change="_1YearTimeSpanRadioButtonChangeHandler(event)" id="m1YearTimeSpanRadioButton" horizontalCenter="-105" verticalCenter="286"/>
+	<mx:RadioButton label="9 Months" color="#DDDDDD" change="_9MonthsTimeSpanRadioButtonChangeHandler(event)" id="m9MonthsTimeSpanRadioButton" verticalCenter="286" horizontalCenter="-29"/>
+	<mx:RadioButton label="6 Months" color="#DDDDDD" change="_6MonthsTimeSpanRadioButtonChangeHandler(event)" id="m6MonthsTimeSpanRadioButton" verticalCenter="286" horizontalCenter="55"/>
+	<mx:RadioButton label="1 Month" color="#DDDDDD" change="_1MonthTimeSpanRadioButtonChangeHandler(event)" id="m1MonthTimeSpanRadioButton" verticalCenter="286" horizontalCenter="136"/>
+	<mx:RadioButton label="2 Weeks" color="#DDDDDD" change="_2WeeksTimeSpanRadioButtonChangeHandler(event)" id="m2WeeksTimeSpanRadioButton" verticalCenter="286" horizontalCenter="216"/>
+	<mx:RadioButton label="1 Week" selected="true" color="#DDDDDD" change="_1WeekTimeSpanRadioButtonChangeHandler(event)" id="m1WeekSpanRadioButton" verticalCenter="286" horizontalCenter="295"/>
+	<ns1:cStatOptionsAccordion id="mStatOptionAccordion"
+							   StatOptionSelectedEvent="statOptionSelectedHandler(event)" height="559.45" horizontalCenter="-412" verticalCenter="17">
+	</ns1:cStatOptionsAccordion>
+	<mx:HRule width="993" height="14.56" verticalCenter="-277" horizontalCenter="0" alpha="0.5"/>
+	<mx:Button label="Add Website" color="#D8D8D8" alpha="0.5" id="mAddWebsiteButton" horizontalCenter="447" verticalCenter="-293" fontWeight="bold" cornerRadius="5"/>
+	<mx:Button label="Edit Community Group" color="#D8D8D8" alpha="0.5" id="mEditCommunityGroupButton" horizontalCenter="313" verticalCenter="-293" fontWeight="bold" fontStyle="normal" cornerRadius="5"/>
+	
 </mx:Canvas>
