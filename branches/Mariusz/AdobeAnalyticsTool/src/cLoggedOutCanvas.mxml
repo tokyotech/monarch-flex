@@ -1,5 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="1013" height="625" backgroundAlpha="0.1">
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="creationCompleteHandler(event)" width="1013" height="625" backgroundAlpha="0.1">
+
+	<mx:Script>
+		<![CDATA[
+			
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//							CANVAS EVENT HANDLERS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+			/**
+			 * 	Called when the canvas is first created.
+			 */
+			private function creationCompleteHandler(event:Event):void
+			{
+				var intro:cInformationGraphic = new cInformationGraphic();
+				intro.setTitle("Welcome to the Adobe Community Group Analytics Tool !");
+				intro.setBody("This tool allows you to formulate community groups to " + 
+						   "monitor keywords across the websites of your choice.");
+				var info1:cInformationGraphic = new cInformationGraphic();
+				info1.setTitle("Why you should create an account.");			
+				mNewsVBox.addChild(intro);
+				mNewsVBox.addChild(info1);
+			}
+			
+		]]>
+	</mx:Script>
+
 	<mx:Label x="26" y="37" text="Hot Community Groups" fontFamily="Times New Roman" fontSize="24" textDecoration="underline" color="#BEBEBE" alpha="1.0" id="mHomeLoggedOutAccountLabel"/>
 	<mx:Label x="494" y="37" text="Information" fontFamily="Times New Roman" fontSize="24" textDecoration="underline" color="#BEBEBE" alpha="1.0" id="mHomeLoggedOutInformationLabel"/>
 	<mx:VRule x="464" y="37" width="3" height="552"/>
@@ -7,7 +35,7 @@
 	</mx:VBox>
 	<mx:VBox x="496" y="77" height="486" width="495" backgroundColor="#FFFFFF" backgroundAlpha="0.1" id="mNewsVBox" verticalScrollPolicy="on">
 	</mx:VBox>
-	<mx:Button x="372" y="567" label="Next --&gt;" color="#0DD20D" alpha="0.5"/>
-	<mx:Button label="&lt;-- Previous" color="#0DD20D" alpha="0.5" horizontalCenter="-432" verticalCenter="265"/>
+	<mx:Button x="372" y="567" label="Next --&gt;" color="#0DD20D" alpha="0.5" enabled="false"/>
+	<mx:Button label="&lt;-- Previous" color="#0DD20D" alpha="0.5" horizontalCenter="-432" verticalCenter="265" enabled="false"/>
 	
 </mx:Canvas>

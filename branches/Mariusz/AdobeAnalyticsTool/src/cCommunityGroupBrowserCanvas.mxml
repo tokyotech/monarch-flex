@@ -2,7 +2,9 @@
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="creationCompleteHandler(event)" show="showCanvasHandler(event)" width="1013" height="615" xmlns:ns1="*" backgroundColor="#FFFFFF" backgroundAlpha="0.2">
 
 	<mx:Metadata>
-		[Event(name="BackLabelClickedEvent", type="flash.events.Event")]
+		[Event(name="OpenCommunityGroupSelectionClickedEvent", type="flash.events.Event")]
+		[Event(name="OpenCommunityGroupHomeCanvasEvent", type="flash.events.Event")]
+		[Event(name="OpenAdditionalWebsiteInformationEvent", type="cAdditionalWebsiteInformationEvent")]
 	</mx:Metadata>
 
 	<mx:Script>
@@ -22,28 +24,28 @@
 			///////////////////////////////////////////////////////////////////////////////////
 
 			/**
-			 * 	Called when the user clicks on the back label.
+			 * 	Called when the user clicks on the home label.
 			 */
-			private function backLabelClickHandler(event:Event):void
+			private function homeLabelClickHandler(event:Event):void
 			{
-				var e:Event = new Event("BackLabelClickedEvent");
+				var e:Event = new Event("OpenCommunityGroupHomeCanvasEvent");
 				this.dispatchEvent(e);
 			}
 			
 			/**
-			 * 	Called when the user hovers the mouse over the back label.
+			 * 	Called when the user hovers the mouse over the home label.
 			 */
-			private function backLabelRollOverHandler(event:Event):void
+			private function homeLabelRollOverHandler(event:Event):void
 			{
-				mBackLabel.setStyle("color", "0xFF6666");
+				mHomeLabel.setStyle("color", "0xFF6666");
 			}
 			
 			/**
-			 * 	Called when the user hovers the mouse away from the back label.
+			 * 	Called when the user hovers the mouse away from the home label.
 			 */
-			private function backLabelRollOutHandler(event:Event):void
+			private function homeLabelRollOutHandler(event:Event):void
 			{
-				mBackLabel.setStyle("color", "0x11d30c");
+				mHomeLabel.setStyle("color", "0x11d30c");
 			}
 			
 			/**
@@ -51,8 +53,8 @@
 			 */
 			private function communityLabelClickHandler(event:Event):void
 			{
-				//var e:Event = new Event("BackLabelClickedEvent");
-				//this.dispatchEvent(e);
+				var e:Event = new Event("OpenCommunityGroupSelectionClickedEvent");
+				this.dispatchEvent(e);
 			}
 			
 			/**
@@ -156,6 +158,17 @@
 				//mLineChartCanvas.updateInformation(mAnalyticsParser, event);
 				//mStatOptionSelected = event;
 			}
+			
+			/**
+			 *  Fires an event signaling that the user has clicked the additional website information label.
+			 */
+			private function openAdditionalWebsiteInformationHandler(event:cAdditionalWebsiteInformationEvent):void
+			{
+				var e:cAdditionalWebsiteInformationEvent = new cAdditionalWebsiteInformationEvent("OpenAdditionalWebsiteInformationEvent");
+				e.mWebsiteName = event.mWebsiteName;
+				e.mCommuniutyGroupName = mCommunityGroupNameLabel.text;
+				this.dispatchEvent(e);
+			}
 			 
 			
 			///////////////////////////////////////////////////////////////////////////////////
@@ -190,7 +203,7 @@
 			///////////////////////////////////////////////////////////////////////////////////
 			
 			/**
-			 * 
+			 * Called when the canvas is created.
 			 */
 			private function creationCompleteHandler(event:Event):void
 			{
@@ -203,10 +216,16 @@
 			}
 			
 			/**
-			 * 
+			 * 	Called when the canvas is shown.
 			 */
 			private function showCanvasHandler(event:Event):void
 			{
+				if(mCommGroupName.length == 0) {
+					mCommunityGroupNameLabel.text = "[Community Group Name Not Available]";
+				}
+				else {
+					mCommunityGroupNameLabel.text = mCommGroupName;
+				}
 				mStatOptionAccordion.updateInformation(mWebsites, mKeywords);
 			}
 			
@@ -233,7 +252,7 @@
 		]]>
 	</mx:Script>
 
-	<mx:Label click="backLabelClickHandler(event)" rollOver="backLabelRollOverHandler(event)" rollOut="backLabelRollOutHandler(event)" text="Home &gt;&gt;" color="#11D30C" fontSize="14" textDecoration="normal" id="mBackLabel"  verticalCenter="-292" horizontalCenter="-461"/>
+	<mx:Label click="homeLabelClickHandler(event)" rollOver="homeLabelRollOverHandler(event)" rollOut="homeLabelRollOutHandler(event)" text="Home &gt;&gt;" color="#11D30C" fontSize="14" textDecoration="normal" id="mHomeLabel"  verticalCenter="-292" horizontalCenter="-461"/>
 	<mx:Label click="communityLabelClickHandler(event)" rollOver="communityLabelRollOverHandler(event)" rollOut="communityLabelRollOutHandler(event)" text="My Community Groups &gt;&gt;" color="#11D30C" fontSize="14" textDecoration="normal" id="mCommunityGroupLabel"  horizontalCenter="-323" verticalCenter="-292"/>
 	<mx:ViewStack x="187" y="45.55" id="mStatGraphicsViewStack" width="815" height="529.45">
 		<ns1:cLineChartCanvas x="1" y="2" id="mLineChartCanvas" creationComplete="lineChartCanvasCreateHandler(event)">
@@ -247,7 +266,9 @@
 	<mx:RadioButton label="2 Weeks" color="#DDDDDD" change="_2WeeksTimeSpanRadioButtonChangeHandler(event)" id="m2WeeksTimeSpanRadioButton" verticalCenter="286" horizontalCenter="216"/>
 	<mx:RadioButton label="1 Week" selected="true" color="#DDDDDD" change="_1WeekTimeSpanRadioButtonChangeHandler(event)" id="m1WeekSpanRadioButton" verticalCenter="286" horizontalCenter="295"/>
 	<ns1:cStatOptionsAccordion id="mStatOptionAccordion"
-							   StatOptionSelectedEvent="statOptionSelectedHandler(event)" height="559.45" horizontalCenter="-412" verticalCenter="17">
+							   StatOptionSelectedEvent="statOptionSelectedHandler(event)" 
+							   OpenAdditionalWebsiteInformationEvent="openAdditionalWebsiteInformationHandler(event)"
+							   height="559.45" horizontalCenter="-412" verticalCenter="17">
 	</ns1:cStatOptionsAccordion>
 	<mx:HRule width="993" height="14.56" verticalCenter="-277" horizontalCenter="0" alpha="0.5"/>
 	<mx:Button label="Add Website" color="#D8D8D8" alpha="0.5" id="mAddWebsiteButton" horizontalCenter="447" verticalCenter="-293" fontWeight="bold" cornerRadius="5"/>

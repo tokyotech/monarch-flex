@@ -2,7 +2,7 @@
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" rollOver="canvasRollOverHandler(event)" rollOut="canvasRollOutHandler(event)" creationComplete="creationCompleteHandler(event)" width="410" height="100" backgroundColor="#000000" backgroundAlpha="0.0">
 
 	<mx:Metadata>
-		[Event(name="WebsiteGraphicClickedEvent", type="cWebsiteGraphicClickedEvent")]
+		[Event(name="WebsiteGraphicClickedEvent", type="_cWebsiteGraphicClickedEvent")]
 		[Event(name="EditWebsiteLabelClickedEvent", type="cEditWebsiteEvent")]
 	</mx:Metadata>
 
@@ -46,7 +46,7 @@
 			 */
 			private function overlayCanvasClickHandler(event:Event):void
 			{
-				var e:cWebsiteGraphicClickedEvent = new cWebsiteGraphicClickedEvent("cWebsiteGraphicClickedEvent");
+				var e:_cWebsiteGraphicClickedEvent = new _cWebsiteGraphicClickedEvent("cWebsiteGraphicClickedEvent");
 				e.mWebsiteName = mWebsiteName;
 				e.mWebsiteURL = mURL;
 				e.mWebsiteType = mType;

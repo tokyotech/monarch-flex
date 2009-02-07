@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="showCanvasHandler(event)" show="showCanvasHandler(event)" width="1013" height="625" backgroundAlpha="0.1" backgroundColor="#FFFFFF" xmlns:local="*">
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="1013" height="625" backgroundAlpha="0.1" backgroundColor="#FFFFFF" xmlns:local="*">
 	<mx:Metadata>
 		[Event(name="CreateCommunityGroupEvent", type="cCreateCommunityGroupEvent")]
 		[Event(name="RequestWebsiteStatsEvent", type="cWebsiteGraphicClickedEvent")]
@@ -67,7 +67,7 @@
 			 */
 			private function openCreateCommGroupCanvasHandler(event:Event):void
 			{
-				mMyCommViewStack.selectedIndex = 1;
+				mMyCommViewStack.selectedIndex = 2;
 			}
 			
 			/**
@@ -76,13 +76,41 @@
 			 */
 			private function openCommunityGroupBrowserCanvasHandler(event:cCommGroupGraphicClickedEvent):void
 			{
-				mMyCommViewStack.selectedIndex = 2;
+				mMyCommViewStack.selectedIndex = 3;
 				mCommunityGroupBrowserCanvas.updateInformation(event.mCommGroupName,
 															   event.mCommGroupId,
 															   event.mCreator,
 															   event.mTime.toString(),
 															   event.mWebsites,
 															   event.mKeywords);
+			}
+			
+			/**
+			 * 	Differs from the openCommunityGroupBrowserCanvasHandler function in that we don't need
+			 * 	to update the internal information of mCommunityGroupBrowserCanvas. Used to wuickly switch
+			 * 	to an existing instance of the canvas.
+			 */
+			private function reOpenCommunityGroupBrowserCanvasHandler(event:Event):void
+			{
+				mMyCommViewStack.selectedIndex = 3;
+			}
+			
+			/**
+			 *	Opens the additional website information canvas.
+			 */
+			private function openAdditionalWebsiteInformationHandler(event:cAdditionalWebsiteInformationEvent):void
+			{
+				mMyCommViewStack.selectedIndex = 4;
+				mWebsiteAdditionalInformationStatBrowserCanvas.updateInformation(event.mWebsiteName,
+																			     event.mCommuniutyGroupName);
+			}
+			
+			/**
+			 *  Opens the community group selection canvas
+			 */
+			private function openCommunityGroupSelectionCanvas(event:Event):void
+			{
+				mMyCommViewStack.selectedIndex = 1;
 			}
 			
 			/**
@@ -116,22 +144,35 @@
 			}
 			
 			/**
-			 *	Function which gets called each time this canvas is selected by the parent. It
-			 * 	will select the cMyCommHomeCanvas as the default canvas within this component and
-			 *  update its internal user information.
-			 */
-			private function showCanvasHandler(event:Event):void
-			{					
-				mMyCommHomeCanvas.updateInformation(mUserAccountInformation);				
-				mMyCommViewStack.selectedIndex = 0;
-			}
-			
-			/**
 			 *	 Detects a request to open the regular expression editor canvas.
 			 */
 			private function editWebsiteLabelClickedHandler(event:cEditWebsiteEvent):void
 			{
 				mMyCommViewStack.selectedIndex = 4;
+			}
+			
+			/**
+			 * 	Handler which displays the My Community Group Selection Canvas.
+			 */
+			private function myCommunityGroupClickedHandler(event:Event):void
+			{
+				mMyCommViewStack.selectedIndex = 1;
+			}
+			
+			/**
+			 * 	Called when the my community group selection canvas is displayed
+			 */
+			private function showMyCommunityGroupsSelectionCanvasHandler(event:Event):void
+			{
+				mMyCommHomeCanvas.updateInformation(mUserAccountInformation);
+			}
+			
+			/**
+			 * 
+			 */
+			private function openCommunityGroupHomeCanvas(event:Event):void
+			{
+				mMyCommViewStack.selectedIndex = 0;		
 			}
 			
 			
@@ -181,7 +222,7 @@
 					mMyCommViewStack.selectedIndex = 0;
 				}
 			}
-			
+		
 			
 			///////////////////////////////////////////////////////////////////////////////////
 			//
@@ -202,12 +243,16 @@
 	</mx:Script>
 	<mx:ViewStack x="0" y="0" id="mNavigatorViewStack" width="1013" height="625">
 		<mx:ViewStack id="mMyCommViewStack" label="My Community Groups" width="1013" height="625">
-			<local:cMyCommHomeCanvas id="mMyCommHomeCanvas" show="showCanvasHandler(event)" OpenCommunityGroupBrowserCanvasEvent="openCommunityGroupBrowserCanvasHandler(event)" OpenCreateCommunityGroupCanvasEvent="openCreateCommGroupCanvasHandler(event)" label="My Community Groups" height="616" width="1012">
-			</local:cMyCommHomeCanvas>
-			<local:cCreateCommunityGroupCanvas id="mCreateCommunityGroupCanvas" CreateCommunityGroupEvent="createCommunityGroupHandler(event)" BackLabelClickedEvent="createCommBackLabelClickedHandler(event)" height="577" width="1003">
+			<local:cMyCommunityGroupHomeCanvas id="mMyCommunityGroupHomeCanvas" MyCommunityGroupClickedEvent="myCommunityGroupClickedHandler(event)" height="616" width="1012">
+			</local:cMyCommunityGroupHomeCanvas>
+			<local:cMyCommunityGroupSelectionCanvas id="mMyCommHomeCanvas" OpenCommunityGroupHomeCanvasEvent="openCommunityGroupHomeCanvas(event)" show="showMyCommunityGroupsSelectionCanvasHandler(event)" OpenCommunityGroupBrowserCanvasEvent="openCommunityGroupBrowserCanvasHandler(event)" OpenCreateCommunityGroupCanvasEvent="openCreateCommGroupCanvasHandler(event)" label="My Community Groups" height="616" width="1012">
+			</local:cMyCommunityGroupSelectionCanvas>
+			<local:cCreateCommunityGroupCanvas id="mCreateCommunityGroupCanvas" BackLabelClickedEvent="createCommBackLabelClickedHandler(event)" height="577" width="1003">
 			</local:cCreateCommunityGroupCanvas>
-			<local:cCommunityGroupBrowserCanvas id="mCommunityGroupBrowserCanvas" >
+			<local:cCommunityGroupBrowserCanvas id="mCommunityGroupBrowserCanvas" OpenAdditionalWebsiteInformationEvent="openAdditionalWebsiteInformationHandler(event)" OpenCommunityGroupSelectionClickedEvent="openCommunityGroupSelectionCanvas(event)" OpenCommunityGroupHomeCanvasEvent="openCommunityGroupHomeCanvas(event)" >
 			</local:cCommunityGroupBrowserCanvas>
+			<local:cWebsiteAdditionalStatsBrowserCanvas id="mWebsiteAdditionalInformationStatBrowserCanvas" OpenCommunityGroupBrowserCanvasEvent="reOpenCommunityGroupBrowserCanvasHandler(event)" OpenCommunityGroupHomeCanvasEvent="openCommunityGroupHomeCanvas(event)" OpenCommunityGroupSelectionClickedEvent="openCommunityGroupSelectionCanvas(event)">
+			</local:cWebsiteAdditionalStatsBrowserCanvas>
 			<local:cRegularExpressionEditorCanvas id="mRegularExpressionEditorCanvas" BackLabelClickedEvent="RegularExpressionEditorBackClickedHandler(event)">
 			</local:cRegularExpressionEditorCanvas>
 		</mx:ViewStack>

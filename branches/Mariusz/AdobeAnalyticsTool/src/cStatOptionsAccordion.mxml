@@ -3,6 +3,7 @@
 	
 	<mx:Metadata>
 		[Event(name="StatOptionSelectedEvent", type="cStatOptionSelectedEvent")]
+		[Event(name="OpenAdditionalWebsiteInformationEvent", type="cAdditionalWebsiteInformationEvent")]
 	</mx:Metadata>
 	
 	<mx:Script>
@@ -203,11 +204,15 @@
 				}
 				
 				var websiteEntry:cWebsiteEntry = null;
+				this.selectedIndex = 0;
+				mWebsitesCanvas.removeAllChildren();
+				mKeywordsSpokenCanvas.removeAllChildren();
+				mLinksSpokenCanvas.removeAllChildren();
 				var inc:int = 0;
 				for(var i:int = 0; i < mWebsites.length; i++) {
 					websiteEntry = cWebsiteEntry(mWebsites.getItemAt(i));
 					var websiteGraphic:cAccordionWebsiteGraphicCanvas = new cAccordionWebsiteGraphicCanvas();
-					//websiteStaticGraphic.addEventListener("cWebsiteStaticLargeGraphicClickedEvent", websiteStaticGraphicClickedHandler);
+					websiteGraphic.addEventListener("cAdditionalWebsiteInformationEvent", openAdditionalWebsiteInformationHandler);
 					websiteGraphic.updateInformation(websiteEntry.mName);
 					websiteGraphic.y = inc;
 					inc += 28;
@@ -277,6 +282,16 @@
 						mNoWebsitesAvailableLabel.visible = false;
 					}
 				}
+			}
+			
+			/**
+			 * 	Fires an event signaling that the user has clicked the additional information label.
+			 */
+			private function openAdditionalWebsiteInformationHandler(event:cAdditionalWebsiteInformationEvent):void
+			{
+				var e:cAdditionalWebsiteInformationEvent = new cAdditionalWebsiteInformationEvent("OpenAdditionalWebsiteInformationEvent");
+				e.mWebsiteName = event.mWebsiteName;
+				this.dispatchEvent(e);
 			}
 			
 			
