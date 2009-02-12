@@ -59,7 +59,7 @@
 			 */
 			private function creationCompleteHandler(event:Event):void
 			{
-				mUserNameTextBox.setFocus();
+				mEmailTextBox.setFocus();
 			}
 			
 			/**
@@ -82,14 +82,14 @@
 			 */
 			private function signInProcess():void
 			{
-				if(mUserNameTextBox.text.length == 0 || 
+				if(mEmailTextBox.text.length == 0 || 
 				   mPasswordTextBox.text.length == 0)
 				{
-					Alert.show("Please enter both a User Name and a Password.", "Error", 1, this);
+					Alert.show("Please enter both a Email and a Password.", "Error", 1, this);
 					return;
 				}
 				var e:cSignInEvent = new cSignInEvent("cSignInEvent");
-				e.mUserName = mUserNameTextBox.text;
+				e.mEmail = mEmailTextBox.text;
 				e.mPassword = mPasswordTextBox.text;
 				e.mType = e.SIGN_IN;
 				this.dispatchEvent(e);
@@ -111,12 +111,12 @@
 		]]>
 	</mx:Script>
 	
-	<mx:Label x="10" y="67" text="User Name :" color="#F0EEEE"/>
+	<mx:Label x="41" y="67" text="Email :" color="#F0EEEE"/>
 	<mx:Label x="20" y="93" text="Password :" color="#F0F0F0"/>
-	<mx:TextInput width="263" keyDown="userNameKeyDownHandler(event)" id="mUserNameTextBox" x="94" y="65" toolTip="Enter the account user name"/>
+	<mx:TextInput width="263" keyDown="userNameKeyDownHandler(event)" id="mEmailTextBox" x="94" y="65" toolTip="Enter the account user name"/>
 	<mx:TextInput x="94" y="91" keyDown="passwordKeyDownHandler(event)" width="263" displayAsPassword="true" id="mPasswordTextBox" toolTip="Enter the account password"/>
 	<mx:Label x="156" y="10" text="Sign In" fontSize="14" color="#F0F0F0" textDecoration="underline"/>
-	<mx:Label x="10" y="41" text="Please enter your user name and password and click Sign In." color="#F0F0F0"/>
+	<mx:Label x="27" y="41" text="Please enter your email and password and click Sign In." color="#F0F0F0"/>
 	<mx:Button label="Sign In" id="mSignInButton" click="signInClickHandler(event)" x="291" y="121" toolTip="Sign into the account"/>
 	<mx:Button label="Cancel" id="mCancelButton" click="cancelClickHandler(event)" x="220" y="121" toolTip="Cancel the sign in operation"/>
 </mx:Window>

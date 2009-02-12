@@ -106,7 +106,7 @@
 			private function createAccountProcess():void
 			{
 				if(mFullNameTextBox.text.length == 0 ||
-				   mUserNameTextBox.text.length == 0 ||
+				   mEmailTextBox.text.length == 0 ||
 				   mPasswordTextBox.text.length == 0 ||
 				   mReEnterPasswordTextBox.text.length == 0)
 				{
@@ -123,7 +123,7 @@
 				var e:cCreateAccountEvent = new cCreateAccountEvent("cCreateAccountEvent");
 				e.mType = e.CREATE_ACCOUNT;
 				e.mFullName = mFullNameTextBox.text;
-				e.mUserName = mUserNameTextBox.text;
+				e.mEmail = mEmailTextBox.text;
 				e.mPassword = mPasswordTextBox.text;
 				this.dispatchEvent(e);
 				this.close();
@@ -144,13 +144,13 @@
 	</mx:Script>
 	
 	<mx:Label x="142.5" y="10" text="Create Account" fontSize="14" color="#F0F0F0" id="mCreateAccountLabel" textDecoration="underline"/>
-	<mx:Label x="37.5" y="41" text="Please enter your full name, a user name and password." color="#F0F0F0"/>
+	<mx:Label x="12.5" y="41" text="Please enter your full name, an email address and password." color="#F0F0F0"/>
 	<mx:Label x="59" y="67" text="Full Name :" color="#F0EEEE"/>
-	<mx:Label x="53" y="93" text="User Name :" color="#F0EEEE"/>
+	<mx:Label x="84" y="93" text="Email :" color="#F0EEEE"/>
 	<mx:Label x="63" y="119" text="Password :" color="#F0EEEE"/>
 	<mx:Label x="10" y="145" text="Re-enter Password :" color="#F0EEEE"/>
 	<mx:TextInput width="224.5" keyDown="fullNameKeyDownHandler(event)" id="mFullNameTextBox" x="136" y="65" toolTip="Your full name"/>
-	<mx:TextInput width="224.5" keyDown="userNameKeyDownHandler(event)" id="mUserNameTextBox" x="136" y="91" toolTip="The user name used for logging in"/>
+	<mx:TextInput width="224.5" keyDown="userNameKeyDownHandler(event)" id="mEmailTextBox" x="136" y="91" toolTip="The user name used for logging in"/>
 	<mx:TextInput width="224.5" keyDown="passwordKeyDownHandler(event)" id="mPasswordTextBox" x="136" y="117" displayAsPassword="true" toolTip="The password used for logging in"/>
 	<mx:TextInput width="224.5" keyDown="reEnterPasswordKeyDownHandler(event)" id="mReEnterPasswordTextBox" x="136" y="143" displayAsPassword="true" toolTip="Re-enter the password"/>
 	<mx:Button x="246.5" y="173" click="createAccountClickHandler(event)" id="cCreateAccountButton" label="Create Account" toolTip="Create the account"/>

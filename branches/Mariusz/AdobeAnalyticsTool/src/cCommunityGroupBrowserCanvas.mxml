@@ -5,6 +5,7 @@
 		[Event(name="OpenCommunityGroupSelectionClickedEvent", type="flash.events.Event")]
 		[Event(name="OpenCommunityGroupHomeCanvasEvent", type="flash.events.Event")]
 		[Event(name="OpenAdditionalWebsiteInformationEvent", type="cAdditionalWebsiteInformationEvent")]
+		[Event(name="OpenCommunityGroupEditorCanvasEvent", type="cCommunityGroupEditorEvent")]
 	</mx:Metadata>
 
 	<mx:Script>
@@ -22,6 +23,18 @@
 			//						   EVENT HANDLERS
 			//
 			///////////////////////////////////////////////////////////////////////////////////
+
+			/**
+			 * 	Called when the user clicks the edit community group button.
+			 */
+			private function editCommunityGroupButtonClickHandler(event:Event):void
+			{
+				var e:cCommunityGroupEditorEvent = new cCommunityGroupEditorEvent("OpenCommunityGroupEditorCanvasEvent");
+				e.mCommuniutyGroupName = mCommunityGroupNameLabel.text;
+				e.mWebsites = mWebsites;
+				e.mKeywords = mKeywords;
+				this.dispatchEvent(e);
+			}
 
 			/**
 			 * 	Called when the user clicks on the home label.
@@ -272,6 +285,6 @@
 	</ns1:cStatOptionsAccordion>
 	<mx:HRule width="993" height="14.56" verticalCenter="-277" horizontalCenter="0" alpha="0.5"/>
 	<mx:Button label="Add Website" color="#D8D8D8" alpha="0.5" id="mAddWebsiteButton" horizontalCenter="447" verticalCenter="-293" fontWeight="bold" cornerRadius="5"/>
-	<mx:Button label="Edit Community Group" color="#D8D8D8" alpha="0.5" id="mEditCommunityGroupButton" horizontalCenter="313" verticalCenter="-293" fontWeight="bold" fontStyle="normal" cornerRadius="5"/>
+	<mx:Button label="Edit Community Group" color="#D8D8D8" click="editCommunityGroupButtonClickHandler(event)" alpha="0.5" id="mEditCommunityGroupButton" horizontalCenter="313" verticalCenter="-293" fontWeight="bold" fontStyle="normal" cornerRadius="5"/>
 	
 </mx:Canvas>

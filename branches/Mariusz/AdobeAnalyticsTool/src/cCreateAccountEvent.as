@@ -20,7 +20,7 @@ package
 		
 		public var mType:String = "";
 		public var mFullName:String = "";
-		public var mUserName:String = "";
+		public var mEmail:String = "";
 		public var mPassword:String = "";
 		
 	}

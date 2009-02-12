@@ -5,6 +5,7 @@
 		[Event(name="RequestWebsiteStatsEvent", type="cWebsiteGraphicClickedEvent")]
 		[Event(name="OpenWebsiteCreatorWindowEvent", type="cCreateWebsiteEvent")]
 		[Event(name="EditWebsiteLabelClickedEvent", type="cEditWebsiteEvent")]
+		[Event(name="OpenAddWebsiteWindowEvent", type="cCreateWebsiteEvent")]
 	</mx:Metadata>
 	
 	<mx:Script>
@@ -51,6 +52,15 @@
 				var e:cCreateCommunityGroupEvent = new cCreateCommunityGroupEvent("CreateCommunityGroupEvent");
 				e.mCommName = event.mCommName;
 				e.mKeywords = event.mKeywords;
+				this.dispatchEvent(e);
+			}
+			
+			/**
+			 * 	Fires an event to the main canvas to open the add website window.
+			 */
+			private function openAddWebsiteWindowHandler(event:Event):void
+			{
+				var e:cCreateWebsiteEvent = new cCreateWebsiteEvent("OpenAddWebsiteWindowEvent");
 				this.dispatchEvent(e);
 			}
 			
@@ -141,6 +151,17 @@
 				var e:cCreateWebsiteEvent = new cCreateWebsiteEvent("OpenWebsiteCreatorWindowEvent");
 				e.mCommunityGroupId = event.mCommunityGroupId;
 				this.dispatchEvent(e);
+			}
+			
+			/**
+			 * 	Opens the community group editor canvas.
+			 */
+			private function openCommunityGroupEditorCanvasHandler(event:cCommunityGroupEditorEvent):void
+			{
+				mMyCommViewStack.selectedIndex = 5;
+				communityGroupEditorCanvas.updateInformation(event.mCommuniutyGroupName,
+															 event.mKeywords,
+															 event.mWebsites);
 			}
 			
 			/**
@@ -249,10 +270,12 @@
 			</local:cMyCommunityGroupSelectionCanvas>
 			<local:cCreateCommunityGroupCanvas id="mCreateCommunityGroupCanvas" BackLabelClickedEvent="createCommBackLabelClickedHandler(event)" height="577" width="1003">
 			</local:cCreateCommunityGroupCanvas>
-			<local:cCommunityGroupBrowserCanvas id="mCommunityGroupBrowserCanvas" OpenAdditionalWebsiteInformationEvent="openAdditionalWebsiteInformationHandler(event)" OpenCommunityGroupSelectionClickedEvent="openCommunityGroupSelectionCanvas(event)" OpenCommunityGroupHomeCanvasEvent="openCommunityGroupHomeCanvas(event)" >
+			<local:cCommunityGroupBrowserCanvas id="mCommunityGroupBrowserCanvas" OpenCommunityGroupEditorCanvasEvent="openCommunityGroupEditorCanvasHandler(event)" OpenAdditionalWebsiteInformationEvent="openAdditionalWebsiteInformationHandler(event)" OpenCommunityGroupSelectionClickedEvent="openCommunityGroupSelectionCanvas(event)" OpenCommunityGroupHomeCanvasEvent="openCommunityGroupHomeCanvas(event)" >
 			</local:cCommunityGroupBrowserCanvas>
 			<local:cWebsiteAdditionalStatsBrowserCanvas id="mWebsiteAdditionalInformationStatBrowserCanvas" OpenCommunityGroupBrowserCanvasEvent="reOpenCommunityGroupBrowserCanvasHandler(event)" OpenCommunityGroupHomeCanvasEvent="openCommunityGroupHomeCanvas(event)" OpenCommunityGroupSelectionClickedEvent="openCommunityGroupSelectionCanvas(event)">
 			</local:cWebsiteAdditionalStatsBrowserCanvas>
+			<local:cCommunityGroupEditorCanvas OpenAddWebsiteWindowEvent="openAddWebsiteWindowHandler(event)" id="communityGroupEditorCanvas" OpenCommunityGroupBrowserCanvasEvent="reOpenCommunityGroupBrowserCanvasHandler(event)" OpenCommunityGroupHomeCanvasEvent="openCommunityGroupHomeCanvas(event)" OpenCommunityGroupSelectionClickedEvent="openCommunityGroupSelectionCanvas(event)">
+			</local:cCommunityGroupEditorCanvas>
 			<local:cRegularExpressionEditorCanvas id="mRegularExpressionEditorCanvas" BackLabelClickedEvent="RegularExpressionEditorBackClickedHandler(event)">
 			</local:cRegularExpressionEditorCanvas>
 		</mx:ViewStack>

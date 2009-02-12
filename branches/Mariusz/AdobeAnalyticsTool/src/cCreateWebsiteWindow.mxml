@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Window xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="creationCompleteHandler(event)" close="closingHandler(event)" layout="absolute" width="444" height="196" backgroundColor="#828282" showStatusBar="false" showInAutomationHierarchy="false" showGripper="false" showTitleBar="false" maxHeight="196" maxWidth="444" minHeight="196" minWidth="444">
+<mx:Window xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="creationCompleteHandler(event)" close="closingHandler(event)" layout="absolute" width="444" height="440" backgroundColor="#828282" showStatusBar="false" showInAutomationHierarchy="false" showGripper="false" showTitleBar="false" maxHeight="440" maxWidth="444" minHeight="440" minWidth="444">
 
 	<mx:Metadata>
 		[Event(name="CreateWebsiteEvent", type="cCreateWebsiteEvent")]
@@ -59,6 +59,7 @@
 			private function creationCompleteHandler(event:Event):void
 			{
 				mWebsiteNameTextBox.setFocus();
+				//this.height = 234;
 			}
 			
 			/**
@@ -149,18 +150,24 @@
 		]]>
 	</mx:Script>
 
-	<mx:Label x="164.5" y="10" text="Create Website" fontSize="14" color="#F0F0F0" id="mCreateWebsiteLabel" textDecoration="underline"/>
-	<mx:Label x="18" y="39" text="Please enter the name, URL, and select the type of website you want  " color="#F0F0F0"/>
-	<mx:Label x="18" y="54" text="to create - then click Create Website." color="#F0F0F0"/>
-	<mx:Label x="18" y="82" text="Website Name :" keyDown="websiteNameKeyDownHandler(event)" color="#F0EEEE"/>
-	<mx:Label x="18" y="108" text="Website URL :" keyDown="websiteURLKeyDownHandler(event)" color="#F0EEEE"/>
-	<mx:Label x="18" y="134" text="Website Type :" color="#F0EEEE"/>
-	<mx:TextInput x="121" y="80" width="296" id="mWebsiteNameTextBox"/>
-	<mx:TextInput x="121" y="106" width="296" id="mWebsiteURLTextBox"/>
-	<mx:Button x="303" y="162" click="createWebsiteClickHandler(event)" id="cCreateWebsiteButton" label="Create Website" toolTip="Create the account"/>
-	<mx:Button x="232" y="162" click="cancelClickHandler(event)" id="mCancelButton" label="Cancel" toolTip="Cancel the create account aperation"/>
-	<mx:RadioButton x="121" y="132" label="Forum" color="#D3D3D3" textRollOverColor="#11D30C" textSelectedColor="#FF6666" id="mForumTypeRadioButton"/>
-	<mx:RadioButton x="189" y="132" label="Blog" color="#D3D3D3" textRollOverColor="#11D30C" textSelectedColor="#FF6666" id="mBlogTypeRadioButton"/>
-	<mx:RadioButton x="246.5" y="132" label="News" color="#D3D3D3" textRollOverColor="#11D30C" textSelectedColor="#FF6666" id="mNewsTypeRadioButton"/>
+	<mx:Label x="144.5" y="10" text="Add Website Creator" fontSize="14" color="#F0F0F0" id="mCreateWebsiteLabel" textDecoration="underline"/>
+	<mx:Button x="333" y="406" click="createWebsiteClickHandler(event)" id="cCreateWebsiteButton" label="Add Website" toolTip="Create the account"/>
+	<mx:Button x="262" y="406" click="cancelClickHandler(event)" id="mCancelButton" label="Cancel" toolTip="Cancel the create account aperation"/>
+	<mx:Canvas x="14" y="63" width="418" height="131" backgroundColor="#FFFFFF" backgroundAlpha="0.1" id="mAddNewWebsiteContainer">
+		<mx:Label x="7.5" y="10" text="Please enter the name, URL, and select the type of website you want  " color="#F0F0F0"/>
+		<mx:Label x="7.5" y="25" text="to create - then click Add Website." color="#F0F0F0"/>
+		<mx:Label x="7.5" y="53" text="Website Name :" keyDown="websiteNameKeyDownHandler(event)" color="#F0EEEE"/>
+		<mx:Label x="7.5" y="79" text="Website URL :" keyDown="websiteURLKeyDownHandler(event)" color="#F0EEEE"/>
+		<mx:Label x="7.5" y="105" text="Website Type :" color="#F0EEEE"/>
+		<mx:TextInput x="110.5" y="51" width="296" id="mWebsiteNameTextBox"/>
+		<mx:TextInput x="110.5" y="77" width="296" id="mWebsiteURLTextBox"/>
+		<mx:RadioButton x="110.5" y="103" label="Forum" color="#D3D3D3" textRollOverColor="#11D30C" textSelectedColor="#FF6666" id="mForumTypeRadioButton"/>
+		<mx:RadioButton x="178.5" y="103" label="Blog" color="#D3D3D3" textRollOverColor="#11D30C" textSelectedColor="#FF6666" id="mBlogTypeRadioButton"/>
+		<mx:RadioButton x="236" y="103" label="News" color="#D3D3D3" textRollOverColor="#11D30C" textSelectedColor="#FF6666" id="mNewsTypeRadioButton"/>
+	</mx:Canvas>
+	<mx:RadioButton x="10" y="33" label="Add New Website" color="#F0F0F0" selected="true" textRollOverColor="#B7BABC" textSelectedColor="#B7BABC" id="mAddNewWebsiteRadioButton"/>
+	<mx:RadioButton x="14" y="202" label="Add Previously Setup Website" color="#F0F0F0" textRollOverColor="#B7BABC" textSelectedColor="#B7BABC" id="AddPrevWebsiteRadioButton"/>
+	<mx:VBox x="14" y="232" height="166" width="418" backgroundColor="#FFFFFF" backgroundAlpha="0.1" enabled="false" disabledOverlayAlpha=".2">
+	</mx:VBox>
 	
 </mx:Window>

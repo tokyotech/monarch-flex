@@ -20,7 +20,7 @@
     		[Bindable]
     		private var mFullName:String = "";
     		[Bindable]
-    		private var mUserName:String = "";
+    		private var mEmail:String = "";
     		[Bindable]
     		private var mPassword:String = "";
     		
@@ -68,7 +68,7 @@
     		public function createAccount(fullName:String, userName:String, password:String):void
     		{
 				mFullName = fullName;
-				mUserName = userName;
+				mEmail = userName;
 				mPassword = password;
     			
     			mAccountRequestHTTPService.send();
@@ -79,7 +79,7 @@
     		 */
     		public function loginToAccount(userName:String, password:String):void
     		{
-    			mUserName = userName;
+    			mEmail = userName;
     			mPassword = password;
     			
     			mLogInRequestHTTPService.send();
@@ -171,7 +171,7 @@
     				//Alert.show("You have successfully logged in.", "Login Successful");
     				var e:cLoggedinEvent = new cLoggedinEvent("LoggedInCreatedEvent");
     				e.mFullName = userAccountInformationList.elements("fullName").toString();
-    				e.mUserName = userAccountInformationList.elements("userName").toString();
+    				e.mEmail = userAccountInformationList.elements("email").toString();
     				e.mPassword = userAccountInformationList.elements("password").toString();
     				e.mUserId = int(userAccountInformationList.elements("userId"));
     							
@@ -254,7 +254,7 @@
 				if(userAccountInformationList.children().length() > 0) {    				
     				var e:cLoggedinEvent = new cLoggedinEvent("AccountCreatedEvent");
     				e.mFullName = userAccountInformationList.elements("fullName").toString();
-    				e.mUserName = userAccountInformationList.elements("userName").toString();
+    				e.mEmail = userAccountInformationList.elements("email").toString();
     				e.mPassword = userAccountInformationList.elements("password").toString();
     				e.mUserId = int(userAccountInformationList.elements("userId"));
     				
@@ -375,13 +375,13 @@
 	<mx:HTTPService id="mAccountRequestHTTPService" result="createAccountHTTPServiceResultHandler(event)" url="http://csil-srprj-2.cs.uiuc.edu/Client/register.php" resultFormat="e4x" method="GET" useProxy="false">
 		<mx:request xmlns="">
 			<fullName>{mFullName}</fullName>
-			<userName>{mUserName}</userName>
+			<email>{mEmail}</email>
 			<password>{mPassword}</password>
 		</mx:request>
 	</mx:HTTPService>	
 	<mx:HTTPService id="mLogInRequestHTTPService" result="logInHTTPServiceResultHandler(event)" url="http://csil-srprj-2.cs.uiuc.edu/Client/login.php" resultFormat="e4x" method="GET" useProxy="false">
 		<mx:request xmlns="">
-			<userName>{mUserName}</userName>
+			<email>{mEmail}</email>
 			<password>{mPassword}</password>
 		</mx:request>
 	</mx:HTTPService>
