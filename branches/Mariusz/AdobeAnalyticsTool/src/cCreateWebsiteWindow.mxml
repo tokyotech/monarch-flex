@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Window xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="creationCompleteHandler(event)" close="closingHandler(event)" layout="absolute" width="444" height="440" backgroundColor="#828282" showStatusBar="false" showInAutomationHierarchy="false" showGripper="false" showTitleBar="false" maxHeight="440" maxWidth="444" minHeight="440" minWidth="444">
+<mx:Window xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="creationCompleteHandler(event)" show="creationCompleteHandler(event)" close="closingHandler(event)" layout="absolute" width="444" height="440" backgroundColor="#828282" showStatusBar="false" showInAutomationHierarchy="false" showGripper="false" showTitleBar="false" maxHeight="440" maxWidth="444" minHeight="440" minWidth="444" disabledOverlayAlpha=".7" backgroundDisabledColor="#000000" horizontalScrollPolicy="off">
 
 	<mx:Metadata>
 		[Event(name="CreateWebsiteEvent", type="cCreateWebsiteEvent")]
@@ -20,7 +20,13 @@
 			 */
 			private function createWebsiteClickHandler(event:Event):void
 			{
-				createAccountProcess();
+				if(mAddNewWebsiteRadioButton.selected) {
+					createWebsiteProcess();
+				}
+				else if(mAddPrevWebsiteRadioButton.selected) {
+					addWebsiteProcess();
+				}
+				
 			}
 			
 			/**
@@ -30,7 +36,7 @@
 			private function websiteNameKeyDownHandler(event:KeyboardEvent):void
 			{
 				if(event.keyCode == Keyboard.ENTER) {
-					createAccountProcess();
+					createWebsiteProcess();
 				}
 			}
 			
@@ -41,7 +47,7 @@
 			private function websiteURLKeyDownHandler(event:KeyboardEvent):void
 			{
 				if(event.keyCode == Keyboard.ENTER) {
-					createAccountProcess();
+					createWebsiteProcess();
 				}
 			}
 			
@@ -54,23 +60,26 @@
 			}
 			
 			/**
-			 * 	Event handler called when the window is first created.
+			 * 	Called when the user clicks on the add new website radio button.
 			 */
-			private function creationCompleteHandler(event:Event):void
+			private function addNewWebsiteChangeHandler(event:Event):void
 			{
-				mWebsiteNameTextBox.setFocus();
-				//this.height = 234;
+				mAddNewWebsiteContainer.enabled = true;
+				mAddPrevWebsiteContainer.enabled = false;	
+				cCreateWebsiteButton.toolTip = "Create the website specified";
 			}
 			
 			/**
-			 * 	Event handler triggered when the window is about to close.
+			 * 	Called when the user clicks on the add previous website radio button.
 			 */
-			private function closingHandler(event:Event):void
+			private function addPreviousWebsiteChangeHandler(event:Event):void
 			{
-				cancelProcess();
+				mAddNewWebsiteContainer.enabled = false;
+				mAddPrevWebsiteContainer.enabled = true;	
+				cCreateWebsiteButton.toolTip = "Add the previously setup website(s) selected";
 			}
 			
-			
+
 			///////////////////////////////////////////////////////////////////////////////////
 			//
 			//								MEMBER FUNCTIONS
@@ -78,9 +87,9 @@
 			///////////////////////////////////////////////////////////////////////////////////
 			
 			/**
-			 * 	Function which handles the processing of a create account event.
+			 * 	Function which handles the processing of a create website event.
 			 */
-			private function createAccountProcess():void
+			private function createWebsiteProcess():void
 			{
 				if(mWebsiteNameTextBox.text.length == 0) {
 					Alert.show("Please enter a website name before proceeding.", "Error", 1, this);
@@ -120,6 +129,14 @@
 			}
 			
 			/**
+			 *  Function which handles the processing of a add website(s) event.
+			 */
+			private function addWebsiteProcess():void
+			{
+				
+			}
+			
+			/**
 			 * 	Function which handles the processing of a cancel event.
 			 */
 			private function cancelProcess():void
@@ -141,6 +158,32 @@
 			
 			///////////////////////////////////////////////////////////////////////////////////
 			//
+			//								WINDOW EVENT HANDLERS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+			/**
+			 * 	Event handler called when the window is first created.
+			 */
+			private function creationCompleteHandler(event:Event):void
+			{
+				mWebsiteNameTextBox.setFocus();
+				mAddPrevWebsiteContainer.enabled = false;
+				mAddNewWebsiteContainer.enabled = true;
+				cCreateWebsiteButton.toolTip = "Create the website specified";
+			}
+			
+			/**
+			 * 	Event handler triggered when the window is about to close.
+			 */
+			private function closingHandler(event:Event):void
+			{
+				cancelProcess();
+			}
+			
+			
+			///////////////////////////////////////////////////////////////////////////////////
+			//
 			//								DATA MEMBERS
 			//
 			///////////////////////////////////////////////////////////////////////////////////
@@ -150,10 +193,10 @@
 		]]>
 	</mx:Script>
 
-	<mx:Label x="144.5" y="10" text="Add Website Creator" fontSize="14" color="#F0F0F0" id="mCreateWebsiteLabel" textDecoration="underline"/>
-	<mx:Button x="333" y="406" click="createWebsiteClickHandler(event)" id="cCreateWebsiteButton" label="Add Website" toolTip="Create the account"/>
-	<mx:Button x="262" y="406" click="cancelClickHandler(event)" id="mCancelButton" label="Cancel" toolTip="Cancel the create account aperation"/>
-	<mx:Canvas x="14" y="63" width="418" height="131" backgroundColor="#FFFFFF" backgroundAlpha="0.1" id="mAddNewWebsiteContainer">
+	<mx:Label y="10" text="Add Website Creator" fontSize="14" color="#F0F0F0" id="mCreateWebsiteLabel" textDecoration="underline" horizontalCenter="0"/>
+	<mx:Button click="createWebsiteClickHandler(event)" id="cCreateWebsiteButton" label="Add Website(s)" horizontalCenter="153" verticalCenter="198"/>
+	<mx:Button click="cancelClickHandler(event)" id="mCancelButton" label="Cancel" toolTip="Cancel the create account aperation" horizontalCenter="56" verticalCenter="198"/>
+	<mx:Canvas width="418" height="131" backgroundColor="#FFFFFF" backgroundAlpha="0.1" id="mAddNewWebsiteContainer" alpha="1.0" horizontalCenter="2" verticalCenter="-91" enabled="true" backgroundDisabledColor="#000000" disabledOverlayAlpha=".7">
 		<mx:Label x="7.5" y="10" text="Please enter the name, URL, and select the type of website you want  " color="#F0F0F0"/>
 		<mx:Label x="7.5" y="25" text="to create - then click Add Website." color="#F0F0F0"/>
 		<mx:Label x="7.5" y="53" text="Website Name :" keyDown="websiteNameKeyDownHandler(event)" color="#F0EEEE"/>
@@ -165,9 +208,13 @@
 		<mx:RadioButton x="178.5" y="103" label="Blog" color="#D3D3D3" textRollOverColor="#11D30C" textSelectedColor="#FF6666" id="mBlogTypeRadioButton"/>
 		<mx:RadioButton x="236" y="103" label="News" color="#D3D3D3" textRollOverColor="#11D30C" textSelectedColor="#FF6666" id="mNewsTypeRadioButton"/>
 	</mx:Canvas>
-	<mx:RadioButton x="10" y="33" label="Add New Website" color="#F0F0F0" selected="true" textRollOverColor="#B7BABC" textSelectedColor="#B7BABC" id="mAddNewWebsiteRadioButton"/>
-	<mx:RadioButton x="14" y="202" label="Add Previously Setup Website" color="#F0F0F0" textRollOverColor="#B7BABC" textSelectedColor="#B7BABC" id="AddPrevWebsiteRadioButton"/>
-	<mx:VBox x="14" y="232" height="166" width="418" backgroundColor="#FFFFFF" backgroundAlpha="0.1" enabled="false" disabledOverlayAlpha=".2">
+	<mx:RadioButton label="Add New Website" change="addNewWebsiteChangeHandler(event)" color="#F0F0F0" selected="true" textRollOverColor="#B7BABC" textSelectedColor="#B7BABC" id="mAddNewWebsiteRadioButton" x="10" verticalCenter="-175">
+		<mx:toolTip>Create and add a website which has not been previously created</mx:toolTip>
+	</mx:RadioButton>
+	<mx:RadioButton x="14" label="Add Previously Setup Websites" change="addPreviousWebsiteChangeHandler(event)" color="#F0F0F0" textRollOverColor="#B7BABC" textSelectedColor="#B7BABC" id="mAddPrevWebsiteRadioButton" verticalCenter="-6">
+		<mx:toolTip>Add a website which has been previously created and added</mx:toolTip>
+	</mx:RadioButton>
+	<mx:VBox height="166" width="418" backgroundColor="#FFFFFF" backgroundAlpha="0.1" enabled="false" disabledOverlayAlpha=".7" id="mAddPrevWebsiteContainer" alpha="1" horizontalCenter="2" verticalCenter="96" backgroundDisabledColor="#000000" verticalScrollPolicy="on" horizontalScrollPolicy="off">
 	</mx:VBox>
 	
 </mx:Window>

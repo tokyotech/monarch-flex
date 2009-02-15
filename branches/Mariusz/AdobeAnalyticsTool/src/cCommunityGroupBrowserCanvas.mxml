@@ -4,8 +4,9 @@
 	<mx:Metadata>
 		[Event(name="OpenCommunityGroupSelectionClickedEvent", type="flash.events.Event")]
 		[Event(name="OpenCommunityGroupHomeCanvasEvent", type="flash.events.Event")]
-		[Event(name="OpenAdditionalWebsiteInformationEvent", type="cAdditionalWebsiteInformationEvent")]
+		[Event(name="OpenAdditionalWebsiteInformationEvent", type="cAccordionWebsiteGraphicEvent")]
 		[Event(name="OpenCommunityGroupEditorCanvasEvent", type="cCommunityGroupEditorEvent")]
+		[Event(name="FetchWebsiteAnalytics", type="cWebsiteGraphicClickedEvent")]
 	</mx:Metadata>
 
 	<mx:Script>
@@ -173,14 +174,96 @@
 			}
 			
 			/**
-			 *  Fires an event signaling that the user has clicked the additional website information label.
+			 *  Called when the user has requested an event from the website graphic within the accoridion 
+			 * 	component.
 			 */
-			private function openAdditionalWebsiteInformationHandler(event:cAdditionalWebsiteInformationEvent):void
+			private function accordionWebsiteGraphicEventHandler(event:cAccordionWebsiteGraphicEvent):void
 			{
-				var e:cAdditionalWebsiteInformationEvent = new cAdditionalWebsiteInformationEvent("OpenAdditionalWebsiteInformationEvent");
-				e.mWebsiteName = event.mWebsiteName;
-				e.mCommuniutyGroupName = mCommunityGroupNameLabel.text;
-				this.dispatchEvent(e);
+				if(event.mType == event.OPEN_ADDITIONAL_INFORMATION) {
+					var e:cAccordionWebsiteGraphicEvent = new cAccordionWebsiteGraphicEvent("OpenAdditionalWebsiteInformationEvent");
+					e.mWebsiteName = event.mWebsiteName;
+					e.mCommuniutyGroupName = mCommunityGroupNameLabel.text;
+					this.dispatchEvent(e);
+				}
+				else if(event.mType == event.WEBSITE_CHECKED) {
+					var e1:cWebsiteGraphicClickedEvent = new cWebsiteGraphicClickedEvent("FetchWebsiteAnalytics");
+					e1.mWebsiteName = event.mWebsiteName;
+					e1.mCommGroupId = mCommGroupId;
+					this.dispatchEvent(e1);
+				}
+				else if(event.mType == event.WEBSITE_UNCHECKED) {
+					Alert.show("UnChecked");
+				}
+			}
+			
+			/**
+			 * 
+			 */
+			private function countWeightSliderChangeHandler(event:Event):void
+			{
+				mCountInfoLabel.text = mCountWeightSlider.value.toString().slice(0, 5);
+			}
+			
+			/**
+			 * 
+			 */
+			private function goodnessWeightSliderChangeHandler(event:Event):void
+			{
+				mGoodnessInfoLabel.text = mGoodnessWeightSlider.value.toString().slice(0, 5);
+			}
+			
+			/**
+			 * 
+			 */
+			private function proficiencyWeightSliderChangeHandler(event:Event):void
+			{
+				mEnglishProficiencyInfoLabel.text = mEnglishProficiencyWeightSlider.value.toString().slice(0, 5);
+			}
+			
+			/**
+			 * 
+			 */
+			private function presetsComboBoxChangeHandler(event:Event):void
+			{
+				if(mPresetsComboBox.selectedItem.toString() == "Count") {
+					mCountWeightSlider.value = 1;
+					mGoodnessWeightSlider.value = 0;
+					mEnglishProficiencyWeightSlider.value = 0;
+				}
+				if(mPresetsComboBox.selectedItem.toString() == "Goodness") {
+					mCountWeightSlider.value = 0;
+					mGoodnessWeightSlider.value = 1;
+					mEnglishProficiencyWeightSlider.value = 0;
+				}
+				if(mPresetsComboBox.selectedItem.toString() == "English Prof.") {
+					mCountWeightSlider.value = 0;
+					mGoodnessWeightSlider.value = 0;
+					mEnglishProficiencyWeightSlider.value = 1;
+				}
+				if(mPresetsComboBox.selectedItem.toString() == "Count + Goodness") {
+					mCountWeightSlider.value = 1;
+					mGoodnessWeightSlider.value = 1;
+					mEnglishProficiencyWeightSlider.value = 0;
+				}
+				if(mPresetsComboBox.selectedItem.toString() == "Count + English Prof.") {
+					mCountWeightSlider.value = 1;
+					mGoodnessWeightSlider.value = 0;
+					mEnglishProficiencyWeightSlider.value = 1;
+				}
+				if(mPresetsComboBox.selectedItem.toString() == "Goodness + English Prof.") {
+					mCountWeightSlider.value = 0;
+					mGoodnessWeightSlider.value = 1;
+					mEnglishProficiencyWeightSlider.value = 1;
+				}
+				if(mPresetsComboBox.selectedItem.toString() == "Show All") {
+					mCountWeightSlider.value = 1;
+					mGoodnessWeightSlider.value = 1;
+					mEnglishProficiencyWeightSlider.value = 1;
+				}
+				
+				mCountInfoLabel.text = mCountWeightSlider.value.toString().slice(0, 5);
+				mGoodnessInfoLabel.text = mGoodnessWeightSlider.value.toString().slice(0, 5);
+				mEnglishProficiencyInfoLabel.text = mEnglishProficiencyWeightSlider.value.toString().slice(0, 5);
 			}
 			 
 			
@@ -200,12 +283,58 @@
 									     	  websites:ArrayCollection,
 									     	  keywords:ArrayCollection):void
 			{
+				if(mCommGroupId != commGroupId) {
+					mCommunityParserCollection.removeAll();
+				}
+				
 				mCommGroupName = commGroupName;
 				mCommGroupId = commGroupId;
 				mCreator = creator;
 				mDateCreated = dateCreated;
 				mWebsites = websites;
 				mKeywords = keywords;
+			}
+			
+			/**
+			 *	update the analytics information - called when new website statistics have been
+			 * 	fetched. 
+			 */
+			public function updateAnalyticsInformation(analyticsParser:cAnalyticsParser):void
+			{
+				mCommunityParserCollection.addItem(analyticsParser);
+				// 1. compute averages
+				// 2. update graphs
+				
+				var event:cStatOptionSelectedEvent = new cStatOptionSelectedEvent("d");
+				
+				var timeSpan:int = event.TIME_SPAN_1_YEAR;
+				if(m1WeekSpanRadioButton.selected) {
+					timeSpan = event.TIME_SPAN_1_WEEK;
+				}
+				else if(m2WeeksTimeSpanRadioButton.selected) {
+					timeSpan = event.TIME_SPAN_2_WEEKS;
+				}
+				else if(m1MonthTimeSpanRadioButton.selected) {
+					timeSpan = event.TIME_SPAN_1_MONTH;
+				}
+				else if(m6MonthsTimeSpanRadioButton.selected) {
+					timeSpan = event.TIME_SPAN_6_MONTHS;
+				}
+				else if(m9MonthsTimeSpanRadioButton.selected) {
+					timeSpan = event.TIME_SPAN_9_MONTHS;
+				}
+				event.mTimeSpan = timeSpan;
+				
+				//event.mCountWeight = mCountWeightSlider.value;
+				//event.mGoodnessWeight = mGoodnessWeightSlider.value;
+				//event.mEnglishProficiency = mEnglishProficiencyWeightSlider.value;
+				
+				event.mCountWeight = 0;
+				event.mGoodnessWeight = 0;
+				event.mEnglishProficiency = 1;
+				
+				mLineChartCanvas.updateInformation(analyticsParser, event);
+				
 			}
 			
 			
@@ -226,6 +355,13 @@
 				else {
 					mCommunityGroupNameLabel.text = mCommGroupName;
 				}
+				
+				mCountWeightSlider.value = 1;
+				mGoodnessWeightSlider.value = 0;
+				mEnglishProficiencyWeightSlider.value = 0;
+				mCountInfoLabel.text = mCountWeightSlider.value.toString().slice(0, 5);
+				mGoodnessInfoLabel.text = mGoodnessWeightSlider.value.toString().slice(0, 5);
+				mEnglishProficiencyInfoLabel.text = mEnglishProficiencyWeightSlider.value.toString().slice(0, 5);
 			}
 			
 			/**
@@ -261,6 +397,8 @@
 			private var mWebsites:ArrayCollection = null;
 			// keywords for the community
 			private var mKeywords:ArrayCollection = null;
+			// collection of website parsers for a community
+			private var mCommunityParserCollection:ArrayCollection = new ArrayCollection();
 			
 		]]>
 	</mx:Script>
@@ -272,19 +410,43 @@
 		</ns1:cLineChartCanvas>
 	</mx:ViewStack>
 	<mx:Label text="Some Community Group Name" fontSize="24" color="#DFDFDF" width="450" textAlign="left" id="mCommunityGroupNameLabel" horizontalCenter="3" verticalCenter="-292"/>
-	<mx:RadioButton label="1 Year" color="#DDDDDD" change="_1YearTimeSpanRadioButtonChangeHandler(event)" id="m1YearTimeSpanRadioButton" horizontalCenter="-105" verticalCenter="286"/>
-	<mx:RadioButton label="9 Months" color="#DDDDDD" change="_9MonthsTimeSpanRadioButtonChangeHandler(event)" id="m9MonthsTimeSpanRadioButton" verticalCenter="286" horizontalCenter="-29"/>
-	<mx:RadioButton label="6 Months" color="#DDDDDD" change="_6MonthsTimeSpanRadioButtonChangeHandler(event)" id="m6MonthsTimeSpanRadioButton" verticalCenter="286" horizontalCenter="55"/>
-	<mx:RadioButton label="1 Month" color="#DDDDDD" change="_1MonthTimeSpanRadioButtonChangeHandler(event)" id="m1MonthTimeSpanRadioButton" verticalCenter="286" horizontalCenter="136"/>
-	<mx:RadioButton label="2 Weeks" color="#DDDDDD" change="_2WeeksTimeSpanRadioButtonChangeHandler(event)" id="m2WeeksTimeSpanRadioButton" verticalCenter="286" horizontalCenter="216"/>
-	<mx:RadioButton label="1 Week" selected="true" color="#DDDDDD" change="_1WeekTimeSpanRadioButtonChangeHandler(event)" id="m1WeekSpanRadioButton" verticalCenter="286" horizontalCenter="295"/>
+	<mx:RadioButton label="1 Year" color="#DDDDDD" change="_1YearTimeSpanRadioButtonChangeHandler(event)" id="m1YearTimeSpanRadioButton" horizontalCenter="62" verticalCenter="286"/>
+	<mx:RadioButton label="9 Months" color="#DDDDDD" change="_9MonthsTimeSpanRadioButtonChangeHandler(event)" id="m9MonthsTimeSpanRadioButton" verticalCenter="286" horizontalCenter="138"/>
+	<mx:RadioButton label="6 Months" color="#DDDDDD" change="_6MonthsTimeSpanRadioButtonChangeHandler(event)" id="m6MonthsTimeSpanRadioButton" verticalCenter="286" horizontalCenter="222"/>
+	<mx:RadioButton label="1 Month" color="#DDDDDD" change="_1MonthTimeSpanRadioButtonChangeHandler(event)" id="m1MonthTimeSpanRadioButton" verticalCenter="286" horizontalCenter="303"/>
+	<mx:RadioButton label="2 Weeks" color="#DDDDDD" change="_2WeeksTimeSpanRadioButtonChangeHandler(event)" id="m2WeeksTimeSpanRadioButton" verticalCenter="286" horizontalCenter="383"/>
+	<mx:RadioButton label="1 Week" selected="true" color="#DDDDDD" change="_1WeekTimeSpanRadioButtonChangeHandler(event)" id="m1WeekSpanRadioButton" verticalCenter="286" horizontalCenter="462"/>
 	<ns1:cStatOptionsAccordion id="mStatOptionAccordion"
 							   StatOptionSelectedEvent="statOptionSelectedHandler(event)" 
-							   OpenAdditionalWebsiteInformationEvent="openAdditionalWebsiteInformationHandler(event)"
-							   height="559.45" horizontalCenter="-412" verticalCenter="17">
+							   AccordionWebsiteGraphicEvent="accordionWebsiteGraphicEventHandler(event)"
+							   height="378.45" horizontalCenter="-412" verticalCenter="-74">
 	</ns1:cStatOptionsAccordion>
 	<mx:HRule width="993" height="14.56" verticalCenter="-277" horizontalCenter="0" alpha="0.5"/>
 	<mx:Button label="Add Website" color="#D8D8D8" alpha="0.5" id="mAddWebsiteButton" horizontalCenter="447" verticalCenter="-293" fontWeight="bold" cornerRadius="5"/>
 	<mx:Button label="Edit Community Group" color="#D8D8D8" click="editCommunityGroupButtonClickHandler(event)" alpha="0.5" id="mEditCommunityGroupButton" horizontalCenter="313" verticalCenter="-293" fontWeight="bold" fontStyle="normal" cornerRadius="5"/>
+	<mx:HSlider x="19" y="507" change="countWeightSliderChangeHandler(event)" borderColor="#000000" width="149" minimum="0" maximum="1" allowTrackClick="true" liveDragging="true" value="1" enabled="true" id="mCountWeightSlider"/>
+	<mx:HSlider x="19" y="587" change="goodnessWeightSliderChangeHandler(event)" borderColor="#000000" width="149" minimum="0" maximum="1" allowTrackClick="true" liveDragging="true" value="1" enabled="true" id="mGoodnessWeightSlider"/>
+	<mx:HSlider x="19" y="547" change="proficiencyWeightSliderChangeHandler(event)" borderColor="#000000" width="149" allowTrackClick="true" minimum="0" maximum="1" liveDragging="true" value="1" enabled="true" id="mEnglishProficiencyWeightSlider"/>
+	<mx:Label x="19" y="493" text="Count :" textDecoration="normal" color="#D4D4D4" enabled="true" id="mCountWeightLabel"/>
+	<mx:Label x="19" y="533" text="Goodness :" textDecoration="normal" color="#D4D4D4" enabled="true" id="mGoodnessWeightLabel"/>
+	<mx:Label x="19" y="573" text="English Proficiency :" textDecoration="normal" color="#D4D4D4" enabled="true" id="mProficiencyWeightLabel0"/>
+	<mx:Label x="10" y="476" text="Weights" color="#D4D4D4" textDecoration="underline"/>
+	<mx:Label x="10" y="430.45" text="Presets" color="#D4D4D4" textDecoration="underline"/>
+	<mx:ComboBox id="mPresetsComboBox" change="presetsComboBoxChangeHandler(event)" x="10" y="451" width="169" maxWidth="160">
+	<mx:ArrayCollection>
+         <mx:String>Count</mx:String>
+         <mx:String>Goodness</mx:String>
+         <mx:String>English Prof.</mx:String>
+         <mx:String>Count + Goodness</mx:String>
+         <mx:String>Count + English Prof.</mx:String>
+         <mx:String>Goodness + English Prof.</mx:String>
+         <mx:String>Show All</mx:String>
+      </mx:ArrayCollection>
+	</mx:ComboBox>
+	<mx:Label x="128" y="493" text="Label" color="#41CD0A" textAlign="right" id="mCountInfoLabel" width="40" selectable="false"/>
+	<mx:Label x="133" y="573" text="Label" color="#41CD0A" textAlign="right" id="mGoodnessInfoLabel"/>
+	<mx:Label x="133" y="533" text="Label" color="#41CD0A" textAlign="right" id="mEnglishProficiencyInfoLabel"/>
+	<mx:Button x="187" y="583" label="Zoom In" color="#D4D4D4"/>
+	<mx:Button x="269" y="583" label="Zoom Out" color="#D4D4D4"/>
 	
 </mx:Canvas>

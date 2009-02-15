@@ -108,7 +108,7 @@
 			/**
 			 *	Opens the additional website information canvas.
 			 */
-			private function openAdditionalWebsiteInformationHandler(event:cAdditionalWebsiteInformationEvent):void
+			private function openAdditionalWebsiteInformationHandler(event:cAccordionWebsiteGraphicEvent):void
 			{
 				mMyCommViewStack.selectedIndex = 4;
 				mWebsiteAdditionalInformationStatBrowserCanvas.updateInformation(event.mWebsiteName,
@@ -196,6 +196,17 @@
 				mMyCommViewStack.selectedIndex = 0;		
 			}
 			
+			/**
+			 * 
+			 */
+			private function fetchWebsiteAnalyticsHandler(event:cWebsiteGraphicClickedEvent):void
+			{
+				var e:cWebsiteGraphicClickedEvent = new cWebsiteGraphicClickedEvent("RequestWebsiteStatsEvent");
+				e.mWebsiteName = event.mWebsiteName;
+				e.mCommGroupId = event.mCommGroupId;
+				this.dispatchEvent(e);
+			}
+			
 			
 			///////////////////////////////////////////////////////////////////////////////////
 			//
@@ -215,14 +226,9 @@
 			/**
 			 * 	Selects the website statistics browser canvas within the mMyCommViewStack.
 			 */
-			public function openWebsiteStatsBrowserCanvas(analyticsParser:cAnalyticsParser):void
+			public function updateWebsiteAnalytics(analyticsParser:cAnalyticsParser):void
 			{
-				//mMyCommViewStack.selectedIndex = 3;
-				/*mWebsiteStatsBrowserCanvas.updateInformation(analyticsParser,
-															 mWebsiteSelectedName,
-															 mWebsiteSelectedURL,
-															 mWebsiteSelectedType,
-															 mWebsiteSelectedCreatedTime);*/
+				mCommunityGroupBrowserCanvas.updateAnalyticsInformation(analyticsParser);
 			}
 			
 			/**
@@ -270,7 +276,7 @@
 			</local:cMyCommunityGroupSelectionCanvas>
 			<local:cCreateCommunityGroupCanvas id="mCreateCommunityGroupCanvas" BackLabelClickedEvent="createCommBackLabelClickedHandler(event)" height="577" width="1003">
 			</local:cCreateCommunityGroupCanvas>
-			<local:cCommunityGroupBrowserCanvas id="mCommunityGroupBrowserCanvas" OpenCommunityGroupEditorCanvasEvent="openCommunityGroupEditorCanvasHandler(event)" OpenAdditionalWebsiteInformationEvent="openAdditionalWebsiteInformationHandler(event)" OpenCommunityGroupSelectionClickedEvent="openCommunityGroupSelectionCanvas(event)" OpenCommunityGroupHomeCanvasEvent="openCommunityGroupHomeCanvas(event)" >
+			<local:cCommunityGroupBrowserCanvas id="mCommunityGroupBrowserCanvas" FetchWebsiteAnalytics="fetchWebsiteAnalyticsHandler(event)" OpenCommunityGroupEditorCanvasEvent="openCommunityGroupEditorCanvasHandler(event)" OpenAdditionalWebsiteInformationEvent="openAdditionalWebsiteInformationHandler(event)" OpenCommunityGroupSelectionClickedEvent="openCommunityGroupSelectionCanvas(event)" OpenCommunityGroupHomeCanvasEvent="openCommunityGroupHomeCanvas(event)" >
 			</local:cCommunityGroupBrowserCanvas>
 			<local:cWebsiteAdditionalStatsBrowserCanvas id="mWebsiteAdditionalInformationStatBrowserCanvas" OpenCommunityGroupBrowserCanvasEvent="reOpenCommunityGroupBrowserCanvasHandler(event)" OpenCommunityGroupHomeCanvasEvent="openCommunityGroupHomeCanvas(event)" OpenCommunityGroupSelectionClickedEvent="openCommunityGroupSelectionCanvas(event)">
 			</local:cWebsiteAdditionalStatsBrowserCanvas>

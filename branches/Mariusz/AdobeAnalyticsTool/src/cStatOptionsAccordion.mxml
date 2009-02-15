@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Accordion xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="showAccordionHandler(event)" show="showAccordionHandler(event)" width="169" height="559.45" alpha="0.7" borderColor="#C1C1C1">
+<mx:Accordion xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="showAccordionHandler(event)" show="showAccordionHandler(event)" width="169" height="493" alpha="0.7" borderColor="#C1C1C1">
 	
 	<mx:Metadata>
 		[Event(name="StatOptionSelectedEvent", type="cStatOptionSelectedEvent")]
-		[Event(name="OpenAdditionalWebsiteInformationEvent", type="cAdditionalWebsiteInformationEvent")]
+		[Event(name="AccordionWebsiteGraphicEvent", type="cAccordionWebsiteGraphicEvent")]
+		[Event(name="WebsiteSelectedEvent", type="cAccordionWebsiteGraphicEvent")]
 	</mx:Metadata>
 	
 	<mx:Script>
@@ -17,73 +18,6 @@
 			//
 			///////////////////////////////////////////////////////////////////////////////////
 			
-			/**
-			 * 	Handler called when the keyword goodness radio button has been selected.
-			 */
-			private function keywordGoodnessRadioButtonChangeHandler(event:Event):void
-			{
-				disableKeywordOverallProficiencyWeightGUI();
-				var e:cStatOptionSelectedEvent = new cStatOptionSelectedEvent("StatOptionSelectedEvent");
-				e.mType = e.KEYWORD_GOODNESS;
-				e.mTitle = "Keyword Goodness";
-				e.mDisplayName = "Keyword Goodness Rating";
-				this.dispatchEvent(e);
-			}
-			
-			/**
-			 * 	Handler called when the keyword proficiency radio button has been selected.
-			 */
-			private function keywordProficiencyRadioButtonChangeHandler(event:Event):void
-			{
-				disableKeywordOverallProficiencyWeightGUI();
-				var e:cStatOptionSelectedEvent = new cStatOptionSelectedEvent("StatOptionSelectedEvent");
-				e.mType = e.KEYWORD_PROFICIENCY;
-				e.mTitle = "Keyword Proficiency";
-				e.mDisplayName = "Keyword Proficiency Rating";
-				this.dispatchEvent(e);	
-			}
-			
-			/**
-			 * 	Handler called when the keyword count radio button has been selected.
-			 */
-			private function keywordCountRadioButtonChangeHandler(event:Event):void
-			{
-				disableKeywordOverallProficiencyWeightGUI();
-				var e:cStatOptionSelectedEvent = new cStatOptionSelectedEvent("StatOptionSelectedEvent");
-				e.mType = e.KEYWORD_COUNT;
-				e.mTitle = "Keyword Count";
-				e.mDisplayName = "Keyword Count";
-				this.dispatchEvent(e);	
-			}
-			
-			/**
-			 * 	Handler called when the keyword overall positivity radio button has been selected.
-			 */
-			private function keywordOverallRadioButtonChangeHandler(event:Event):void
-			{
-				enableKeywordOverallProficiencyWeightGUI();
-				var e:cStatOptionSelectedEvent = new cStatOptionSelectedEvent("StatOptionSelectedEvent");
-				e.mType = e.KEYWORD_OVERALL_POSITIVITY;
-				e.mTitle = "Keyword Overall Positivity";
-				e.mDisplayName = "Keyword Overall Positivity";
-				this.dispatchEvent(e);	
-			}
-			
-			/**
-			 * 	Handler called when the keyword goodness weight slider handle is moved.
-			 */
-			private function keywordGoodnessWeightSliderChangeHandler(event:Event):void
-			{
-				mKeywordGoodnessWeightSlider.value;
-			}
-			
-			/**
-			 * 	Handler called when the keyword proficiency weight slider handle is moved.
-			 */
-			private function keywordProficiencyWeightSliderChangeHandler(event:Event):void
-			{
-				mKeywordProficiencyWeightSlider.value;
-			}
 			
 			
 			///////////////////////////////////////////////////////////////////////////////////
@@ -152,10 +86,10 @@
 			 */
 			private function enableKeywordOverallProficiencyWeightGUI():void
 			{
-				mKeywordGoodnessWeightLabel.enabled = true;
+				/*mKeywordGoodnessWeightLabel.enabled = true;
 				mKeywordProficiencyWeightLabel.enabled = true;
 				mKeywordGoodnessWeightSlider.enabled = true;
-				mKeywordProficiencyWeightSlider.enabled = true;
+				mKeywordProficiencyWeightSlider.enabled = true;*/
 			}
 			
 			/**
@@ -163,10 +97,10 @@
 			 */
 			private function disableKeywordOverallProficiencyWeightGUI():void
 			{
-				mKeywordGoodnessWeightLabel.enabled = false;
+				/*mKeywordGoodnessWeightLabel.enabled = false;
 				mKeywordProficiencyWeightLabel.enabled = false;
 				mKeywordGoodnessWeightSlider.enabled = false;
-				mKeywordProficiencyWeightSlider.enabled = false;
+				mKeywordProficiencyWeightSlider.enabled = false;*/
 			}
 			
 			/**
@@ -212,7 +146,7 @@
 				for(var i:int = 0; i < mWebsites.length; i++) {
 					websiteEntry = cWebsiteEntry(mWebsites.getItemAt(i));
 					var websiteGraphic:cAccordionWebsiteGraphicCanvas = new cAccordionWebsiteGraphicCanvas();
-					websiteGraphic.addEventListener("cAdditionalWebsiteInformationEvent", openAdditionalWebsiteInformationHandler);
+					websiteGraphic.addEventListener("cAccordionWebsiteGraphicEvent", accordionWebsiteGraphicEventHandler);
 					websiteGraphic.updateInformation(websiteEntry.mName);
 					websiteGraphic.y = inc;
 					inc += 28;
@@ -287,10 +221,11 @@
 			/**
 			 * 	Fires an event signaling that the user has clicked the additional information label.
 			 */
-			private function openAdditionalWebsiteInformationHandler(event:cAdditionalWebsiteInformationEvent):void
+			private function accordionWebsiteGraphicEventHandler(event:cAccordionWebsiteGraphicEvent):void
 			{
-				var e:cAdditionalWebsiteInformationEvent = new cAdditionalWebsiteInformationEvent("OpenAdditionalWebsiteInformationEvent");
+				var e:cAccordionWebsiteGraphicEvent = new cAccordionWebsiteGraphicEvent("AccordionWebsiteGraphicEvent");
 				e.mWebsiteName = event.mWebsiteName;
+				e.mType = event.mType;
 				this.dispatchEvent(e);
 			}
 			
@@ -334,16 +269,6 @@
 		</mx:Canvas>
 	<mx:Canvas label="Links Spoken" width="100%" height="100%" creationComplete="linksSpokenCanvasShowHandler(event)" show="linksSpokenCanvasShowHandler(event)" backgroundAlpha="1.0" backgroundColor="#FFFFFF" alpha="1.0" id="mLinksSpokenCanvas">
 		<mx:Label text="No Links Available" horizontalCenter="0" verticalCenter="-218" id="mNoLinksAvailableLabel" toolTip="Perhaps no links where found"/>
-	</mx:Canvas>
-	<mx:Canvas label="Graph Controls" width="100%" height="100%" alpha="1.0" backgroundColor="#D1D1D1" backgroundAlpha="1.0" borderStyle="solid" themeColor="#E41313" color="#DD0A0A" cornerRadius="0" id="mGraphControlsCanvas">
-		<mx:RadioButton x="10" y="5" change="keywordGoodnessRadioButtonChangeHandler(event)" label="Goodness" color="#0B333C" borderColor="#000000" selected="true" id="mKeywordGoodnessRB"/>
-		<mx:RadioButton x="10" y="23" change="keywordProficiencyRadioButtonChangeHandler(event)" label="Proficiency" color="#0B333C" borderColor="#000000" id="mKeywordProficiencyRB"/>
-		<mx:RadioButton x="10" y="41" change="keywordCountRadioButtonChangeHandler(event)" label="Count" color="#0B333C" borderColor="#000000" id="mKeywordCountRB"/>
-		<mx:RadioButton x="10" y="68" change="keywordOverallRadioButtonChangeHandler(event)" label="Overall Positivity" color="#0B333C" borderColor="#000000" id="mKeywordOverallRB"/>
-		<mx:HSlider x="10" y="111" change="keywordGoodnessWeightSliderChangeHandler(event)" borderColor="#000000" width="149" minimum="0" maximum="1" allowTrackClick="true" liveDragging="true" value="1" enabled="false" id="mKeywordGoodnessWeightSlider"/>
-		<mx:HSlider x="10" y="151" change="keywordProficiencyWeightSliderChangeHandler(event)" borderColor="#000000" width="149" allowTrackClick="true" minimum="0" maximum="1" liveDragging="true" value="1" enabled="false" id="mKeywordProficiencyWeightSlider"/>
-		<mx:Label x="10" y="93" text="Goodness Weight" textDecoration="underline" color="#0B333C" enabled="false" id="mKeywordGoodnessWeightLabel"/>
-		<mx:Label x="10" y="131" text="English Proficiency Weight" textDecoration="underline" color="#0B333C" enabled="false" id="mKeywordProficiencyWeightLabel"/>
 	</mx:Canvas>
 	
 </mx:Accordion>

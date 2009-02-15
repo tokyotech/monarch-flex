@@ -30,8 +30,7 @@
 											  statOptionSelected:cStatOptionSelectedEvent):void
 			{			
 				if(statOptionSelected == null) { return; }
-
-								
+				
 				var mLineGraphData:Array = new Array();
 			
 				// set the text and axis color and font
@@ -43,7 +42,7 @@
 				vAxis.title = statOptionSelected.mTitle;
 				vAxis.displayName = statOptionSelected.mDisplayName;
 				//vAxis.maximum = yScale;		
-				vAxis.minimum = -3;
+				vAxis.minimum = -2;
 				vAxis.maximum = 3;
 				this.mLineChart.verticalAxis = vAxis;
 				
@@ -52,6 +51,8 @@
 				if(statOptionSelected.mTimeSpan == statOptionSelected.TIME_SPAN_1_WEEK) {
 					hAxis.displayName = "Trend (Past 1 Week)";
 					hAxis.title = "Time (Past 1 Week)";
+					hAxis.minimum = 0;
+					hAxis.maximum = 6;
 				}
 				else if (statOptionSelected.mTimeSpan == statOptionSelected.TIME_SPAN_2_WEEKS) {
 					hAxis.displayName = "Trend (Past 2 Weeks)";
@@ -74,79 +75,40 @@
 					hAxis.title = "Time (Past 1 Year)";
 				}
 				
-				//hAxis.maximum = xScale;
 				this.mLineChart.horizontalAxis = hAxis;
 				
 				var seriesCollection:Array = new Array();
-				if(statOptionSelected.mType == statOptionSelected.KEYWORD_GOODNESS ||
-				   statOptionSelected.mType == statOptionSelected.LINK_PROFICIENCY ||
-				   statOptionSelected.mType == statOptionSelected.KEYWORD_COUNT ||
-				   statOptionSelected.mType == statOptionSelected.KEYWORD_OVERALL_POSITIVITY)
+				for(var i:int = 0; i < analyticsParser.mKeywordData.length; i++)
 				{
-					for(var i:int = 0; i < analyticsParser.mKeywordData.length; i++)
-					{
-						var series:LineSeries = new LineSeries();
-						var keyword:cKeywordAnalyticsEntry = cKeywordAnalyticsEntry(analyticsParser.mKeywordData.getItemAt(i));
-						
-						var x:Number, j:int, y:Number, timeStamp:int;
-						
-						if(statOptionSelected.mType == statOptionSelected.KEYWORD_GOODNESS) {
-							for(j = 0; j < keyword.mTimeCollection.length; j++) {
-								
-								y = Number(keyword.mGoodnessCollection.getItemAt(j));	
-	
-								timeStamp = (int(keyword.mTimeCollection.getItemAt(j)));
-								var currDate:Date = new Date(int(timeStamp)*1000); 
-								var theDate:String = ((currDate.getMonth()+ 1) + "/" + currDate.getDate() + "/" + currDate.getFullYear());
-
-								// stats from one week to date
-								if(statOptionSelected.mTimeSpan == statOptionSelected.TIME_SPAN_1_WEEK) {
-									var day:int = currDate.getHours();
-									//var day:String = dayIntToString(currDate.getDay());
-									mLineGraphData.push({(i.toString()):day, ((i+1).toString()):y});
-									//Alert.show(day + "  " + y);
-								}
-										
-								
-							}	
-						}
-						else if(statOptionSelected.mType == statOptionSelected.KEYWORD_PROFICIENCY) {
-							for(j = 0; j < keyword.mTimeCollection.length; j++) {
-								//x = j + 1;
-								x = (Number(keyword.mTimeCollection.getItemAt(j)));
-								y = Number(keyword.mEnglishProficiencyCollection.getItemAt(j));
-								mLineGraphData.push({(i.toString()):x, ((i+1).toString()):y});
-							}	
-						}	
-						else if(statOptionSelected.mType == statOptionSelected.KEYWORD_COUNT) {
-							for(j = 0; j < keyword.mTimeCollection.length; j++) {
-								//x = j + 1;
-								x = (Number(keyword.mTimeCollection.getItemAt(j)));
-								y = Number(keyword.mCountCollection.getItemAt(j));
-								mLineGraphData.push({(i.toString()):x, ((i+1).toString()):y});
-							}	
-						}	
-						else if(statOptionSelected.mType == statOptionSelected.KEYWORD_OVERALL_POSITIVITY) {
-							for(j = 0; j < keyword.mTimeCollection.length; j++) {
-								//x = j + 1;
-								/*x = (Number(keyword.mTimeCollection.getItemAt(j)));
-								y = Number(keyword.mGoodnessCollection.getItemAt(j)) * goodnessWeight + 
-								    Number(keyword.mEnglishProficiencyCollection.getItemAt(j)) * englishProWeight +
-								    Number(keyword.mCountCollection.getItemAt(j));
-								mLineGraphData.push({(i.toString()):x, ((i+1).toString()):y});*/
-							}	
-						}			
+					var series:LineSeries = new LineSeries();
+					var keyword:cKeywordAnalyticsEntry = cKeywordAnalyticsEntry(analyticsParser.m1WeekKeywordData.getItemAt(i));
+					var x:Number, j:int, y:Number, timeStamp:int;
 					
-						var stroke:Stroke = new Stroke();
-		        		stroke.color = 0xF8DFF6 >> (i*3);
-		        		stroke.weight = 3;
-		 				series.setStyle("lineStroke", stroke);
-		        		series.xField = i.toString();
-		        		series.yField = (i+1).toString();  
-		        		series.displayName = keyword.mName; 
+					for(j = 0; j < keyword.mTimeCollection.length; j++) {
 						
-						seriesCollection.push(series);
+						if(statOptionSelected.mTimeSpan == statOptionSelected.TIME_SPAN_1_WEEK) {
+							
+							x = int(keyword.mTimeCollection.getItemAt(j));
+							y = Number(keyword.mGoodnessCollection.getItemAt(j)) * statOptionSelected.mGoodnessWeight + 
+							    Number(keyword.mEnglishProficiencyCollection.getItemAt(j)) * statOptionSelected.mEnglishProficiency +
+							    Number(keyword.mCountCollection.getItemAt(j)) * statOptionSelected.mCountWeight;
+							
+							mLineGraphData.push({(i.toString()):x, ((i+1).toString()):y});
+						}
+							
 					}
+								
+					
+					var stroke:Stroke = new Stroke();
+	        		stroke.color = 0xF8DFF6 >> (i*3);
+	        		stroke.weight = 3;
+	 				series.setStyle("lineStroke", stroke);
+	        		series.xField = i.toString();
+	        		series.yField = (i+1).toString();  
+	        		series.displayName = keyword.mName; 
+					
+					seriesCollection.push(series);
+							
 				}
 	
 					
@@ -154,7 +116,18 @@
 				this.mLineChart.dataProvider = mLineGraphData;
 					
 				
-				this.mLineChartLegend.dataProvider = this.mLineChart;
+				var c:Canvas = new Canvas();
+				c.setStyle("backgroundColor", "0xFF0000");
+				c.width = 100;
+				c.height = 20;
+				c.x = 0;
+				c.y = 0;
+				this.mLineChartLegend.addChild(c);
+				
+				
+				//this.mLineChartLegend.dataProvider = this.mLineChart;
+				
+				
 				this.mLineChartLegend.toolTip = "Not Available";
 			}
 			
@@ -204,6 +177,6 @@
 			<mx:LineSeries displayName="Series 1"/>
 		</mx:series>
 	</mx:LineChart>
-	<mx:Legend dataProvider="{mLineChart}" width="815" height="29" color="#DEDEDE" id="mLineChartLegend" verticalCenter="250" horizontalCenter="0"/>
+	<mx:Legend width="815" height="29" color="#DEDEDE" id="mLineChartLegend" verticalCenter="250" horizontalCenter="0"/>
 	
 </mx:Canvas>

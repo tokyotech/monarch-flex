@@ -275,7 +275,7 @@
 			 */
 			private function analyticsReadyServiceHandler(event:cAnalysisDataReadyEvent):void
 			{
-				mLoggedInCanvas.openWebsiteStatsBrowserCanvas(event.mAnalysisParser);
+				mLoggedInCanvas.updateWebsiteAnalytics(event.mAnalysisParser);
 				
 				mLoader.stop();
 	            mLoader.visible = false;
