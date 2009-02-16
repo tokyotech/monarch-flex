@@ -5,6 +5,7 @@
 		[Event(name="StatOptionSelectedEvent", type="cStatOptionSelectedEvent")]
 		[Event(name="AccordionWebsiteGraphicEvent", type="cAccordionWebsiteGraphicEvent")]
 		[Event(name="WebsiteSelectedEvent", type="cAccordionWebsiteGraphicEvent")]
+		[Event(name="AccordionKeywordGraphicEvent", type="cAccordionKeywordGraphicEvent")]
 	</mx:Metadata>
 	
 	<mx:Script>
@@ -12,14 +13,8 @@
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
 			
-			///////////////////////////////////////////////////////////////////////////////////
-			//
-			//						 KEYWORDS TAB EVENT HANDLERS
-			//
-			///////////////////////////////////////////////////////////////////////////////////
-			
-			
-			
+
+
 			///////////////////////////////////////////////////////////////////////////////////
 			//
 			//						 LINKS TAB EVENT HANDLERS
@@ -158,7 +153,7 @@
 				for(i = 0; i < mKeywords.length; i++) {
 					keywordEntry = cKeywordEntry(mKeywords.getItemAt(i));
 					var keywordGraphic:cAccordionKeywordGraphicCanvas = new cAccordionKeywordGraphicCanvas();
-					//websiteStaticGraphic.addEventListener("cWebsiteStaticLargeGraphicClickedEvent", websiteStaticGraphicClickedHandler);
+					keywordGraphic.addEventListener("cAccordionKeywordGraphicEvent", accordionKeywordGraphicEventHandler);
 					keywordGraphic.updateInformation(keywordEntry.mName);
 					keywordGraphic.y = inc;
 					inc += 28;
@@ -219,12 +214,23 @@
 			}
 			
 			/**
-			 * 	Fires an event signaling that the user has clicked the additional information label.
+			 * 	Fires an event signaling that the user has clicked an attribute of the accordion website graphic. 
 			 */
 			private function accordionWebsiteGraphicEventHandler(event:cAccordionWebsiteGraphicEvent):void
 			{
 				var e:cAccordionWebsiteGraphicEvent = new cAccordionWebsiteGraphicEvent("AccordionWebsiteGraphicEvent");
 				e.mWebsiteName = event.mWebsiteName;
+				e.mType = event.mType;
+				this.dispatchEvent(e);
+			}
+			
+			/**
+			 * 	Fires an event signaling that the user has clicked an attribute of the accordion keyword graphic.
+			 */
+			private function accordionKeywordGraphicEventHandler(event:cAccordionKeywordGraphicEvent):void
+			{
+				var e:cAccordionKeywordGraphicEvent = new cAccordionKeywordGraphicEvent("AccordionKeywordGraphicEvent");
+				e.mKeywordName = event.mKeywordName;
 				e.mType = event.mType;
 				this.dispatchEvent(e);
 			}

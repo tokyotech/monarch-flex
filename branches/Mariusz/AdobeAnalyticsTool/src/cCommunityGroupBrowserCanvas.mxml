@@ -96,11 +96,12 @@
 			 }
 			 
 			 /**
-			 * 
+			 * 	Called when the user clicks the 1 year radio button.
 			 */
 			private function _1YearTimeSpanRadioButtonChangeHandler(event:Event):void
 			{
-				
+				mStatEvent.mTimeSpan = mStatEvent.TIME_SPAN_1_YEAR;
+				mLineChartCanvas.updateInformation(mAnalyticsParser, mStatEvent, mSelectedKeywords);
 			}
 			
 			/**
@@ -108,7 +109,8 @@
 			 */
 			private function _9MonthsTimeSpanRadioButtonChangeHandler(event:Event):void
 			{
-				
+				mStatEvent.mTimeSpan = mStatEvent.TIME_SPAN_9_MONTHS;
+				mLineChartCanvas.updateInformation(mAnalyticsParser, mStatEvent, mSelectedKeywords);
 			}
 			
 			/**
@@ -116,7 +118,8 @@
 			 */
 			private function _6MonthsTimeSpanRadioButtonChangeHandler(event:Event):void
 			{
-				
+				mStatEvent.mTimeSpan = mStatEvent.TIME_SPAN_6_MONTHS;
+				mLineChartCanvas.updateInformation(mAnalyticsParser, mStatEvent, mSelectedKeywords);
 			}
 			
 			/**
@@ -124,7 +127,8 @@
 			 */
 			private function _1MonthTimeSpanRadioButtonChangeHandler(event:Event):void
 			{
-				
+				mStatEvent.mTimeSpan = mStatEvent.TIME_SPAN_1_MONTH;
+				mLineChartCanvas.updateInformation(mAnalyticsParser, mStatEvent, mSelectedKeywords);
 			}
 			
 			/**
@@ -132,8 +136,8 @@
 			 */
 			private function _2WeeksTimeSpanRadioButtonChangeHandler(event:Event):void
 			{
-				//mStatOptionSelected.mTimeSpan = mStatOptionSelected.TIME_SPAN_2_WEEKS;
-				//mLineChartCanvas.updateInformation(mAnalyticsParser, mStatOptionSelected);
+				mStatEvent.mTimeSpan = mStatEvent.TIME_SPAN_2_WEEKS;
+				mLineChartCanvas.updateInformation(mAnalyticsParser, mStatEvent, mSelectedKeywords);
 			}
 			
 			/**
@@ -141,37 +145,12 @@
 			 */
 			private function _1WeekTimeSpanRadioButtonChangeHandler(event:Event):void
 			{
-				//mStatOptionSelected.mTimeSpan = mStatOptionSelected.TIME_SPAN_1_WEEK;
-				//mLineChartCanvas.updateInformation(mAnalyticsParser, mStatOptionSelected);
+				
+				mStatEvent.mTimeSpan = mStatEvent.TIME_SPAN_1_WEEK;
+				mLineChartCanvas.updateInformation(mAnalyticsParser, mStatEvent, mSelectedKeywords);
 			}
 			 
-			 /**
-			 * 	Event handler which listens to the cStatOptionsAccordion object events.
-			 */
-			private function statOptionSelectedHandler(event:cStatOptionSelectedEvent):void
-			{
-				// check which time frame to use
-				var timeSpan:int = event.TIME_SPAN_1_YEAR;
-				if(m1WeekSpanRadioButton.selected) {
-					timeSpan = event.TIME_SPAN_1_WEEK;
-				}
-				else if(m2WeeksTimeSpanRadioButton.selected) {
-					timeSpan = event.TIME_SPAN_2_WEEKS;
-				}
-				else if(m1MonthTimeSpanRadioButton.selected) {
-					timeSpan = event.TIME_SPAN_1_MONTH;
-				}
-				else if(m6MonthsTimeSpanRadioButton.selected) {
-					timeSpan = event.TIME_SPAN_6_MONTHS;
-				}
-				else if(m9MonthsTimeSpanRadioButton.selected) {
-					timeSpan = event.TIME_SPAN_9_MONTHS;
-				}
-				event.mTimeSpan = timeSpan;
-				// update the line Chart Canvas
-				//mLineChartCanvas.updateInformation(mAnalyticsParser, event);
-				//mStatOptionSelected = event;
-			}
+			 
 			
 			/**
 			 *  Called when the user has requested an event from the website graphic within the accoridion 
@@ -197,11 +176,33 @@
 			}
 			
 			/**
+			 * 	Called when the user requests an event from the keyword graphic within the accordion component.
+			 */
+			private function accordionKeywordGraphicHandler(event:cAccordionKeywordGraphicEvent):void
+			{
+				if(event.mType == event.KEYWORD_CHECKED) {
+					mSelectedKeywords.addItem(event.mKeywordName);
+					mLineChartCanvas.updateInformation(mAnalyticsParser, mStatEvent, mSelectedKeywords);
+				}
+				else if(event.mType == event.KEYWORD_UNCHECKED) {
+					for(var i:int = 0; i < mSelectedKeywords.length; i++) {
+						if(mSelectedKeywords.getItemAt(i).toString() == event.mKeywordName) {
+							mSelectedKeywords.removeItemAt(i);
+							mLineChartCanvas.updateInformation(mAnalyticsParser, mStatEvent, mSelectedKeywords);
+							return;
+						}
+					}
+				}
+			}
+			
+			/**
 			 * 
 			 */
 			private function countWeightSliderChangeHandler(event:Event):void
 			{
 				mCountInfoLabel.text = mCountWeightSlider.value.toString().slice(0, 5);
+				mStatEvent.mCountWeight = mCountWeightSlider.value;
+				mLineChartCanvas.updateInformation(mAnalyticsParser, mStatEvent, mSelectedKeywords);
 			}
 			
 			/**
@@ -209,7 +210,9 @@
 			 */
 			private function goodnessWeightSliderChangeHandler(event:Event):void
 			{
-				mGoodnessInfoLabel.text = mGoodnessWeightSlider.value.toString().slice(0, 5);
+				mGoodnessInfoLabel.text = mEnglishProficiencyWeightSlider.value.toString().slice(0, 5);
+				mStatEvent.mGoodnessWeight = mEnglishProficiencyWeightSlider.value;
+				mLineChartCanvas.updateInformation(mAnalyticsParser, mStatEvent, mSelectedKeywords);
 			}
 			
 			/**
@@ -217,7 +220,9 @@
 			 */
 			private function proficiencyWeightSliderChangeHandler(event:Event):void
 			{
-				mEnglishProficiencyInfoLabel.text = mEnglishProficiencyWeightSlider.value.toString().slice(0, 5);
+				mEnglishProficiencyInfoLabel.text = mGoodnessWeightSlider.value.toString().slice(0, 5);
+				mStatEvent.mEnglishProficiency = mGoodnessWeightSlider.value;
+				mLineChartCanvas.updateInformation(mAnalyticsParser, mStatEvent, mSelectedKeywords);
 			}
 			
 			/**
@@ -227,43 +232,65 @@
 			{
 				if(mPresetsComboBox.selectedItem.toString() == "Count") {
 					mCountWeightSlider.value = 1;
-					mGoodnessWeightSlider.value = 0;
 					mEnglishProficiencyWeightSlider.value = 0;
+					mGoodnessWeightSlider.value = 0;
 				}
 				if(mPresetsComboBox.selectedItem.toString() == "Goodness") {
 					mCountWeightSlider.value = 0;
-					mGoodnessWeightSlider.value = 1;
 					mEnglishProficiencyWeightSlider.value = 0;
+					mGoodnessWeightSlider.value = 1;
 				}
 				if(mPresetsComboBox.selectedItem.toString() == "English Prof.") {
 					mCountWeightSlider.value = 0;
-					mGoodnessWeightSlider.value = 0;
 					mEnglishProficiencyWeightSlider.value = 1;
+					mGoodnessWeightSlider.value = 0;
 				}
 				if(mPresetsComboBox.selectedItem.toString() == "Count + Goodness") {
 					mCountWeightSlider.value = 1;
-					mGoodnessWeightSlider.value = 1;
 					mEnglishProficiencyWeightSlider.value = 0;
+					mGoodnessWeightSlider.value = 1;
 				}
 				if(mPresetsComboBox.selectedItem.toString() == "Count + English Prof.") {
 					mCountWeightSlider.value = 1;
-					mGoodnessWeightSlider.value = 0;
 					mEnglishProficiencyWeightSlider.value = 1;
+					mGoodnessWeightSlider.value = 0;
 				}
 				if(mPresetsComboBox.selectedItem.toString() == "Goodness + English Prof.") {
 					mCountWeightSlider.value = 0;
-					mGoodnessWeightSlider.value = 1;
 					mEnglishProficiencyWeightSlider.value = 1;
+					mGoodnessWeightSlider.value = 1;
 				}
 				if(mPresetsComboBox.selectedItem.toString() == "Show All") {
 					mCountWeightSlider.value = 1;
-					mGoodnessWeightSlider.value = 1;
 					mEnglishProficiencyWeightSlider.value = 1;
+					mGoodnessWeightSlider.value = 1;
 				}
 				
 				mCountInfoLabel.text = mCountWeightSlider.value.toString().slice(0, 5);
-				mGoodnessInfoLabel.text = mGoodnessWeightSlider.value.toString().slice(0, 5);
-				mEnglishProficiencyInfoLabel.text = mEnglishProficiencyWeightSlider.value.toString().slice(0, 5);
+				mGoodnessInfoLabel.text = mEnglishProficiencyWeightSlider.value.toString().slice(0, 5);
+				mEnglishProficiencyInfoLabel.text = mGoodnessWeightSlider.value.toString().slice(0, 5);
+				
+				mStatEvent.mCountWeight = mCountWeightSlider.value;
+				mStatEvent.mGoodnessWeight = mEnglishProficiencyWeightSlider.value;
+				mStatEvent.mEnglishProficiency = mGoodnessWeightSlider.value;
+				
+				mLineChartCanvas.updateInformation(mAnalyticsParser, mStatEvent, mSelectedKeywords);
+			}
+			
+			/**
+			 * 	Called when the user clicks on the zoom in button.
+			 */
+			private function zoomInButtonClickHandler(event:Event):void
+			{
+				mLineChartCanvas.zoomIn();
+			}
+			
+			/**
+			 * 	Called when the user clicks on the zoom out button.
+			 */
+			private function zoomOutButtonClickHandler(event:Event):void
+			{
+				mLineChartCanvas.zoomOut();
 			}
 			 
 			
@@ -293,6 +320,11 @@
 				mDateCreated = dateCreated;
 				mWebsites = websites;
 				mKeywords = keywords;
+				
+				for(var i:int = 0; i < mKeywords.length; i++) {
+					var keywordEntry:cKeywordEntry = cKeywordEntry(mKeywords.getItemAt(i));
+					mSelectedKeywords.addItem(keywordEntry.mName);
+				}
 			}
 			
 			/**
@@ -302,39 +334,36 @@
 			public function updateAnalyticsInformation(analyticsParser:cAnalyticsParser):void
 			{
 				mCommunityParserCollection.addItem(analyticsParser);
-				// 1. compute averages
+				// 1. compute agregate
+				
+				
 				// 2. update graphs
 				
-				var event:cStatOptionSelectedEvent = new cStatOptionSelectedEvent("d");
-				
-				var timeSpan:int = event.TIME_SPAN_1_YEAR;
+				var timeSpan:int = mStatEvent.TIME_SPAN_1_YEAR;
 				if(m1WeekSpanRadioButton.selected) {
-					timeSpan = event.TIME_SPAN_1_WEEK;
+					timeSpan = mStatEvent.TIME_SPAN_1_WEEK;
 				}
 				else if(m2WeeksTimeSpanRadioButton.selected) {
-					timeSpan = event.TIME_SPAN_2_WEEKS;
+					timeSpan = mStatEvent.TIME_SPAN_2_WEEKS;
 				}
 				else if(m1MonthTimeSpanRadioButton.selected) {
-					timeSpan = event.TIME_SPAN_1_MONTH;
+					timeSpan = mStatEvent.TIME_SPAN_1_MONTH;
 				}
 				else if(m6MonthsTimeSpanRadioButton.selected) {
-					timeSpan = event.TIME_SPAN_6_MONTHS;
+					timeSpan = mStatEvent.TIME_SPAN_6_MONTHS;
 				}
 				else if(m9MonthsTimeSpanRadioButton.selected) {
-					timeSpan = event.TIME_SPAN_9_MONTHS;
+					timeSpan = mStatEvent.TIME_SPAN_9_MONTHS;
 				}
-				event.mTimeSpan = timeSpan;
+				mStatEvent.mTimeSpan = timeSpan;
+				mStatEvent.mCountWeight = mCountWeightSlider.value;
+				mStatEvent.mGoodnessWeight = mEnglishProficiencyWeightSlider.value;
+				mStatEvent.mEnglishProficiency = mGoodnessWeightSlider.value;
 				
-				//event.mCountWeight = mCountWeightSlider.value;
-				//event.mGoodnessWeight = mGoodnessWeightSlider.value;
-				//event.mEnglishProficiency = mEnglishProficiencyWeightSlider.value;
+				mLineChartCanvas.updateInformation(analyticsParser, mStatEvent, mSelectedKeywords);
 				
-				event.mCountWeight = 0;
-				event.mGoodnessWeight = 0;
-				event.mEnglishProficiency = 1;
-				
-				mLineChartCanvas.updateInformation(analyticsParser, event);
-				
+				// REMOVE THIS LATER
+				mAnalyticsParser = analyticsParser;
 			}
 			
 			
@@ -357,11 +386,11 @@
 				}
 				
 				mCountWeightSlider.value = 1;
-				mGoodnessWeightSlider.value = 0;
 				mEnglishProficiencyWeightSlider.value = 0;
+				mGoodnessWeightSlider.value = 0;
 				mCountInfoLabel.text = mCountWeightSlider.value.toString().slice(0, 5);
-				mGoodnessInfoLabel.text = mGoodnessWeightSlider.value.toString().slice(0, 5);
-				mEnglishProficiencyInfoLabel.text = mEnglishProficiencyWeightSlider.value.toString().slice(0, 5);
+				mGoodnessInfoLabel.text = mEnglishProficiencyWeightSlider.value.toString().slice(0, 5);
+				mEnglishProficiencyInfoLabel.text = mGoodnessWeightSlider.value.toString().slice(0, 5);
 			}
 			
 			/**
@@ -397,8 +426,13 @@
 			private var mWebsites:ArrayCollection = null;
 			// keywords for the community
 			private var mKeywords:ArrayCollection = null;
+			// keywords selected by user
+			private var mSelectedKeywords:ArrayCollection = new ArrayCollection();
 			// collection of website parsers for a community
 			private var mCommunityParserCollection:ArrayCollection = new ArrayCollection();
+			
+			private var mAnalyticsParser:cAnalyticsParser = null;
+			private var mStatEvent:cStatOptionSelectedEvent = new cStatOptionSelectedEvent("dummy");
 			
 		]]>
 	</mx:Script>
@@ -417,16 +451,16 @@
 	<mx:RadioButton label="2 Weeks" color="#DDDDDD" change="_2WeeksTimeSpanRadioButtonChangeHandler(event)" id="m2WeeksTimeSpanRadioButton" verticalCenter="286" horizontalCenter="383"/>
 	<mx:RadioButton label="1 Week" selected="true" color="#DDDDDD" change="_1WeekTimeSpanRadioButtonChangeHandler(event)" id="m1WeekSpanRadioButton" verticalCenter="286" horizontalCenter="462"/>
 	<ns1:cStatOptionsAccordion id="mStatOptionAccordion"
-							   StatOptionSelectedEvent="statOptionSelectedHandler(event)" 
 							   AccordionWebsiteGraphicEvent="accordionWebsiteGraphicEventHandler(event)"
+							   AccordionKeywordGraphicEvent="accordionKeywordGraphicHandler(event)"
 							   height="378.45" horizontalCenter="-412" verticalCenter="-74">
 	</ns1:cStatOptionsAccordion>
 	<mx:HRule width="993" height="14.56" verticalCenter="-277" horizontalCenter="0" alpha="0.5"/>
 	<mx:Button label="Add Website" color="#D8D8D8" alpha="0.5" id="mAddWebsiteButton" horizontalCenter="447" verticalCenter="-293" fontWeight="bold" cornerRadius="5"/>
 	<mx:Button label="Edit Community Group" color="#D8D8D8" click="editCommunityGroupButtonClickHandler(event)" alpha="0.5" id="mEditCommunityGroupButton" horizontalCenter="313" verticalCenter="-293" fontWeight="bold" fontStyle="normal" cornerRadius="5"/>
 	<mx:HSlider x="19" y="507" change="countWeightSliderChangeHandler(event)" borderColor="#000000" width="149" minimum="0" maximum="1" allowTrackClick="true" liveDragging="true" value="1" enabled="true" id="mCountWeightSlider"/>
-	<mx:HSlider x="19" y="587" change="goodnessWeightSliderChangeHandler(event)" borderColor="#000000" width="149" minimum="0" maximum="1" allowTrackClick="true" liveDragging="true" value="1" enabled="true" id="mGoodnessWeightSlider"/>
-	<mx:HSlider x="19" y="547" change="proficiencyWeightSliderChangeHandler(event)" borderColor="#000000" width="149" allowTrackClick="true" minimum="0" maximum="1" liveDragging="true" value="1" enabled="true" id="mEnglishProficiencyWeightSlider"/>
+	<mx:HSlider x="19" y="587" change="goodnessWeightSliderChangeHandler(event)" borderColor="#000000" width="149" minimum="0" maximum="1" allowTrackClick="true" liveDragging="true" value="1" enabled="true" id="mEnglishProficiencyWeightSlider"/>
+	<mx:HSlider x="19" y="547" change="proficiencyWeightSliderChangeHandler(event)" borderColor="#000000" width="149" allowTrackClick="true" minimum="0" maximum="1" liveDragging="true" value="1" enabled="true" id="mGoodnessWeightSlider"/>
 	<mx:Label x="19" y="493" text="Count :" textDecoration="normal" color="#D4D4D4" enabled="true" id="mCountWeightLabel"/>
 	<mx:Label x="19" y="533" text="Goodness :" textDecoration="normal" color="#D4D4D4" enabled="true" id="mGoodnessWeightLabel"/>
 	<mx:Label x="19" y="573" text="English Proficiency :" textDecoration="normal" color="#D4D4D4" enabled="true" id="mProficiencyWeightLabel0"/>
@@ -446,7 +480,8 @@
 	<mx:Label x="128" y="493" text="Label" color="#41CD0A" textAlign="right" id="mCountInfoLabel" width="40" selectable="false"/>
 	<mx:Label x="133" y="573" text="Label" color="#41CD0A" textAlign="right" id="mGoodnessInfoLabel"/>
 	<mx:Label x="133" y="533" text="Label" color="#41CD0A" textAlign="right" id="mEnglishProficiencyInfoLabel"/>
-	<mx:Button x="187" y="583" label="Zoom In" color="#D4D4D4"/>
-	<mx:Button x="269" y="583" label="Zoom Out" color="#D4D4D4"/>
+	<mx:Button x="187" y="578" label="Zoom In" color="#D4D4D4" click="zoomInButtonClickHandler(event)" id="mZoomInButton" width="32" height="32" icon="@Embed(source='../images/zoom_in.png')"/>
+	<mx:Button x="227" y="578" label="Zoom Out" color="#D4D4D4" click="zoomOutButtonClickHandler(event)" id="mZoomOutButton" width="32" height="32" icon="@Embed(source='../images/zoom_out.png')"/>
+	<mx:TextInput x="267" y="583" width="24"/>
 	
 </mx:Canvas>

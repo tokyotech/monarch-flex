@@ -366,7 +366,7 @@
 			/**
 			 * 
 			 */
-			private function websiteStaticGraphicClickedHandler(event:cWebsiteStaticLargeGraphicClickedEvent):void
+			private function websiteStaticGraphicClickedHandler(event:cAccordionKeywordGraphicEvent):void
 			{
 				Alert.show("Hello");
 			}

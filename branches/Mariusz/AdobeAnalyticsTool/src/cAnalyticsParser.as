@@ -128,11 +128,10 @@ package
 				var currentDay:Number = today.getDate();
 				var currentMonth:Number = today.getMonth();
 				var currentYear:Number = today.getFullYear();
-				
+							
 				var countVal:Number = 0;
 				var goodnessVal:Number = 0;
 				var englishProficiencyVal:Number = 0;
-				var timeVal:Number = 0;
 				var prevDate:String = "";
 				var counter:int;
 				for(i = 0; i < mKeywordData.length; i++) {
@@ -147,58 +146,46 @@ package
 					for(j = 0; j < keyword.mTimeCollection.length; j++) {
 						var timeStamp:Number = (int(keyword.mTimeCollection.getItemAt(j)));
 						var date:Date = new Date(int(timeStamp)*1000); 
-
-						// check that within 7 days of current date
-						if(date.getFullYear() == currentYear && date.getMonth() == currentMonth && currentDay >= 7 && (((currentDay - date.getDate()) < 7)) ||
-							(date.getFullYear() == currentYear && date.getMonth() == currentMonth && currentDay <= 6) ||
-							(date.getFullYear() == currentYear && (date.getMonth() == currentMonth - 1) &&
-								(((daysInMonth(currentMonth - 1) - date.getDay()) + currentDay) < 8)) ||
-							(date.getFullYear() == currentYear - 1 && date.getMonth() == 11 && currentMonth == 0 && currentDay <= 6 &&
-						        (((daysInMonth(date.getMonth()) - date.getDay()) + currentDay) < 8))) {
+						var currentDate:String = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear(); 
 						        
-						       var dd:String = date.getMonth() + "/" + date.getDate() + "/" + date.getFullYear(); 
-						        
-						        if(prevDate == "") {
-						        	prevDate = date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear();
-						        	countVal = keyword.mCountCollection[j];
-						        	goodnessVal = keyword.mGoodnessCollection[j];
-						        	englishProficiencyVal = keyword.mEnglishProficiencyCollection[j];
-						        	timeVal = currentDay - date.getDate();
-						        	counter++;
-						        }
-						        else if(prevDate == (date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear())) {    	
-						        	countVal = countVal + keyword.mCountCollection[j];
-						        	goodnessVal =+ keyword.mGoodnessCollection[j];
-						        	englishProficiencyVal =+ keyword.mEnglishProficiencyCollection[j];
-						        	timeVal = currentDay - date.getDate();
-						        	counter++;
-						        }	
-						        else {        	
-						        	prevDate = date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear();
-						        	countVal = countVal / counter;
-						        	goodnessVal = goodnessVal / counter;
-						        	englishProficiencyVal = englishProficiencyVal / counter;			     
-						        	
-						        	_timeCollection.addItem(timeVal);
-						        	_countCollection.addItem(countVal);
-						        	_goodnessCollection.addItem(goodnessVal);
-						        	_englishProficiencyCollection.addItem(englishProficiencyVal);
-						        	
-						        	countVal = keyword.mCountCollection[j];
-						        	goodnessVal = keyword.mGoodnessCollection[j];
-						        	englishProficiencyVal = keyword.mEnglishProficiencyCollection[j];
-						        	timeVal = currentDay - date.getDate();
-						        	counter = 1;
-						        } 
-						 }						
+					        if(prevDate == "") {
+					        	prevDate = currentDate
+					        	countVal = keyword.mCountCollection[j];
+					        	goodnessVal = keyword.mGoodnessCollection[j];
+					        	englishProficiencyVal = keyword.mEnglishProficiencyCollection[j];
+					        	counter++;
+					        }
+					        else if(prevDate == currentDate) {    	
+					        	countVal = countVal + keyword.mCountCollection[j];
+					        	goodnessVal =+ keyword.mGoodnessCollection[j];
+					        	englishProficiencyVal =+ keyword.mEnglishProficiencyCollection[j];
+					        	counter++;
+					        }	
+					        else {        	
+					        	countVal = countVal;
+					        	goodnessVal = goodnessVal;
+					        	englishProficiencyVal = englishProficiencyVal;			     
+					        	
+					        	_timeCollection.addItem(prevDate);
+					        	_countCollection.addItem(countVal);
+					        	_goodnessCollection.addItem(goodnessVal);
+					        	_englishProficiencyCollection.addItem(englishProficiencyVal);
+					        	
+					        	prevDate = currentDate;
+					        	
+					        	countVal = keyword.mCountCollection[j];
+					        	goodnessVal = keyword.mGoodnessCollection[j];
+					        	englishProficiencyVal = keyword.mEnglishProficiencyCollection[j];
+					        	counter = 1;
+					        } 				
 					}
 					
 					if(prevDate != "") {
-						countVal = countVal / counter;
-			        	goodnessVal = goodnessVal / counter;
-			        	englishProficiencyVal = englishProficiencyVal / counter;
+						countVal = countVal;
+			        	goodnessVal = goodnessVal;
+			        	englishProficiencyVal = englishProficiencyVal;
 			        	
-			        	_timeCollection.addItem(timeVal);
+			        	_timeCollection.addItem(prevDate);
 			        	_countCollection.addItem(countVal);
 			        	_goodnessCollection.addItem(goodnessVal);
 			        	_englishProficiencyCollection.addItem(englishProficiencyVal);
@@ -208,7 +195,7 @@ package
 																								 _countCollection,
 																								 _goodnessCollection,
 																								 _englishProficiencyCollection);
-						m1WeekKeywordData.addItem(_keywordAnalyticsEntry);
+						mSortedData.addItem(_keywordAnalyticsEntry);
 					}
 					
 					
@@ -259,6 +246,6 @@ package
 		// a collection of cLinkAnalysisEntry objects
 		public var mLinksData:ArrayCollection = new ArrayCollection();	
 		// a collection of cKeywordAnalysisEntry objects with time stamps from the past week
-		public var m1WeekKeywordData:ArrayCollection = new ArrayCollection();
+		public var mSortedData:ArrayCollection = new ArrayCollection();
 	}
 }

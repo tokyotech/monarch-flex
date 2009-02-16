@@ -3,6 +3,7 @@
 
 	<mx:Script>
 		<![CDATA[
+			import mx.charts.DateTimeAxis;
 			
 			import mx.charts.BarChart;
 			import mx.charts.CategoryAxis;
@@ -27,7 +28,8 @@
 			 * 
 			 */
 			public function updateInformation(analyticsParser:cAnalyticsParser,
-											  statOptionSelected:cStatOptionSelectedEvent):void
+											  statOptionSelected:cStatOptionSelectedEvent,
+											  selectedKeywords:ArrayCollection):void
 			{			
 				if(statOptionSelected == null) { return; }
 				
@@ -38,41 +40,72 @@
 				this.mLineChart.setStyle("fontSize", "12");
 				this.mLineChart.showDataTips = true;
 				
-				var vAxis:LinearAxis = new LinearAxis();
 				vAxis.title = statOptionSelected.mTitle;
 				vAxis.displayName = statOptionSelected.mDisplayName;
-				//vAxis.maximum = yScale;		
-				vAxis.minimum = -2;
-				vAxis.maximum = 3;
+				vAxis.autoAdjust = true;
+
 				this.mLineChart.verticalAxis = vAxis;
 				
-				var hAxis:LinearAxis = new LinearAxis();
+				var hAxis:DateTimeAxis = new DateTimeAxis();
+				hAxis.alignLabelsToUnits = true;
+				hAxis.displayLocalTime = true;
+				hAxis.autoAdjust = true;
+				// current date as reference
+				var date:Date = new Date();
 				
 				if(statOptionSelected.mTimeSpan == statOptionSelected.TIME_SPAN_1_WEEK) {
-					hAxis.displayName = "Trend (Past 1 Week)";
-					hAxis.title = "Time (Past 1 Week)";
-					hAxis.minimum = 0;
-					hAxis.maximum = 6;
+					hAxis.displayName = "Date";
+					hAxis.title = "Time (Past 7 Days)";
+					hAxis.dataUnits = "days";
+					hAxis.labelUnits = "days";
+					
+					hAxis.minimum = new Date(date.getFullYear(), date.getMonth(), date.getDate() - 6, date.getHours() - 4);
+					hAxis.maximum = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours() + 4);
 				}
 				else if (statOptionSelected.mTimeSpan == statOptionSelected.TIME_SPAN_2_WEEKS) {
-					hAxis.displayName = "Trend (Past 2 Weeks)";
-					hAxis.title = "Time (Past 2 Weeks)";
+					hAxis.displayName = "Date";
+					hAxis.title = "Time (Past 14 Days)";
+					hAxis.dataUnits = "days";
+					hAxis.labelUnits = "days";
+					
+					hAxis.minimum = new Date(date.getFullYear(), date.getMonth(), date.getDate() - 13, date.getHours() - 4);
+					hAxis.maximum = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours() + 4);
 				}
 				else if(statOptionSelected.mTimeSpan == statOptionSelected.TIME_SPAN_1_MONTH) {
-					hAxis.displayName = "Trend (Past 1 Month)";
-					hAxis.title = "Time (Past 1 Month)";
+					hAxis.displayName = "Date";
+					hAxis.title = "Time (Past 30 days/1 month)";
+					hAxis.dataUnits = "weeks";
+					hAxis.labelUnits = "weeks";
+					
+					hAxis.minimum = new Date(date.getFullYear(), date.getMonth(), date.getDate() - 30, date.getHours() - 4);
+					hAxis.maximum = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours() + 4);
 				}
 				else if(statOptionSelected.mTimeSpan == statOptionSelected.TIME_SPAN_6_MONTHS) {
-					hAxis.displayName = "Trend (Past 6 Months)";
+					hAxis.displayName = "Date";
 					hAxis.title = "Time (Past 6 Months)";
+					hAxis.dataUnits = "weeks";
+					hAxis.labelUnits = "weeks";
+					
+					hAxis.minimum = new Date(date.getFullYear(), date.getMonth() - 6, date.getDate(), date.getHours() - 4);
+					hAxis.maximum = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours() + 4);
 				}
 				else if(statOptionSelected.mTimeSpan == statOptionSelected.TIME_SPAN_9_MONTHS) {
-					hAxis.displayName = "Trend (Past 9 Months)";
+					hAxis.displayName = "Date";
 					hAxis.title = "Time (Past 9 Months)";
+					hAxis.dataUnits = "months";
+					hAxis.labelUnits = "months";
+					
+					hAxis.minimum = new Date(date.getFullYear(), date.getMonth() - 9, date.getDate(), date.getHours() - 4);
+					hAxis.maximum = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours() + 4);
 				}
 				else if(statOptionSelected.mTimeSpan == statOptionSelected.TIME_SPAN_1_YEAR) {
-					hAxis.displayName = "Trend (Past 1 Year)";
+					hAxis.displayName = "Date";
 					hAxis.title = "Time (Past 1 Year)";
+					hAxis.dataUnits = "months";
+					hAxis.labelUnits = "months";
+					
+					hAxis.minimum = new Date(date.getFullYear() - 1, date.getMonth(), date.getDate(), date.getHours() - 4);
+					hAxis.maximum = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours() + 4);
 				}
 				
 				this.mLineChart.horizontalAxis = hAxis;
@@ -80,55 +113,78 @@
 				var seriesCollection:Array = new Array();
 				for(var i:int = 0; i < analyticsParser.mKeywordData.length; i++)
 				{
-					var series:LineSeries = new LineSeries();
-					var keyword:cKeywordAnalyticsEntry = cKeywordAnalyticsEntry(analyticsParser.m1WeekKeywordData.getItemAt(i));
-					var x:Number, j:int, y:Number, timeStamp:int;
+					var keyword:cKeywordAnalyticsEntry = cKeywordAnalyticsEntry(analyticsParser.mSortedData.getItemAt(i));
+					var hasKeyword:Boolean = false;
+					for(var word:int = 0; word < selectedKeywords.length; word++) {
+						if(selectedKeywords.getItemAt(word).toString() == keyword.mName) {
+							hasKeyword = true;
+						}
+					}
 					
-					for(j = 0; j < keyword.mTimeCollection.length; j++) {
+					if(hasKeyword) {
+						var series:LineSeries = new LineSeries();
+						var x:Number, j:int, y:Number, timeStamp:int;
 						
-						if(statOptionSelected.mTimeSpan == statOptionSelected.TIME_SPAN_1_WEEK) {
+						for(j = 0; j < keyword.mTimeCollection.length; j++) {
+
+							var dateString:String = String(keyword.mTimeCollection.getItemAt(j));
 							
-							x = int(keyword.mTimeCollection.getItemAt(j));
 							y = Number(keyword.mGoodnessCollection.getItemAt(j)) * statOptionSelected.mGoodnessWeight + 
 							    Number(keyword.mEnglishProficiencyCollection.getItemAt(j)) * statOptionSelected.mEnglishProficiency +
 							    Number(keyword.mCountCollection.getItemAt(j)) * statOptionSelected.mCountWeight;
 							
-							mLineGraphData.push({(i.toString()):x, ((i+1).toString()):y});
-						}
-							
+							mLineGraphData.push({(i.toString()):dateString, ((i+1).toString()):y});
+						}		
+						
+						var stroke:Stroke = new Stroke();
+		        		stroke.color = 0xF8DFF6 >> (i*3);
+		        		stroke.weight = 3;
+		 				series.setStyle("lineStroke", stroke);
+		        		series.xField = i.toString();
+		        		series.yField = (i+1).toString();  
+		        		
+		        		series.displayName = keyword.mName; 
+						
+						seriesCollection.push(series);	
 					}
-								
-					
-					var stroke:Stroke = new Stroke();
-	        		stroke.color = 0xF8DFF6 >> (i*3);
-	        		stroke.weight = 3;
-	 				series.setStyle("lineStroke", stroke);
-	        		series.xField = i.toString();
-	        		series.yField = (i+1).toString();  
-	        		series.displayName = keyword.mName; 
-					
-					seriesCollection.push(series);
-							
 				}
-	
 					
 				this.mLineChart.series = seriesCollection;
-				this.mLineChart.dataProvider = mLineGraphData;
-					
-				
-				var c:Canvas = new Canvas();
-				c.setStyle("backgroundColor", "0xFF0000");
-				c.width = 100;
-				c.height = 20;
-				c.x = 0;
-				c.y = 0;
-				this.mLineChartLegend.addChild(c);
-				
-				
-				//this.mLineChartLegend.dataProvider = this.mLineChart;
-				
+				this.mLineChart.dataProvider = mLineGraphData;	
+
+				this.mLineChartLegend.dataProvider = this.mLineChart;				
 				
 				this.mLineChartLegend.toolTip = "Not Available";
+			}
+			
+			
+			/**
+			 * 	Function which zooms the graph inward by one unit.
+			 */
+			public function zoomIn():void
+			{
+				mVMinimum = vAxis.minimum;
+				mVMaximum = vAxis.maximum;
+				
+				if(mVMinimum < -1) {
+					mVMinimum = mVMinimum + 1;
+				}
+				if(mVMaximum > 1) {
+					mVMaximum = mVMaximum - 1;
+				}
+				vAxis.minimum = mVMinimum;
+				vAxis.maximum = mVMaximum;
+			}
+			
+			/**
+			 * 	Function which zooms the graph outward by one unit.
+			 */
+			public function zoomOut():void
+			{
+				mVMinimum = mVMinimum - 1;
+				mVMaximum = mVMaximum + 1;
+				vAxis.minimum = mVMinimum;
+				vAxis.maximum = mVMaximum;
 			}
 			
 			/**
@@ -169,10 +225,19 @@
 			//
 			///////////////////////////////////////////////////////////////////////////////////
 			
+			// the vertical axis attributes
+			private var vAxis:LinearAxis = new LinearAxis();
+			// v axis minimum and maximum values
+			private var mVMinimum:int = -3;
+			private var mVMaximum:int = 3;
+			
+			private var mVFocusMin:int = 0;
+			private var mVFocusMax:int = 0;
+			
 		]]>
 	</mx:Script>
 
-	<mx:LineChart id="mLineChart" width="815" height="492" color="#EEEEEE" verticalCenter="-19" horizontalCenter="0">
+	<mx:LineChart id="mLineChart"  width="815" height="492" color="#EEEEEE" verticalCenter="-19" horizontalCenter="0">
 		<mx:series>
 			<mx:LineSeries displayName="Series 1"/>
 		</mx:series>
