@@ -482,6 +482,5 @@
 	<mx:Label x="133" y="533" text="Label" color="#41CD0A" textAlign="right" id="mEnglishProficiencyInfoLabel"/>
 	<mx:Button x="187" y="578" label="Zoom In" color="#D4D4D4" click="zoomInButtonClickHandler(event)" id="mZoomInButton" width="32" height="32" icon="@Embed(source='../images/zoom_in.png')"/>
 	<mx:Button x="227" y="578" label="Zoom Out" color="#D4D4D4" click="zoomOutButtonClickHandler(event)" id="mZoomOutButton" width="32" height="32" icon="@Embed(source='../images/zoom_out.png')"/>
-	<mx:TextInput x="267" y="583" width="24"/>
 	
 </mx:Canvas>

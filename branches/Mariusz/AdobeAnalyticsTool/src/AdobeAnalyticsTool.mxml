@@ -319,7 +319,7 @@
 			///////////////////////////////////////////////////////////////////////////////////
 			
 			/**
-			 * 	System monitor event handler which is notified if the connection to the interned
+			 * 	System monitor event handler which is notified if the connection to the internet
 			 *  becomes brocken. It will notify the user of the event.
 			 */
 			private function serverConnectionStatusChangeHandler(event:StatusEvent):void

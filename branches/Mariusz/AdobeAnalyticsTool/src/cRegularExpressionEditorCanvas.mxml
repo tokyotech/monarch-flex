@@ -1,11 +1,242 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="1012" height="577">
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="1012" height="616">
 	<mx:Metadata>
 		[Event(name="BackLabelClickedEvent", type="flash.events.Event")]
 	</mx:Metadata>
 	
 	<mx:Script>
 		<![CDATA[
+		
+			import mx.core.UIComponent;
+			import mx.controls.textClasses.TextRange;
+		
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//							MEMBER FUNCTIONS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+			// Called when the wizard is added to the stage
+			private function initWizard(event:Event):void {
+				trace("wizard inited");
+				pageLoader = new URLLoader(new URLRequest(urlToLoad));
+				pageLoader.addEventListener(Event.COMPLETE, handlePageLoaded);
+				html = new HTMLLoader();
+			}
+		
+			private function handlePageLoaded(event:Event):void {
+				trace("Page loaded");
+				urlContents = pageLoader.data;
+				html.loadString(pageLoader.data);
+			}
+			
+			// Called when the user clicks the forward button:
+			//  advances to the next screen
+			private function advanceWizard(event:Event):void {
+				if(regexString) {
+					regexString.text = "";
+				}
+				
+				if(viewstack1.selectedChild == OpeningScreen) {
+					viewstack1.selectedChild = RegexEntry;
+					currState = topLevelRegexes[0];
+				}
+				else if(viewstack1.selectedChild == RegexEntry) {
+					// Given current state, either go to next regular expression or 
+					//  change to the next canvas in the viewstack
+					var index:int = topLevelRegexes.indexOf(currState);
+					if(index == topLevelRegexes.length - 1) { // this is last toplevel regex
+						trace("last toplevel regex");
+						viewstack1.selectedChild = pageOfPostsVerify;
+					}
+					else if(index == -1) { // must be a sub-level regular expression
+						trace("must be a sub-level regular expression");
+						index = subLevelRegexes.indexOf(currState);
+						if(index == subLevelRegexes.length -1) { // this is last sub-level regex
+							viewstack1.selectedChild = finalView;
+						}
+						else {
+							// Set the regex to be collected to the next in the list
+							currState = subLevelRegexes[index + 1];
+						}
+					}
+					else {
+						// Set the regex to be collected to the next in the list
+						currState = topLevelRegexes[index + 1];
+					}	
+				}
+				else if(viewstack1.selectedChild == pageOfPostsVerify) {
+					viewstack1.selectedChild = RegexEntry;
+					currState = subLevelRegexes[0];
+					
+					// Trigger event that current regex has changed
+					dispatchEvent(new Event("regexChanged"));
+				}	
+				else { // viewstack1.selectedChild == finalView
+					// Submit collected regexes to the database
+				}	
+			}
+			
+			private function backWizard(event:Event):void {
+				if(regexString) {
+					regexString.text = "";
+				}
+				if(viewstack1.selectedChild == OpeningScreen) {
+				}
+				else if(viewstack1.selectedChild == RegexEntry) {
+					// Given current state, either go to next regular expression or 
+					//  change to the next canvas in the viewstack
+					var index:int = topLevelRegexes.indexOf(currState);
+					if(index == 0) { // this is first toplevel regex
+						viewstack1.selectedChild = OpeningScreen;
+					}
+					else if(index == -1) { // must be a sub-level regular expression
+						index = subLevelRegexes.indexOf(currState);
+						if(index == 0) { // this is first sub-level regex
+							viewstack1.selectedChild = pageOfPostsVerify;
+						}
+						else {
+							// Set the regex to be collected to the next in the list
+							currState = subLevelRegexes[index - 1];
+						}
+					}
+					else {
+						// Set the regex to be collected to the next in the list
+						currState = topLevelRegexes[index - 1];
+					}	
+				}
+				else if(viewstack1.selectedChild == pageOfPostsVerify) {
+					viewstack1.selectedChild = RegexEntry;
+					currState = topLevelRegexes[topLevelRegexes.length-1];
+				}	
+				else { // viewstack1.selectedChild == finalView
+					viewstack1.selectedChild = RegexEntry;
+					currState = subLevelRegexes[subLevelRegexes.length-1];
+				}	
+			}
+			
+			private function viewAppearanceHandler(event:Event):void {
+				var myComponent:UIComponent  = new UIComponent();  
+				myComponent.addChild(html);
+				htmlBox.addChild(myComponent);
+				
+				html.width = htmlBox.width;
+    			html.height = 2880;
+			}
+			
+			private function highlightMatches(event:Event):void {    		
+				highlightViewMatches(new RegExp(regexString.text, ""));
+				highlightSourceMatches(new RegExp(regexString.text, "g"));
+				
+			}
+			
+			private function highlightViewMatches(usrRegex:RegExp):void {
+				// Reinitialize match label and match text
+	    		matchesText.text = "No captured text";
+	    		
+	    		// Be sure that we are modifying unhighlighted page	
+//				for each(var elem:Object in modifiedElements) {
+//					elem.style.background = unmodifiedBackground;
+//				}
+//	    		
+//	    		modifiedElements = new Array();
+//	    		
+	    		// Begin highlighting matches from root node
+	    		trace(html);
+	    		highlightMatchesRec(html.window.document.documentElement, usrRegex);
+			}
+			
+			private function highlightMatchesRec(elem:Object, regex:RegExp):void {	
+				trace("Element type = " + elem.tagName);
+				// trace("Element outerHTML = " + elem.outerHTML);
+				// If there is no match within this node, return
+				if(elem.outerHTML.search(regex) == -1) {
+					return;
+				}
+				// There is a match so recurse and highlight matches
+				else {
+					var children:Object = elem.getElementsByTagName("*");
+									
+					var childHasMatch:Boolean = false;
+					for(var i:Number = 0; i < children.length; i++) {
+						if(children[i].outerHTML.search(regex) != -1) {
+							childHasMatch = true;
+							highlightMatchesRec(children[i], regex);
+							return; // find only the first match
+						}
+					}
+					
+					// If there are no children which match the regex, run the tag-name-based
+					// algorithm on nodes having the same tag name as this element
+					if(childHasMatch == false) {
+						trace("Tag Name = "+elem.tagName);
+						highlightMatchesFromList(html.window.document.getElementsByTagName(elem.tagName), regex);
+						// elem.style.background = "yellow";
+					} 
+				}
+			}
+			
+			private function highlightMatchesFromList(elemList:Object, regex:RegExp):void {
+				// Save an unmodified background color
+				// unmodifiedBackground = elemList[0].style.background;
+				
+				// Highlight all elements in the element list that match the regular expression
+				trace(elemList.length);
+				for(var i:Number = 0; i < elemList.length; i++) {
+					var match:Object = regex.exec(elemList[i].outerHTML);
+					if(match != null) {
+						if(match.length >= 2) {
+							matchesText.text += ("\n\n* " + match[1]);
+						}					
+	
+						// modifiedElements.push(elemList[i]);
+						elemList[i].style.background = "yellow";
+						trace("Highlighting "+elemList[i].outerHTML.slice(0,10)+" . . . ");
+					}
+				}
+			}
+			
+			private function highlightSourceMatches(usrRegex:RegExp):void {
+				
+				var result:Array = usrRegex.exec(pageSource.text);
+				
+				while (result != null) {
+					// Highlight match
+					applyTextHighlight(pageSource, result.index, usrRegex.lastIndex);
+	    			// trace("SourceMatches:", result.index, "\t", usrRegex.lastIndex, "\t", result[0].length);
+	    			
+	    			// Find next match
+	    			result = usrRegex.exec(pageSource.text);
+				}
+			}
+			
+			private function applyTextHighlight(textField:UIComponent, startIndex:int,
+	                              endIndex:int):void
+			{
+	     		var tr:TextRange = new TextRange(textField, false, startIndex, endIndex);
+	    		var highlightedPropsObject:Object = {color:"red", fontWeight:"bold", fontSize:12};
+	    		// trace("Highlihting text range from ", startIndex, " to ", endIndex);
+	     		setTextFormat(tr, highlightedPropsObject);
+			}
+	
+			private function setTextFormat(tr:TextRange, obj:Object):void{
+	    		//loop through the objects properties and assign each value to your TextRange
+	    		//instance (only if the instance already has such a property declared)
+	    		for(var i:String in obj){
+	    			if(tr.hasOwnProperty(i)){
+	        			tr[i] = obj[i];
+	    			}else{
+	        			trace("some error handling here"); 
+	        		}
+	    		}
+	  		}
+		
+		
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//							EVENT HANDLERS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
 			
 			/**
 			 * 	Called when the user clicks on the edit label.
@@ -32,9 +263,90 @@
 				mBackLabel.setStyle("color", "0x11d30c");
 			}
 			
+			
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//							DATA MEMBERS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+			
+			// TODO: populate these from the database
+			// nextPageOfThreads, threadUrl, threadNumPosts, threadNumViews. Once these are collected, the threadUrl 
+			private var topLevelRegexes:Array = new Array("next page of threads", "number of threads in post", 
+												  "number of views for thread", "thread url");
+			private var usrRegexes:Object = new Object();
+			private var subLevelRegexes:Array = new Array("next page of posts", "thread title", "first post author", 
+												  "first post time", "first post message", "reply author", "reply time",
+												  "reply message", "parent URL for thread");
+			[Bindable]
+			private var currState:String;
+			
+			private var pageLoader:URLLoader;
+			private var urlToLoad:String="http://reddit.com"; // in application this will be given
+			
+			[Bindable]
+			private var urlContents:String;
+			private var html:HTMLLoader;
+			
 		]]>
 	</mx:Script>
-	<mx:Label x="398.5" y="13" text="Regular Expression Editor" fontFamily="Times New Roman" fontSize="20" textDecoration="normal" color="#BEBEBE" alpha="1.0" id="mRegExCanvasTitleLabel" textAlign="center" fontWeight="normal" fontStyle="normal"/>
-	<mx:Label x="10" y="17" text="Back" color="#11D30C" fontSize="14" textDecoration="underline" id="mBackLabel" click="backLabelClickHandler(event)" rollOut="backLabelRollOutHandler(event)" rollOver="backLabelRollOverHandler(event)"/>
+	<mx:Label x="10" y="17" text="Back &gt;&gt;" color="#11D30C" fontSize="14" textDecoration="normal" id="mBackLabel" click="backLabelClickHandler(event)" rollOut="backLabelRollOutHandler(event)" rollOver="backLabelRollOverHandler(event)"/>
+	<mx:Label x="78" y="17" text="My Community Groups &gt;&gt;" color="#11D30C" fontSize="14" textDecoration="normal" id="mBackLabel0" click="backLabelClickHandler(event)" rollOut="backLabelRollOutHandler(event)" rollOver="backLabelRollOverHandler(event)"/>
+	<mx:Label x="275" y="17" text="Some Community Group Name &gt;&gt;" color="#11D30C" fontSize="14" textDecoration="normal" id="mBackLabel1" click="backLabelClickHandler(event)" rollOut="backLabelRollOutHandler(event)" rollOver="backLabelRollOverHandler(event)"/>
 	
+	<mx:Button id="rightButton" skin="@Embed(source='../Images/Knob Forward.png')" click="advanceWizard(event)" horizontalCenter="488" verticalCenter="-284">
+	</mx:Button>
+	<mx:Button skin="@Embed(source='../Images/Knob Cancel.png')" horizontalCenter="447" verticalCenter="-283"/>
+	<mx:Button skin="@Embed(source='../Images/Knob Left.png')" click="backWizard(event)" horizontalCenter="407" verticalCenter="-284"/>
+	
+	<mx:ViewStack x="10" y="55" id="viewstack1" width="992" height="551">
+		<mx:Canvas id="OpeningScreen" width="100%" height="100%">
+			<mx:Text text="Welcome to the Adapter Creation Wizard. The following screens will walk you through the creation of a custom plugin. &#xd;Click on the right arrow to continue." width="971.95" textAlign="center" horizontalCenter="-1" verticalCenter="-232" color="#EFEFEF" fontSize="12"/>
+		</mx:Canvas>
+		<mx:Canvas id="RegexEntry" width="100%" height="100%">
+			<mx:Text id="infoText" text="Enter a regular expression that matches {currState}:" width="972" height="22" color="#EFEFEF" fontSize="12" horizontalCenter="0" verticalCenter="-256"/>
+			<mx:TextInput id="regexString" change="highlightMatches(event)"  backgroundAlpha="0.5" width="292" horizontalCenter="-340" verticalCenter="-231" borderStyle="solid" borderThickness="0" color="#EFEFEF"/>
+			<mx:TabNavigator width="974.95" height="481" backgroundAlpha="0.1" backgroundColor="#FFFFFF" horizontalCenter="2" verticalCenter="35">
+	    		<mx:Canvas label="View" width="100%" height="100%" backgroundAlpha="0.1" backgroundColor="#FFFFFF" color="#EFEFEF">
+	    		    <mx:VBox height="449" width="968.95" id="htmlBox" label="Page View" addedToStage="viewAppearanceHandler(event)" backgroundColor="#FFFFFF" backgroundAlpha="0.1" verticalCenter="-1" horizontalCenter="-2">
+	    		    </mx:VBox>
+	    		</mx:Canvas>
+	    		<mx:VBox label="Source" id="sourceTab" width="100%" height="100%" backgroundAlpha="0.1" backgroundColor="#FFFFFF" color="#EFEFEF">
+	    		    <mx:Text width="972" height="447" id="pageSource" text="{urlContents}"/>
+	    		</mx:VBox>
+	   		    <mx:HBox label="Text Matches" width="100%" height="100%" backgroundAlpha="0.1" backgroundColor="#FFFFFF" color="#EFEFEF">
+	    		    <mx:RichTextEditor title="Title" id="matchesText" width="970" height="446" backgroundAlpha="0.1" color="#464646" borderStyle="solid" borderThickness="0" cornerRadius="0">
+	    		    </mx:RichTextEditor>
+	    		</mx:HBox>
+			</mx:TabNavigator>
+		</mx:Canvas>
+		<mx:Canvas id="pageOfPostsVerify" label="" width="100%" height="100%">
+			<mx:Canvas width="100%" height="100%" backgroundAlpha="0.5" x="-0.05" y="10">
+				<mx:TabNavigator width="973" height="483" backgroundAlpha="0.1" color="#404040" horizontalCenter="0" verticalCenter="20">
+				  		<mx:Canvas label="View" width="100%" height="100%" backgroundAlpha="0.1" color="#F4F4F4" backgroundColor="#FFFFFF">
+				  		  		<mx:HBox color="#F4F4F4">
+				  		  			<mx:Label text="Website ;"  width="68" fontSize="12"/>
+				  		  			<mx:TextInput id="searchTerms" text="http://reddit.com"  backgroundAlpha="0.5" borderStyle="solid" borderThickness="0" width="189"/>
+				  		  		</mx:HBox>
+				  		</mx:Canvas>
+				</mx:TabNavigator>
+				<mx:Text x="10" y="10" text="If a &quot;page of posts is shown below click the right arrow. Otherwise revise the &quot;thread url&quot; regular expression in the previous screen." width="972" color="#EFEFEF" fontSize="12"/>
+			</mx:Canvas>
+		</mx:Canvas>
+		<mx:Canvas label="" width="100%" height="100%" id="finalView">
+			<mx:Text x="10" y="10" text="Select your crawling preferences:" width="441" color="#BEBEBE" fontSize="12"/>
+			<mx:HBox x="91" y="71" width="100%" height="22">
+				<mx:Text text="Minutes to wait between crawls:" width="393" color="#BEBEBE" fontSize="12"/>
+				<mx:TextInput width="115" text="30.0" color="#F3F3F3" backgroundAlpha="0.5" borderStyle="solid" borderThickness="0"/>
+			</mx:HBox>
+			<mx:HBox x="91" y="114" width="100%" height="22">
+				<mx:Text text="Number of top-level pages to explore per crawl:" width="393" height="22" color="#BEBEBE" fontSize="12"/>
+				<mx:TextInput width="115" text="2.0" color="#F3F3F3" backgroundAlpha="0.5" borderStyle="solid" borderThickness="0"/>
+			</mx:HBox>
+			<mx:Text x="91" y="178" text="Note: we will do our best to accomodate your crawling preferences. However, please note that we are in possession of only finite resources. As a general guideline, the default values should be suitable for most sites." width="441" color="#BEBEBE" fontSize="12"/>
+		</mx:Canvas>
+	</mx:ViewStack>
+	<mx:HRule width="993" height="14.56" verticalCenter="-261" horizontalCenter="0" alpha="0.5"/>
+	<mx:Label text="Edit Website" fontFamily="Times New Roman" fontSize="24" textDecoration="normal" color="#BEBEBE" alpha="1.0" id="mWebsiteNameLabel" width="140" x="528" verticalCenter="-280"/>
 </mx:Canvas>

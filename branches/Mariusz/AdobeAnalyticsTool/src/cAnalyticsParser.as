@@ -120,10 +120,7 @@ package
 					}
 				}
 			
-				// now that we have gathered the keywords and links we must sub catagorize them into past 1 week, 2 weeks, 1 Month,
-				// 6 months, 9 month, 1 year
-				// Compute for 1 week
-				// get todays date
+				// now that we have gathered the keywords and links we must sub catagorize them day.
 				var today:Date = new Date();
 				var currentDay:Number = today.getDate();
 				var currentMonth:Number = today.getMonth();

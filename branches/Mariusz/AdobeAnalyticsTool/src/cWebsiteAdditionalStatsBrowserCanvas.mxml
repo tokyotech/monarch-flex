@@ -5,6 +5,7 @@
 		[Event(name="OpenCommunityGroupSelectionClickedEvent", type="flash.events.Event")]
 		[Event(name="OpenCommunityGroupHomeCanvasEvent", type="flash.events.Event")]
 		[Event(name="OpenCommunityGroupBrowserCanvasEvent", type="flash.events.Event")]
+		[Event(name="OpenRegExCanvasEvent", type="cEditWebsiteEvent")]
 	</mx:Metadata>
 	<mx:Script>
 		<![CDATA[
@@ -93,6 +94,16 @@
 				mCommunityGroupNameLabel.setStyle("color", "0x11d30c");
 			}
 			
+			/**
+			 * 	Called when the user clicks on the edit website button.
+			 */
+			private function editWebsiteButtonClickHandler(event:Event):void
+			{
+				var e:cEditWebsiteEvent = new cEditWebsiteEvent("OpenRegExCanvasEvent");
+				e.mWebsiteName = mWebsiteName;
+				this.dispatchEvent(e);
+			}
+			
 			
 			///////////////////////////////////////////////////////////////////////////////////
 			//
@@ -139,9 +150,7 @@
 			// name of the community group
 			private var mCommunityGroupName:String = "";
 			// name of the website 
-			private var mWebsiteName:String = "";
-			
-			
+			private var mWebsiteName:String = "";	
 			
 		]]>
 	</mx:Script>
@@ -151,6 +160,19 @@
 	<mx:Label click="communityLabelClickHandler(event)" rollOver="communityLabelRollOverHandler(event)" rollOut="communityLabelRollOutHandler(event)" text="My Community Groups &gt;&gt;" color="#11D30C" fontSize="14" textDecoration="normal" id="mCommunityGroupLabel"  horizontalCenter="-323" verticalCenter="-292"/>
 	<mx:Label click="communityNameLabelClickHandler(event)" rollOver="communityNameLabelRollOverHandler(event)" rollOut="communityNameLabelRollOutHandler(event)" text="Some Community Group Name &gt;&gt;" color="#11D30C" fontSize="14" textDecoration="normal" id="mCommunityGroupNameLabel" x="286" verticalCenter="-292"/>
 	<mx:Label text="My Community Groups" fontFamily="Times New Roman" fontSize="24" textDecoration="normal" color="#BEBEBE" alpha="1.0" id="mWebsiteNameLabel" width="329" x="540" verticalCenter="-292"/>
-	<mx:Button label="Edit Website" color="#D8D8D8" alpha="0.5" id="mEditWebsiteButton" horizontalCenter="447" verticalCenter="-293" fontWeight="bold" fontStyle="normal" cornerRadius="5"/>
+	<mx:Label text="General" fontFamily="Times New Roman" fontSize="16" textDecoration="normal" color="#BEBEBE" alpha="1.0" id="mWebsiteNameLabel0" width="83" verticalCenter="-246" horizontalCenter="-455"/>
+	<mx:Label text="Keywords" fontFamily="Times New Roman" fontSize="16" textDecoration="normal" color="#BEBEBE" alpha="1.0" id="mWebsiteNameLabel5" width="83" verticalCenter="-246" horizontalCenter="144"/>
+	<mx:HRule x="609" y="68" width="393" height="8"/>
+	<mx:Label text="Posts Per Day :" fontFamily="Times New Roman" fontSize="12" textDecoration="normal" color="#BEBEBE" alpha="1.0" id="mWebsiteNameLabel1" width="111" y="82" x="10"/>
+	<mx:Label text="Most Spoken :" fontFamily="Times New Roman" fontSize="12" textDecoration="normal" color="#BEBEBE" alpha="1.0" id="mWebsiteNameLabel4" width="111" y="82" x="311"/>
+	<mx:Label text="Top Posters :" fontFamily="Times New Roman" fontSize="12" textDecoration="normal" color="#BEBEBE" alpha="1.0" id="mWebsiteNameLabel2" width="111" y="110" x="10"/>
+	<mx:Button label="Edit Website" color="#D8D8D8" alpha="0.5" click="editWebsiteButtonClickHandler(event)" id="mEditWebsiteButton" horizontalCenter="447" verticalCenter="-293" fontWeight="bold" fontStyle="normal" cornerRadius="5"/>
+	<mx:HRule x="10" y="68" width="249" height="8"/>
+	<mx:Label text="Links" fontFamily="Times New Roman" fontSize="16" textDecoration="normal" color="#BEBEBE" alpha="1.0" id="mWebsiteNameLabel3" width="83" verticalCenter="-246" horizontalCenter="-154"/>
+	<mx:HRule x="311" y="68" width="249" height="8"/>
+	<mx:VBox x="609" y="82" height="524" width="393" backgroundAlpha="0.1" backgroundColor="#FFFFFF">
+	</mx:VBox>
+	<mx:VBox height="468" width="249" backgroundAlpha="0.1" backgroundColor="#FFFFFF" x="10" y="138">
+	</mx:VBox>
 	
 </mx:Canvas>
