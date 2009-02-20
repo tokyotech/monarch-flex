@@ -18,6 +18,8 @@ package
 		
 		// the name of the website 
 		public var mWebsiteName:String = "";
+		// the name of the community group
+		public var mCommunityGroupName:String = "";
 		
 	}
 }

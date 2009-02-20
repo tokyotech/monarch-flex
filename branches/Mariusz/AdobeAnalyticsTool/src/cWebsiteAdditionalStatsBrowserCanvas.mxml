@@ -101,6 +101,7 @@
 			{
 				var e:cEditWebsiteEvent = new cEditWebsiteEvent("OpenRegExCanvasEvent");
 				e.mWebsiteName = mWebsiteName;
+				e.mCommunityGroupName = mCommunityGroupName;
 				this.dispatchEvent(e);
 			}
 			
@@ -119,8 +120,6 @@
 				mCommunityGroupNameLabel.text = mCommunityGroupName + " >>";
 				mWebsiteNameLabel.x =+ mCommunityGroupNameLabel.x + mCommunityGroupNameLabel.measureText(mCommunityGroupNameLabel.text).width + 10;
 				mWebsiteNameLabel.text = mWebsiteName;
-				
-				
 			}
 			
 			

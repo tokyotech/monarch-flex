@@ -120,12 +120,7 @@ package
 					}
 				}
 			
-				// now that we have gathered the keywords and links we must sub catagorize them day.
-				var today:Date = new Date();
-				var currentDay:Number = today.getDate();
-				var currentMonth:Number = today.getMonth();
-				var currentYear:Number = today.getFullYear();
-							
+				// now that we have gathered the keywords and links we must sub catagorize them by day.						
 				var countVal:Number = 0;
 				var goodnessVal:Number = 0;
 				var englishProficiencyVal:Number = 0;
