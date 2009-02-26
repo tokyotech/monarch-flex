@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="creationCompleteHandler(event)" show="showCanvasHandler(event)" width="1003" height="577">
+
+	<mx:Metadata>
+		[Event(name="BackLabelClickedEvent", type="flash.events.Event")]
+		[Event(name="CreateCommunityGroupEvent", type="cCreateCommunityGroupEvent")]
+	</mx:Metadata>
+
+	<mx:Script>
+		<![CDATA[
+			import mx.events.TweenEvent;
+			import mx.controls.List;
+			import mx.controls.Alert;
+			import mx.effects.Fade;
+			import mx.effects.Move;
+			import mx.effects.Tween;
+		
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//							 GUI EVENT HANDLERS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+			/**
+			 * 	Called when the user hovers the mouse over the back label.
+			 */
+			private function backLabelRollOverHandler(event:Event):void
+			{
+				mBackLabel.setStyle("color", "0xFF6666");
+			}
+			
+			/**
+			 * Called when the user hovers the mouse away from the back label.
+			 */
+			private function backLabelRollOutHandler(event:Event):void
+			{
+				mBackLabel.setStyle("color", "0x11d30c");
+			}
+			
+			/**
+			 * Called when the user clicks the back label. It will return the user to the
+			 * my community groups home canvas.
+			 */
+			private function backLabelClickHandler(event:Event):void
+			{
+				var e:Event = new Event("BackLabelClickedEvent");
+				this.dispatchEvent(e);
+			}
+			
+			/**
+			 * 	Called when the user clicks on the create community group button. 
+			 */
+			private function createCommGroupButtonClickHandler(event:Event):void
+			{
+				processCreateCommunityGroupRequest();
+			}
+			
+			/**
+			 * 	Called when the user hits the keyboard ENTER button while the text boxes
+			 *  mCommNameTextBox and mKeyword1TextBox - mKeyword8TextBox are in focus.
+			 */
+			private function textBoxKeyDownHandler(event:KeyboardEvent):void
+			{
+				if(event.keyCode == Keyboard.ENTER) {
+					processCreateCommunityGroupRequest();
+				}
+			}
+			
+			/**
+			 * 
+			 */
+			private function commNameTextBoxRollOverHandler(event:Event):void
+			{
+	
+			}
+			
+			/**
+			 * 
+			 */
+			private function commNameTextBoxTweenEndHandler(event:Event):void
+			{
+				
+			}
+			
+			/**
+			 * 
+			 */
+			private function commNameTextBoxRollOutHandler(event:Event):void
+			{
+			
+			}
+			
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//							 MEMBER FUNCTIONS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+			/**
+			 *  This function will fire an event signaling a community group should be created if all
+			 *  of the preliminary text information has been specified.
+			 */
+			private function processCreateCommunityGroupRequest():void
+			{
+				if(mCommNameTextBox.text.length == 0) {
+					Alert.show("Please specify a community group name before proceeding.", "Error");
+					return;
+				}
+				if(mKeyword1TextBox.text.length == 0 &&
+				   mKeyword2TextBox.text.length == 0 &&
+				   mKeyword3TextBox.text.length == 0 &&
+				   mKeyword4TextBox.text.length == 0 &&
+				   mKeyword5TextBox.text.length == 0 &&
+				   mKeyword6TextBox.text.length == 0 &&
+				   mKeyword7TextBox.text.length == 0 &&
+				   mKeyword8TextBox.text.length == 0)
+				{
+					Alert.show("You must register at least one keyword with a community group before proceeding.", "Error");
+					return;
+				}
+				
+				var e:cCreateCommunityGroupEvent = new cCreateCommunityGroupEvent("CreateCommunityGroupEvent");
+				var keywords:Array = new Array();
+				keywords.push(mKeyword1TextBox.text);
+				keywords.push(mKeyword2TextBox.text);
+				keywords.push(mKeyword3TextBox.text);
+				keywords.push(mKeyword4TextBox.text);
+				keywords.push(mKeyword5TextBox.text);
+				keywords.push(mKeyword6TextBox.text);
+				keywords.push(mKeyword7TextBox.text);
+				keywords.push(mKeyword8TextBox.text);
+				
+				e.mCommName = mCommNameTextBox.text;
+				e.mKeywords = keywords;
+				
+				// clear all of the entries for next time the user enters the canvas
+				clearTextBoxes();
+				
+				this.dispatchEvent(e);
+			}
+			
+			/**
+			 * 	Clears all of the text boxes on the canvas.
+			 */
+			private function clearTextBoxes():void
+			{
+				mCommNameTextBox.text = "";
+				mKeyword1TextBox.text = "";
+				mKeyword2TextBox.text = "";
+				mKeyword3TextBox.text = "";
+				mKeyword4TextBox.text = "";
+				mKeyword5TextBox.text = "";
+				mKeyword6TextBox.text = "";
+				mKeyword7TextBox.text = "";
+				mKeyword8TextBox.text = "";
+			}
+			
+			
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//							 CANVAS EVENT HANDLERS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+			/**
+			 *	Function which gets called each time this canvas is selected by the parent. It
+			 * 	will initialize local components.
+			 */
+			private function showCanvasHandler(event:Event):void
+			{
+				clearTextBoxes();
+				mCommNameTextBox.setFocus();
+				
+			}
+			
+			/**
+			 * 	Event handler called when this canvas first gets created
+			 */
+			private function creationCompleteHandler(event:Event):void
+			{
+				
+			}
+			
+			
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//							 MEMBER FUNCTIONS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+			
+		]]>
+	</mx:Script>
+
+	<mx:Label x="369.5" y="10" text="Community Group Creator"  fontSize="24" textDecoration="normal"   id="mHomeLoggedOutAccountLabel"/>
+	<mx:Label x="10" y="93" text="Community Group Creator"  fontSize="20" textDecoration="underline"   id="mHomeLoggedOutAccountLabel0"/>
+	<mx:Label x="10" y="132" text="Community Group Name :"  fontSize="14" textDecoration="normal"   id="mHomeLoggedOutAccountLabel2"/>
+	<mx:Label x="90" y="213" text="Keyword 1 :"  fontSize="14" textDecoration="normal"   id="mHomeLoggedOutAccountLabel3"/>
+	<mx:Label x="90" y="242" text="Keyword 2 :"  fontSize="14" textDecoration="normal"   id="mHomeLoggedOutAccountLabel4"/>
+	<mx:Label x="90" y="271" text="Keyword 3 :"  fontSize="14" textDecoration="normal"   id="mHomeLoggedOutAccountLabel5"/>
+	<mx:Label x="90" y="300" text="Keyword 4 :"  fontSize="14" textDecoration="normal"   id="mHomeLoggedOutAccountLabel6"/>
+	<mx:Label x="90" y="329" text="Keyword 5 :"  fontSize="14" textDecoration="normal"   id="mHomeLoggedOutAccountLabel7"/>
+	<mx:Label x="90" y="358" text="Keyword 6 :"  fontSize="14" textDecoration="normal"   id="mHomeLoggedOutAccountLabel8"/>
+	<mx:Label x="90" y="387" text="Keyword 7 :"  fontSize="14" textDecoration="normal"   id="mHomeLoggedOutAccountLabel9"/>
+	<mx:Label x="90" y="416" text="Keyword 8 :"  fontSize="14" textDecoration="normal"   id="mHomeLoggedOutAccountLabel10"/>
+	<mx:Label x="10" y="177" text="Register Keywords"  fontSize="20" textDecoration="underline"   id="mHomeLoggedOutAccountLabel1"/>
+	<mx:Label x="247" y="50" text="Use this page to create a community group and register keywords" fontSize="14" width="509" textAlign="center" textDecoration="underline"/>
+	<mx:Label x="10" y="17" rollOver="backLabelRollOverHandler(event)" rollOut="backLabelRollOutHandler(event)" click="backLabelClickHandler(event)" text="Back" fontSize="14" textDecoration="underline" id="mBackLabel"/>
+	<mx:TextInput x="173" y="132" width="205" rollOver="commNameTextBoxRollOverHandler(event)" rollOut="commNameTextBoxRollOutHandler(event)" keyDown="textBoxKeyDownHandler(event)" id="mCommNameTextBox" toolTip="Enter a community group name"/>
+	<mx:TextInput x="173" y="213" width="205" keyDown="textBoxKeyDownHandler(event)" id="mKeyword1TextBox" toolTip="Enter first keyword"/>
+	<mx:TextInput x="173" y="242" width="205" keyDown="textBoxKeyDownHandler(event)" id="mKeyword2TextBox" toolTip="Enter second keyword"/>
+	<mx:TextInput x="173" y="271" width="205" keyDown="textBoxKeyDownHandler(event)" id="mKeyword3TextBox" toolTip="Enter third keyword"/>
+	<mx:TextInput x="173" y="300" width="205" keyDown="textBoxKeyDownHandler(event)" id="mKeyword4TextBox" toolTip="Enter fourth keyword"/>
+	<mx:TextInput x="173" y="329" width="205" keyDown="textBoxKeyDownHandler(event)" id="mKeyword5TextBox" toolTip="Enter fifth keyword"/>
+	<mx:TextInput x="173" y="358" width="205" keyDown="textBoxKeyDownHandler(event)" id="mKeyword6TextBox" toolTip="Enter sixth keyword"/>
+	<mx:TextInput x="173" y="387" width="205" keyDown="textBoxKeyDownHandler(event)" id="mKeyword7TextBox" toolTip="Enter seventh keyword"/>
+	<mx:TextInput x="173" y="416" width="205" keyDown="textBoxKeyDownHandler(event)" id="mKeyword8TextBox" toolTip="Enter eight keyword"/>
+	<mx:Button x="208" y="460" click="createCommGroupButtonClickHandler(event)" label="Create Community Group" id="mCreateCommButton" toolTip="Proceed with creating the community group"/>
+</mx:Canvas>

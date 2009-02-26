@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="creationCompleteHandler(event)" width="1013" height="625" >
+	<mx:Script>
+		<![CDATA[
+			
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//							CANVAS EVENT HANDLERS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+			/**
+			 * 	Called when the canvas is first created.
+			 */
+			private function creationCompleteHandler(event:Event):void
+			{
+				var intro:cInformationGraphic = new cInformationGraphic();
+				intro.setTitle("Welcome to the Adobe Community Group Analytics Tool !");
+				intro.setBody("This tool allows you to formulate community groups to " + 
+						   "monitor keywords across the websites of your choice.");
+				var info1:cInformationGraphic = new cInformationGraphic();
+				info1.setTitle("Why you should create an account.");			
+				mNewsVBox.addChild(intro);
+				mNewsVBox.addChild(info1);
+			}
+			
+		]]>
+	</mx:Script>
+
+	<mx:Panel layout="absolute" width="467" height="582" x="10" y="21" title="Hot Community Groups">
+		<mx:Button label="&#171; Previous" enabled="false" x="10" y="504" />
+		<mx:Button label="Next &#187;" enabled="false" x="382" y="504" />
+	</mx:Panel>
+	<mx:Panel x="496" y="21" height="582" width="507" id="mNewsVBox" title="Information">
+	</mx:Panel>
+	
+</mx:Canvas>
