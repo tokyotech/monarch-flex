@@ -28,14 +28,14 @@
 		]]>
 	</mx:Script>
 
-	<mx:Label x="26" y="37" text="Hot Community Groups" fontFamily="Times New Roman" fontSize="24" textDecoration="underline" color="#BEBEBE" alpha="1.0" id="mHomeLoggedOutAccountLabel"/>
-	<mx:Label x="494" y="37" text="Information" fontFamily="Times New Roman" fontSize="24" textDecoration="underline" color="#BEBEBE" alpha="1.0" id="mHomeLoggedOutInformationLabel"/>
+	<mx:Label x="26" y="37" text="Hot Community Groups" fontSize="24" id="mHomeLoggedOutAccountLabel"/>
+	<mx:Label x="494" y="37" text="Information" fontSize="24" id="mHomeLoggedOutInformationLabel"/>
 	<mx:VRule x="464" y="37" width="3" height="552"/>
-	<mx:VBox x="26" y="77" height="486" width="421" id="mTopCommVBox" backgroundColor="#FFFFFF" backgroundAlpha="0.1" verticalScrollPolicy="off">
+	<mx:VBox x="26" y="77" height="486" width="421" id="mTopCommVBox" verticalScrollPolicy="off">
 	</mx:VBox>
-	<mx:VBox x="496" y="77" height="486" width="495" backgroundColor="#FFFFFF" backgroundAlpha="0.1" id="mNewsVBox" verticalScrollPolicy="on">
+	<mx:VBox x="496" y="77" height="486" width="495" id="mNewsVBox" verticalScrollPolicy="on">
 	</mx:VBox>
-	<mx:Button x="372" y="567" label="Next --&gt;" color="#0DD20D" alpha="0.5" enabled="false"/>
-	<mx:Button label="&lt;-- Previous" color="#0DD20D" alpha="0.5" horizontalCenter="-432" verticalCenter="265" enabled="false"/>
+	<mx:Button x="372" y="567" label="Next --&gt;" enabled="false"/>
+	<mx:Button label="&lt;-- Previous" horizontalCenter="-432" verticalCenter="265" enabled="false"/>
 	
 </mx:Canvas>

@@ -222,17 +222,17 @@
 	</mx:ViewStack>
 	<mx:Canvas x="938" y="18" width="64" height="64" backgroundImage="@Embed(source='../images/websiteSample.jpg')">
 	</mx:Canvas>
-	<mx:Label x="10" y="71" text="Statistics Options" fontSize="16" textDecoration="underline" color="#F4F4F4"/>
-	<mx:Label x="551" y="10" text="Some Website Name" fontSize="24" color="#DFDFDF" width="379" textAlign="right" id="mWebsiteNameLabel"/>
-	<mx:Label x="662" y="53" text="Type : [Not Available]" color="#DFDFDF" width="268" textAlign="right" id="mWebsiteTypeLabel"/>
-	<mx:Label x="662" y="39" text="Created On : [Not Available]" color="#DFDFDF" width="268" textAlign="right" id="mWebsiteCreatedTimeLabel"/>
-	<mx:Label x="662" y="67" text="URL : [Not Available]" color="#DFDFDF" width="268" textAlign="right" id="mWebsiteURLLabel"/>
-	<mx:RadioButton x="365" y="550" label="1 Year" color="#DDDDDD" change="_1YearTimeSpanRadioButtonChangeHandler(event)" id="m1YearTimeSpanRadioButton"/>
-	<mx:RadioButton x="434" y="550" label="9 Months" color="#DDDDDD" change="_9MonthsTimeSpanRadioButtonChangeHandler(event)" id="m9MonthsTimeSpanRadioButton"/>
-	<mx:RadioButton x="518" y="550" label="6 Months" color="#DDDDDD" change="_6MonthsTimeSpanRadioButtonChangeHandler(event)" id="m6MonthsTimeSpanRadioButton"/>
-	<mx:RadioButton x="602" y="550" label="1 Month" color="#DDDDDD" change="_1MonthTimeSpanRadioButtonChangeHandler(event)" id="m1MonthTimeSpanRadioButton"/>
-	<mx:RadioButton x="680" y="550" label="2 Weeks" color="#DDDDDD" change="_2WeeksTimeSpanRadioButtonChangeHandler(event)" id="m2WeeksTimeSpanRadioButton"/>
-	<mx:RadioButton x="762" y="550" label="1 Week" selected="true" color="#DDDDDD" change="_1WeekTimeSpanRadioButtonChangeHandler(event)" id="m1WeekSpanRadioButton"/>
+	<mx:Label x="10" y="71" text="Statistics Options" fontSize="16" />
+	<mx:Label x="551" y="10" text="Some Website Name" fontSize="24" width="379" textAlign="right" id="mWebsiteNameLabel"/>
+	<mx:Label x="662" y="53" text="Type : [Not Available]" width="268" textAlign="right" id="mWebsiteTypeLabel"/>
+	<mx:Label x="662" y="39" text="Created On : [Not Available]" width="268" textAlign="right" id="mWebsiteCreatedTimeLabel"/>
+	<mx:Label x="662" y="67" text="URL : [Not Available]" width="268" textAlign="right" id="mWebsiteURLLabel"/>
+	<mx:RadioButton x="365" y="550" label="1 Year" change="_1YearTimeSpanRadioButtonChangeHandler(event)" id="m1YearTimeSpanRadioButton"/>
+	<mx:RadioButton x="434" y="550" label="9 Months" change="_9MonthsTimeSpanRadioButtonChangeHandler(event)" id="m9MonthsTimeSpanRadioButton"/>
+	<mx:RadioButton x="518" y="550" label="6 Months" change="_6MonthsTimeSpanRadioButtonChangeHandler(event)" id="m6MonthsTimeSpanRadioButton"/>
+	<mx:RadioButton x="602" y="550" label="1 Month" change="_1MonthTimeSpanRadioButtonChangeHandler(event)" id="m1MonthTimeSpanRadioButton"/>
+	<mx:RadioButton x="680" y="550" label="2 Weeks" change="_2WeeksTimeSpanRadioButtonChangeHandler(event)" id="m2WeeksTimeSpanRadioButton"/>
+	<mx:RadioButton x="762" y="550" label="1 Week" selected="true" change="_1WeekTimeSpanRadioButtonChangeHandler(event)" id="m1WeekSpanRadioButton"/>
 	<ns1:cStatOptionsAccordion x="10" y="104" id="mStatOptionAccordion"
 							   StatOptionSelectedEvent="statOptionSelectedHandler(event)">
 	</ns1:cStatOptionsAccordion>

@@ -437,35 +437,35 @@
 		]]>
 	</mx:Script>
 
-	<mx:Label click="homeLabelClickHandler(event)" rollOver="homeLabelRollOverHandler(event)" rollOut="homeLabelRollOutHandler(event)" text="Home &gt;&gt;" color="#11D30C" fontSize="14" textDecoration="normal" id="mHomeLabel"  verticalCenter="-292" horizontalCenter="-461"/>
-	<mx:Label click="communityLabelClickHandler(event)" rollOver="communityLabelRollOverHandler(event)" rollOut="communityLabelRollOutHandler(event)" text="My Community Groups &gt;&gt;" color="#11D30C" fontSize="14" textDecoration="normal" id="mCommunityGroupLabel"  horizontalCenter="-323" verticalCenter="-292"/>
+	<mx:Label click="homeLabelClickHandler(event)" rollOver="homeLabelRollOverHandler(event)" rollOut="homeLabelRollOutHandler(event)" text="Home &gt;&gt;" fontSize="14" id="mHomeLabel"  verticalCenter="-292" horizontalCenter="-461"/>
+	<mx:Label click="communityLabelClickHandler(event)" rollOver="communityLabelRollOverHandler(event)" rollOut="communityLabelRollOutHandler(event)" text="My Community Groups &gt;&gt;" fontSize="14" id="mCommunityGroupLabel"  horizontalCenter="-323" verticalCenter="-292"/>
 	<mx:ViewStack x="187" y="45.55" id="mStatGraphicsViewStack" width="815" height="529.45">
 		<ns1:cLineChartCanvas x="1" y="2" id="mLineChartCanvas" creationComplete="lineChartCanvasCreateHandler(event)">
 		</ns1:cLineChartCanvas>
 	</mx:ViewStack>
-	<mx:Label text="Some Community Group Name" fontSize="24" color="#DFDFDF" width="450" textAlign="left" id="mCommunityGroupNameLabel" horizontalCenter="3" verticalCenter="-292"/>
-	<mx:RadioButton label="1 Year" color="#DDDDDD" change="_1YearTimeSpanRadioButtonChangeHandler(event)" id="m1YearTimeSpanRadioButton" horizontalCenter="62" verticalCenter="286"/>
-	<mx:RadioButton label="9 Months" color="#DDDDDD" change="_9MonthsTimeSpanRadioButtonChangeHandler(event)" id="m9MonthsTimeSpanRadioButton" verticalCenter="286" horizontalCenter="138"/>
-	<mx:RadioButton label="6 Months" color="#DDDDDD" change="_6MonthsTimeSpanRadioButtonChangeHandler(event)" id="m6MonthsTimeSpanRadioButton" verticalCenter="286" horizontalCenter="222"/>
-	<mx:RadioButton label="1 Month" color="#DDDDDD" change="_1MonthTimeSpanRadioButtonChangeHandler(event)" id="m1MonthTimeSpanRadioButton" verticalCenter="286" horizontalCenter="303"/>
-	<mx:RadioButton label="2 Weeks" color="#DDDDDD" change="_2WeeksTimeSpanRadioButtonChangeHandler(event)" id="m2WeeksTimeSpanRadioButton" verticalCenter="286" horizontalCenter="383"/>
-	<mx:RadioButton label="1 Week" selected="true" color="#DDDDDD" change="_1WeekTimeSpanRadioButtonChangeHandler(event)" id="m1WeekSpanRadioButton" verticalCenter="286" horizontalCenter="462"/>
+	<mx:Label text="Some Community Group Name" fontSize="24" width="450" textAlign="left" id="mCommunityGroupNameLabel" horizontalCenter="3" verticalCenter="-292"/>
+	<mx:RadioButton label="1 Year" change="_1YearTimeSpanRadioButtonChangeHandler(event)" id="m1YearTimeSpanRadioButton" horizontalCenter="62" verticalCenter="286"/>
+	<mx:RadioButton label="9 Months" change="_9MonthsTimeSpanRadioButtonChangeHandler(event)" id="m9MonthsTimeSpanRadioButton" verticalCenter="286" horizontalCenter="138"/>
+	<mx:RadioButton label="6 Months" change="_6MonthsTimeSpanRadioButtonChangeHandler(event)" id="m6MonthsTimeSpanRadioButton" verticalCenter="286" horizontalCenter="222"/>
+	<mx:RadioButton label="1 Month" change="_1MonthTimeSpanRadioButtonChangeHandler(event)" id="m1MonthTimeSpanRadioButton" verticalCenter="286" horizontalCenter="303"/>
+	<mx:RadioButton label="2 Weeks" change="_2WeeksTimeSpanRadioButtonChangeHandler(event)" id="m2WeeksTimeSpanRadioButton" verticalCenter="286" horizontalCenter="383"/>
+	<mx:RadioButton label="1 Week" selected="true" change="_1WeekTimeSpanRadioButtonChangeHandler(event)" id="m1WeekSpanRadioButton" verticalCenter="286" horizontalCenter="462"/>
 	<ns1:cStatOptionsAccordion id="mStatOptionAccordion"
 							   AccordionWebsiteGraphicEvent="accordionWebsiteGraphicEventHandler(event)"
 							   AccordionKeywordGraphicEvent="accordionKeywordGraphicHandler(event)"
 							   height="378.45" horizontalCenter="-412" verticalCenter="-74">
 	</ns1:cStatOptionsAccordion>
 	<mx:HRule width="993" height="14.56" verticalCenter="-277" horizontalCenter="0" alpha="0.5"/>
-	<mx:Button label="Add Website" color="#D8D8D8" alpha="0.5" id="mAddWebsiteButton" horizontalCenter="447" verticalCenter="-293" fontWeight="bold" cornerRadius="5"/>
-	<mx:Button label="Edit Community Group" color="#D8D8D8" click="editCommunityGroupButtonClickHandler(event)" alpha="0.5" id="mEditCommunityGroupButton" horizontalCenter="313" verticalCenter="-293" fontWeight="bold" fontStyle="normal" cornerRadius="5"/>
-	<mx:HSlider x="19" y="507" change="countWeightSliderChangeHandler(event)" borderColor="#000000" width="149" minimum="0" maximum="1" allowTrackClick="true" liveDragging="true" value="1" enabled="true" id="mCountWeightSlider"/>
-	<mx:HSlider x="19" y="587" change="goodnessWeightSliderChangeHandler(event)" borderColor="#000000" width="149" minimum="0" maximum="1" allowTrackClick="true" liveDragging="true" value="1" enabled="true" id="mEnglishProficiencyWeightSlider"/>
-	<mx:HSlider x="19" y="547" change="proficiencyWeightSliderChangeHandler(event)" borderColor="#000000" width="149" allowTrackClick="true" minimum="0" maximum="1" liveDragging="true" value="1" enabled="true" id="mGoodnessWeightSlider"/>
-	<mx:Label x="19" y="493" text="Count :" textDecoration="normal" color="#D4D4D4" enabled="true" id="mCountWeightLabel"/>
-	<mx:Label x="19" y="533" text="Goodness :" textDecoration="normal" color="#D4D4D4" enabled="true" id="mGoodnessWeightLabel"/>
-	<mx:Label x="19" y="573" text="English Proficiency :" textDecoration="normal" color="#D4D4D4" enabled="true" id="mProficiencyWeightLabel0"/>
-	<mx:Label x="10" y="476" text="Weights" color="#D4D4D4" textDecoration="underline"/>
-	<mx:Label x="10" y="430.45" text="Presets" color="#D4D4D4" textDecoration="underline"/>
+	<mx:Button label="Add Website" id="mAddWebsiteButton" horizontalCenter="447" verticalCenter="-293" fontWeight="bold" cornerRadius="5"/>
+	<mx:Button label="Edit Community Group" click="editCommunityGroupButtonClickHandler(event)" id="mEditCommunityGroupButton" horizontalCenter="313" verticalCenter="-293" fontWeight="bold" fontStyle="normal" cornerRadius="5"/>
+	<mx:HSlider x="19" y="507" change="countWeightSliderChangeHandler(event)" width="149" minimum="0" maximum="1" allowTrackClick="true" liveDragging="true" value="1" enabled="true" id="mCountWeightSlider"/>
+	<mx:HSlider x="19" y="587" change="goodnessWeightSliderChangeHandler(event)" width="149" minimum="0" maximum="1" allowTrackClick="true" liveDragging="true" value="1" enabled="true" id="mEnglishProficiencyWeightSlider"/>
+	<mx:HSlider x="19" y="547" change="proficiencyWeightSliderChangeHandler(event)" width="149" allowTrackClick="true" minimum="0" maximum="1" liveDragging="true" value="1" enabled="true" id="mGoodnessWeightSlider"/>
+	<mx:Label x="19" y="493" text="Count :" enabled="true" id="mCountWeightLabel"/>
+	<mx:Label x="19" y="533" text="Goodness :" enabled="true" id="mGoodnessWeightLabel"/>
+	<mx:Label x="19" y="573" text="English Proficiency :" enabled="true" id="mProficiencyWeightLabel0"/>
+	<mx:Label x="10" y="476" text="Weights" />
+	<mx:Label x="10" y="430.45" text="Presets" />
 	<mx:ComboBox id="mPresetsComboBox" change="presetsComboBoxChangeHandler(event)" x="10" y="451" width="169" maxWidth="160">
 	<mx:ArrayCollection>
          <mx:String>Count</mx:String>
@@ -477,10 +477,10 @@
          <mx:String>Show All</mx:String>
       </mx:ArrayCollection>
 	</mx:ComboBox>
-	<mx:Label x="128" y="493" text="Label" color="#41CD0A" textAlign="right" id="mCountInfoLabel" width="40" selectable="false"/>
-	<mx:Label x="133" y="573" text="Label" color="#41CD0A" textAlign="right" id="mGoodnessInfoLabel"/>
-	<mx:Label x="133" y="533" text="Label" color="#41CD0A" textAlign="right" id="mEnglishProficiencyInfoLabel"/>
-	<mx:Button x="187" y="578" label="Zoom In" color="#D4D4D4" click="zoomInButtonClickHandler(event)" id="mZoomInButton" width="32" height="32" icon="@Embed(source='../images/zoom_in.png')"/>
-	<mx:Button x="227" y="578" label="Zoom Out" color="#D4D4D4" click="zoomOutButtonClickHandler(event)" id="mZoomOutButton" width="32" height="32" icon="@Embed(source='../images/zoom_out.png')"/>
+	<mx:Label x="128" y="493" text="Label" textAlign="right" id="mCountInfoLabel" width="40" selectable="false"/>
+	<mx:Label x="133" y="573" text="Label" textAlign="right" id="mGoodnessInfoLabel"/>
+	<mx:Label x="133" y="533" text="Label" textAlign="right" id="mEnglishProficiencyInfoLabel"/>
+	<mx:Button x="187" y="578" label="Zoom In" click="zoomInButtonClickHandler(event)" id="mZoomInButton" width="32" height="32" icon="@Embed(source='../images/zoom_in.png')"/>
+	<mx:Button x="227" y="578" label="Zoom Out" click="zoomOutButtonClickHandler(event)" id="mZoomOutButton" width="32" height="32" icon="@Embed(source='../images/zoom_out.png')"/>
 	
 </mx:Canvas>

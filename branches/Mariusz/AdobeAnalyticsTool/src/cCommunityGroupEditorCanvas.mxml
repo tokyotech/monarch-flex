@@ -161,23 +161,23 @@
 	<mx:Label click="homeLabelClickHandler(event)" rollOver="homeLabelRollOverHandler(event)" rollOut="homeLabelRollOutHandler(event)" text="Home &gt;&gt;" color="#11D30C" fontSize="14" textDecoration="normal" id="mHomeLabel"  verticalCenter="-292" horizontalCenter="-461"/>
 	<mx:Label click="communityLabelClickHandler(event)" rollOver="communityLabelRollOverHandler(event)" rollOut="communityLabelRollOutHandler(event)" text="My Community Groups &gt;&gt;" color="#11D30C" fontSize="14" textDecoration="normal" id="mCommunityGroupLabel"  horizontalCenter="-323" verticalCenter="-292"/>
 	<mx:Label click="communityNameLabelClickHandler(event)" rollOver="communityNameLabelRollOverHandler(event)" rollOut="communityNameLabelRollOutHandler(event)" text="Some Community Group Name &gt;&gt;" color="#11D30C" fontSize="14" textDecoration="normal" id="mCommunityGroupNameLabel" x="286" verticalCenter="-292"/>
-	<mx:Label text="Edit" fontFamily="Times New Roman" fontSize="24" textDecoration="normal" color="#BEBEBE" alpha="1.0" id="mEditLabel" width="329" x="540" verticalCenter="-292"/>
-	<mx:Label text="Basic Information" fontFamily="Times New Roman" fontSize="16" textDecoration="underline" color="#BEBEBE" alpha="1.0" id="mBasicLabel" width="370" x="10" verticalCenter="-241"/>
-	<mx:Label text="Change the name and icon for teh currently selected community group." fontFamily="Times New Roman" fontSize="12" textDecoration="normal" color="#BEBEBE" alpha="1.0" id="mBasicLabel0" width="370" x="10" verticalCenter="-211" selectable="false"/>
-	<mx:Label text="Keywords registered with this community group." fontFamily="Times New Roman" fontSize="12" textDecoration="normal" color="#BEBEBE" alpha="1.0" id="mBasicLabel1" width="274" x="419" verticalCenter="-211" selectable="false"/>
-	<mx:Label text="Add a new keyword under this community group." fontFamily="Times New Roman" fontSize="12" textDecoration="normal" color="#BEBEBE" alpha="1.0" id="mBasicLabel3" width="274" x="419" verticalCenter="226" selectable="false"/>
-	<mx:Label text="Add a new website under this community group." fontFamily="Times New Roman" fontSize="12" textDecoration="normal" color="#BEBEBE" alpha="1.0" id="mBasicLabel5" width="274" x="728" verticalCenter="226" selectable="false"/>
-	<mx:Label text="Websites registered with this community group." fontFamily="Times New Roman" fontSize="12" textDecoration="normal" color="#BEBEBE" alpha="1.0" id="mBasicLabel2" width="274" x="728" verticalCenter="-211" selectable="false"/>
-	<mx:Label text="Keywords" fontFamily="Times New Roman" fontSize="16" textDecoration="underline" color="#BEBEBE" alpha="1.0" id="mKeywordsLabel" width="117" verticalCenter="-241" horizontalCenter="-29"/>
-	<mx:Label text="Websites" fontFamily="Times New Roman" fontSize="16" textDecoration="underline" color="#BEBEBE" alpha="1.0" id="mWebsiteLabel" width="117" verticalCenter="-241" horizontalCenter="280"/>
-	<mx:Label x="10" y="117" text="Name :" color="#BEBEBE" fontSize="12"/>
-	<mx:Label y="552" text="Add New Keyword :" color="#F0EEEE" horizontalCenter="-33"/>
-	<mx:Label x="19" y="170" text="Icon :" color="#BEBEBE" fontSize="12"/>
-	<mx:TextInput x="68" y="119" width="236" backgroundAlpha="0.5" color="#DEDEDE" borderStyle="solid" borderThickness="0" id="mNameTextBox"/>
-	<mx:TextInput x="68" y="242" width="236" color="#DEDEDE" alpha="1.0" backgroundAlpha="0.5" borderStyle="solid" borderThickness="0" id="mIconTextBox"/>
-	<mx:TextInput y="552" width="157" color="#DEDEDE" borderStyle="solid" borderThickness="0" backgroundAlpha="0.5" x="536" id="mKeywordTextBox"/>
-	<mx:Button x="312" y="240" label="Browse" alpha="0.5" color="#DEDEDE" id="mBrowseButton"/>
-	<mx:Button y="584" label="Submit" alpha="0.5" horizontalCenter="154" color="#DEDEDE" id="mSubmitButton"/>
+	<mx:Label text="Edit" fontSize="24" id="mEditLabel" width="329" x="540" verticalCenter="-292"/>
+	<mx:Label text="Basic Information" fontSize="16" id="mBasicLabel" width="370" x="10" verticalCenter="-241"/>
+	<mx:Label text="Change the name and icon for teh currently selected community group." fontSize="12" textDecoration="normal" id="mBasicLabel0" width="370" x="10" verticalCenter="-211" selectable="false"/>
+	<mx:Label text="Keywords registered with this community group." fontSize="12" id="mBasicLabel1" width="274" x="419" verticalCenter="-211" selectable="false"/>
+	<mx:Label text="Add a new keyword under this community group." fontSize="12" textDecoration="normal" id="mBasicLabel3" width="274" x="419" verticalCenter="226" selectable="false"/>
+	<mx:Label text="Add a new website under this community group." fontSize="12" textDecoration="normal" id="mBasicLabel5" width="274" x="728" verticalCenter="226" selectable="false"/>
+	<mx:Label text="Websites registered with this community group." fontSize="12" textDecoration="normal" id="mBasicLabel2" width="274" x="728" verticalCenter="-211" selectable="false"/>
+	<mx:Label text="Keywords" fontSize="16" textDecoration="underline" id="mKeywordsLabel" width="117" verticalCenter="-241" horizontalCenter="-29"/>
+	<mx:Label text="Websites" fontSize="16" textDecoration="underline" id="mWebsiteLabel" width="117" verticalCenter="-241" horizontalCenter="280"/>
+	<mx:Label x="10" y="117" text="Name :" fontSize="12"/>
+	<mx:Label y="552" text="Add New Keyword :" horizontalCenter="-33"/>
+	<mx:Label x="19" y="170" text="Icon :" fontSize="12"/>
+	<mx:TextInput x="68" y="119" width="236" id="mNameTextBox"/>
+	<mx:TextInput x="68" y="242" width="236" id="mIconTextBox"/>
+	<mx:TextInput y="552" width="157" x="536" id="mKeywordTextBox"/>
+	<mx:Button x="312" y="240" label="Browse" id="mBrowseButton"/>
+	<mx:Button y="584" label="Submit" horizontalCenter="154" id="mSubmitButton"/>
 	<mx:Button y="550" click="addWebsiteButtonClickHandler(event)" label="Add Website" alpha="0.5" horizontalCenter="446" color="#DEDEDE" id="mAddWebsiteButton"/>
 	<mx:Button x="68" y="272" label="Save" alpha="0.5" color="#DEDEDE" id="mSaveButton"/>
 	<mx:VBox y="115" height="401" width="274" backgroundColor="#FFFFFF" backgroundAlpha="0.1" x="419" id="mKeywordsVBox">
