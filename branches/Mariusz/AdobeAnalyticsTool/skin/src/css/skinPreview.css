@@ -442,8 +442,8 @@ Panel
 {
 	font-family:	Verdana;
 	font-weight:	bold;
-	font-size:		14;
-	color:			#333333;
+	font-size:		16;
+	color:			#bfa867;
 }
 
 
@@ -1001,7 +1001,18 @@ ToolTip
 	dding-top:				3;
 }
 
+/*
+------------------------------------------------------------------------
+CUSTOM
+------------------------------------------------------------------------
+*/
 
+.logoText
+{
+	color: #bfa867;
+	font-size: 20;
+	font-weight: bold;	
+}
 
 
 

@@ -34,18 +34,22 @@
 			/**
 			 * 	Called when the user hovers the mouse over the create community group label.
 			 */
+			/*
 			private function createCommRollOverHandler(event:Event):void
 			{
 				mCreateCommButton.setStyle("color", "0xFF6666");
 			}
+			*/
 			
 			/**
 			 * 	Called when the user hovers the mouse away from the create community group label.
 			 */
+			/* 
 			private function createCommRollOutHandler(event:Event):void
 			{
 				mCreateCommButton.setStyle("color", "0xd8d8d8");
 			}
+			*/
 			
 			/**
 			 * 	Fires an event signaling that the user has clicked the home label.
@@ -191,13 +195,13 @@
 	<mx:VBox height="513" width="390" id="mMyCommVBox" verticalScrollPolicy="off" x="312" y="62">
 	</mx:VBox>
 	<mx:Label text="Home &gt;&gt;" rollOver="homeLabelRollOverHandler(event)" rollOut="homeLabelRollOutHandler(event)" click="homeLabelClickHandler(event)" fontSize="14"  horizontalCenter="-460" verticalCenter="-291" id="mHomeButton"/>
-	<mx:Button label="Create Community Group" rollOver="createCommRollOverHandler(event)" rollOut="createCommRollOutHandler(event)" click="createCommClickHandler(event)" id="mCreateCommButton" verticalCenter="-292" horizontalCenter="412"/>
-	<mx:Button label="Next --&gt;" horizontalCenter="158" verticalCenter="286" id="mNextCommButton" enabled="false"/>
-	<mx:Button label="&lt;-- Previous" horizontalCenter="-146" verticalCenter="286" id="mPreviousCommButton" fontWeight="bold" enabled="false"/>
+	<mx:Button label="Create Community Group" click="createCommClickHandler(event)" id="mCreateCommButton" verticalCenter="-292" horizontalCenter="412"/>
+	<mx:Button label="Next &#187;" horizontalCenter="158" verticalCenter="286" id="mNextCommButton" enabled="false"/>
+	<mx:Button label="&#171; Previous" horizontalCenter="-146" verticalCenter="286" id="mPreviousCommButton" enabled="false"/>
 	<mx:HRule width="993" height="14.56" verticalCenter="-277" horizontalCenter="0" />
-	<mx:Button label="Newest" width="99" id="mNewestButton" fontWeight="bold" horizontalCenter="-118" verticalCenter="-261"/>
+	<mx:Button label="Newest" width="99" id="mNewestButton" horizontalCenter="-118" verticalCenter="-261"/>
 	<mx:Button label="Most Viewed" width="99" id="mMostViewedButton" horizontalCenter="0" verticalCenter="-261"/>
-	<mx:Button label="Alphabetical" width="99" id="mAlphabeticalButton" fontWeight="bold" horizontalCenter="117" verticalCenter="-261"/>
+	<mx:Button label="Alphabetical" width="99" id="mAlphabeticalButton" horizontalCenter="117" verticalCenter="-261"/>
 	<mx:VRule height="20" horizontalCenter="-59" verticalCenter="-262" />
 	<mx:VRule height="20" horizontalCenter="58" verticalCenter="-262" />
 </mx:Canvas>

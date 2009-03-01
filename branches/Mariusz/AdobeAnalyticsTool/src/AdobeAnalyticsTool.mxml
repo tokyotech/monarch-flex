@@ -45,7 +45,7 @@
 			 */
 			private function signInClickHandler(event:Event):void
 			{
-				if(mConnectedToInternet) {
+				//if(mConnectedToInternet) {
 					var signInWindow:cSignInWindow = new cSignInWindow();
 					signInWindow.open(true);
 					signInWindow.nativeWindow.x = nativeWindow.x + (nativeWindow.width - signInWindow.nativeWindow.width) / 2;
@@ -53,7 +53,7 @@
 					signInWindow.addEventListener("cSignInEvent", signInWindowCloseHandler);
 					signInWindow.alwaysInFront = true;
 					this.enabled = false;
-				}
+				//}
 			}
 			
 			/**
@@ -165,15 +165,15 @@
 			 */
 			private function signOutClickHandler(event:Event):void
 			{
-				if(mConnectedToInternet) {
+				// if(mConnectedToInternet) {
 					mSignInLabel.visible = true;
 					mSignOutButton.visible = false;
 					// mSeparator2.visible = true;
 					mCreateAccountButton.visible = true;
-					mUserNameLabel.text = "";
+					// mUserNameLabel.text = "";
 					mMainViewStack.selectedIndex = 0;
 					Alert.show("You successfully logged out of your account.", "Log Out Successful");
-				}	
+				// }	
 			}
 			
 			/**
@@ -334,6 +334,7 @@
 			 * 	System monitor event handler which is notified if the connection to the internet
 			 *  becomes brocken. It will notify the user of the event.
 			 */
+			/*
 			private function serverConnectionStatusChangeHandler(event:StatusEvent):void
 			{
 				if(!mURLMonitor.available) {
@@ -352,6 +353,7 @@
 					mConnectedToInternet = true;
 				}
 			}
+			*/
 			
 			
 			///////////////////////////////////////////////////////////////////////////////////
@@ -377,7 +379,7 @@
                 var urlRequest:URLRequest = new URLRequest("http://www.google.com");
                 mURLMonitor = new URLMonitor(urlRequest);  
                 mURLMonitor.pollInterval = 3000;
-                mURLMonitor.addEventListener(StatusEvent.STATUS, serverConnectionStatusChangeHandler);
+                // mURLMonitor.addEventListener(StatusEvent.STATUS, serverConnectionStatusChangeHandler);
                 mURLMonitor.start();
 			}
 			
@@ -409,7 +411,7 @@
 				mSignOutButton.visible = true;
 				// mSeparator2.visible = false;
 				mCreateAccountButton.visible = false;
-				mUserNameLabel.text = "WELCOME " + fullName
+				// mUserNameLabel.text = "WELCOME " + fullName
 				mAccountInformation = new cAccountInformation(fullName,
 															  userName,
 															  password,
@@ -437,8 +439,7 @@
 	</mx:Script>
 	
 	<mx:HRule width="1013" id="mHRule1" horizontalCenter="2" verticalCenter="-286"/>
-	<mx:Text text="ADOBE&#xd;" fontSize="20" textAlign="center" width="87" id="mADOBEText" verticalCenter="-330" horizontalCenter="-461" selectable="false"/>
-	<mx:Text text="Community Analytics" fontSize="12" id="mCommunityAnalyticsText" verticalCenter="-327" horizontalCenter="-349" selectable="false"/>
+	<mx:Text text="Adobe Monarch" styleName="logoText"  y="13" x="90"/>
 	<mx:ViewStack id="mMainViewStack" width="1013" height="625" disabledColor="#373737" horizontalCenter="2" verticalCenter="26">
 		<local:cLoggedOutCanvas id="mLoggedOutCanvas">
 		</local:cLoggedOutCanvas>
@@ -455,9 +456,15 @@
 							  	FailedEvent="failedServiceHandler(event)"
 							  	NewWebsiteCreatedEvent="newWebsiteCreatedServiceHandler(event)" verticalCenter="-354" horizontalCenter="-519">
 	</local:cEngine>
+	<!--
+	I forgot where Puneet said to put this:
 	<mx:Label fontSize="12" textAlign="right" width="442" id="mUserNameLabel" />
+	
+	Puneet said to put this in the bottom right status bar:
 	<mx:Label text="Connection Status : Not Connected" id="mConnectionStatusLabel" toolTip="Displays internet connection status" textAlign="left" verticalCenter="-302" horizontalCenter="-404" selectable="false"/>
+	-->
 	<mx:Button label="Register" click="createAccountClickHandler(event)" id="mCreateAccountButton" verticalCenter="-326" horizontalCenter="371" icon="@Embed(source='../images/user_add.png')"/>
 	<mx:Button label="Sign In" click="signInClickHandler(event)" id="mSignInLabel" verticalCenter="-326" horizontalCenter="463" icon="@Embed(source='../images/door_in.png')"/>
 	<mx:Button click="signOutClickHandler(event)" label="Sign Out" id="mSignOutButton" visible="false" horizontalCenter="467" verticalCenter="-330"/>
+	<mx:Image x="20" y="12" source="../images/monarchLogo.png"/>
 </mx:WindowedApplication>
