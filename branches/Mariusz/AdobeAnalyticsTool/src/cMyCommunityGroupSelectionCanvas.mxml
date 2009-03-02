@@ -63,18 +63,22 @@
 			/**
 			 * 	Called when the user hovers the mouse over the home label.
 			 */
+			/*
 			private function homeLabelRollOverHandler(event:Event):void
 			{
 				mHomeButton.setStyle("color", "0xFF6666");
 			}
+			*/
 			
 			/**
 			 * 	Called when the user hovers the mouse away from the home label.
 			 */
+			/*
 			private function homeLabelRollOutHandler(event:Event):void
 			{
 				mHomeButton.setStyle("color", "0x13bb33");
 			}
+			*/
 			
 			
 			/**
@@ -191,10 +195,10 @@
 			
 		]]>
 	</mx:Script>
-	<mx:Label text="My Community Groups" fontSize="24" id="mHomeLoggedOutAccountLabel" horizontalCenter="-181" verticalCenter="-291" width="481"/>
+	<mx:Label text="My Community Groups" id="mHomeLoggedOutAccountLabel" styleName="pageTitle"  x="90" y="4"/>
 	<mx:VBox height="513" width="390" id="mMyCommVBox" verticalScrollPolicy="off" x="312" y="62">
 	</mx:VBox>
-	<mx:Label text="Home &gt;&gt;" rollOver="homeLabelRollOverHandler(event)" rollOut="homeLabelRollOutHandler(event)" click="homeLabelClickHandler(event)" fontSize="14"  horizontalCenter="-460" verticalCenter="-291" id="mHomeButton"/>
+	<mx:Label text="Home" styleName="breadCrumb" click="homeLabelClickHandler(event)" fontSize="14"  horizontalCenter="-460" verticalCenter="-291" id="mHomeButton"/>
 	<mx:Button label="Create Community Group" click="createCommClickHandler(event)" id="mCreateCommButton" verticalCenter="-292" horizontalCenter="412"/>
 	<mx:Button label="Next &#187;" horizontalCenter="158" verticalCenter="286" id="mNextCommButton" enabled="false"/>
 	<mx:Button label="&#171; Previous" horizontalCenter="-146" verticalCenter="286" id="mPreviousCommButton" enabled="false"/>
@@ -204,4 +208,5 @@
 	<mx:Button label="Alphabetical" width="99" id="mAlphabeticalButton" horizontalCenter="117" verticalCenter="-261"/>
 	<mx:VRule height="20" horizontalCenter="-59" verticalCenter="-262" />
 	<mx:VRule height="20" horizontalCenter="58" verticalCenter="-262" />
+	<mx:Label x="70" y="4" text="&gt;" styleName="breadCrumbSeparator" />
 </mx:Canvas>

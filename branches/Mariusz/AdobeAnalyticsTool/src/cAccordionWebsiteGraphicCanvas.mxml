@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" show="showCanvasHandler(event)" creationComplete="showCanvasHandler(event)" width="167" height="28" >
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" show="showCanvasHandler(event)" creationComplete="showCanvasHandler(event)" width="167" height="28" horizontalScrollPolicy="off">
 
 	<mx:Metadata>
 		[Event(name="AccordionWebsiteGraphicEvent", type="cAccordionWebsiteGraphicEvent")]
@@ -90,7 +90,7 @@
 
 	<mx:CheckBox x="4" y="5" change="checkBoxChangeHandler(event)" id="mCheckBox"/>
 	<mx:Label x="22" y="6" text="Website Alpha" fontSize="11" width="103" fontWeight="normal" id="mNameLabel"/>
-	<mx:Canvas x="140" y="1" width="26" height="26" click="infoLabelClickHandler(event)" backgroundImage="@Embed(source='../images/additionalInfo.png')" id="mInfoLabel" borderStyle="solid" cornerRadius="15">
-	</mx:Canvas>
+	<mx:Button x="141" y="4" click="infoLabelClickHandler(event)" id="mInfoLabel" icon="@Embed(source='../images/information.png')" width="22"/>
+
 	
 </mx:Canvas>

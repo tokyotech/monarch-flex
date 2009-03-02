@@ -154,18 +154,18 @@
 		]]>
 	</mx:Script>
 
-	<mx:HRule width="993" height="14.56" verticalCenter="-277" horizontalCenter="0"  />
-	<mx:Label click="homeLabelClickHandler(event)" rollOver="homeLabelRollOverHandler(event)" rollOut="homeLabelRollOutHandler(event)" text="Home &gt;&gt;" fontSize="14" textDecoration="normal" id="mHomeLabel"  verticalCenter="-292" horizontalCenter="-461"/>
-	<mx:Label click="communityLabelClickHandler(event)" rollOver="communityLabelRollOverHandler(event)" rollOut="communityLabelRollOutHandler(event)" text="My Community Groups &gt;&gt;" fontSize="14" textDecoration="normal" id="mCommunityGroupLabel"  horizontalCenter="-323" verticalCenter="-292"/>
-	<mx:Label click="communityNameLabelClickHandler(event)" rollOver="communityNameLabelRollOverHandler(event)" rollOut="communityNameLabelRollOutHandler(event)" text="Some Community Group Name &gt;&gt;" fontSize="14" textDecoration="normal" id="mCommunityGroupNameLabel" x="286" verticalCenter="-292"/>
-	<mx:Label text="My Community Groups"  fontSize="24" textDecoration="normal"   id="mWebsiteNameLabel" width="329" x="540" verticalCenter="-292"/>
+	<mx:HRule width="993" height="14.56"   y="27" x="7"/>
+	<mx:Label click="homeLabelClickHandler(event)" text="Home" id="mHomeLabel" styleName="breadCrumb" />
+	<mx:Label click="communityLabelClickHandler(event)" text="My Community Groups" id="mCommunityGroupLabel" styleName="breadCrumb"  x="69"/>
+	<mx:Label click="communityNameLabelClickHandler(event)" text="Some Community Group Name" id="mCommunityGroupNameLabel"  x="266" y="0" styleName="breadCrumb" />
+	<mx:Label text="My Community Groups" id="mWebsiteNameLabel" width="329" x="516" styleName="pageTitle" />
 	<mx:Label text="General"  fontSize="16" textDecoration="normal"   id="mWebsiteNameLabel0" width="83" verticalCenter="-246" horizontalCenter="-455"/>
 	<mx:Label text="Keywords"  fontSize="16" textDecoration="normal"   id="mWebsiteNameLabel5" width="83" verticalCenter="-246" horizontalCenter="144"/>
 	<mx:HRule x="609" y="68" width="393" height="8"/>
 	<mx:Label text="Posts Per Day :"  fontSize="12" textDecoration="normal"   id="mWebsiteNameLabel1" width="111" y="82" x="10"/>
 	<mx:Label text="Most Spoken :"  fontSize="12" textDecoration="normal"   id="mWebsiteNameLabel4" width="111" y="82" x="311"/>
 	<mx:Label text="Top Posters :"  fontSize="12" textDecoration="normal"   id="mWebsiteNameLabel2" width="111" y="110" x="10"/>
-	<mx:Button label="Edit Website"   click="editWebsiteButtonClickHandler(event)" id="mEditWebsiteButton" horizontalCenter="447" verticalCenter="-293" fontWeight="bold" fontStyle="normal" cornerRadius="5"/>
+	<mx:Button label="Edit Website" styleName="buttonBlack" click="editWebsiteButtonClickHandler(event)" id="mEditWebsiteButton" horizontalCenter="447" verticalCenter="-293" fontWeight="bold" fontStyle="normal" cornerRadius="5" icon="@Embed(source='../images/pencil.png')"/>
 	<mx:HRule x="10" y="68" width="249" height="8"/>
 	<mx:Label text="Links"  fontSize="16" textDecoration="normal"   id="mWebsiteNameLabel3" width="83" verticalCenter="-246" horizontalCenter="-154"/>
 	<mx:HRule x="311" y="68" width="249" height="8"/>
@@ -173,5 +173,8 @@
 	</mx:VBox>
 	<mx:VBox height="468" width="249" x="10" y="138">
 	</mx:VBox>
+	<mx:Label x="49" y="0" text="&gt;" styleName="breadCrumbSeparator" />
+	<mx:Label x="242" y="0" text="&gt;" styleName="breadCrumbSeparator" />
+	<mx:Label x="491.5" y="-1" text="&gt;" styleName="breadCrumbSeparator" />
 	
 </mx:Canvas>

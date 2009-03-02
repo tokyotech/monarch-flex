@@ -125,7 +125,7 @@ Button
 }
 
 
-.buttonOfficial
+.buttonBlack
 {
 	up-skin:        		Embed("../assets/botones/boton.png", scaleGridTop="6", scaleGridBottom="14", scaleGridLeft="6", scaleGridRight="14");
 	over-skin:      		Embed("../assets/botones/boton1.png", scaleGridTop="6", scaleGridBottom="14", scaleGridLeft="6", scaleGridRight="14");
@@ -757,7 +757,7 @@ DateField
 HRule
 {
 	stroke-color: 	#cccccc;
-	stroke-width:	2;
+	stroke-width:	1;
 	shadow-color:	#ffffff;
 	font-family:	Verdana;
 }
@@ -766,7 +766,7 @@ HRule
 VRule
 {
 	stroke-color:	#cccccc;
-	stroke-width:	2;
+	stroke-width:	1;
 	shadow-color:	#ffffff;
 	font-family:	Verdana;
 }
@@ -1013,6 +1013,29 @@ CUSTOM
 	font-size: 20;
 	font-weight: bold;	
 }
+
+.breadCrumb
+{
+	font-size: 14;
+	color: #bfa867;
+	text-align: left;
+}
+
+.pageTitle
+{
+	font-size: 16;
+	font-weight: bold;
+	color: #bfa867;	
+	text-align: left;
+}
+
+.breadCrumbSeparator 
+{
+	color: #cccccc;
+	font-size: 16;
+	font-weight: bold;
+}
+	
 
 
 

@@ -28,8 +28,8 @@
 	</mx:Script>
 
 	<mx:HRule width="993" height="14.56" verticalCenter="-277" horizontalCenter="0"  />
-	<mx:Label text="Home" fontSize="24" width="82" textAlign="left" id="mMyCommunityGroupHomeLabel" horizontalCenter="-458" verticalCenter="-291"/>
-	<mx:Button label="My Community Groups" click="myCommunityGroupButtonClickHandler(event)" width="300" height="100" fontSize="14" toolTip="Browse my community groups" horizontalCenter="-154" verticalCenter="-26" icon="@Embed(source='../images/arrow_left.png')"/>
-	<mx:Button label="Other Community Groups" width="300" height="100" fontSize="14" toolTip="Browse other community groups" horizontalCenter="154" verticalCenter="-26" icon="@Embed(source='../images/arrow_right.png')"/>
+	<mx:Label text="Home" id="mMyCommunityGroupHomeLabel" styleName="breadCrumb"/>
+	<mx:Button label="My Community Groups" click="myCommunityGroupButtonClickHandler(event)" width="240" height="54" fontSize="14" toolTip="Browse my community groups" horizontalCenter="-154" verticalCenter="-26" icon="@Embed(source='../images/arrow_left.png')" styleName="buttonBlack"/>
+	<mx:Button label="Other Community Groups" width="240" height="54" fontSize="14" toolTip="Browse other community groups" horizontalCenter="154" verticalCenter="-26" icon="@Embed(source='../images/arrow_right.png')" styleName="buttonBlack"/>
 	
 </mx:Canvas>

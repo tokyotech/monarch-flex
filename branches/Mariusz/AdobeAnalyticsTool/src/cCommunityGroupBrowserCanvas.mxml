@@ -456,15 +456,17 @@
 		]]>
 	</mx:Script>
 
-	<mx:Label click="homeLabelClickHandler(event)" rollOver="homeLabelRollOverHandler(event)" rollOut="homeLabelRollOutHandler(event)" text="Home &gt;&gt;" fontSize="14" id="mHomeLabel"  verticalCenter="-292" horizontalCenter="-461"/>
-	<mx:Label click="communityLabelClickHandler(event)" rollOver="communityLabelRollOverHandler(event)" rollOut="communityLabelRollOutHandler(event)" text="My Community Groups &gt;&gt;" fontSize="14" id="mCommunityGroupLabel"  horizontalCenter="-323" verticalCenter="-292"/>
+	<mx:Label click="homeLabelClickHandler(event)" text="Home" id="mHomeLabel" styleName="breadCrumb"/>
+	<mx:Label x="52" y="-2" text="&gt;" styleName="breadCrumbSeparator" />
+	<mx:Label click="communityLabelClickHandler(event)" text="My Community Groups" id="mCommunityGroupLabel"  horizontalCenter="-351" verticalCenter="-296" styleName="breadCrumb"/>
+	<mx:Label x="245" y="-1" text="&gt;" styleName="breadCrumbSeparator" />
+	<mx:Label text="Some Community Group Name" id="mCommunityGroupNameLabel" styleName="pageTitle"  x="267" y="-1"/>
 	<mx:ViewStack x="187" y="45.55" id="mStatGraphicsViewStack" width="815" height="529.45">
 		<ns1:cLineChartCanvas x="1" y="2" id="mLineChartCanvas" creationComplete="lineChartCanvasCreateHandler(event)">
 		</ns1:cLineChartCanvas>
 		<mx:Canvas label="1 year" width="100%" height="100%">
 		</mx:Canvas>
 	</mx:ViewStack>
-	<mx:Label text="Some Community Group Name" fontSize="24" width="450" textAlign="left" id="mCommunityGroupNameLabel" horizontalCenter="3" verticalCenter="-292"/>
 	
 	<!--
 	Puneet said that radio buttons were user unfriendly
