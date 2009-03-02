@@ -150,8 +150,11 @@ LinkButton
 	font-size: 				11;
 	text-decoration: 		underline;
 	corner-radius:			0;
-	disabled-color:			#999999;
+	color:                  #bfa867;
+	text-roll-over-color: 	#f2d583;
+	/*
 	text-roll-over-color: 	#666666;
+	*/
 	up-skin:				Embed("../assets/blanc.png");
 	down-skin:				Embed("../assets/blanc.png");
 	over-skin:				Embed("../assets/blanc.png");
@@ -442,7 +445,7 @@ Panel
 {
 	font-family:	Verdana;
 	font-weight:	bold;
-	font-size:		16;
+	font-size:		14;
 	color:			#bfa867;
 }
 
@@ -756,18 +759,18 @@ DateField
 
 HRule
 {
-	stroke-color: 	#cccccc;
+	stroke-color: 	#999999;
 	stroke-width:	1;
-	shadow-color:	#ffffff;
+	shadow-color:	#000000;
 	font-family:	Verdana;
 }
 
 
 VRule
 {
-	stroke-color:	#cccccc;
+	stroke-color:	#999999;
 	stroke-width:	1;
-	shadow-color:	#ffffff;
+	shadow-color:	#000000;
 	font-family:	Verdana;
 }
 
@@ -1014,12 +1017,14 @@ CUSTOM
 	font-weight: bold;	
 }
 
+/*
 .breadCrumb
 {
 	font-size: 14;
 	color: #bfa867;
 	text-align: left;
 }
+*/
 
 .pageTitle
 {

@@ -27,10 +27,10 @@
 				pageLoader.addEventListener(Event.COMPLETE, handlePageLoaded);
 				html = new HTMLLoader();
 				
-				mCommunityGroupNameLabel.text = mCommunityGroupName + " >>";
-				mWebsiteNameLabel.x =+ mCommunityGroupNameLabel.x + mCommunityGroupNameLabel.measureText(mCommunityGroupNameLabel.text).width + 10;
-				mWebsiteNameLabel.text = mWebsiteName + " >>";
-				mRexExEditorLabel.x =+ mWebsiteNameLabel.x + mWebsiteNameLabel.measureText(mWebsiteNameLabel.text).width + 10;
+				mCommunityGroupNameLabel.label = mCommunityGroupName;
+				mWebsiteNameLabel.x =+ mCommunityGroupNameLabel.x + mCommunityGroupNameLabel.measureText(mCommunityGroupNameLabel.label).width + 10;
+				mWebsiteNameLabel.label = mWebsiteName;
+				mRexExEditorLabel.x =+ mWebsiteNameLabel.x + mWebsiteNameLabel.measureText(mWebsiteNameLabel.label).width + 10;
 			}
 			
 			/**
@@ -41,10 +41,10 @@
 				// select OpeningScreen canvas by default.
 				mMainViewStack.selectedIndex = 0;
 				
-				mCommunityGroupNameLabel.text = mCommunityGroupName + " >>";
-				mWebsiteNameLabel.x =+ mCommunityGroupNameLabel.x + mCommunityGroupNameLabel.measureText(mCommunityGroupNameLabel.text).width + 10;
-				mWebsiteNameLabel.text = mWebsiteName + " >>";
-				mRexExEditorLabel.x =+ mWebsiteNameLabel.x + mWebsiteNameLabel.measureText(mWebsiteNameLabel.text).width + 10;
+				mCommunityGroupNameLabel.label = mCommunityGroupName;
+				mWebsiteNameLabel.x =+ mCommunityGroupNameLabel.x + mCommunityGroupNameLabel.measureText(mCommunityGroupNameLabel.label).width + 10;
+				mWebsiteNameLabel.label = mWebsiteName;
+				mRexExEditorLabel.x =+ mWebsiteNameLabel.x + mWebsiteNameLabel.measureText(mWebsiteNameLabel.label).width + 10;
 			}
 			
 			///////////////////////////////////////////////////////////////////////////////////
@@ -451,11 +451,11 @@
 			
 		]]>
 	</mx:Script>
-	<mx:Label x="10" y="17" text="Home" textDecoration="normal" id="mHomeLabel" click="homeLabelClickHandler(event)" styleName="breadCrumb" />
-	<mx:Label x="81" y="17" text="My Community Groups" textDecoration="normal" id="mCommunityGroupLabel" click="communityLabelClickHandler(event)" styleName="breadCrumb" />
-	<mx:Label x="292" y="17" text=" Group Name" textDecoration="normal" id="mCommunityGroupNameLabel" click="communityNameLabelClickHandler(event)" styleName="breadCrumb" />
-	<mx:Label text="Edit Website" click="websiteNameLabelClickHandler(event)" id="mWebsiteNameLabel"  x="446" y="17" styleName="breadCrumb" />
-	<mx:Label text="RegEx Editor" id="mRexExEditorLabel"  x="582" y="16" styleName="pageTitle" />
+	<mx:LinkButton x="10" y="17" label="Home" textDecoration="normal" id="mHomeLabel" click="homeLabelClickHandler(event)" />
+	<mx:LinkButton x="81" y="17" label="My Community Groups" textDecoration="normal" id="mCommunityGroupLabel" click="communityLabelClickHandler(event)" styleName="breadCrumb" />
+	<mx:LinkButton x="271" y="17" label=" Group Name" textDecoration="normal" id="mCommunityGroupNameLabel" click="communityNameLabelClickHandler(event)" styleName="breadCrumb" />
+	<mx:LinkButton label="Edit Website" click="websiteNameLabelClickHandler(event)" id="mWebsiteNameLabel"  x="418" y="17" />
+	<mx:Label text="RegEx Editor" id="mRexExEditorLabel"  x="551" y="12" styleName="pageTitle" />
 	<mx:Button id="rightButton" skin="@Embed(source='../Images/Knob Forward.png')" click="advanceWizard(event)" horizontalCenter="488" verticalCenter="-284">
 	</mx:Button>
 	<mx:Button skin="@Embed(source='../Images/Knob Cancel.png')" horizontalCenter="447" verticalCenter="-283" id="mExitButton" click="exitButtonClickHandler(event)">
@@ -512,7 +512,7 @@
 	</mx:ViewStack>
 	<mx:HRule width="993" height="14.56" verticalCenter="-261" horizontalCenter="0"  />
 	<mx:Label x="57" y="16" text="&gt;" styleName="breadCrumbSeparator" />
-	<mx:Label x="258" y="16" text="&gt;" styleName="breadCrumbSeparator" />
-	<mx:Label x="398" y="16" text="&gt;" styleName="breadCrumbSeparator" />
-	<mx:Label x="548" y="12" text="&gt;" styleName="breadCrumbSeparator" />
+	<mx:Label x="234" y="12" text="&gt;" styleName="breadCrumbSeparator" />
+	<mx:Label x="371" y="12" text="&gt;" styleName="breadCrumbSeparator" />
+	<mx:Label x="514" y="12" text="&gt;" styleName="breadCrumbSeparator" />
 </mx:Canvas>

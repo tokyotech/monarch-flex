@@ -117,8 +117,8 @@
 			 */
 			private function showCanvasHandler(event:Event):void
 			{
-				mCommunityGroupNameLabel.text = mCommunityGroupName + " >>";
-				mWebsiteNameLabel.x =+ mCommunityGroupNameLabel.x + mCommunityGroupNameLabel.measureText(mCommunityGroupNameLabel.text).width + 10;
+				mCommunityGroupNameLabel.label = mCommunityGroupName + " >>";
+				mWebsiteNameLabel.x =+ mCommunityGroupNameLabel.x + mCommunityGroupNameLabel.measureText(mCommunityGroupNameLabel.label).width + 10;
 				mWebsiteNameLabel.text = mWebsiteName;
 			}
 			
@@ -155,10 +155,13 @@
 	</mx:Script>
 
 	<mx:HRule width="993" height="14.56"   y="27" x="7"/>
-	<mx:Label click="homeLabelClickHandler(event)" text="Home" id="mHomeLabel" styleName="breadCrumb" />
-	<mx:Label click="communityLabelClickHandler(event)" text="My Community Groups" id="mCommunityGroupLabel" styleName="breadCrumb"  x="69"/>
-	<mx:Label click="communityNameLabelClickHandler(event)" text="Some Community Group Name" id="mCommunityGroupNameLabel"  x="266" y="0" styleName="breadCrumb" />
-	<mx:Label text="My Community Groups" id="mWebsiteNameLabel" width="329" x="516" styleName="pageTitle" />
+	<mx:LinkButton click="homeLabelClickHandler(event)" label="Home" id="mHomeLabel"/>
+	<mx:LinkButton click="communityLabelClickHandler(event)" label="My Community Groups" id="mCommunityGroupLabel"  x="89"/>
+	<mx:LinkButton click="communityNameLabelClickHandler(event)" label="Some Community Group Name" id="mCommunityGroupNameLabel"  x="286" y="0" />
+	<mx:Label text="My Community Groups" id="mWebsiteNameLabel" x="536" styleName="pageTitle" />
+	<mx:Label x="59" y="0" text="&gt;" styleName="breadCrumbSeparator" />
+	<mx:Label x="252" y="0" text="&gt;" styleName="breadCrumbSeparator" />
+	<mx:Label x="501.5" y="-1" text="&gt;" styleName="breadCrumbSeparator" />
 	<mx:Label text="General"  fontSize="16" textDecoration="normal"   id="mWebsiteNameLabel0" width="83" verticalCenter="-246" horizontalCenter="-455"/>
 	<mx:Label text="Keywords"  fontSize="16" textDecoration="normal"   id="mWebsiteNameLabel5" width="83" verticalCenter="-246" horizontalCenter="144"/>
 	<mx:HRule x="609" y="68" width="393" height="8"/>
@@ -173,8 +176,5 @@
 	</mx:VBox>
 	<mx:VBox height="468" width="249" x="10" y="138">
 	</mx:VBox>
-	<mx:Label x="49" y="0" text="&gt;" styleName="breadCrumbSeparator" />
-	<mx:Label x="242" y="0" text="&gt;" styleName="breadCrumbSeparator" />
-	<mx:Label x="491.5" y="-1" text="&gt;" styleName="breadCrumbSeparator" />
 	
 </mx:Canvas>

@@ -240,7 +240,7 @@
     				var failed:Event = new Event("FailedEvent");
     				this.dispatchEvent(failed);
     				Alert.show("The username or password is incorrect.\nLoggin Failed.", 
-    				           "Loggin Failed Message");
+    				           "Loggin Failed");
     			}
     		}
     		

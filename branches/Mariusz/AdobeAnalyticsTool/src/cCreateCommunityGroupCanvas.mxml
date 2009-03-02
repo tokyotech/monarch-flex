@@ -192,7 +192,7 @@
 		]]>
 	</mx:Script>
 
-	<mx:Label x="369.5" y="10" text="Community Group Creator"  fontSize="24" textDecoration="normal"   id="mHomeLoggedOutAccountLabel"/>
+	<mx:Label x="369.5" y="10" text="Community Group Creator" styleName="pageTitle"  id="mHomeLoggedOutAccountLabel"/>
 	<mx:Label x="10" y="93" text="Community Group Creator"  fontSize="20" textDecoration="underline"   id="mHomeLoggedOutAccountLabel0"/>
 	<mx:Label x="10" y="132" text="Community Group Name :"  fontSize="14" textDecoration="normal"   id="mHomeLoggedOutAccountLabel2"/>
 	<mx:Label x="90" y="213" text="Keyword 1 :"  fontSize="14" textDecoration="normal"   id="mHomeLoggedOutAccountLabel3"/>
@@ -204,8 +204,7 @@
 	<mx:Label x="90" y="387" text="Keyword 7 :"  fontSize="14" textDecoration="normal"   id="mHomeLoggedOutAccountLabel9"/>
 	<mx:Label x="90" y="416" text="Keyword 8 :"  fontSize="14" textDecoration="normal"   id="mHomeLoggedOutAccountLabel10"/>
 	<mx:Label x="10" y="177" text="Register Keywords"  fontSize="20" textDecoration="underline"   id="mHomeLoggedOutAccountLabel1"/>
-	<mx:Label x="247" y="50" text="Use this page to create a community group and register keywords" fontSize="14" width="509" textAlign="center" textDecoration="underline"/>
-	<mx:Label x="10" y="17" rollOver="backLabelRollOverHandler(event)" rollOut="backLabelRollOutHandler(event)" click="backLabelClickHandler(event)" text="Back" fontSize="14" textDecoration="underline" id="mBackLabel"/>
+	<mx:Label x="10" y="9" rollOver="backLabelRollOverHandler(event)" click="backLabelClickHandler(event)" text="Back" id="mBackLabel" styleName="breadCrumb"/>
 	<mx:TextInput x="173" y="132" width="205" rollOver="commNameTextBoxRollOverHandler(event)" rollOut="commNameTextBoxRollOutHandler(event)" keyDown="textBoxKeyDownHandler(event)" id="mCommNameTextBox" toolTip="Enter a community group name"/>
 	<mx:TextInput x="173" y="213" width="205" keyDown="textBoxKeyDownHandler(event)" id="mKeyword1TextBox" toolTip="Enter first keyword"/>
 	<mx:TextInput x="173" y="242" width="205" keyDown="textBoxKeyDownHandler(event)" id="mKeyword2TextBox" toolTip="Enter second keyword"/>

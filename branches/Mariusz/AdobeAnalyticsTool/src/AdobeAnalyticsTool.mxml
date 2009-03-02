@@ -172,7 +172,7 @@
 					mCreateAccountButton.visible = true;
 					// mUserNameLabel.text = "";
 					mMainViewStack.selectedIndex = 0;
-					Alert.show("You successfully logged out of your account.", "Log Out Successful");
+					Alert.show("You successfully logged out of your account.", "Logged Out");
 				// }	
 			}
 			
@@ -181,7 +181,7 @@
 			 */
 			private function createAccountClickHandler(event:Event):void
 			{
-				if(mConnectedToInternet) {
+				// if(mConnectedToInternet) {
 					var createAccountWindow:cCreateAccountWindow = new cCreateAccountWindow();
 					createAccountWindow.open(true);
 					createAccountWindow.nativeWindow.x = nativeWindow.x + (nativeWindow.width - createAccountWindow.nativeWindow.width) / 2;
@@ -189,7 +189,7 @@
 					createAccountWindow.addEventListener("cCreateAccountEvent", createAccountWindowCloseHandler);
 					createAccountWindow.alwaysInFront = true;
 					this.enabled = false;
-				}
+				// }
 			}
 			
 			

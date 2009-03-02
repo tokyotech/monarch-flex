@@ -549,7 +549,7 @@
 		]]>
 	</mx:Script>
 
-	<mx:Label x="10" y="17" text="Back" fontSize="14" textDecoration="underline" id="mBackLabel" click="backLabelClickHandler(event)" rollOut="backLabelRollOutHandler(event)" rollOver="backLabelRollOverHandler(event)"/>
+	<mx:LinkButton x="10" y="17" text="Back" id="mBackLabel" click="backLabelClickHandler(event)" />
 	<mx:Label x="838" y="19" text="Edit" fontSize="12" textDecoration="normal" id="mEditLabel" rollOut="editLabelRollOutHandler(event)" rollOver="editLabelRollOverHandler(event)" click="editLabelClickHandler(event)"/>
 	<mx:Label x="885" y="19" text="Add New Website" fontSize="12" textDecoration="normal" id="mAddNewWebsiteLabel" click="addWebsiteClickHandler(event)" rollOut="addWebsiteRollOutHandler(event)" rollOver="addWebsiteRollOverHandler(event)"/>
 	<mx:Label x="323" y="153" text="Remove Websites" fontSize="12" textDecoration="normal" id="mRemoveWebsitesLabel" click="removeWebsiteClickHandler(event)" rollOut="removeWebsiteRollOutHandler(event)" rollOver="removeWebsiteRollOverHandler(event)" toolTip="Remove individual websites"/>

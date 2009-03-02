@@ -198,15 +198,16 @@
 	<mx:Label text="My Community Groups" id="mHomeLoggedOutAccountLabel" styleName="pageTitle"  x="90" y="4"/>
 	<mx:VBox height="513" width="390" id="mMyCommVBox" verticalScrollPolicy="off" x="312" y="62">
 	</mx:VBox>
-	<mx:Label text="Home" styleName="breadCrumb" click="homeLabelClickHandler(event)" fontSize="14"  horizontalCenter="-460" verticalCenter="-291" id="mHomeButton"/>
-	<mx:Button label="Create Community Group" click="createCommClickHandler(event)" id="mCreateCommButton" verticalCenter="-292" horizontalCenter="412"/>
+	<mx:LinkButton label="Home" styleName="breadCrumb" click="homeLabelClickHandler(event)" fontSize="14"  horizontalCenter="-473" verticalCenter="-291" id="mHomeButton"/>
+	<mx:Button label="Create Community Group" click="createCommClickHandler(event)" id="mCreateCommButton" verticalCenter="-292" horizontalCenter="412">
+		<mx:icon>@Embed(source='../images/application_cascade.png')</mx:icon>
+	</mx:Button>
 	<mx:Button label="Next &#187;" horizontalCenter="158" verticalCenter="286" id="mNextCommButton" enabled="false"/>
 	<mx:Button label="&#171; Previous" horizontalCenter="-146" verticalCenter="286" id="mPreviousCommButton" enabled="false"/>
-	<mx:HRule width="993" height="14.56" verticalCenter="-277" horizontalCenter="0" />
 	<mx:Button label="Newest" width="99" id="mNewestButton" horizontalCenter="-118" verticalCenter="-261"/>
 	<mx:Button label="Most Viewed" width="99" id="mMostViewedButton" horizontalCenter="0" verticalCenter="-261"/>
 	<mx:Button label="Alphabetical" width="99" id="mAlphabeticalButton" horizontalCenter="117" verticalCenter="-261"/>
 	<mx:VRule height="20" horizontalCenter="-59" verticalCenter="-262" />
 	<mx:VRule height="20" horizontalCenter="58" verticalCenter="-262" />
-	<mx:Label x="70" y="4" text="&gt;" styleName="breadCrumbSeparator" />
+	<mx:Label x="67" y="4" text="&gt;" styleName="breadCrumbSeparator" />
 </mx:Canvas>

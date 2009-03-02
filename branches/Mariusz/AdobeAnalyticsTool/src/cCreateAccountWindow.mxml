@@ -142,11 +142,11 @@
 		]]>
 	</mx:Script>
 	
-	<mx:Label x="142.5" y="10" text="Create Account" fontSize="14" id="mCreateAccountLabel" />
+	<mx:Label x="117.5" y="10" text="Create Account" id="mCreateAccountLabel" styleName="pageTitle" />
 	<mx:Label x="59" y="50" text="Full Name :" />
 	<mx:Label x="84" y="76" text="Email :" />
-	<mx:Label x="63" y="102" text="Password :" />
-	<mx:Label x="10" y="128" text="Re-enter Password :" />
+	<mx:Label x="65" y="102" text="Password :" />
+	<mx:Label x="15" y="128" text="Re-enter Password :" />
 	<mx:TextInput width="224.5" keyDown="fullNameKeyDownHandler(event)" id="mFullNameTextBox" x="136" y="48" toolTip="Your full name"/>
 	<mx:TextInput width="224.5" keyDown="userNameKeyDownHandler(event)" id="mEmailTextBox" x="136" y="74" toolTip="The user name used for logging in"/>
 	<mx:TextInput width="224.5" keyDown="passwordKeyDownHandler(event)" id="mPasswordTextBox" x="136" y="100" displayAsPassword="true" toolTip="The password used for logging in"/>
