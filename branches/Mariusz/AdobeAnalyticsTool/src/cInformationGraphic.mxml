@@ -106,8 +106,8 @@
 		]]>
 	</mx:Script>
 	
-	<mx:Label text="Welcome to the Adobe Community Analytics Tool !" width="449" horizontalCenter="4" verticalCenter="-48" id="mTitleLabel" />
-	<mx:TextArea width="449" height="81" editable="false" wordWrap="true" horizontalCenter="4" verticalCenter="11" borderThickness="0" textAlign="left" selectable="false" id="mTextBox">
+	<mx:Label text="Welcome to the Adobe Community Analytics Tool !" width="449" horizontalCenter="4" verticalCenter="-48" id="mTitleLabel" styleName="homeInfoTitle"/>
+	<mx:TextArea width="449" editable="false" wordWrap="true" horizontalCenter="4" verticalCenter="16" borderThickness="0" textAlign="left" selectable="false" id="mTextBox" height="84">
 		<mx:text>This tool allows you to formulate community groups to monitor keywords across the websites of your choice.</mx:text>
 	</mx:TextArea>
 	

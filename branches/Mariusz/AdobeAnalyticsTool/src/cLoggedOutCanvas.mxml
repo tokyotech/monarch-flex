@@ -15,11 +15,16 @@
 			private function creationCompleteHandler(event:Event):void
 			{
 				var intro:cInformationGraphic = new cInformationGraphic();
-				intro.setTitle("Welcome to the Adobe Community Group Analytics Tool !");
-				intro.setBody("This tool allows you to formulate community groups to " + 
-						   "monitor keywords across the websites of your choice.");
+				intro.setTitle("Welcome!");
+				intro.setBody("This tool allows you specify keywords and track their popularity in any forum, blog, or news site." +
+					"Ways to gauge popularity include counting mentions, how thoughtful an author's prose is when mentioning " +
+					"the keyword, and general sentiment (hate/love).");
 				var info1:cInformationGraphic = new cInformationGraphic();
-				info1.setTitle("Why you should create an account.");			
+				info1.setTitle("Create an account:");			
+				info1.setBody("An account allows you to group websites under a community. " +
+					"All websites under a community will be scraped for the same keywords. " + 
+					"This allows you to see on average how popular your keywords are doing. " +
+					"Click the 'register' button on the top right to create an account.");  
 				mNewsVBox.addChild(intro);
 				mNewsVBox.addChild(info1);
 			}

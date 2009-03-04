@@ -491,7 +491,7 @@
 		<mx:Label x="0" y="29" text="Count:" enabled="true" id="mCountWeightLabel" toolTip="How many times this keyword or link has been mentioned."/>
 		<mx:Label x="0" y="69" text="Sentiment:" enabled="true" id="mGoodnessWeightLabel" toolTip="The level of approval of the keyword or link. Do people hate or love it?" />
 		<mx:Label x="0" y="109" text="English Proficiency:" enabled="true" id="mProficiencyWeightLabel0" toolTip="When this keyword or link was said, how good was the speaker's English? Slide this higher if you want more weight for more carefule prose."/>
-		<mx:ComboBox id="mPresetsComboBox" change="presetsComboBoxChangeHandler(event)" x="0" y="1" width="142" maxWidth="160">
+		<mx:ComboBox id="mPresetsComboBox" change="presetsComboBoxChangeHandler(event)" x="0" y="1" width="152" maxWidth="160">
 		<mx:ArrayCollection>
 	         <mx:String>Count</mx:String>
 	         <mx:String>Goodness</mx:String>

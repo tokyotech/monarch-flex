@@ -6,8 +6,8 @@
 	src:					url("../assets/fonts/Framd.TTF");
 	*/
 	fontFamily: 			Verdana;
-	/*
 	font-anti-alias-type: 	advanced;
+	/*
 	font-weight: 			normal;
 	*/
 }
@@ -424,7 +424,7 @@ PANELS & WINDOWS
 
 Window
 {
-	background-color: #ffffff;
+	background-color: #F5F5F5;
 }
 
 Panel
@@ -433,8 +433,10 @@ Panel
 	background-color:		#efefef;
 	font-family: 			Verdana;
 	font-weight: 			normal;
-	/*title-background-skin: 	Embed("../assets/general/titleWindow1.png", scaleGridTop="42", scaleGridBottom="138", scaleGridLeft="11", scaleGridRight="118");
-	header-background-skin: Embed("../assets/general/titleWindow1.png", scaleGridTop="42", scaleGridBottom="138", scaleGridLeft="11", scaleGridRight="118");*/
+	/*
+	title-background-skin: 	Embed("../assets/general/titleWindow1.png", scaleGridTop="42", scaleGridBottom="138", scaleGridLeft="11", scaleGridRight="118");
+	header-background-skin: Embed("../assets/general/titleWindow1.png", scaleGridTop="42", scaleGridBottom="138", scaleGridLeft="11", scaleGridRight="118");
+	*/
 	background-size: 		"100%";
 	title-style-name:		"myTitlePanel";
 	shadow-direction:		90;
@@ -842,7 +844,7 @@ TextArea
 	disabled-color:				#999999;
 	border-thickness:			0;
 	focus-thickness:			0;
-	color:						#333333;
+	color:						#666666;
 	font-family:				Verdana;
 	font-weight:				normal;
 	font-size:					11;
@@ -1039,6 +1041,13 @@ CUSTOM
 	color: #cccccc;
 	font-size: 16;
 	font-weight: bold;
+}
+
+.homeInfoTitle 
+{
+	font-size: 14;
+	font-weight: bold;
+	color: #666666;
 }
 	
 
