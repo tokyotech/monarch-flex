@@ -13,6 +13,7 @@
 			import mx.core.UIComponent;
 			import mx.controls.textClasses.TextRange;
 			import mx.controls.Alert;
+			import controls.Highlighter;
 			
 			///////////////////////////////////////////////////////////////////////////////////
 			//
@@ -75,6 +76,9 @@
 			private function mPageSourceTextCreationCompleteHandler(event:Event):void
 			{
 				mPageSourceText.text = urlContents;
+				
+				// Initialize highlighter
+				highlighter = new Highlighter(getTextField(mPageSourceText));		
 			}
 		
 			private function handlePageLoaded(event:Event):void {
@@ -178,114 +182,33 @@
     			html.height = 2880;
 			}
 			
-			private function highlightMatches(event:Event):void {    		
-				highlightViewMatches(new RegExp(regexString.text, ""));
-				highlightSourceMatches(new RegExp(regexString.text, "g"));
-				
+			/**
+			 * Clears highlighting and re-highlights matches
+			 */
+			private function onTextInputChange(event:Event):void {
+				// Build regular expression from user string
+				var regex:RegExp = new RegExp(regexString.text, "g");
+				highlighter.reset();
+				if(regexString.text.length > 0 && feedbackTabs.selectedChild == sourceTab) {
+					highlighter.highlightMatches(regex);
+				}		
 			}
 			
-			private function highlightViewMatches(usrRegex:RegExp):void {
-				// Reinitialize match label and match text
-	    		matchesText.text = "No captured text";
-	    		
-	    		// Be sure that we are modifying unhighlighted page	
-//				for each(var elem:Object in modifiedElements) {
-//					elem.style.background = unmodifiedBackground;
-//				}
-//	    		
-//	    		modifiedElements = new Array();
-//	    		
-	    		// Begin highlighting matches from root node
-	    		trace(html);
-	    		highlightMatchesRec(html.window.document.documentElement, usrRegex);
-			}
-			
-			private function highlightMatchesRec(elem:Object, regex:RegExp):void {	
-				trace("Element type = " + elem.tagName);
-				// trace("Element outerHTML = " + elem.outerHTML);
-				// If there is no match within this node, return
-				if(elem.outerHTML.search(regex) == -1) {
-					return;
-				}
-				// There is a match so recurse and highlight matches
-				else {
-					var children:Object = elem.getElementsByTagName("*");
-									
-					var childHasMatch:Boolean = false;
-					for(var i:Number = 0; i < children.length; i++) {
-						if(children[i].outerHTML.search(regex) != -1) {
-							childHasMatch = true;
-							highlightMatchesRec(children[i], regex);
-							return; // find only the first match
-						}
-					}
+			/**
+			 * Given a TextArea, returns the underlying TextField
+			 */
+			private function getTextField(component:TextArea):TextField{
+	            var len:int = component.numChildren;
+	            var r:TextField;
+	            for(var i:int=0; i<len; i++){
+	                var thisChild:DisplayObject = component.getChildAt(i);
+	                if(thisChild is TextField){
+	                    r = thisChild as TextField;
+	                }
+	            }
+	        	return r;
+        	}
 					
-					// If there are no children which match the regex, run the tag-name-based
-					// algorithm on nodes having the same tag name as this element
-					if(childHasMatch == false) {
-						trace("Tag Name = "+elem.tagName);
-						highlightMatchesFromList(html.window.document.getElementsByTagName(elem.tagName), regex);
-						// elem.style.background = "yellow";
-					} 
-				}
-			}
-			
-			private function highlightMatchesFromList(elemList:Object, regex:RegExp):void {
-				// Save an unmodified background color
-				// unmodifiedBackground = elemList[0].style.background;
-				
-				// Highlight all elements in the element list that match the regular expression
-				trace(elemList.length);
-				for(var i:Number = 0; i < elemList.length; i++) {
-					var match:Object = regex.exec(elemList[i].outerHTML);
-					if(match != null) {
-						if(match.length >= 2) {
-							matchesText.text += ("\n\n* " + match[1]);
-						}					
-	
-						// modifiedElements.push(elemList[i]);
-						elemList[i].style.background = "yellow";
-						trace("Highlighting "+elemList[i].outerHTML.slice(0,10)+" . . . ");
-					}
-				}
-			}
-			
-			private function highlightSourceMatches(usrRegex:RegExp):void {
-				
-				var result:Array = usrRegex.exec(mPageSourceText.text);
-				
-				while (result != null) {
-					// Highlight match
-					applyTextHighlight(mPageSourceText, result.index, usrRegex.lastIndex);
-	    			// trace("SourceMatches:", result.index, "\t", usrRegex.lastIndex, "\t", result[0].length);
-	    			
-	    			// Find next match
-	    			result = usrRegex.exec(mPageSourceText.text);
-				}
-			}
-			
-			private function applyTextHighlight(textField:UIComponent, startIndex:int,
-	                              endIndex:int):void
-			{
-	     		var tr:TextRange = new TextRange(textField, false, startIndex, endIndex);
-	    		var highlightedPropsObject:Object = {color:"red", fontWeight:"bold", fontSize:12};
-	    		// trace("Highlihting text range from ", startIndex, " to ", endIndex);
-	     		setTextFormat(tr, highlightedPropsObject);
-			}
-	
-			private function setTextFormat(tr:TextRange, obj:Object):void{
-	    		//loop through the objects properties and assign each value to your TextRange
-	    		//instance (only if the instance already has such a property declared)
-	    		for(var i:String in obj){
-	    			if(tr.hasOwnProperty(i)){
-	        			tr[i] = obj[i];
-	    			}else{
-	        			trace("some error handling here"); 
-	        		}
-	    		}
-	  		}
-		
-		
 			///////////////////////////////////////////////////////////////////////////////////
 			//
 			//							EVENT HANDLERS
@@ -419,6 +342,7 @@
 			}
 			
 			
+			
 			///////////////////////////////////////////////////////////////////////////////////
 			//
 			//							DATA MEMBERS
@@ -447,7 +371,9 @@
 			// name of the community group
 			private var mCommunityGroupName:String = "";
 			// name of the website 
-			private var mWebsiteName:String = "";	
+			private var mWebsiteName:String = "";
+			// highlighter for page source
+			private var highlighter:Highlighter;	
 			
 		]]>
 	</mx:Script>
@@ -469,8 +395,8 @@
 		</mx:Canvas>
 		<mx:Canvas id="RegexEntry" width="100%" height="100%" creationComplete="viewAppearanceHandler(event)" show="viewAppearanceHandler(event)">
 			<mx:Text id="infoText" text="Enter a regular expression that matches {currState}:" width="972" height="22" fontSize="12" horizontalCenter="0" verticalCenter="-256"/>
-			<mx:TextInput id="regexString" change="highlightMatches(event)"  width="292" horizontalCenter="-340" verticalCenter="-231" borderStyle="solid" borderThickness="0" color="#EFEFEF"/>
-			<mx:TabNavigator width="974.95" height="481" horizontalCenter="2" verticalCenter="35">
+			<mx:TextInput id="regexString" change="onTextInputChange(event)"  width="292" horizontalCenter="-340" verticalCenter="-231" borderStyle="solid" borderThickness="0" color="#EFEFEF"/>
+			<mx:TabNavigator id="feedbackTabs" width="974.95" height="481" horizontalCenter="2" verticalCenter="35">
 	    		<mx:Canvas label="View" width="100%" height="100%" color="#EFEFEF">
 	    		    <mx:VBox height="449" width="968.95" id="htmlBox" label="Page View"  verticalCenter="-1" horizontalCenter="-2">
 	    		    </mx:VBox>
