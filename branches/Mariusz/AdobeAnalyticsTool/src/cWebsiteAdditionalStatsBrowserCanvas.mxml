@@ -117,8 +117,10 @@
 			 */
 			private function showCanvasHandler(event:Event):void
 			{
-				mCommunityGroupNameLabel.label = mCommunityGroupName + " >>";
-				mWebsiteNameLabel.x =+ mCommunityGroupNameLabel.x + mCommunityGroupNameLabel.measureText(mCommunityGroupNameLabel.label).width + 10;
+				mCommunityGroupNameLabel.label = mCommunityGroupName;
+				var lengthOfCommName:Number = mCommunityGroupNameLabel.x + mCommunityGroupNameLabel.measureText(mCommunityGroupNameLabel.label).width;
+				arrowAfterCommGroupName.x = lengthOfCommName + 40; 
+				mWebsiteNameLabel.x = arrowAfterCommGroupName.x + 40;
 				mWebsiteNameLabel.text = mWebsiteName;
 			}
 			
@@ -153,15 +155,13 @@
 			
 		]]>
 	</mx:Script>
-
-	<mx:HRule width="993" height="14.56"   y="27" x="7"/>
 	<mx:LinkButton click="homeLabelClickHandler(event)" label="Home" id="mHomeLabel"/>
 	<mx:LinkButton click="communityLabelClickHandler(event)" label="My Community Groups" id="mCommunityGroupLabel"  x="89"/>
 	<mx:LinkButton click="communityNameLabelClickHandler(event)" label="Some Community Group Name" id="mCommunityGroupNameLabel"  x="286" y="0" />
-	<mx:Label text="My Community Groups" id="mWebsiteNameLabel" x="536" styleName="pageTitle" />
+	<mx:Label text="Website Name" id="mWebsiteNameLabel" x="536" styleName="pageTitle" />
 	<mx:Label x="59" y="0" text="&gt;" styleName="breadCrumbSeparator" />
 	<mx:Label x="252" y="0" text="&gt;" styleName="breadCrumbSeparator" />
-	<mx:Label x="501.5" y="-1" text="&gt;" styleName="breadCrumbSeparator" />
+	<mx:Label x="501.5" y="-1" text="&gt;" styleName="breadCrumbSeparator"  id="arrowAfterCommGroupName"/>
 	<mx:Label text="General"  fontSize="16" textDecoration="normal"   id="mWebsiteNameLabel0" width="83" verticalCenter="-246" horizontalCenter="-455"/>
 	<mx:Label text="Keywords"  fontSize="16" textDecoration="normal"   id="mWebsiteNameLabel5" width="83" verticalCenter="-246" horizontalCenter="144"/>
 	<mx:HRule x="609" y="68" width="393" height="8"/>

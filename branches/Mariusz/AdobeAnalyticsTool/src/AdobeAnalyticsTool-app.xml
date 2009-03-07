@@ -5,7 +5,7 @@
 
 	Specifies parameters for identifying, installing, and launching AIR applications.
 
-	xmlns - The Adobe AIR namespace: http://ns.adobe.com/air/application/1.1
+	xmlns - The Adobe AIR namespace: http://ns.adobe.com/air/application/1.5
 			The last segment of the namespace specifies the version 
 			of the AIR runtime required for this application to run.
 			
