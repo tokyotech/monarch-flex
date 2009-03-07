@@ -19,6 +19,8 @@ package
 		
 		// community group name
 		public var mCommuniutyGroupName:String = "";
+		// community group id
+		public var mCommunityGroupId:int = -1;
 		// community group keywords
 		public var mKeywords:ArrayCollection = null;
 		// community group websites

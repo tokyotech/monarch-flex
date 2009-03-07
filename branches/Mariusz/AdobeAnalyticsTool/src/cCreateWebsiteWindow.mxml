@@ -123,7 +123,6 @@
 				e.mWebsiteType = websiteType;
 				e.mWebsiteName = mWebsiteNameTextBox.text;
 				e.mWebsiteURL = mWebsiteURLTextBox.text;
-				e.mCommunityGroupId = mCommunityGroupId;
 				this.dispatchEvent(e);
 				this.close();
 			}
@@ -145,14 +144,6 @@
 				e.mType = e.CANCEL;
 				this.dispatchEvent(e);
 				this.close();
-			}
-			
-			/**
-			 * 	Function which updates the data members for this window.
-			 */
-			public function updateInformation(communityGroupId:int):void
-			{
-				mCommunityGroupId = communityGroupId;
 			}
 			
 			
@@ -181,15 +172,6 @@
 				cancelProcess();
 			}
 			
-			
-			///////////////////////////////////////////////////////////////////////////////////
-			//
-			//								DATA MEMBERS
-			//
-			///////////////////////////////////////////////////////////////////////////////////
-			
-			private var mCommunityGroupId:int = -1;
-			
 		]]>
 	</mx:Script>
 
@@ -204,14 +186,14 @@
 		<mx:Label x="7.5" y="105" text="Website Type :" color="#F0EEEE"/>
 		<mx:TextInput x="110.5" y="51" width="296" id="mWebsiteNameTextBox"/>
 		<mx:TextInput x="110.5" y="77" width="296" id="mWebsiteURLTextBox"/>
-		<mx:RadioButton x="110.5" y="103" label="Forum" textRollOverColor="#11D30C" textSelectedColor="#FF6666" id="mForumTypeRadioButton"/>
-		<mx:RadioButton x="178.5" y="103" label="Blog" textRollOverColor="#11D30C" textSelectedColor="#FF6666" id="mBlogTypeRadioButton"/>
-		<mx:RadioButton x="236" y="103" label="News" textRollOverColor="#11D30C" textSelectedColor="#FF6666" id="mNewsTypeRadioButton"/>
+		<mx:RadioButton x="110.5" y="103" label="Forum" textRollOverColor="#11D30C" textSelectedColor="#FF6666" id="mForumTypeRadioButton" groupName="typeGroup"/>
+		<mx:RadioButton x="178.5" y="103" label="Blog" textRollOverColor="#11D30C" textSelectedColor="#FF6666" id="mBlogTypeRadioButton" groupName="typeGroup"/>
+		<mx:RadioButton x="236" y="103" label="News" textRollOverColor="#11D30C" textSelectedColor="#FF6666" id="mNewsTypeRadioButton" groupName="typeGroup"/>
 	</mx:Canvas>
-	<mx:RadioButton label="Add New Website" change="addNewWebsiteChangeHandler(event)" selected="true" textRollOverColor="#B7BABC" textSelectedColor="#B7BABC" id="mAddNewWebsiteRadioButton" x="10" verticalCenter="-175">
+	<mx:RadioButton label="Add New Website" change="addNewWebsiteChangeHandler(event)" selected="true" textRollOverColor="#B7BABC" textSelectedColor="#B7BABC" id="mAddNewWebsiteRadioButton" x="10" verticalCenter="-175" groupName="selectionGroup">
 		<mx:toolTip>Create and add a website which has not been previously created</mx:toolTip>
 	</mx:RadioButton>
-	<mx:RadioButton x="14" label="Add Previously Setup Websites" change="addPreviousWebsiteChangeHandler(event)" textRollOverColor="#B7BABC" textSelectedColor="#B7BABC" id="mAddPrevWebsiteRadioButton" verticalCenter="-6">
+	<mx:RadioButton x="14" label="Add Previously Setup Websites" change="addPreviousWebsiteChangeHandler(event)" textRollOverColor="#B7BABC" textSelectedColor="#B7BABC" id="mAddPrevWebsiteRadioButton" verticalCenter="-6" groupName="selectionGroup">
 		<mx:toolTip>Add a website which has been previously created and added</mx:toolTip>
 	</mx:RadioButton>
 	<mx:VBox height="166" width="418" enabled="false" disabledOverlayAlpha=".7" id="mAddPrevWebsiteContainer" alpha="1" horizontalCenter="2" verticalCenter="96" backgroundDisabledColor="#000000" verticalScrollPolicy="on" horizontalScrollPolicy="off">

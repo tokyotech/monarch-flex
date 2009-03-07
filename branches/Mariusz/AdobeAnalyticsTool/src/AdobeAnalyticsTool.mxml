@@ -45,7 +45,7 @@
 			 */
 			private function signInClickHandler(event:Event):void
 			{
-				//if(mConnectedToInternet) {
+				if(mConnectedToInternet) {
 					var signInWindow:cSignInWindow = new cSignInWindow();
 					signInWindow.open(true);
 					signInWindow.nativeWindow.x = nativeWindow.x + (nativeWindow.width - signInWindow.nativeWindow.width) / 2;
@@ -53,7 +53,7 @@
 					signInWindow.addEventListener("cSignInEvent", signInWindowCloseHandler);
 					signInWindow.alwaysInFront = true;
 					this.enabled = false;
-				//}
+				}
 			}
 			
 			/**
@@ -61,14 +61,21 @@
 			 */
 			private function createWebsiteWindowCloseHandler(event:cCreateWebsiteEvent):void
 			{
-				if(event.mType == event.CREATE_WEBSITE) {			
-					mEngine.insertWebsite(mAccountInformation.mSelectedCommunityId, 
+				if(event.mType == event.CREATE_WEBSITE) {	
+					var createWebsiteEvent:cCreateWebsiteEvent = new cCreateWebsiteEvent("CreateWebsiteEvent");
+					createWebsiteEvent.mCommunityGroupName = mAccountInformation.mSelectedCommunityName;
+					createWebsiteEvent.mCommunityGroupId = mAccountInformation.mSelectedCommunityId;
+					createWebsiteEvent.mWebsiteName = event.mWebsiteName;
+					createWebsiteEvent.mWebsiteType = event.mWebsiteType;
+					createWebsiteEvent.mWebsiteURL = event.mWebsiteURL;
+					mLoggedInCanvas.openRegularExpressionEditorCanvas(createWebsiteEvent);		
+					/*mEngine.insertWebsite(mAccountInformation.mSelectedCommunityId, 
 										  mAccountInformation.mUserId,
 										  event.mWebsiteName,
 										  event.mWebsiteURL,
-										  event.mWebsiteType);
-					mLoader.visible = true;
-	            	mLoader.play();
+										  event.mWebsiteType);*/
+					//mLoader.visible = true;
+	            	//mLoader.play();
 				}
 				this.enabled = true;
 			}
@@ -78,7 +85,8 @@
 			 */
 			private function openWebsiteCreatorWindowHandler(event:cCreateWebsiteEvent):void
 			{
-				mAccountInformation.mSelectedCommunityId = event.mCommunityGroupId;		
+				mAccountInformation.mSelectedCommunityId = event.mCommunityGroupId;	
+				mAccountInformation.mSelectedCommunityName = event.mCommunityGroupName;
 				var websiteCreatorWindow:cCreateWebsiteWindow = new cCreateWebsiteWindow();
 				websiteCreatorWindow.open(true);
 				websiteCreatorWindow.nativeWindow.x = nativeWindow.x + (nativeWindow.width - websiteCreatorWindow.nativeWindow.width) / 2;
@@ -181,7 +189,7 @@
 			 */
 			private function createAccountClickHandler(event:Event):void
 			{
-				// if(mConnectedToInternet) {
+				if(mConnectedToInternet) {
 					var createAccountWindow:cCreateAccountWindow = new cCreateAccountWindow();
 					createAccountWindow.open(true);
 					createAccountWindow.nativeWindow.x = nativeWindow.x + (nativeWindow.width - createAccountWindow.nativeWindow.width) / 2;
@@ -189,7 +197,7 @@
 					createAccountWindow.addEventListener("cCreateAccountEvent", createAccountWindowCloseHandler);
 					createAccountWindow.alwaysInFront = true;
 					this.enabled = false;
-				// }
+				}
 			}
 			
 			
@@ -334,12 +342,10 @@
 			 * 	System monitor event handler which is notified if the connection to the internet
 			 *  becomes brocken. It will notify the user of the event.
 			 */
-			/*
 			private function serverConnectionStatusChangeHandler(event:StatusEvent):void
 			{
 				if(!mURLMonitor.available) {
-					mConnectionStatusLabel.text = "Connection Status : Not Connected";
-					mConnectionStatusLabel.setStyle("color", "0xFF0000");
+					this.status = "Connection Status : Not Connected";
 					mMainViewStack.enabled = false;
 					mConnectedToInternet = false;
 					Alert.show("The connection to the server has been broken. Please check your internet " + 
@@ -347,13 +353,11 @@
 				}
 				else
 				{
-					mConnectionStatusLabel.text = "Connection Status : Connected";
-					mConnectionStatusLabel.setStyle("color", "0x00FF00");
+					this.status = "Connection Status : Connected";
 					mMainViewStack.enabled = true;
 					mConnectedToInternet = true;
 				}
 			}
-			*/
 			
 			
 			///////////////////////////////////////////////////////////////////////////////////
@@ -379,7 +383,7 @@
                 var urlRequest:URLRequest = new URLRequest("http://www.google.com");
                 mURLMonitor = new URLMonitor(urlRequest);  
                 mURLMonitor.pollInterval = 3000;
-                // mURLMonitor.addEventListener(StatusEvent.STATUS, serverConnectionStatusChangeHandler);
+                mURLMonitor.addEventListener(StatusEvent.STATUS, serverConnectionStatusChangeHandler);
                 mURLMonitor.start();
 			}
 			

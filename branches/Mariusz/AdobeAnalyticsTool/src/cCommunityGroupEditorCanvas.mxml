@@ -34,6 +34,8 @@
 		private function addWebsiteButtonClickHandler(evet:Event):void
 		{
 			var e:cCreateWebsiteEvent = new cCreateWebsiteEvent("OpenAddWebsiteWindowEvent");
+			e.mCommunityGroupId = mCommunityGroupId;
+			e.mCommunityGroupName = mCommunityGroupName;
 			this.dispatchEvent(e);
 		}
 		
@@ -117,7 +119,9 @@
 		private function showCanvasHandler(event:Event):void
 		{
 			mCommunityGroupNameLabel.label = mCommunityGroupName;
-			mEditLabel.x =+ mCommunityGroupNameLabel.x + mCommunityGroupNameLabel.measureText(mCommunityGroupNameLabel.label).width + 10;
+			mCommunityGroupNameLabel.x =+ mSep2.x + mSep2.measureText(mSep2.text).width + 10;
+			mSep3.x =+ mCommunityGroupNameLabel.x + mCommunityGroupNameLabel.width + 10;
+			mEditLabel.x =+ mSep3.x + mSep3.measureText(mSep3.text).width + 10;
 			mNameTextBox.text = mCommunityGroupName;
 		}
 		
@@ -132,10 +136,12 @@
 		 * 	Updates the internal information of this object.
 		 */
 		public function updateInformation(communityName:String,
+										  communityId:int,
 										  websites:ArrayCollection,
 										  keywords:ArrayCollection):void
 		{
 			mCommunityGroupName = communityName;
+			mCommunityGroupId = communityId;
 			mKeywords = keywords;
 			mWebsites = websites;
 		}
@@ -149,6 +155,8 @@
 		
 		// name of the community group
 		private var mCommunityGroupName:String = "";
+		// id of the community group
+		private var mCommunityGroupId:int = -1;
 		// community group keywords
 		public var mKeywords:ArrayCollection = null;
 		// community group websites
@@ -157,13 +165,13 @@
 			
 		]]>
 	</mx:Script>
-	<mx:LinkButton click="homeLabelClickHandler(event)" label="Home" id="mHomeLabel" x="10" y="7" />
-	<mx:LinkButton click="communityLabelClickHandler(event)" label="My Community Groups" id="mCommunityGroupLabel"  x="80" y="7"/>
-	<mx:LinkButton click="communityNameLabelClickHandler(event)" label="Community Group Name" id="mCommunityGroupNameLabel" x="256" verticalCenter="-292" />
-	<mx:Label x="56" y="2" text="&gt;" styleName="breadCrumbSeparator"/>
-	<mx:Label x="219" y="2" text="&gt;" styleName="breadCrumbSeparator"/>
-	<mx:Label x="419" y="2" text="&gt;" styleName="breadCrumbSeparator"/>
-	<mx:Label text="Edit" id="mEditLabel" x="456" y="2" styleName="pageTitle"/>
+	<mx:LinkButton click="homeLabelClickHandler(event)" label="Home" id="mHomeLabel" top="7" left="10" textDecoration="normal" textAlign="left"/>
+	<mx:LinkButton click="communityLabelClickHandler(event)" label="My Community Groups" id="mCommunityGroupLabel" top="7" left="85" textAlign="left" textDecoration="normal"/>
+	<mx:LinkButton click="communityNameLabelClickHandler(event)" id="mCommunityGroupNameLabel" top="7" left="256" textAlign="center" textDecoration="normal"/>
+	<mx:Label text="&gt;" styleName="breadCrumbSeparator" top="5" left="65" id="mSep1"/>
+	<mx:Label text="&gt;" styleName="breadCrumbSeparator" top="5" left="237" id="mSep2"/>
+	<mx:Label text="&gt;" styleName="breadCrumbSeparator" top="5" left="324" id="mSep3"/>
+	<mx:Label text="Edit" id="mEditLabel" styleName="pageTitle" top="5" left="351"/>
 	<mx:Label text="Basic Information" fontSize="16" id="mBasicLabel" width="370" x="10" verticalCenter="-241"/>
 	<mx:Label text="Change the name and icon for teh currently selected community group." fontSize="12" textDecoration="normal" id="mBasicLabel0" width="370" x="10" verticalCenter="-211" selectable="false"/>
 	<mx:Label text="Keywords registered with this community group." fontSize="12" id="mBasicLabel1" width="274" x="419" verticalCenter="-211" selectable="false"/>
@@ -188,6 +196,6 @@
 	</mx:VBox>
 	<mx:Canvas x="68" y="170" width="64" height="64" backgroundImage="@Embed(source='../images/sample.jpg')">
 	</mx:Canvas>
-	<mx:TextArea x="144" y="171" height="63" selectable="false" wordWrap="true" editable="false" text="Import an icon to represent your community group. The icon must be a JPEG file with dimensions 64 x 64.&#xd;" width="236" borderThickness="0"/>
+	<mx:TextArea x="144" y="171" height="63" selectable="false" wordWrap="true" editable="false" text="Import an icon to represent your community group. The icon must be a JPEG file with dimensions 64 x 64." width="236" borderThickness="0"/>
 	
 </mx:Canvas>

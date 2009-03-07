@@ -29,9 +29,12 @@
 				html = new HTMLLoader();
 				
 				mCommunityGroupNameLabel.label = mCommunityGroupName;
-				mWebsiteNameLabel.x =+ mCommunityGroupNameLabel.x + mCommunityGroupNameLabel.measureText(mCommunityGroupNameLabel.label).width + 10;
 				mWebsiteNameLabel.label = mWebsiteName;
-				mRexExEditorLabel.x =+ mWebsiteNameLabel.x + mWebsiteNameLabel.measureText(mWebsiteNameLabel.label).width + 10;
+				mCommunityGroupNameLabel.x =+ mSep2.x + mSep2.measureText(mSep2.text).width + 10;
+				mSep3.x =+ mCommunityGroupNameLabel.x + mCommunityGroupNameLabel.width + 10;
+				mWebsiteNameLabel.x =+ mSep3.x + mSep3.measureText(mSep3.text).width + 10;
+				mSep4.x =+ mWebsiteNameLabel.x + mWebsiteNameLabel.width + 10;
+				mRexExEditorLabel.x =+ mSep4.x + mSep4.measureText(mSep4.text).width + 10;
 			}
 			
 			/**
@@ -43,9 +46,12 @@
 				mMainViewStack.selectedIndex = 0;
 				
 				mCommunityGroupNameLabel.label = mCommunityGroupName;
-				mWebsiteNameLabel.x =+ mCommunityGroupNameLabel.x + mCommunityGroupNameLabel.measureText(mCommunityGroupNameLabel.label).width + 10;
 				mWebsiteNameLabel.label = mWebsiteName;
-				mRexExEditorLabel.x =+ mWebsiteNameLabel.x + mWebsiteNameLabel.measureText(mWebsiteNameLabel.label).width + 10;
+				mCommunityGroupNameLabel.x =+ mSep2.x + mSep2.measureText(mSep2.text).width + 10;
+				mSep3.x =+ mCommunityGroupNameLabel.x + mCommunityGroupNameLabel.width + 10;
+				mWebsiteNameLabel.x =+ mSep3.x + mSep3.measureText(mSep3.text).width + 10;
+				mSep4.x =+ mWebsiteNameLabel.x + mWebsiteNameLabel.width + 10;
+				mRexExEditorLabel.x =+ mSep4.x + mSep4.measureText(mSep4.text).width + 10;
 			}
 			
 			///////////////////////////////////////////////////////////////////////////////////
@@ -57,11 +63,15 @@
 			/**
 			 * 	Updates the internal information of this object.
 			 */
-			public function updateInformation(websiteName:String,
-											  communityName:String):void
+			public function updateInformation(event:cCreateWebsiteEvent):void
 			{
-				mCommunityGroupName = communityName;
-				mWebsiteName = websiteName;
+				mCommunityGroupName = event.mCommunityGroupName;
+				mCommunityGroupId = event.mCommunityGroupId;
+				mWebsiteName = event.mWebsiteName;
+				mWebsiteURL = event.mWebsiteURL;
+				mWebsiteType = event.mWebsiteType;	
+				
+				Alert.show(mWebsiteURL);
 			}
 		
 			///////////////////////////////////////////////////////////////////////////////////
@@ -223,27 +233,6 @@
 				var e:Event = new Event("OpenCommunityGroupHomeCanvasEvent");
 				this.dispatchEvent(e);
 			}
-	
-			
-			/**
-			 * 	Called when the user hovers the mouse over the home label.
-			 */
-			/*
-			private function homeLabelRollOverHandler(event:Event):void
-			{
-				mHomeLabel.setStyle("color", "0xFF6666");
-			}
-			*/
-			
-			/**
-			 * 	Called when the user hovers the mouse away from the home label.
-			 */
-			/*
-			private function homeLabelRollOutHandler(event:Event):void
-			{
-				mHomeLabel.setStyle("color", "0x11d30c");
-			}
-			*/
 			
 			/**
 			 * 	Called when the user clicks on the community label.
@@ -255,26 +244,6 @@
 			}
 			
 			/**
-			 * 	Called when the user hovers the mouse over the community label.
-			 */
-			/*
-			private function communityLabelRollOverHandler(event:Event):void
-			{
-				mCommunityGroupLabel.setStyle("color", "0xFF6666");
-			}
-			*/
-			
-			/**
-			 * 	Called when the user hovers the mouse away from the community label.
-			 */
-			/*
-			private function communityLabelRollOutHandler(event:Event):void
-			{
-				mCommunityGroupLabel.setStyle("color", "0x11d30c");
-			}
-			*/
-			
-			/**
 			 * 	Called when the user clicks on the community group name label.
 			 */
 			private function communityNameLabelClickHandler(event:Event):void
@@ -284,26 +253,6 @@
 			}
 			
 			/**
-			 * 	Called when the user hovers the mouse over the community group name label.
-			 */
-			/*
-			private function communityNameLabelRollOverHandler(event:Event):void
-			{
-				mCommunityGroupNameLabel.setStyle("color", "0xFF6666");
-			}
-			*/
-			
-			/**
-			 * 	Called when the user hovers the mouse away from the community group name label.
-			 */
-			/*
-			private function communityNameLabelRollOutHandler(event:Event):void
-			{
-				mCommunityGroupNameLabel.setStyle("color", "0x11d30c");
-			}
-			*/
-			
-			/**
 			 * 	Called when the user clicks on the website name label.
 			 */
 			private function websiteNameLabelClickHandler(event:Event):void
@@ -311,26 +260,6 @@
 				var e:Event = new Event("OpenWebsiteAdditionalStatBrowserCanvasEvent");
 				this.dispatchEvent(e);
 			}
-			
-			/**
-			 * 	Called when the user hovers the mouse over the website name label.
-			 */
-			/*
-			private function websiteNameLabelRollOverHandler(event:Event):void
-			{
-				mWebsiteNameLabel.setStyle("color", "0xFF6666");
-			}
-			*/
-			
-			/**
-			 * 	Called when the user hovers the mouse away from the website name label.
-			 */
-			/*
-			private function websiteNameLabelRollOutHandler(event:Event):void
-			{
-				mWebsiteNameLabel.setStyle("color", "0x11d30c");
-			}
-			*/
 			
 			/**
 			 * 
@@ -370,18 +299,24 @@
 			
 			// name of the community group
 			private var mCommunityGroupName:String = "";
+			// id of the community group
+			private var mCommunityGroupId:int = -1;
 			// name of the website 
 			private var mWebsiteName:String = "";
+			// URL of the website
+			private var mWebsiteURL:String = "";
+			// type of website
+			private var mWebsiteType:String = "";
 			// highlighter for page source
 			private var highlighter:Highlighter;	
 			
 		]]>
 	</mx:Script>
-	<mx:LinkButton x="10" y="17" label="Home" textDecoration="normal" id="mHomeLabel" click="homeLabelClickHandler(event)" />
-	<mx:LinkButton x="81" y="17" label="My Community Groups" textDecoration="normal" id="mCommunityGroupLabel" click="communityLabelClickHandler(event)" styleName="breadCrumb" />
-	<mx:LinkButton x="271" y="17" label=" Group Name" textDecoration="normal" id="mCommunityGroupNameLabel" click="communityNameLabelClickHandler(event)" styleName="breadCrumb" />
-	<mx:LinkButton label="Edit Website" click="websiteNameLabelClickHandler(event)" id="mWebsiteNameLabel"  x="418" y="17" />
-	<mx:Label text="RegEx Editor" id="mRexExEditorLabel"  x="551" y="12" styleName="pageTitle" />
+	<mx:LinkButton label="Home" textDecoration="normal" id="mHomeLabel" click="homeLabelClickHandler(event)"  top="15" left="9" textAlign="left"/>
+	<mx:LinkButton label="My Community Groups" textDecoration="normal" id="mCommunityGroupLabel" click="communityLabelClickHandler(event)" styleName="breadCrumb"  top="15" left="81" textAlign="left"/>
+	<mx:LinkButton textDecoration="normal" id="mCommunityGroupNameLabel" click="communityNameLabelClickHandler(event)" styleName="breadCrumb"  top="15" left="256" textAlign="center"/>
+	<mx:LinkButton click="websiteNameLabelClickHandler(event)" id="mWebsiteNameLabel" top="15" left="346" textAlign="center" textDecoration="normal"/>
+	<mx:Label text="RegEx Editor" id="mRexExEditorLabel" styleName="pageTitle"  top="12" left="441" textAlign="left"/>
 	<mx:Button id="rightButton" skin="@Embed(source='../Images/Knob Forward.png')" click="advanceWizard(event)" horizontalCenter="488" verticalCenter="-284">
 	</mx:Button>
 	<mx:Button skin="@Embed(source='../Images/Knob Cancel.png')" horizontalCenter="447" verticalCenter="-283" id="mExitButton" click="exitButtonClickHandler(event)">
@@ -437,8 +372,8 @@
 		</mx:Canvas>
 	</mx:ViewStack>
 	<mx:HRule width="993" height="14.56" verticalCenter="-261" horizontalCenter="0"  />
-	<mx:Label x="57" y="16" text="&gt;" styleName="breadCrumbSeparator" />
-	<mx:Label x="234" y="12" text="&gt;" styleName="breadCrumbSeparator" />
-	<mx:Label x="371" y="12" text="&gt;" styleName="breadCrumbSeparator" />
-	<mx:Label x="514" y="12" text="&gt;" styleName="breadCrumbSeparator" />
+	<mx:Label text="&gt;" styleName="breadCrumbSeparator"  fontWeight="bold" top="13" left="61" id="mSep1"/>
+	<mx:Label text="&gt;" styleName="breadCrumbSeparator"  top="13" left="232" id="mSep2"/>
+	<mx:Label text="&gt;" styleName="breadCrumbSeparator"  top="13" left="322" id="mSep3"/>
+	<mx:Label text="&gt;" styleName="breadCrumbSeparator"  top="12" left="415" id="mSep4"/>
 </mx:Canvas>

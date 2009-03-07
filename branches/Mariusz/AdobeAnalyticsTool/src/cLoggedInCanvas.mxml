@@ -58,9 +58,11 @@
 			/**
 			 * 	Fires an event to the main canvas to open the add website window.
 			 */
-			private function openAddWebsiteWindowHandler(event:Event):void
+			private function openAddWebsiteWindowHandler(event:cCreateWebsiteEvent):void
 			{
 				var e:cCreateWebsiteEvent = new cCreateWebsiteEvent("OpenAddWebsiteWindowEvent");
+				e.mCommunityGroupName = event.mCommunityGroupName;
+				e.mCommunityGroupId = event.mCommunityGroupId;
 				this.dispatchEvent(e);
 			}
 			
@@ -170,6 +172,7 @@
 			{
 				mMyCommViewStack.selectedIndex = 5;
 				communityGroupEditorCanvas.updateInformation(event.mCommuniutyGroupName,
+															 event.mCommunityGroupId,
 															 event.mKeywords,
 															 event.mWebsites);
 			}
@@ -179,8 +182,9 @@
 			 */
 			private function OpenRegExCanvasHandler(event:cEditWebsiteEvent):void
 			{
-				mMyCommViewStack.selectedIndex = 6;
-				mRegularExpressionEditorCanvas.updateInformation(event.mWebsiteName, event.mCommunityGroupName);
+				//mMyCommViewStack.selectedIndex = 6;
+				
+				//mRegularExpressionEditorCanvas.updateInformation(event);
 			}
 			
 			/**
@@ -232,6 +236,15 @@
 			//						   MEMBER FUNCTIONS
 			//
 			///////////////////////////////////////////////////////////////////////////////////
+			
+			/**
+			 * 	Opens the regular expression editor canvas.
+			 */
+			public function openRegularExpressionEditorCanvas(event:cCreateWebsiteEvent):void
+			{
+				mMyCommViewStack.selectedIndex = 6;
+				mRegularExpressionEditorCanvas.updateInformation(event);
+			}
 			
 			/**
 			 * 	Function which updates the users information within this canvas component to be used

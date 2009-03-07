@@ -33,6 +33,7 @@
 			{
 				var e:cCommunityGroupEditorEvent = new cCommunityGroupEditorEvent("OpenCommunityGroupEditorCanvasEvent");
 				e.mCommuniutyGroupName = mCommunityGroupNameLabel.text;
+				e.mCommunityGroupId = mCommGroupId;
 				e.mWebsites = mWebsites;
 				e.mKeywords = mKeywords;
 				this.dispatchEvent(e);
