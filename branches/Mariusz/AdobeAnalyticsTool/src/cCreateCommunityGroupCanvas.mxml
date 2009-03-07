@@ -4,6 +4,8 @@
 	<mx:Metadata>
 		[Event(name="BackLabelClickedEvent", type="flash.events.Event")]
 		[Event(name="CreateCommunityGroupEvent", type="cCreateCommunityGroupEvent")]
+		[Event(name="OpenCommunityGroupHomeCanvasEvent", type="flash.events.Event")]
+		[Event(name="OpenCommunityGroupSelectionClickedEvent", type="flash.events.Event")]
 	</mx:Metadata>
 
 	<mx:Script>
@@ -29,26 +31,6 @@
 				var e:Event = new Event("OpenCommunityGroupHomeCanvasEvent");
 				this.dispatchEvent(e);
 			}
-			
-			/**
-			 * 	Called when the user hovers the mouse over the back label.
-			 */
-			/*
-			private function backLabelRollOverHandler(event:Event):void
-			{
-				mBackLabel.setStyle("color", "0xFF6666");
-			}
-			*/
-			
-			/**
-			 * Called when the user hovers the mouse away from the back label.
-			 */
-			/*
-			private function backLabelRollOutHandler(event:Event):void
-			{
-				mBackLabel.setStyle("color", "0x11d30c");
-			}
-			*/
 			
 			/**
 			 * Called when the user clicks the back label. It will return the user to the
@@ -205,13 +187,13 @@
 		]]>
 	</mx:Script>
 
-	<mx:LinkButton click="homeLabelClickHandler(event)" label="Home" id="mHomeLabel" x="10" y="9"/>
-	<mx:LinkButton x="90" y="9" click="backLabelClickHandler(event)" label="My Community Groups" id="mBackLabel" styleName="breadCrumb"/>
-	<mx:Label x="276" y="7" text="Community Group Creator" styleName="pageTitle"  id="mHomeLoggedOutAccountLabel"/>
-	<mx:Label x="71" y="8" text="&gt;" styleName="breadCrumbSeparator" />
-	<mx:Label x="248" y="7" text="&gt;" styleName="breadCrumbSeparator" />
+	<mx:LinkButton click="homeLabelClickHandler(event)" label="Home" id="mHomeLabel" top="9" left="10"/>
+	<mx:LinkButton click="backLabelClickHandler(event)" label="My Community Groups" id="mBackLabel" styleName="breadCrumb" top="9" left="87"/>
+	<mx:Label text="Community Group Creator" styleName="pageTitle"  id="mHomeLoggedOutAccountLabel" top="7" left="268"/>
+	<mx:Label text="&gt;" styleName="breadCrumbSeparator"  top="7" left="65"/>
+	<mx:Label text="&gt;" styleName="breadCrumbSeparator"  top="7" left="240"/>
 	<mx:Panel layout="absolute" x="300" y="90">
-		<mx:Label x="10" y="2" text="Community Group Name :"  id="mHomeLoggedOutAccountLabel2"/>
+		<mx:Label text="Community Group Name :"  id="mHomeLoggedOutAccountLabel2" verticalCenter="-166" horizontalCenter="-113"/>
 		<mx:Label x="90" y="83" text="Keyword 1 :" id="mHomeLoggedOutAccountLabel3"/>
 		<mx:Label x="90" y="112" text="Keyword 2 :" id="mHomeLoggedOutAccountLabel4"/>
 		<mx:Label x="90" y="141" text="Keyword 3 :" id="mHomeLoggedOutAccountLabel5"/>
@@ -220,7 +202,7 @@
 		<mx:Label x="90" y="228" text="Keyword 6 :" id="mHomeLoggedOutAccountLabel8"/>
 		<mx:Label x="90" y="257" text="Keyword 7 :" id="mHomeLoggedOutAccountLabel9"/>
 		<mx:Label x="90" y="286" text="Keyword 8 :" id="mHomeLoggedOutAccountLabel10"/>
-		<mx:TextInput x="173" y="2" width="205" rollOver="commNameTextBoxRollOverHandler(event)" rollOut="commNameTextBoxRollOutHandler(event)" keyDown="textBoxKeyDownHandler(event)" id="mCommNameTextBox" toolTip="Enter a community group name"/>
+		<mx:TextInput width="205" rollOver="commNameTextBoxRollOverHandler(event)" rollOut="commNameTextBoxRollOutHandler(event)" keyDown="textBoxKeyDownHandler(event)" id="mCommNameTextBox" toolTip="Enter a community group name" horizontalCenter="86" verticalCenter="-164"/>
 		<mx:TextInput x="173" y="83" width="205" keyDown="textBoxKeyDownHandler(event)" id="mKeyword1TextBox" toolTip="Enter first keyword"/>
 		<mx:TextInput x="173" y="112" width="205" keyDown="textBoxKeyDownHandler(event)" id="mKeyword2TextBox" toolTip="Enter second keyword"/>
 		<mx:TextInput x="173" y="141" width="205" keyDown="textBoxKeyDownHandler(event)" id="mKeyword3TextBox" toolTip="Enter third keyword"/>

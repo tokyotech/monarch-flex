@@ -7,6 +7,7 @@
 		[Event(name="OpenAdditionalWebsiteInformationEvent", type="cAccordionWebsiteGraphicEvent")]
 		[Event(name="OpenCommunityGroupEditorCanvasEvent", type="cCommunityGroupEditorEvent")]
 		[Event(name="FetchWebsiteAnalytics", type="cWebsiteGraphicClickedEvent")]
+		[Event(name="OpenAddWebsiteWindowEvent", type="cCreateWebsiteEvent")]
 	</mx:Metadata>
 
 	<mx:Script>
@@ -177,6 +178,17 @@
 				else if(event.mType == event.WEBSITE_UNCHECKED) {
 					Alert.show("UnChecked");
 				}
+			}
+			
+			/**
+			 * 	Called when the user clicks on the add website button.
+			 */
+			private function addWebsiteClickHandler(event:Event):void
+			{
+				var e:cCreateWebsiteEvent = new cCreateWebsiteEvent("OpenAddWebsiteWindowEvent");
+				e.mCommunityGroupId = mCommGroupId;
+				e.mCommunityGroupName = mCommGroupName;
+				this.dispatchEvent(e);
 			}
 			
 			/**
@@ -483,7 +495,7 @@
 							   AccordionKeywordGraphicEvent="accordionKeywordGraphicHandler(event)"
 							   height="378.45" horizontalCenter="-412" verticalCenter="-74">
 	</ns1:cStatOptionsAccordion>
-	<mx:Button label="Add Website" id="mAddWebsiteButton" styleName="buttonBlack"  x="897" y="4" icon="@Embed(source='../images/application_add.png')"/>
+	<mx:Button label="Add Website" click="addWebsiteClickHandler(event)" id="mAddWebsiteButton" styleName="buttonBlack"  x="897" y="4" icon="@Embed(source='../images/application_add.png')"/>
 	<mx:Button label="Edit Community Group" click="editCommunityGroupButtonClickHandler(event)" id="mEditCommunityGroupButton" styleName="buttonBlack"  x="733" y="4" icon="@Embed(source='../images/pencil.png')"/>
 	<mx:Panel layout="absolute" height="189" y="435" x="9" width="172" title="graph controls" verticalScrollPolicy="off" horizontalScrollPolicy="off">
 		<mx:HSlider x="0" y="43" change="countWeightSliderChangeHandler(event)" width="149" minimum="0" maximum="1" allowTrackClick="true" liveDragging="true" value="1" enabled="true" id="mCountWeightSlider"/>
