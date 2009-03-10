@@ -182,12 +182,14 @@
 				move.duration = 500;
 				move.play();
 				
+				/*
 				var fade:Fade = new Fade();
 				fade.alphaFrom = 0;
 				fade.alphaTo = 1;
 				fade.duration = 500;
 				fade.target = mRemoveCommGroupLabel;
 				fade.play();
+				*/
 				
 				mRemoveLabelOn = true;
 			}
@@ -215,12 +217,14 @@
 				move.play();
 				move.addEventListener(EffectEvent.EFFECT_END, moveEffectEnd);
 				
+				/*
 				var fade:Fade = new Fade();
 				fade.alphaFrom = 1;
 				fade.alphaTo = 0;
 				fade.duration = 500;
 				fade.target = mRemoveCommGroupLabel;
 				fade.play();
+				*/
 				
 				mRemoveLabelOn = false;
 			}
@@ -257,7 +261,7 @@
 		<mx:Label x="89" y="12" text="Some Communty Group" fontSize="16" width="276" id="mCommNameLabel" />
 		<mx:Canvas x="17" y="8" width="64" height="64" backgroundImage="@Embed(source='../images/sample.jpg')" id="mImageCanvas">
 		</mx:Canvas>
-		<mx:Canvas x="0" y="0" click="graphicClickedHandler(event)" width="375" height="78" id="mOverlayCanvas" backgroundColor="#ff0000">
+		<mx:Canvas x="0" y="0" click="graphicClickedHandler(event)" width="375" height="78" id="mOverlayCanvas">
 			<mx:Canvas x="286" y="54" width="50" height="20" backgroundImage="@Embed(source='../images/removeIcon.jpg')" id="mRemoveCommGroupLabel" visible="false" toolTip="Remove the community group">
 			</mx:Canvas>
 		</mx:Canvas>

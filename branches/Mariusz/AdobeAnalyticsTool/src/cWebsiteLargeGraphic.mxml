@@ -23,22 +23,26 @@
 			/**
 			 * 	Called when the user hovers the mouse over the overlay canvas.
 			 */
+			/*
 			private function overlayCanvasRollOverHandler(event:Event):void
 			{
 				if(!mRemoveLabelOn) {
 					mMainPanelCanvas.setStyle("backgroundColor", "0xdadc19");
 				}
 			}
+			*/
 			
 			/**
 			 * 	Called when the user hovers the mouse away from the overlay canvas.
 			 */
+			/*
 			private function overlayCanvasRollOutHandler(event:Event):void
 			{
 				if(!mRemoveLabelOn) {
 					mMainPanelCanvas.setStyle("backgroundColor", "0x4ad413");
 				}
 			}
+			*/
 			
 			/**
 			 * Fires an event signaling that the website graphic was clicked
@@ -173,6 +177,7 @@
 			/**
 			 * 
 			 */
+			/*
 			private function canvasRollOverHandler(event:Event):void
 			{
 				var fade:Fade = new Fade();
@@ -182,10 +187,12 @@
 				fade.target = this;
 				fade.play();
 			}
+			*/
 			
 			/**
 			 * 
 			 */
+			/*
 			private function canvasRollOutHandler(event:Event):void
 			{
 				var fade:Fade = new Fade();
@@ -195,6 +202,7 @@
 				fade.target = this;
 				fade.play();
 			}
+			*/
 			
 			
 			///////////////////////////////////////////////////////////////////////////////////
@@ -216,13 +224,13 @@
 		]]>
 	</mx:Script>
 	
-	<mx:Canvas x="10" y="10" width="390" height="80" id="mMainPanelCanvas" borderStyle="solid" cornerRadius="15" borderThickness="0">
+	<mx:Canvas x="10" y="10" width="390" height="80" id="mMainPanelCanvas">
 		<mx:Canvas x="12" y="8" width="64" height="64" backgroundImage="@Embed(source='../images/websiteSample.jpg')">
 		</mx:Canvas>
 		<mx:Label x="84" y="13" text="Some Website Name" fontSize="16" id="mWebsiteNameLabel" width="296"/>
 		<mx:Label x="84" y="37" text="Type : Not Available" id="mWebsiteType" width="296"/>
 		<mx:Label x="84" y="50" text="URL : www.xyz.com" id="mWebsiteURLLabel" width="296"/>
-		<mx:Canvas x="0" y="0" width="390" height="80" click="overlayCanvasClickHandler(event)" rollOver="overlayCanvasRollOverHandler(event)" rollOut="overlayCanvasRollOutHandler(event)" id="mOverlayCanvas" backgroundAlpha="0.01" backgroundColor="#FDFDFD">
+		<mx:Canvas x="0" y="0" width="390" height="80" click="overlayCanvasClickHandler(event)" id="mOverlayCanvas">
 			<mx:Canvas x="306" y="51" width="50" height="20" toolTip="Remove this website from the community group" click="removeWebsiteLabelClickHandler(event)" backgroundImage="@Embed(source='../images/removeIcon.jpg')" id="mRemoveWebsiteLabel" visible="false" verticalScrollPolicy="off" horizontalScrollPolicy="off" useHandCursor="true">
 			</mx:Canvas>
 		</mx:Canvas>

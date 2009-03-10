@@ -168,6 +168,7 @@
 					commGroupGraphicEntry.alpha = 0.3;					
 					mMyCommVBox.addChild(commGroupGraphicEntry);
 					// animate
+					/* too corny
 					var fade:Fade = new Fade();
 					fade.alphaFrom = 0.3;
 					fade.alphaTo = 0.8;
@@ -177,6 +178,7 @@
 					fade.play();
 					
 					delay+=200;	
+					*/
 				}	
 			}
 			
@@ -199,7 +201,7 @@
 	<mx:VBox height="513" width="390" id="mMyCommVBox" verticalScrollPolicy="off" x="312" y="62">
 	</mx:VBox>
 	<mx:LinkButton label="Home" styleName="breadCrumb" click="homeLabelClickHandler(event)" fontSize="14"  horizontalCenter="-473" verticalCenter="-291" id="mHomeButton"/>
-	<mx:Button label="Create Community Group" click="createCommClickHandler(event)" id="mCreateCommButton" verticalCenter="-292" horizontalCenter="412">
+	<mx:Button label="Create Community Group" click="createCommClickHandler(event)" id="mCreateCommButton" verticalCenter="-292" horizontalCenter="412" styleName="buttonBlack">
 		<mx:icon>@Embed(source='../images/application_cascade.png')</mx:icon>
 	</mx:Button>
 	<mx:Button label="Next &#187;" horizontalCenter="158" verticalCenter="286" id="mNextCommButton" enabled="false"/>

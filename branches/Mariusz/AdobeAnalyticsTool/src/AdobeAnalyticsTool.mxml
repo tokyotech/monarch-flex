@@ -443,7 +443,7 @@
 	</mx:Script>
 	
 	<mx:HRule width="1013" id="mHRule1" horizontalCenter="2" verticalCenter="-286"/>
-	<mx:Text text="Adobe Monarch" styleName="logoText"  y="13" x="90"/>
+	<mx:Text text="Monarch" styleName="logoText"  y="13" x="90"/>
 	<mx:ViewStack id="mMainViewStack" width="1013" height="625" disabledColor="#373737" horizontalCenter="2" verticalCenter="26">
 		<local:cLoggedOutCanvas id="mLoggedOutCanvas">
 		</local:cLoggedOutCanvas>

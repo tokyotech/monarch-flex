@@ -155,26 +155,22 @@
 			
 		]]>
 	</mx:Script>
-	<mx:LinkButton click="homeLabelClickHandler(event)" label="Home" id="mHomeLabel" top="2" left="0" textDecoration="normal"/>
-	<mx:LinkButton click="communityLabelClickHandler(event)" label="My Community Groups" id="mCommunityGroupLabel" top="1" left="79" textDecoration="normal"/>
-	<mx:LinkButton click="communityNameLabelClickHandler(event)" id="mCommunityGroupNameLabel" top="2" left="267" textDecoration="normal"/>
+	<mx:LinkButton click="homeLabelClickHandler(event)" label="Home" id="mHomeLabel" top="2" left="0" />
+	<mx:LinkButton click="communityLabelClickHandler(event)" label="My Community Groups" id="mCommunityGroupLabel" top="1" left="79" />
+	<mx:LinkButton click="communityNameLabelClickHandler(event)" id="mCommunityGroupNameLabel" top="2" left="267" />
 	<mx:Label text="Website Name" id="mWebsiteNameLabel" styleName="pageTitle"  top="1" left="358.5"/>
 	<mx:Label text="&gt;" styleName="breadCrumbSeparator"  top="-1" left="58" id="mSep1"/>
 	<mx:Label text="&gt;" styleName="breadCrumbSeparator"  top="-1" left="240" id="mSep2"/>
 	<mx:Label text="&gt;" styleName="breadCrumbSeparator"  id="mSep3" top="0" left="335"/>
-	<mx:Label text="General"  fontSize="16" textDecoration="normal"   id="mWebsiteNameLabel0" width="83" verticalCenter="-246" horizontalCenter="-455"/>
-	<mx:Label text="Keywords"  fontSize="16" textDecoration="normal"   id="mWebsiteNameLabel5" width="83" verticalCenter="-246" horizontalCenter="144"/>
-	<mx:HRule x="609" y="68" width="393" height="8"/>
-	<mx:Label text="Posts Per Day :"  fontSize="12" textDecoration="normal"   id="mWebsiteNameLabel1" width="111" y="82" x="10"/>
-	<mx:Label text="Most Spoken :"  fontSize="12" textDecoration="normal"   id="mWebsiteNameLabel4" width="111" y="82" x="311"/>
-	<mx:Label text="Top Posters :"  fontSize="12" textDecoration="normal"   id="mWebsiteNameLabel2" width="111" y="110" x="10"/>
 	<mx:Button label="Edit Website" styleName="buttonBlack" click="editWebsiteButtonClickHandler(event)" id="mEditWebsiteButton" horizontalCenter="447" verticalCenter="-293" fontWeight="bold" fontStyle="normal" cornerRadius="5" icon="@Embed(source='../images/pencil.png')"/>
-	<mx:HRule x="10" y="68" width="249" height="8"/>
-	<mx:Label text="Links"  fontSize="16" textDecoration="normal"   id="mWebsiteNameLabel3" width="83" verticalCenter="-246" horizontalCenter="-154"/>
-	<mx:HRule x="311" y="68" width="249" height="8"/>
-	<mx:VBox x="609" y="82" height="524" width="393" backgroundColor="#FFFFFF">
-	</mx:VBox>
-	<mx:VBox height="468" width="249" x="10" y="138">
-	</mx:VBox>
+	<mx:Panel x="6" y="50" width="494.5" height="270" layout="absolute" title="General">
+		<mx:Text x="0" y="0" text="Posts per day: 99.5&#xa;Most active poster: Michael Jordan&#xa;..." width="464.5" height="215"/>
+	</mx:Panel>
+	<mx:Panel x="6" y="328" width="494.5" height="279" layout="absolute" title="Links Spoken">
+		<mx:Text x="5" y="10" text="Most mentioned: fuck.com (99123)&#xa;Least mentioned: hoe.com (4)&#xa;Most favorable: shit.com (+56.2)&#xa;Least favorable: damn.com (-12.5)&#xa;Spoken with bad English: bitch.com (-0.82)&#xa;Spoken with best English: nigger.com (0.99)" width="464.5" height="215"/>
+	</mx:Panel>
+	<mx:Panel x="508" y="50" width="494" height="556" layout="absolute" title="Keywords">
+		<mx:Text x="10" y="10" text="keyword1:&#xa;&#xa;favorable threads: ................&#xa;hate threads:  .......................&#xa;mentioned a lot threads: ............&#xa;biggest lovers: ......................&#xa;biggest haters: ....................&#xa;user that said the most: .............&#xa;..................&#xa;&#xa;keyword2:&#xa;&#xa;favorable threads: ................&#xa;hate threads:  .......................&#xa;mentioned a lot threads: ............&#xa;biggest lovers: ......................&#xa;biggest haters: ....................&#xa;user that said the most: .............&#xa;..................&#xa;&#xa;keyword3:&#xa;&#xa;favorable threads: ................&#xa;hate threads:  .......................&#xa;mentioned a lot threads: ............&#xa;biggest lovers: ......................&#xa;biggest haters: ....................&#xa;user that said the most: .............&#xa;..................&#xa;&#xa;keyword4:&#xa;&#xa;favorable threads: ................&#xa;hate threads:  .......................&#xa;mentioned a lot threads: ............&#xa;biggest lovers: ......................&#xa;biggest haters: ....................&#xa;user that said the most: .............&#xa;.................." width="454" height="491"/>
+	</mx:Panel>
 	
 </mx:Canvas>

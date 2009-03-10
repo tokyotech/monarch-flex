@@ -497,7 +497,7 @@
 	</ns1:cStatOptionsAccordion>
 	<mx:Button label="Add Website" click="addWebsiteClickHandler(event)" id="mAddWebsiteButton" styleName="buttonBlack"  x="897" y="4" icon="@Embed(source='../images/application_add.png')"/>
 	<mx:Button label="Edit Community Group" click="editCommunityGroupButtonClickHandler(event)" id="mEditCommunityGroupButton" styleName="buttonBlack"  x="733" y="4" icon="@Embed(source='../images/pencil.png')"/>
-	<mx:Panel layout="absolute" height="189" y="435" x="9" width="172" title="graph controls" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+	<mx:Panel layout="absolute" height="199" y="425" x="9" width="172" title="graph controls" verticalScrollPolicy="off" horizontalScrollPolicy="off">
 		<mx:HSlider x="0" y="43" change="countWeightSliderChangeHandler(event)" width="149" minimum="0" maximum="1" allowTrackClick="true" liveDragging="true" value="1" enabled="true" id="mCountWeightSlider"/>
 		<mx:HSlider x="0" y="123" change="goodnessWeightSliderChangeHandler(event)" width="149" minimum="0" maximum="1" allowTrackClick="true" liveDragging="true" value="1" enabled="true" id="mEnglishProficiencyWeightSlider"/>
 		<mx:HSlider x="0" y="83" change="proficiencyWeightSliderChangeHandler(event)" width="149" allowTrackClick="true" minimum="0" maximum="1" liveDragging="true" value="1" enabled="true" id="mGoodnessWeightSlider"/>
