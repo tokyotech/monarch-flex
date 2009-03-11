@@ -15,12 +15,13 @@ package
 	{
 		public function cKeywordAnalyticsEntry(id:int,
 											   name:String,
+											   color:uint,
 											   timeCollection:ArrayCollection,
 											   countCollection:ArrayCollection,
 											   goodnessCollection:ArrayCollection,
 											   englishProficiencyCollection:ArrayCollection)
 		{
-			super(id, name);
+			super(id, name, color);
 				
 			mTimeCollection = timeCollection;
 			mCountCollection = countCollection;

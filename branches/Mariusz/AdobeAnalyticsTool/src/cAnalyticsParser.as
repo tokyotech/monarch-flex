@@ -65,8 +65,12 @@ package
 							goodnessCollection.addItem(goodness);
 							englishProficiencyCollection.addItem(englishProficiency);
 						}
+						// generate the color for the keyword
+						var color:uint = 0xFFFFFF * Math.random();
+						
 						var keywordAnalyticsEntry:cKeywordAnalyticsEntry = new cKeywordAnalyticsEntry(0,
 																									  keywordName,
+																									  color,
 																									  timeCollection,
 																									  countCollection,
 																									  goodnessCollection,
@@ -77,7 +81,7 @@ package
 					} // end for( j ...		
 				} // end for( i ...
 				
-				var  linksList:XMLListCollection = new XMLListCollection(xmlTree.elements("Links"));
+				/*var  linksList:XMLListCollection = new XMLListCollection(xmlTree.elements("Links"));
 				for(i = 0; i < linksList.children().length(); i++)
 				{		
 					var linkList:XMLListCollection = new XMLListCollection(linksList.elements("Link" + i));
@@ -118,7 +122,7 @@ package
 						// store the keyword in the collection																		  
 						mLinksData.addItem(linkAnalyticsEntry);
 					}
-				}
+				}*/
 			
 				// now that we have gathered the keywords and links we must sub catagorize them by day.						
 				var countVal:Number = 0;
@@ -161,7 +165,7 @@ package
 					        	_timeCollection.addItem(prevDate);
 					        	_countCollection.addItem(countVal);
 					        	_goodnessCollection.addItem(goodnessVal);
-					        	_englishProficiencyCollection.addItem(englishProficiencyVal);
+					        	_englishProficiencyCollection.addItem(englishProficiencyVal/counter);
 					        	
 					        	prevDate = currentDate;
 					        	
@@ -173,20 +177,21 @@ package
 					}
 					
 					if(prevDate != "") {
-						countVal = countVal;
-			        	goodnessVal = goodnessVal;
-			        	englishProficiencyVal = englishProficiencyVal;
+						//countVal = keyword.mCountCollection[j];
+			        	//goodnessVal = keyword.mGoodnessCollection[j];
+			        	//englishProficiencyVal = keyword.mEnglishProficiencyCollection[j];
 			        	
 			        	_timeCollection.addItem(prevDate);
 			        	_countCollection.addItem(countVal);
 			        	_goodnessCollection.addItem(goodnessVal);
-			        	_englishProficiencyCollection.addItem(englishProficiencyVal);
+			        	_englishProficiencyCollection.addItem(englishProficiencyVal/counter);
 			        	var _keywordAnalyticsEntry:cKeywordAnalyticsEntry = new cKeywordAnalyticsEntry(0,
-																								 keyword.mName,
-																								 _timeCollection,
-																								 _countCollection,
-																								 _goodnessCollection,
-																								 _englishProficiencyCollection);
+																								 		keyword.mName,
+																								 		keyword.mColor,
+																								 		_timeCollection,
+																								 		_countCollection,
+																								 		_goodnessCollection,
+																								 		_englishProficiencyCollection);
 						mSortedData.addItem(_keywordAnalyticsEntry);
 					}
 					

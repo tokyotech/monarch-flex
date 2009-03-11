@@ -21,8 +21,8 @@
 			{
 				if(event.mType == event.SIGN_IN) {
 					mEngine.loginToAccount(event.mEmail, event.mPassword);
-					mLoader.visible = true;
-	            	mLoader.play();
+					//mLoader.visible = true;
+	            	//mLoader.play();
 				}
 				this.enabled = true;
 			}
@@ -34,8 +34,8 @@
 			{
 				if(event.mType == event.CREATE_ACCOUNT) {
 					mEngine.createAccount(event.mFullName, event.mEmail, event.mPassword);
-					mLoader.visible = true;
-	            	mLoader.play();
+					//mLoader.visible = true;
+	            	//mLoader.play();
 				}
 				this.enabled = true;
 			}
@@ -215,8 +215,8 @@
 			{
 				mEngine.createCommunity(event.mCommName, event.mKeywords, mAccountInformation.mUserId);
 				
-				mLoader.visible = true;
-	            mLoader.play();
+				//mLoader.visible = true;
+	            //mLoader.play();
 			}
 			
 			/**
@@ -227,8 +227,8 @@
 			{
 				mEngine.getAnalytics(event.mCommGroupId, event.mWebsiteName);
 				
-				mLoader.visible = true;
-            	mLoader.play();
+				//mLoader.visible = true;
+            	//mLoader.play();
 			}
 			
 			
@@ -252,8 +252,8 @@
 				mLoggedInCanvas.updateInformation(mAccountInformation);
 				mMainViewStack.selectedIndex = 1;
 				
-	            mLoader.stop();
-	            mLoader.visible = false;
+	            //mLoader.stop();
+	            //mLoader.visible = false;
 			}
 			
 			/**
@@ -271,8 +271,8 @@
 				mMainViewStack.selectedIndex = 1; 
 				mLoggedInCanvas.openMyCommHomeCanvas();
 				
-				mLoader.stop();
-	            mLoader.visible = false;
+				//mLoader.stop();
+	            //mLoader.visible = false;
 			}
 			
 			/**
@@ -285,8 +285,8 @@
 				mLoggedInCanvas.updateInformation(mAccountInformation);
 				mLoggedInCanvas.openMyCommHomeCanvas();
 				
-				mLoader.stop();
-	            mLoader.visible = false;
+				//mLoader.stop();
+	            //mLoader.visible = false;
 			}
 			
 			/**
@@ -297,8 +297,8 @@
 			{
 				mLoggedInCanvas.updateWebsiteAnalytics(event.mAnalysisParser);
 				
-				mLoader.stop();
-	            mLoader.visible = false;
+				//mLoader.stop();
+	            //mLoader.visible = false;
 			}
 			
 			/**
@@ -318,8 +318,8 @@
 				mLoggedInCanvas.updateInformation(mAccountInformation);
 				mLoggedInCanvas.addWebsiteToCommGroupBrowerCanvas(event.mWebsiteEntry);
 				
-				mLoader.stop();
-	            mLoader.visible = false;
+				//mLoader.stop();
+	            //mLoader.visible = false;
 			}
 			
 			/**
@@ -327,8 +327,8 @@
 			 */
 			private function failedServiceHandler(event:Event):void
 			{
-				mLoader.stop();
-				mLoader.visible = false;
+				//mLoader.stop();
+				//mLoader.visible = false;
 			}
 			
 			
@@ -375,10 +375,10 @@
                 nativeWindow.x = (screenBounds.width - nativeWindow.width) / 2;
                 nativeWindow.y = (screenBounds.height - nativeWindow.height) / 2;
                 
-                mLoader.visible = false;
-                mLoader.x = (nativeWindow.width - mLoader.width) / 2;
-				mLoader.y = (nativeWindow.height - mLoader.height) / 2;
-                this.addChild(mLoader); 
+               //mLoader.visible = false;
+               //mLoader.x = (nativeWindow.width - mLoader.width) / 2;
+				//mLoader.y = (nativeWindow.height - mLoader.height) / 2;
+                //this.addChild(mLoader); 
                 
                 var urlRequest:URLRequest = new URLRequest("http://www.google.com");
                 mURLMonitor = new URLMonitor(urlRequest);  

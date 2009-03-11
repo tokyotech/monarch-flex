@@ -12,63 +12,7 @@
 		<![CDATA[
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
-			
-
-
-			///////////////////////////////////////////////////////////////////////////////////
-			//
-			//						 LINKS TAB EVENT HANDLERS
-			//
-			///////////////////////////////////////////////////////////////////////////////////
-			
-			/**
-			 * 	Handler called when the link goodness radio button has been selected.
-			 */
-			private function linkGoodnessRadioButtonChangeHandler(event:Event):void
-			{
-				disableLinkOverallProficiencyWeightGUI();
-			}
-			
-			/**
-			 * 	Handler called when the link proficiency radio button has been selected.
-			 */
-			private function linkProficiencyRadioButtonChangeHandler(event:Event):void
-			{
-				disableLinkOverallProficiencyWeightGUI();	
-			}
-			
-			/**
-			 * 	Handler called when the link count radio button has been selected.
-			 */
-			private function linkCountRadioButtonChangeHandler(event:Event):void
-			{
-				disableLinkOverallProficiencyWeightGUI();
-			}
-			
-			/**
-			 * 	Handler called when the link overall positivity radio button has been selected.
-			 */
-			private function linkOverallRadioButtonChangeHandler(event:Event):void
-			{
-				enableLinkOverallProficiencyWeightGUI();
-			}
-			
-			/**
-			 * 	Handler called when the link goodness weight slider handle is moved.
-			 */
-			private function linkGoodnessWeightSliderChangeHandler(event:Event):void
-			{
-				
-			}
-			
-			/**
-			 * 	Handler called when the link proficiency weight slider handle is moved.
-			 */
-			private function linkProficiencyWeightSliderChangeHandler(event:Event):void
-			{
-				
-			}
-			
+						
 			
 			///////////////////////////////////////////////////////////////////////////////////
 			//
@@ -77,41 +21,12 @@
 			///////////////////////////////////////////////////////////////////////////////////
 			
 			/**
-			 * 	Enables components which pertain to the keyword overall proficiency rating. 
+			 * 	Disables all canvases except mWebsitesCanvas.
 			 */
-			private function enableKeywordOverallProficiencyWeightGUI():void
+			public function disableAll():void
 			{
-				/*mKeywordGoodnessWeightLabel.enabled = true;
-				mKeywordProficiencyWeightLabel.enabled = true;
-				mKeywordGoodnessWeightSlider.enabled = true;
-				mKeywordProficiencyWeightSlider.enabled = true;*/
-			}
-			
-			/**
-			 * 	Disables components which pertain to the keyword overall proficiency rating. 
-			 */
-			private function disableKeywordOverallProficiencyWeightGUI():void
-			{
-				/*mKeywordGoodnessWeightLabel.enabled = false;
-				mKeywordProficiencyWeightLabel.enabled = false;
-				mKeywordGoodnessWeightSlider.enabled = false;
-				mKeywordProficiencyWeightSlider.enabled = false;*/
-			}
-			
-			/**
-			 * 	Enables components which pertain to the link overall proficiency rating. 
-			 */
-			private function enableLinkOverallProficiencyWeightGUI():void
-			{
-				
-			}
-			
-			/**
-			 * 	Disables components which pertain to the link overall proficiency rating. 
-			 */
-			private function disableLinkOverallProficiencyWeightGUI():void
-			{
-				
+				mKeywordsSpokenCanvas.enabled = false;
+				mLinksSpokenCanvas.enabled = false;
 			}
 			
 			/**
@@ -222,6 +137,9 @@
 				e.mWebsiteName = event.mWebsiteName;
 				e.mType = event.mType;
 				this.dispatchEvent(e);
+				
+				mKeywordsSpokenCanvas.enabled = true;
+				mLinksSpokenCanvas.enabled = true;
 			}
 			
 			/**
@@ -247,7 +165,8 @@
 			 */
 			private function showAccordionHandler(event:Event):void
 			{
-				
+				mKeywordsSpokenCanvas.enabled = false;
+				mLinksSpokenCanvas.enabled = false;
 			}
 			
 			

@@ -174,6 +174,11 @@
 					e1.mWebsiteName = event.mWebsiteName;
 					e1.mCommGroupId = mCommGroupId;
 					this.dispatchEvent(e1);
+					
+					this.cursorManager.setBusyCursor()
+					mStatOptionAccordion.enabled = false;
+					mGraphControlPanel.enabled = false;
+					mChartTimeSelectPanel.enabled = false;
 				}
 				else if(event.mType == event.WEBSITE_UNCHECKED) {
 					Alert.show("UnChecked");
@@ -196,11 +201,11 @@
 			 */
 			private function accordionKeywordGraphicHandler(event:cAccordionKeywordGraphicEvent):void
 			{
-				if(event.mType == event.KEYWORD_CHECKED) {
+				if(event.mType == event.KEYWORD_CHECKED && mGraphControlPanel.enabled) {
 					mSelectedKeywords.addItem(event.mKeywordName);
 					mLineChartCanvas.updateInformation(mAnalyticsParser, mStatEvent, mSelectedKeywords);
 				}
-				else if(event.mType == event.KEYWORD_UNCHECKED) {
+				else if(event.mType == event.KEYWORD_UNCHECKED && mGraphControlPanel.enabled) {
 					for(var i:int = 0; i < mSelectedKeywords.length; i++) {
 						if(mSelectedKeywords.getItemAt(i).toString() == event.mKeywordName) {
 							mSelectedKeywords.removeItemAt(i);
@@ -330,6 +335,11 @@
 					mCommunityParserCollection.removeAll();
 				}
 				
+				if(mStatOptionAccordion != null && mLineChartCanvas != null && mCommGroupName != commGroupName) {
+					mStatOptionAccordion.disableAll();
+					mLineChartCanvas.clearData();
+				}
+				
 				mCommGroupName = commGroupName;
 				mCommGroupId = commGroupId;
 				mCreator = creator;
@@ -357,15 +367,15 @@
 				
 				var timeSpan:int = mStatEvent.TIME_SPAN_1_YEAR;
 				
-				if(timeSpanToggle.selectedIndex == 5)
+				if(mChartTimeSelectPanel.selectedIndex == 5)
 					timeSpan = mStatEvent.TIME_SPAN_1_WEEK;
-				else if(timeSpanToggle.selectedIndex == 4)
+				else if(mChartTimeSelectPanel.selectedIndex == 4)
 					timeSpan = mStatEvent.TIME_SPAN_2_WEEKS;
-				else if(timeSpanToggle.selectedIndex == 3)
+				else if(mChartTimeSelectPanel.selectedIndex == 3)
 					timeSpan = mStatEvent.TIME_SPAN_1_MONTH;
-				else if(timeSpanToggle.selectedIndex == 2)
+				else if(mChartTimeSelectPanel.selectedIndex == 2)
 					timeSpan = mStatEvent.TIME_SPAN_6_MONTHS;
-				else if(timeSpanToggle.selectedIndex == 1)
+				else if(mChartTimeSelectPanel.selectedIndex == 1)
 					timeSpan = mStatEvent.TIME_SPAN_9_MONTHS;
 				else
 					timeSpan = mStatEvent.TIME_SPAN_1_YEAR;
@@ -393,6 +403,11 @@
 				mStatEvent.mEnglishProficiency = mGoodnessWeightSlider.value;
 				
 				mLineChartCanvas.updateInformation(analyticsParser, mStatEvent, mSelectedKeywords);
+				
+				this.cursorManager.removeBusyCursor();
+				mStatOptionAccordion.enabled = true;
+				mGraphControlPanel.enabled = true;
+				mChartTimeSelectPanel.enabled = true;
 				
 				// REMOVE THIS LATER
 				mAnalyticsParser = analyticsParser;
@@ -423,6 +438,16 @@
 				mCountInfoLabel.text = mCountWeightSlider.value.toString().slice(0, 5);
 				mGoodnessInfoLabel.text = mEnglishProficiencyWeightSlider.value.toString().slice(0, 5);
 				mEnglishProficiencyInfoLabel.text = mGoodnessWeightSlider.value.toString().slice(0, 5);
+				
+				mGraphControlPanel.enabled = false;
+				mChartTimeSelectPanel.enabled = false;
+				
+				
+				///  REMOVE - HELPER CLOUD TO GUIDE FIRST TIME USER 
+				//var c:cHelperCloud = new cHelperCloud();
+				//c.x = 400;
+				//c.y = 250;
+				//this.addChild(c);
 			}
 			
 			/**
@@ -497,7 +522,11 @@
 	</ns1:cStatOptionsAccordion>
 	<mx:Button label="Add Website" click="addWebsiteClickHandler(event)" id="mAddWebsiteButton" styleName="buttonBlack"  x="897" y="4" icon="@Embed(source='../images/application_add.png')"/>
 	<mx:Button label="Edit Community Group" click="editCommunityGroupButtonClickHandler(event)" id="mEditCommunityGroupButton" styleName="buttonBlack"  x="733" y="4" icon="@Embed(source='../images/pencil.png')"/>
-	<mx:Panel layout="absolute" height="199" y="425" x="9" width="172" title="graph controls" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+
+	
+
+	<mx:Panel layout="absolute" height="199" y="425" x="9" width="172" title="graph controls" verticalScrollPolicy="off" horizontalScrollPolicy="off" id="mGraphControlPanel">
+
 		<mx:HSlider x="0" y="43" change="countWeightSliderChangeHandler(event)" width="149" minimum="0" maximum="1" allowTrackClick="true" liveDragging="true" value="1" enabled="true" id="mCountWeightSlider"/>
 		<mx:HSlider x="0" y="123" change="goodnessWeightSliderChangeHandler(event)" width="149" minimum="0" maximum="1" allowTrackClick="true" liveDragging="true" value="1" enabled="true" id="mEnglishProficiencyWeightSlider"/>
 		<mx:HSlider x="0" y="83" change="proficiencyWeightSliderChangeHandler(event)" width="149" allowTrackClick="true" minimum="0" maximum="1" liveDragging="true" value="1" enabled="true" id="mGoodnessWeightSlider"/>
@@ -521,7 +550,8 @@
 	</mx:Panel>
 	<mx:Button x="199" y="585" label="Zoom In" click="zoomInButtonClickHandler(event)" id="mZoomInButton" width="20" height="20" icon="@Embed(source='../images/magnifier_zoom_in.png')" toolTip="zoom in"/>
 	<mx:Button x="227" y="585" label="Zoom Out" click="zoomOutButtonClickHandler(event)" id="mZoomOutButton" width="20" height="20" icon="@Embed(source='../images/magnifier_zoom_out.png')" toolTip="zoom out" />
-	<mx:ToggleButtonBar x="617" y="581" itemClick="changeTimeSpan(event);" selectedIndex="5" id="timeSpanToggle">
+
+	<mx:ToggleButtonBar x="617" y="581" itemClick="changeTimeSpan(event);" selectedIndex="5" id="mChartTimeSelectPanel">
 		<mx:dataProvider>
 		       <mx:Array>
 		           <mx:String>1 year</mx:String>
@@ -533,5 +563,6 @@
 		       </mx:Array>
 		   </mx:dataProvider>
 	</mx:ToggleButtonBar>
+
 	
 </mx:Canvas>

@@ -3,6 +3,7 @@
 
 	<mx:Script>
 		<![CDATA[
+			import mx.controls.Label;
 			import mx.charts.DateTimeAxis;
 			
 			import mx.charts.BarChart;
@@ -111,6 +112,8 @@
 				this.mLineChart.horizontalAxis = hAxis;
 				
 				var seriesCollection:Array = new Array();
+				var x:Number, j:int, y:Number, timeStamp:int;
+				var dateString:String;
 				for(var i:int = 0; i < analyticsParser.mKeywordData.length; i++)
 				{
 					var keyword:cKeywordAnalyticsEntry = cKeywordAnalyticsEntry(analyticsParser.mSortedData.getItemAt(i));
@@ -120,24 +123,24 @@
 							hasKeyword = true;
 						}
 					}
-					
+				
 					if(hasKeyword) {
 						var series:LineSeries = new LineSeries();
-						var x:Number, j:int, y:Number, timeStamp:int;
 						
 						for(j = 0; j < keyword.mTimeCollection.length; j++) {
 
-							var dateString:String = String(keyword.mTimeCollection.getItemAt(j));
+							dateString = String(keyword.mTimeCollection.getItemAt(j));
 							
-							y = Number(keyword.mGoodnessCollection.getItemAt(j)) * statOptionSelected.mGoodnessWeight + 
-							    Number(keyword.mEnglishProficiencyCollection.getItemAt(j)) * statOptionSelected.mEnglishProficiency +
+							y = Number(keyword.mGoodnessCollection.getItemAt(j)) * statOptionSelected.mEnglishProficiency + 
+							    Number(keyword.mEnglishProficiencyCollection.getItemAt(j)) * statOptionSelected.mGoodnessWeight  +
 							    Number(keyword.mCountCollection.getItemAt(j)) * statOptionSelected.mCountWeight;
 							
 							mLineGraphData.push({(i.toString()):dateString, ((i+1).toString()):y});
 						}		
 						
 						var stroke:Stroke = new Stroke();
-		        		stroke.color = 0xF8DFF6 >> (i*3);
+						// move this out 
+		        		stroke.color = keyword.mColor;
 		        		stroke.weight = 3;
 		 				series.setStyle("lineStroke", stroke);
 		        		series.xField = i.toString();
@@ -218,6 +221,35 @@
 				}
 			}
 			
+			/**
+			 *  Clears the line chart data.
+			 */
+			public function clearData():void
+			{
+				
+			}
+			
+			
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//							 EVENT HANDLERS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+			/**
+			 *  Called when the line chart is first created.
+			 */
+			private function lineChartCreationCompleteHandler(event:Event):void
+			{
+				/*var label:Label = new Label();
+				label.setStyle("color", "0xFF0000");
+				label.setStyle("fontSize", 14);
+				label.text = "To View Statistics Click on a Website on the Right.";
+				label.x = (this.width / 2) - 100;
+				label.y = (this.height / 2) - 20;
+				this.addChild(label);*/
+			}
+			
 			
 			///////////////////////////////////////////////////////////////////////////////////
 			//
@@ -237,7 +269,7 @@
 		]]>
 	</mx:Script>
 
-	<mx:LineChart id="mLineChart"  width="815" height="492" verticalCenter="-19" horizontalCenter="0">
+	<mx:LineChart id="mLineChart" creationComplete="lineChartCreationCompleteHandler(event)" width="815" height="492" verticalCenter="-19" horizontalCenter="0">
 		<mx:series>
 			<mx:LineSeries displayName="Series 1"/>
 		</mx:series>

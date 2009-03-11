@@ -221,7 +221,7 @@
     						var keywordId:int = int(keywordList.elements("keywordId"));
     						var keywordName:String = keywordList.elements("keywordName");
     						
-    						var keyword:cKeywordEntry = new cKeywordEntry(keywordId, keywordName);
+    						var keyword:cKeywordEntry = new cKeywordEntry(keywordId, keywordName, 0);
     						keywords.addItem(keyword);	
     					}
     					
@@ -296,7 +296,7 @@
 						var keywordId:int = int(keywordList.elements("keywordId"));
 						var keywordName:String = keywordList.elements("keywordName");
 						
-						var keyword:cKeywordEntry = new cKeywordEntry(keywordId, keywordName);
+						var keyword:cKeywordEntry = new cKeywordEntry(keywordId, keywordName, 0);
 						keywords.addItem(keyword);	
 					}
 					
