@@ -165,37 +165,37 @@
 			
 		]]>
 	</mx:Script>
-	<mx:LinkButton click="homeLabelClickHandler(event)" label="Home" id="mHomeLabel" top="7" left="10" textDecoration="normal" textAlign="left"/>
-	<mx:LinkButton click="communityLabelClickHandler(event)" label="My Community Groups" id="mCommunityGroupLabel" top="7" left="85" textAlign="left" textDecoration="normal"/>
-	<mx:LinkButton click="communityNameLabelClickHandler(event)" id="mCommunityGroupNameLabel" top="7" left="256" textAlign="center" textDecoration="normal"/>
+	<mx:LinkButton click="homeLabelClickHandler(event)" label="Home" id="mHomeLabel" top="7" left="10" />
+	<mx:LinkButton click="communityLabelClickHandler(event)" label="My Community Groups" id="mCommunityGroupLabel" top="7" left="85" />
+	<mx:LinkButton click="communityNameLabelClickHandler(event)" id="mCommunityGroupNameLabel" top="7" left="260" />
 	<mx:Label text="&gt;" styleName="breadCrumbSeparator" top="5" left="65" id="mSep1"/>
 	<mx:Label text="&gt;" styleName="breadCrumbSeparator" top="5" left="237" id="mSep2"/>
 	<mx:Label text="&gt;" styleName="breadCrumbSeparator" top="5" left="324" id="mSep3"/>
 	<mx:Label text="Edit" id="mEditLabel" styleName="pageTitle" top="5" left="351"/>
-	<mx:Label text="Basic Information" fontSize="16" id="mBasicLabel" width="370" x="10" verticalCenter="-241"/>
-	<mx:Label text="Change the name and icon for teh currently selected community group." fontSize="12" textDecoration="normal" id="mBasicLabel0" width="370" x="10" verticalCenter="-211" selectable="false"/>
-	<mx:Label text="Keywords registered with this community group." fontSize="12" id="mBasicLabel1" width="274" x="419" verticalCenter="-211" selectable="false"/>
-	<mx:Label text="Add a new keyword under this community group." fontSize="12" textDecoration="normal" id="mBasicLabel3" width="274" x="419" verticalCenter="226" selectable="false"/>
-	<mx:Label text="Add a new website under this community group." fontSize="12" textDecoration="normal" id="mBasicLabel5" width="274" x="728" verticalCenter="226" selectable="false"/>
-	<mx:Label text="Websites registered with this community group." fontSize="12" textDecoration="normal" id="mBasicLabel2" width="274" x="728" verticalCenter="-211" selectable="false"/>
-	<mx:Label text="Keywords" fontSize="16" textDecoration="underline" id="mKeywordsLabel" width="117" verticalCenter="-241" horizontalCenter="-29"/>
-	<mx:Label text="Websites" fontSize="16" textDecoration="underline" id="mWebsiteLabel" width="117" verticalCenter="-241" horizontalCenter="280"/>
-	<mx:Label x="10" y="117" text="Name :" fontSize="12"/>
-	<mx:Label y="552" text="Add New Keyword :" horizontalCenter="-33"/>
-	<mx:Label x="19" y="170" text="Icon :" fontSize="12"/>
-	<mx:TextInput x="68" y="119" width="236" id="mNameTextBox"/>
-	<mx:TextInput x="68" y="242" width="236" id="mIconTextBox"/>
-	<mx:TextInput y="552" width="157" x="536" id="mKeywordTextBox"/>
-	<mx:Button x="312" y="240" label="Browse" id="mBrowseButton"/>
-	<mx:Button y="584" label="Submit" horizontalCenter="154" id="mSubmitButton"/>
-	<mx:Button y="550" click="addWebsiteButtonClickHandler(event)" label="Add Website"   horizontalCenter="446" id="mAddWebsiteButton"/>
-	<mx:Button x="68" y="272" label="Save"   id="mSaveButton"/>
-	<mx:VBox y="115" height="401" width="274" x="419" id="mKeywordsVBox">
-	</mx:VBox>
-	<mx:VBox height="401" width="274" y="115" x="728" id="mWebsitesVBox">
-	</mx:VBox>
-	<mx:Canvas x="68" y="170" width="64" height="64" backgroundImage="@Embed(source='../images/sample.jpg')">
-	</mx:Canvas>
-	<mx:TextArea x="144" y="171" height="63" selectable="false" wordWrap="true" editable="false" text="Import an icon to represent your community group. The icon must be a JPEG file with dimensions 64 x 64." width="236" borderThickness="0"/>
+	<mx:Panel x="0" y="55" width="352" height="551" layout="absolute" title="Basic Info">
+		<mx:Label x="10" y="25" text="Name :"/>
+		<mx:TextInput x="10" y="51" width="236" id="mNameTextBox"/>
+		<mx:Label x="9" y="120" text="Icon :"/>
+		<mx:Canvas x="8" y="150" width="64" height="64" backgroundImage="@Embed(source='../images/sample.jpg')">
+		</mx:Canvas>
+		<mx:TextArea x="84" y="151" height="63" selectable="false" wordWrap="true" editable="false" text="Import an icon to represent your community group. The icon must be a JPEG file with dimensions 64 x 64." width="236" borderThickness="0"/>
+		<mx:TextInput x="8" y="222" width="236" id="mIconTextBox"/>
+		<mx:Button x="252" y="220" label="Browse" id="mBrowseButton"/>
+		<mx:Button x="8" y="252" label="Save"   id="mSaveButton"/>
+	</mx:Panel>
+	<mx:Panel x="370" y="55" width="313" height="551" layout="absolute" title="Keywords" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+		<mx:Text text="Words being analyzed:" />
+		<mx:VBox y="25" height="401" width="284" x="-1" id="mKeywordsVBox">
+		</mx:VBox>
+		<mx:TextInput y="477" width="217" x="0" id="mKeywordTextBox"/>
+		<mx:Label text="Add new keyword:"  y="451"/>
+		<mx:Button y="477" label="Submit" id="mSubmitButton" x="225"/>
+	</mx:Panel>
+	<mx:Panel x="701" y="55" width="311" height="551" layout="absolute" title="Websites">
+		<mx:Text text="Sites under this community:" />	
+		<mx:Button click="addWebsiteButtonClickHandler(event)" label="Add Website" id="mAddWebsiteButton" x="202" y="481"/>
+		<mx:VBox height="441" width="284" id="mWebsitesVBox" x="7" y="26">
+		</mx:VBox>
+	</mx:Panel>
 	
 </mx:Canvas>

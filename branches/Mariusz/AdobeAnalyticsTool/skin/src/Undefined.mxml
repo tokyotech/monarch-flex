@@ -3,7 +3,7 @@
 	xmlns:local="*" xmlns:programmatic="assets.programmatic.*" verticalScrollPolicy="off" horizontalScrollPolicy="off"
 	preloader="assets.programmatic.CustomPreloader" viewSourceURL="srcview/index.html">
 
-	<mx:Style source="/css/skinPreview.css/"/>
+	<mx:Style source="css/skinPreview.css/"/>
 	
 	<mx:Script>
         <![CDATA[
