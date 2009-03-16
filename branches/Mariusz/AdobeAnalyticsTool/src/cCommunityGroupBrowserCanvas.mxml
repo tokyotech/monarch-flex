@@ -256,7 +256,7 @@
 					mEnglishProficiencyWeightSlider.value = 0;
 					mGoodnessWeightSlider.value = 0;
 				}
-				if(mPresetsComboBox.selectedItem.toString() == "Goodness") {
+				if(mPresetsComboBox.selectedItem.toString() == "Sentiment") {
 					mCountWeightSlider.value = 0;
 					mEnglishProficiencyWeightSlider.value = 0;
 					mGoodnessWeightSlider.value = 1;
@@ -266,7 +266,7 @@
 					mEnglishProficiencyWeightSlider.value = 1;
 					mGoodnessWeightSlider.value = 0;
 				}
-				if(mPresetsComboBox.selectedItem.toString() == "Count + Goodness") {
+				if(mPresetsComboBox.selectedItem.toString() == "Count + Sentiment") {
 					mCountWeightSlider.value = 1;
 					mEnglishProficiencyWeightSlider.value = 0;
 					mGoodnessWeightSlider.value = 1;
@@ -276,7 +276,7 @@
 					mEnglishProficiencyWeightSlider.value = 1;
 					mGoodnessWeightSlider.value = 0;
 				}
-				if(mPresetsComboBox.selectedItem.toString() == "Goodness + English Prof.") {
+				if(mPresetsComboBox.selectedItem.toString() == "Sentiment + English Prof.") {
 					mCountWeightSlider.value = 0;
 					mEnglishProficiencyWeightSlider.value = 1;
 					mGoodnessWeightSlider.value = 1;
@@ -536,11 +536,11 @@
 		<mx:ComboBox id="mPresetsComboBox" change="presetsComboBoxChangeHandler(event)" x="0" y="1" width="152" maxWidth="160">
 		<mx:ArrayCollection>
 	         <mx:String>Count</mx:String>
-	         <mx:String>Goodness</mx:String>
+	         <mx:String>Sentiment</mx:String>
 	         <mx:String>English Prof.</mx:String>
-	         <mx:String>Count + Goodness</mx:String>
+	         <mx:String>Count + Sentiment</mx:String>
 	         <mx:String>Count + English Prof.</mx:String>
-	         <mx:String>Goodness + English Prof.</mx:String>
+	         <mx:String>Sentiment + English Prof.</mx:String>
 	         <mx:String>Show All</mx:String>
 	      </mx:ArrayCollection>
 		</mx:ComboBox>
