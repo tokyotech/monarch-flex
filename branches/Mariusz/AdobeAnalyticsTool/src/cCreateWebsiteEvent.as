@@ -29,5 +29,11 @@ package
 		public var mCommunityGroupId:int = -1;
 		public var mCommunityGroupName:String = "";
 		public var mUserId:int = -1;
+		
+		public var regularExpressionMap:Object = new Object();
+		
+		// Crawling settings for this website
+		public var topLevelBreadth:int = 2;
+		public var crawlingPeriod:int = 30; // Defaults to 30 minutes
 	}
 }

@@ -70,6 +70,9 @@
 				mWebsiteName = event.mWebsiteName;
 				mWebsiteURL = event.mWebsiteURL;
 				mWebsiteType = event.mWebsiteType;	
+				
+				urlToLoad = event.mWebsiteURL;
+				siteEvent = event;
 			}
 		
 			///////////////////////////////////////////////////////////////////////////////////
@@ -99,10 +102,7 @@
 			// Called when the user clicks the forward button:
 			//  advances to the next screen
 			private function advanceWizard(event:Event):void {
-				if(regexString) {
-					regexString.text = "";
-				}
-				
+				// Modify state variables and store user input in Site Event 
 				if(mMainViewStack.selectedChild == OpeningScreen) {
 					mMainViewStack.selectedChild = RegexEntry;
 					currState = topLevelRegexes[0];
@@ -111,17 +111,40 @@
 					// Given current state, either go to next regular expression or 
 					//  change to the next canvas in the viewstack
 					var index:int = topLevelRegexes.indexOf(currState);
+					
+					// Store the user input in the site event
+					siteEvent.regularExpressionMap[currState] = regexString.text;
+					
 					if(index == topLevelRegexes.length - 1) { // this is last toplevel regex
 						trace("last toplevel regex");
 						mMainViewStack.selectedChild = pageOfPostsVerify;
+						
+						// Match text of "thread url" regular expression and load page from that
+						// url.
+						var threadUrlMatch:Object;
+						var threadUrlRegex:RegExp = new RegExp(siteEvent.regularExpressionMap["thread url"], "g");
+						threadUrlMatch = threadUrlRegex.exec(mPageSourceText.text);
+						if(threadUrlMatch.length > 1) {
+							searchTerms.text = threadUrlMatch[1];
+							pageOfPostsHTML.location = threadUrlMatch[1];
+						}
+						else {
+							// TODO: load a dummy page
+							trace("No matching page");
+						}
 					}
 					else if(index == -1) { // must be a sub-level regular expression
 						trace("must be a sub-level regular expression");
 						index = subLevelRegexes.indexOf(currState);
+
 						if(index == subLevelRegexes.length -1) { // this is last sub-level regex
 							mMainViewStack.selectedChild = finalView;
+							
+							// Initialize this view's text inputs to the values carried by the event
+							mNumToplevelTextInput.text = ""+siteEvent.topLevelBreadth;
+							mMinutesBetweenCrawlsTextInput.text = ""+siteEvent.crawlingPeriod;
 						}
-						else {
+						else {								
 							// Set the regex to be collected to the next in the list
 							currState = subLevelRegexes[index + 1];
 						}
@@ -139,15 +162,31 @@
 					dispatchEvent(new Event("regexChanged"));
 				}	
 				else { // viewstack1.selectedChild == finalView
-					// Submit collected regexes to the database
+					// Store user input in Site Event
+					siteEvent.topLevelBreadth = int(mNumToplevelTextInput.text);
+					siteEvent.crawlingPeriod = int(mMinutesBetweenCrawlsTextInput.text);
+					
+					// TODO: ship event to server
 				}	
+						
+				// Initialize the regexString text input for the next screen
+				if(regexString && mMainViewStack.selectedChild == RegexEntry) {
+					// If the user has already entered a regular expression for this
+					// state, set regexString.text to it
+					if(siteEvent.regularExpressionMap.hasOwnProperty(currState)) {
+						regexString.text = siteEvent.regularExpressionMap[currState];
+					}
+					else {
+						regexString.text = "";
+					}
+				}
 			}
 			
 			private function backWizard(event:Event):void {
-				if(regexString) {
-					regexString.text = "";
-				}
+				// When the user presses back, whatever they had already typed in the
+				//  next screen is lost.
 				if(mMainViewStack.selectedChild == OpeningScreen) {
+					// Should we disable back on the opening screen? I think so.
 				}
 				else if(mMainViewStack.selectedChild == RegexEntry) {
 					// Given current state, either go to next regular expression or 
@@ -178,6 +217,18 @@
 				else { // viewstack1.selectedChild == finalView
 					mMainViewStack.selectedChild = RegexEntry;
 					currState = subLevelRegexes[subLevelRegexes.length-1];
+				}
+				
+				// Initialize the regexString text input for the next screen
+				if(regexString && mMainViewStack.selectedChild == RegexEntry) {
+					// If the user has already entered a regular expression for this
+					// state, set regexString.text to it
+					if(siteEvent.regularExpressionMap.hasOwnProperty(currState)) {
+						regexString.text = siteEvent.regularExpressionMap[currState];
+					}
+					else {
+						regexString.text = "";
+					}
 				}	
 			}
 			
@@ -289,7 +340,7 @@
 			private var currState:String;
 			
 			private var pageLoader:URLLoader;
-			private var urlToLoad:String="http://reddit.com"; // in application this will be given
+			private var urlToLoad:String; // in application this will be given
 			
 			[Bindable]
 			private var urlContents:String;
@@ -306,7 +357,9 @@
 			// type of website
 			private var mWebsiteType:String = "";
 			// highlighter for page source
-			private var highlighter:Highlighter;	
+			private var highlighter:Highlighter;
+			// We will populate this event using user input
+			private var siteEvent:cCreateWebsiteEvent;	
 			
 		]]>
 	</mx:Script>
@@ -349,8 +402,9 @@
 				  		<mx:Canvas label="View" width="100%" height="100%" backgroundColor="#FFFFFF">
 				  		  		<mx:HBox color="#F4F4F4">
 				  		  			<mx:Label text="Website ;"  width="68" fontSize="12"/>
-				  		  			<mx:TextInput id="searchTerms" text="http://reddit.com"  borderStyle="solid" borderThickness="0" width="189"/>
+				  		  			<mx:TextInput id="searchTerms"  borderStyle="solid" borderThickness="0" width="189"/>
 				  		  		</mx:HBox>
+				  		  		<mx:HTML x="0" y="30" width="961" height="407" id="pageOfPostsHTML"/>
 				  		</mx:Canvas>
 				</mx:TabNavigator>
 				<mx:Text x="10" y="10" text="If a &quot;page of posts is shown below click the right arrow. Otherwise revise the &quot;thread url&quot; regular expression in the previous screen." width="972" fontSize="12"/>
@@ -360,11 +414,11 @@
 			<mx:Text x="10" y="10" text="Select your crawling preferences:" width="441" fontSize="12"/>
 			<mx:HBox x="91" y="71" width="100%" height="22">
 				<mx:Text text="Minutes to wait between crawls:" width="393" fontSize="12"/>
-				<mx:TextInput width="115" text="30.0" borderStyle="solid" borderThickness="0"/>
+				<mx:TextInput id="mMinutesBetweenCrawlsTextInput" width="115" borderStyle="solid" borderThickness="0"/>
 			</mx:HBox>
 			<mx:HBox x="91" y="114" width="100%" height="22">
 				<mx:Text text="Number of top-level pages to explore per crawl:" width="393" height="22" fontSize="12"/>
-				<mx:TextInput width="115" text="2.0" borderStyle="solid" borderThickness="0"/>
+				<mx:TextInput id="mNumToplevelTextInput" width="115" borderStyle="solid" borderThickness="0"/>
 			</mx:HBox>
 			<mx:Text x="91" y="178" text="Note: we will do our best to accomodate your crawling preferences. However, please note that we are in possession of only finite resources. As a general guideline, the default values should be suitable for most sites." width="441" fontSize="12"/>
 		</mx:Canvas>
