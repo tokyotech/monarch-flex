@@ -5,6 +5,7 @@
 		[Event(name="OpenCommunityGroupHomeCanvasEvent", type="flash.events.Event")]
 		[Event(name="OpenCommunityGroupBrowserCanvasEvent", type="flash.events.Event")]
 		[Event(name="OpenWebsiteAdditionalStatBrowserCanvasEvent", type="flash.events.Event")]
+		[Event(name="RegExProcessingCompleteEvent ", type="cCreateWebsiteEvent")]
 	</mx:Metadata>
 	
 	<mx:Script>
@@ -72,7 +73,7 @@
 				mWebsiteType = event.mWebsiteType;	
 				
 				urlToLoad = event.mWebsiteURL;
-				siteEvent = event;
+				RegExProcessingCompleteEvent  = event;
 			}
 		
 			///////////////////////////////////////////////////////////////////////////////////
@@ -87,6 +88,7 @@
 			private function mPageSourceTextCreationCompleteHandler(event:Event):void
 			{
 				mPageSourceText.text = urlContents;
+				trace("Page Source set to string of length "+urlContents.length);
 				
 				// Initialize highlighter
 				highlighter = new Highlighter(getTextField(mPageSourceText));		
@@ -113,7 +115,7 @@
 					var index:int = topLevelRegexes.indexOf(currState);
 					
 					// Store the user input in the site event
-					siteEvent.regularExpressionMap[currState] = regexString.text;
+					RegExProcessingCompleteEvent .regularExpressionMap[currState] = regexString.text;
 					
 					if(index == topLevelRegexes.length - 1) { // this is last toplevel regex
 						trace("last toplevel regex");
@@ -122,7 +124,7 @@
 						// Match text of "thread url" regular expression and load page from that
 						// url.
 						var threadUrlMatch:Object;
-						var threadUrlRegex:RegExp = new RegExp(siteEvent.regularExpressionMap["thread url"], "g");
+						var threadUrlRegex:RegExp = new RegExp(RegExProcessingCompleteEvent .regularExpressionMap["thread url"], "g");
 						threadUrlMatch = threadUrlRegex.exec(mPageSourceText.text);
 						if(threadUrlMatch.length > 1) {
 							searchTerms.text = threadUrlMatch[1];
@@ -141,8 +143,8 @@
 							mMainViewStack.selectedChild = finalView;
 							
 							// Initialize this view's text inputs to the values carried by the event
-							mNumToplevelTextInput.text = ""+siteEvent.topLevelBreadth;
-							mMinutesBetweenCrawlsTextInput.text = ""+siteEvent.crawlingPeriod;
+							mNumToplevelTextInput.text = ""+RegExProcessingCompleteEvent .topLevelBreadth;
+							mMinutesBetweenCrawlsTextInput.text = ""+RegExProcessingCompleteEvent .crawlingPeriod;
 						}
 						else {								
 							// Set the regex to be collected to the next in the list
@@ -163,8 +165,8 @@
 				}	
 				else { // viewstack1.selectedChild == finalView
 					// Store user input in Site Event
-					siteEvent.topLevelBreadth = int(mNumToplevelTextInput.text);
-					siteEvent.crawlingPeriod = int(mMinutesBetweenCrawlsTextInput.text);
+					RegExProcessingCompleteEvent .topLevelBreadth = int(mNumToplevelTextInput.text);
+					RegExProcessingCompleteEvent .crawlingPeriod = int(mMinutesBetweenCrawlsTextInput.text);
 					
 					// TODO: ship event to server
 				}	
@@ -173,8 +175,8 @@
 				if(regexString && mMainViewStack.selectedChild == RegexEntry) {
 					// If the user has already entered a regular expression for this
 					// state, set regexString.text to it
-					if(siteEvent.regularExpressionMap.hasOwnProperty(currState)) {
-						regexString.text = siteEvent.regularExpressionMap[currState];
+					if(RegExProcessingCompleteEvent .regularExpressionMap.hasOwnProperty(currState)) {
+						regexString.text = RegExProcessingCompleteEvent .regularExpressionMap[currState];
 					}
 					else {
 						regexString.text = "";
@@ -223,8 +225,8 @@
 				if(regexString && mMainViewStack.selectedChild == RegexEntry) {
 					// If the user has already entered a regular expression for this
 					// state, set regexString.text to it
-					if(siteEvent.regularExpressionMap.hasOwnProperty(currState)) {
-						regexString.text = siteEvent.regularExpressionMap[currState];
+					if(RegExProcessingCompleteEvent .regularExpressionMap.hasOwnProperty(currState)) {
+						regexString.text = RegExProcessingCompleteEvent .regularExpressionMap[currState];
 					}
 					else {
 						regexString.text = "";
@@ -247,9 +249,35 @@
 			private function onTextInputChange(event:Event):void {
 				// Build regular expression from user string
 				var regex:RegExp = new RegExp(regexString.text, "g");
-				highlighter.reset();
-				if(regexString.text.length > 0 && feedbackTabs.selectedChild == sourceTab) {
-					highlighter.highlightMatches(regex);
+
+				if(regexString.text.length > 0) {
+					if(feedbackTabs.selectedChild == htmlViewTab) {
+						// TODO: highlight HTML
+					}
+					else if(feedbackTabs.selectedChild == sourceTab) {
+						if(highlighter) {
+							highlighter.reset();
+							highlighter.highlightMatches(regex);
+						}
+					} 
+					else { // selectedChild == textMatchesTab
+						// Find all matches for text in the source view and
+						// output them in the textMatchesTab TextArea
+						var matchObject:Object;
+						var matchesString:String = "";
+						
+						// Construct string of text matches
+						matchObject = regex.exec(urlContents);
+						while(matchObject != null) {
+							if(matchObject.length > 1) {
+								matchesString = matchesString + "\n\n"+matchObject[1];
+							}
+							matchObject = regex.exec(urlContents);
+						}
+						
+						// Set matches test to string of text matches
+						matchesText.text = matchesString;
+					}
 				}		
 			}
 			
@@ -359,7 +387,7 @@
 			// highlighter for page source
 			private var highlighter:Highlighter;
 			// We will populate this event using user input
-			private var siteEvent:cCreateWebsiteEvent;	
+			private var RegExProcessingCompleteEvent :cCreateWebsiteEvent;	
 			
 		]]>
 	</mx:Script>
@@ -382,23 +410,23 @@
 		<mx:Canvas id="RegexEntry" width="100%" height="100%" creationComplete="viewAppearanceHandler(event)" show="viewAppearanceHandler(event)">
 			<mx:Text id="infoText" text="Enter a regular expression that matches {currState}:" width="972" height="22" fontSize="12" horizontalCenter="0" verticalCenter="-256"/>
 			<mx:TextInput id="regexString" change="onTextInputChange(event)"  width="292" horizontalCenter="-340" verticalCenter="-231" borderStyle="solid" borderThickness="0" color="#EFEFEF"/>
-			<mx:TabNavigator id="feedbackTabs" width="974.95" height="481" horizontalCenter="2" verticalCenter="35">
-	    		<mx:Canvas label="View" width="100%" height="100%" color="#EFEFEF">
+			<mx:TabNavigator id="feedbackTabs" width="974.95" height="481" horizontalCenter="2" verticalCenter="35" change="onTextInputChange(event)">
+	    		<mx:Canvas label="View" id="htmlViewTab" width="100%" height="100%" color="#EFEFEF">
 	    		    <mx:VBox height="449" width="968.95" id="htmlBox" label="Page View"  verticalCenter="-1" horizontalCenter="-2">
 	    		    </mx:VBox>
 	    		</mx:Canvas>
 	    		<mx:VBox label="Source" id="sourceTab" width="100%" height="100%" color="#EFEFEF">
 	    		    <mx:TextArea creationComplete="mPageSourceTextCreationCompleteHandler(event)" show="mPageSourceTextCreationCompleteHandler(event)" width="972" height="447" id="mPageSourceText" selectable="true" verticalScrollPolicy="on" editable="false" wordWrap="true"/>
 	    		</mx:VBox>
-	   		    <mx:HBox label="Text Matches" width="100%" height="100%" color="#EFEFEF">
-	    		    <mx:RichTextEditor title="Title" id="matchesText" width="970" height="446" borderStyle="solid" borderThickness="0" cornerRadius="0">
-	    		    </mx:RichTextEditor>
+	   		    <mx:HBox label="Text Matches" id="textMatchesTab" width="100%" height="100%" color="#EFEFEF">
+	    		    <mx:TextArea id="matchesText" width="970" height="446">
+	    		    </mx:TextArea>
 	    		</mx:HBox>
 			</mx:TabNavigator>
 		</mx:Canvas>
 		<mx:Canvas id="pageOfPostsVerify" label="" width="100%" height="100%">
 			<mx:Canvas width="100%" height="100%" x="-0.05" y="10">
-				<mx:TabNavigator width="973" height="483" horizontalCenter="0" verticalCenter="20">
+				<mx:TabNavigator width="973" height="483" horizontalCenter="0" verticalCenter="20" change="onTextInputChange(event)">
 				  		<mx:Canvas label="View" width="100%" height="100%" backgroundColor="#FFFFFF">
 				  		  		<mx:HBox color="#F4F4F4">
 				  		  			<mx:Label text="Website ;"  width="68" fontSize="12"/>
