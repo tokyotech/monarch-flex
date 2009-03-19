@@ -192,8 +192,8 @@
 	<mx:Label text="Community Group Creator" styleName="pageTitle"  id="mHomeLoggedOutAccountLabel" top="7" left="268"/>
 	<mx:Label text="&gt;" styleName="breadCrumbSeparator"  top="7" left="65"/>
 	<mx:Label text="&gt;" styleName="breadCrumbSeparator"  top="7" left="240"/>
-	<mx:Panel layout="absolute" x="300" y="90">
-		<mx:Label text="Community Group Name :"  id="mHomeLoggedOutAccountLabel2" verticalCenter="-166" horizontalCenter="-113"/>
+	<mx:Panel layout="absolute" x="300" y="90" title="Create" width="408" height="400">
+		<mx:Label text="Community Group Name :"  id="mHomeLoggedOutAccountLabel2" verticalCenter="-146" horizontalCenter="-118"/>
 		<mx:Label x="90" y="83" text="Keyword 1 :" id="mHomeLoggedOutAccountLabel3"/>
 		<mx:Label x="90" y="112" text="Keyword 2 :" id="mHomeLoggedOutAccountLabel4"/>
 		<mx:Label x="90" y="141" text="Keyword 3 :" id="mHomeLoggedOutAccountLabel5"/>
@@ -202,7 +202,7 @@
 		<mx:Label x="90" y="228" text="Keyword 6 :" id="mHomeLoggedOutAccountLabel8"/>
 		<mx:Label x="90" y="257" text="Keyword 7 :" id="mHomeLoggedOutAccountLabel9"/>
 		<mx:Label x="90" y="286" text="Keyword 8 :" id="mHomeLoggedOutAccountLabel10"/>
-		<mx:TextInput width="205" rollOver="commNameTextBoxRollOverHandler(event)" rollOut="commNameTextBoxRollOutHandler(event)" keyDown="textBoxKeyDownHandler(event)" id="mCommNameTextBox" toolTip="Enter a community group name" horizontalCenter="86" verticalCenter="-164"/>
+		<mx:TextInput width="205" rollOver="commNameTextBoxRollOverHandler(event)" rollOut="commNameTextBoxRollOutHandler(event)" keyDown="textBoxKeyDownHandler(event)" id="mCommNameTextBox" toolTip="Enter a community group name" horizontalCenter="73" verticalCenter="-144"/>
 		<mx:TextInput x="173" y="83" width="205" keyDown="textBoxKeyDownHandler(event)" id="mKeyword1TextBox" toolTip="Enter first keyword"/>
 		<mx:TextInput x="173" y="112" width="205" keyDown="textBoxKeyDownHandler(event)" id="mKeyword2TextBox" toolTip="Enter second keyword"/>
 		<mx:TextInput x="173" y="141" width="205" keyDown="textBoxKeyDownHandler(event)" id="mKeyword3TextBox" toolTip="Enter third keyword"/>
@@ -211,6 +211,6 @@
 		<mx:TextInput x="173" y="228" width="205" keyDown="textBoxKeyDownHandler(event)" id="mKeyword6TextBox" toolTip="Enter sixth keyword"/>
 		<mx:TextInput x="173" y="257" width="205" keyDown="textBoxKeyDownHandler(event)" id="mKeyword7TextBox" toolTip="Enter seventh keyword"/>
 		<mx:TextInput x="173" y="286" width="205" keyDown="textBoxKeyDownHandler(event)" id="mKeyword8TextBox" toolTip="Enter eight keyword"/>
-		<mx:Button x="208" y="330" click="createCommGroupButtonClickHandler(event)" label="Create Community Group" id="mCreateCommButton" toolTip="Proceed with creating the community group"/>
+		<mx:Button x="315" y="330" click="createCommGroupButtonClickHandler(event)" label="next &#187;" id="mCreateCommButton" toolTip="Proceed with creating the community group"/>
 	</mx:Panel>
 </mx:Canvas>

@@ -530,6 +530,7 @@ LinkButton
 	selectionColor: #000000;
 	focusAlpha: 0.1;
 	cornerRadius: 0;
+	textDecoration: underline;
 }
 
 
@@ -687,6 +688,12 @@ Panel
 	borderThicknessLeft: 0;
 	borderThicknessBottom: 0;
 	borderThicknessTop: -1;
+	
+	/*
+	disabledColor: #DDDDDD;	
+	disabledOverlayAlpha: 0.2;
+	backgroundDisabledColor: #333333;
+	*/
 }
 
 /* Panel with ControlBar. */
@@ -1124,4 +1131,17 @@ Window
 	 statusBarBackgroundColor:#C0C0C0;
 }
 
-/* End */
+/*
+//------------------------------
+//  custom
+//------------------------------
+*/
+
+.pageTitle {
+	fontWeight: bold;
+	fontSize: 16;
+}
+
+.breadCrumbSeparator {
+	fontSize: 16;	
+}

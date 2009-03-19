@@ -114,8 +114,8 @@
 		]]>
 	</mx:Script>
 	
-	<mx:Label x="29" y="27" text="Email :" />
-	<mx:Label x="11" y="53" text="Password :" />
+	<mx:Label x="32" y="27" text="Email :"  textAlign="right"/>
+	<mx:Label x="11" y="53" text="Password :"  textAlign="right"/>
 	<mx:TextInput width="263" keyDown="userNameKeyDownHandler(event)" id="mEmailTextBox" x="82" y="25" toolTip="Enter the account user name"/>
 	<mx:TextInput x="82" y="51" keyDown="passwordKeyDownHandler(event)" width="263" displayAsPassword="true" id="mPasswordTextBox" toolTip="Enter the account password"/>
 	<mx:Button label="Sign In" id="mSignInButton" click="signInClickHandler(event)" x="279" y="81" />
