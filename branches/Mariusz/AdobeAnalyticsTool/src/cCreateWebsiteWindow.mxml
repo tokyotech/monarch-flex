@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Window xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="creationCompleteHandler(event)" show="creationCompleteHandler(event)" close="closingHandler(event)" layout="absolute" width="444" height="440" showStatusBar="false" showInAutomationHierarchy="false" showGripper="false" showTitleBar="false" maxHeight="440" maxWidth="444" minHeight="440" minWidth="444" disabledOverlayAlpha=".7" backgroundDisabledColor="#000000" horizontalScrollPolicy="off">
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="creationCompleteHandler(event)" show="creationCompleteHandler(event)" close="closingHandler(event)" layout="absolute" width="444" height="440" showInAutomationHierarchy="false" maxHeight="440" maxWidth="444" minHeight="440" minWidth="444" disabledOverlayAlpha=".7" backgroundDisabledColor="#000000" horizontalScrollPolicy="off" showCloseButton="true" title="Add Website">
 
 	<mx:Metadata>
 		[Event(name="CreateWebsiteEvent", type="cCreateWebsiteEvent")]
 	</mx:Metadata>
 	<mx:Script>
 		<![CDATA[
+			import mx.managers.PopUpManager;
 			import mx.controls.Alert;
 		
 			///////////////////////////////////////////////////////////////////////////////////
@@ -124,7 +125,7 @@
 				e.mWebsiteName = mWebsiteNameTextBox.text;
 				e.mWebsiteURL = mWebsiteURLTextBox.text;
 				this.dispatchEvent(e);
-				this.close();
+				PopUpManager.removePopUp(this);
 			}
 			
 			/**
@@ -143,7 +144,7 @@
 				var e:cCreateWebsiteEvent = new cCreateWebsiteEvent("cCreateWebsiteEvent");
 				e.mType = e.CANCEL;
 				this.dispatchEvent(e);
-				this.close();
+				PopUpManager.removePopUp(this);
 			}
 			
 			
@@ -174,27 +175,25 @@
 			
 		]]>
 	</mx:Script>
-
-	<mx:Label y="10" text="Add Website" id="mCreateWebsiteLabel" styleName="pageTitle" x="170"/>
-	<mx:Button click="createWebsiteClickHandler(event)" id="cCreateWebsiteButton" label="Add Website(s)" horizontalCenter="153" verticalCenter="198"/>
-	<mx:Button click="cancelClickHandler(event)" id="mCancelButton" label="Cancel" toolTip="Cancel the create account aperation" horizontalCenter="56" verticalCenter="198"/>
-	<mx:Canvas width="418" height="131" id="mAddNewWebsiteContainer"   horizontalCenter="2" verticalCenter="-91" enabled="true" backgroundDisabledColor="#efefef" disabledOverlayAlpha=".5">
-		<mx:Label x="7.5" y="23" text="Website Name :" keyDown="websiteNameKeyDownHandler(event)"/>
-		<mx:Label x="7.5" y="59" text="Website URL :" keyDown="websiteURLKeyDownHandler(event)"/>
-		<mx:Label x="7.5" y="97" text="Website Type :"/>
-		<mx:TextInput x="110.5" y="21" width="296" id="mWebsiteNameTextBox"/>
-		<mx:TextInput x="110.5" y="57" width="296" id="mWebsiteURLTextBox"/>
-		<mx:RadioButton x="110.5" y="95" label="Forum"  id="mForumTypeRadioButton" groupName="typeGroup"/>
-		<mx:RadioButton x="178.5" y="95" label="Blog" id="mBlogTypeRadioButton" groupName="typeGroup"/>
-		<mx:RadioButton x="236" y="95" label="News" id="mNewsTypeRadioButton" groupName="typeGroup"/>
+	<mx:Button click="createWebsiteClickHandler(event)" id="cCreateWebsiteButton" label="Add Website(s)" horizontalCenter="153" verticalCenter="188"/>
+	<mx:Button click="cancelClickHandler(event)" id="mCancelButton" label="Cancel" toolTip="Cancel the create account aperation" horizontalCenter="56" verticalCenter="188"/>
+	<mx:Canvas width="418" height="113" id="mAddNewWebsiteContainer" horizontalCenter="2" verticalCenter="-111" enabled="true" disabledOverlayAlpha=".9" alpha="1" backgroundDisabledColor="#333333">
+		<mx:Label x="-2.5" y="13" text="Website Name :" keyDown="websiteNameKeyDownHandler(event)" textAlign="right"/>
+		<mx:Label x="7.5" y="49" text="Website URL :" keyDown="websiteURLKeyDownHandler(event)" textAlign="right"/>
+		<mx:Label x="-2.5" y="87" text="Website Type :" textAlign="right"/>
+		<mx:TextInput x="110.5" y="11" width="296" id="mWebsiteNameTextBox"/>
+		<mx:TextInput x="110.5" y="47" width="296" id="mWebsiteURLTextBox"/>
+		<mx:RadioButton x="110.5" y="85" label="Forum"  id="mForumTypeRadioButton" groupName="typeGroup"/>
+		<mx:RadioButton x="178.5" y="85" label="Blog" id="mBlogTypeRadioButton" groupName="typeGroup"/>
+		<mx:RadioButton x="236" y="85" label="News" id="mNewsTypeRadioButton" groupName="typeGroup"/>
 	</mx:Canvas>
-	<mx:RadioButton label="Add New Website" change="addNewWebsiteChangeHandler(event)" selected="true" textRollOverColor="#B7BABC" textSelectedColor="#B7BABC" id="mAddNewWebsiteRadioButton" x="10" verticalCenter="-175" groupName="selectionGroup">
+	<mx:RadioButton label="Add New Website" change="addNewWebsiteChangeHandler(event)" selected="true" id="mAddNewWebsiteRadioButton" x="10" verticalCenter="-185" groupName="selectionGroup">
 		<mx:toolTip>Create and add a website which has not been previously created</mx:toolTip>
 	</mx:RadioButton>
-	<mx:RadioButton x="14" label="Add Previously Setup Websites" change="addPreviousWebsiteChangeHandler(event)" textRollOverColor="#B7BABC" textSelectedColor="#B7BABC" id="mAddPrevWebsiteRadioButton" verticalCenter="-6" groupName="selectionGroup">
+	<mx:RadioButton x="14" label="Add Previously Setup Websites" change="addPreviousWebsiteChangeHandler(event)" id="mAddPrevWebsiteRadioButton" verticalCenter="-16" groupName="selectionGroup">
 		<mx:toolTip>Add a website which has been previously created and added</mx:toolTip>
 	</mx:RadioButton>
-	<mx:VBox height="166" width="418" enabled="false" disabledOverlayAlpha=".5" id="mAddPrevWebsiteContainer" alpha="1" horizontalCenter="2" verticalCenter="96" backgroundDisabledColor="#efefef" verticalScrollPolicy="on" horizontalScrollPolicy="off">
+	<mx:VBox height="166" width="418" enabled="false" disabledOverlayAlpha=".9" alpha="1" backgroundDisabledColor="#333333" id="mAddPrevWebsiteContainer" horizontalCenter="2" verticalCenter="86" verticalScrollPolicy="on" horizontalScrollPolicy="off">
 	</mx:VBox>
 	
-</mx:Window>
+</mx:TitleWindow>
