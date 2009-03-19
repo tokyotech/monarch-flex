@@ -165,10 +165,11 @@
 				}	
 				else { // viewstack1.selectedChild == finalView
 					// Store user input in Site Event
-					RegExProcessingCompleteEvent .topLevelBreadth = int(mNumToplevelTextInput.text);
-					RegExProcessingCompleteEvent .crawlingPeriod = int(mMinutesBetweenCrawlsTextInput.text);
+					RegExProcessingCompleteEvent.topLevelBreadth = int(mNumToplevelTextInput.text);
+					RegExProcessingCompleteEvent.crawlingPeriod = int(mMinutesBetweenCrawlsTextInput.text);
 					
-					// TODO: ship event to server
+					// Dispatch event: will be handled by the server
+					this.dispatchEvent(RegExProcessingCompleteEvent);
 				}	
 						
 				// Initialize the regexString text input for the next screen
