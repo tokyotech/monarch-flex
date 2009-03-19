@@ -115,25 +115,13 @@
 					var index:int = topLevelRegexes.indexOf(currState);
 					
 					// Store the user input in the site event
-					RegExProcessingCompleteEvent .regularExpressionMap[currState] = regexString.text;
+					RegExProcessingCompleteEvent.regularExpressionMap[currState] = regexString.text;
 					
 					if(index == topLevelRegexes.length - 1) { // this is last toplevel regex
 						trace("last toplevel regex");
 						mMainViewStack.selectedChild = pageOfPostsVerify;
 						
-						// Match text of "thread url" regular expression and load page from that
-						// url.
-						var threadUrlMatch:Object;
-						var threadUrlRegex:RegExp = new RegExp(RegExProcessingCompleteEvent .regularExpressionMap["thread url"], "g");
-						threadUrlMatch = threadUrlRegex.exec(mPageSourceText.text);
-						if(threadUrlMatch.length > 1) {
-							searchTerms.text = threadUrlMatch[1];
-							pageOfPostsHTML.location = threadUrlMatch[1];
-						}
-						else {
-							// TODO: load a dummy page
-							trace("No matching page");
-						}
+
 					}
 					else if(index == -1) { // must be a sub-level regular expression
 						trace("must be a sub-level regular expression");
@@ -142,9 +130,7 @@
 						if(index == subLevelRegexes.length -1) { // this is last sub-level regex
 							mMainViewStack.selectedChild = finalView;
 							
-							// Initialize this view's text inputs to the values carried by the event
-							mNumToplevelTextInput.text = ""+RegExProcessingCompleteEvent .topLevelBreadth;
-							mMinutesBetweenCrawlsTextInput.text = ""+RegExProcessingCompleteEvent .crawlingPeriod;
+
 						}
 						else {								
 							// Set the regex to be collected to the next in the list
@@ -169,6 +155,8 @@
 					RegExProcessingCompleteEvent.crawlingPeriod = int(mMinutesBetweenCrawlsTextInput.text);
 					
 					// Dispatch event: will be handled by the server
+					trace("RegEx:");
+					trace(RegExProcessingCompleteEvent);
 					this.dispatchEvent(RegExProcessingCompleteEvent);
 				}	
 						
@@ -235,7 +223,27 @@
 				}	
 			}
 			
+			private function initializeFinalView(event:Event):void {
+				// Initialize this view's text inputs to the values carried by the event
+				mNumToplevelTextInput.text = ""+RegExProcessingCompleteEvent .topLevelBreadth;
+				mMinutesBetweenCrawlsTextInput.text = ""+RegExProcessingCompleteEvent .crawlingPeriod;
+			}
 			
+			private function initializePageOfPostsVerify(event:Event):void {
+				// Match text of "thread url" regular expression and load page from that
+				// url.
+				var threadUrlMatch:Object;
+				var threadUrlRegex:RegExp = new RegExp(RegExProcessingCompleteEvent .regularExpressionMap["thread url"], "g");
+				threadUrlMatch = threadUrlRegex.exec(mPageSourceText.text);
+				if(threadUrlMatch.length > 1) {
+					searchTerms.text = threadUrlMatch[1];
+					pageOfPostsHTML.location = threadUrlMatch[1];
+				}
+				else {
+					// TODO: load a dummy page
+					trace("No matching page");
+				}
+			}
 			private function viewAppearanceHandler(event:Event):void {
 				var myComponent:UIComponent  = new UIComponent();  
 				myComponent.addChild(html);
@@ -443,7 +451,7 @@
 			<mx:Text x="10" y="10" text="Select your crawling preferences:" width="441" fontSize="12"/>
 			<mx:HBox x="91" y="71" width="100%" height="22">
 				<mx:Text text="Minutes to wait between crawls:" width="393" fontSize="12"/>
-				<mx:TextInput id="mMinutesBetweenCrawlsTextInput" width="115" borderStyle="solid" borderThickness="0"/>
+				<mx:TextInput id="mMinutesBetweenCrawlsTextInput" width="115" borderStyle="solid" borderThickness="0" />
 			</mx:HBox>
 			<mx:HBox x="91" y="114" width="100%" height="22">
 				<mx:Text text="Number of top-level pages to explore per crawl:" width="393" height="22" fontSize="12"/>
