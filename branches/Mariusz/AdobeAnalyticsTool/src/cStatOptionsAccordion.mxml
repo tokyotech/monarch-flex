@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Accordion xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="showAccordionHandler(event)" show="showAccordionHandler(event)" width="169" height="493"   borderColor="#C1C1C1">
+<mx:Accordion xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="showAccordionHandler(event)" show="showAccordionHandler(event)" width="169" height="493">
 	
 	<mx:Metadata>
 		[Event(name="StatOptionSelectedEvent", type="cStatOptionSelectedEvent")]

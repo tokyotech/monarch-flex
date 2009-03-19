@@ -518,14 +518,14 @@
 	<ns1:cStatOptionsAccordion id="mStatOptionAccordion"
 							   AccordionWebsiteGraphicEvent="accordionWebsiteGraphicEventHandler(event)"
 							   AccordionKeywordGraphicEvent="accordionKeywordGraphicHandler(event)"
-							   height="378.45" horizontalCenter="-412" verticalCenter="-74">
+							   height="348.45" horizontalCenter="-412" verticalCenter="-74">
 	</ns1:cStatOptionsAccordion>
 	<mx:Button label="Add Website" click="addWebsiteClickHandler(event)" id="mAddWebsiteButton" styleName="buttonBlack"  x="897" y="4" icon="@Embed(source='../images/application_add.png')"/>
 	<mx:Button label="Edit Community Group" click="editCommunityGroupButtonClickHandler(event)" id="mEditCommunityGroupButton" styleName="buttonBlack"  x="733" y="4" icon="@Embed(source='../images/pencil.png')"/>
 
 	
 
-	<mx:Panel layout="absolute" height="199" y="425" x="9" width="172" title="graph controls" verticalScrollPolicy="off" horizontalScrollPolicy="off" id="mGraphControlPanel">
+	<mx:Panel layout="absolute" height="199" y="411" x="9" width="172" title="graph controls" verticalScrollPolicy="off" horizontalScrollPolicy="off" id="mGraphControlPanel">
 
 		<mx:HSlider x="0" y="43" change="countWeightSliderChangeHandler(event)" width="149" minimum="0" maximum="1" allowTrackClick="true" liveDragging="true" value="1" enabled="true" id="mCountWeightSlider"/>
 		<mx:HSlider x="0" y="123" change="goodnessWeightSliderChangeHandler(event)" width="149" minimum="0" maximum="1" allowTrackClick="true" liveDragging="true" value="1" enabled="true" id="mEnglishProficiencyWeightSlider"/>
@@ -551,7 +551,7 @@
 	<mx:Button x="199" y="585" label="Zoom In" click="zoomInButtonClickHandler(event)" id="mZoomInButton" width="20" height="20" icon="@Embed(source='../images/magnifier_zoom_in.png')" toolTip="zoom in"/>
 	<mx:Button x="227" y="585" label="Zoom Out" click="zoomOutButtonClickHandler(event)" id="mZoomOutButton" width="20" height="20" icon="@Embed(source='../images/magnifier_zoom_out.png')" toolTip="zoom out" />
 
-	<mx:ToggleButtonBar x="617" y="581" itemClick="changeTimeSpan(event);" selectedIndex="5" id="mChartTimeSelectPanel">
+	<mx:ToggleButtonBar x="567" y="581" itemClick="changeTimeSpan(event);" selectedIndex="5" id="mChartTimeSelectPanel">
 		<mx:dataProvider>
 		       <mx:Array>
 		           <mx:String>1 year</mx:String>

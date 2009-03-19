@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Window xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="creationCompleteHandler(event)" close="closingHandler(event)" width="374" height="152" layout="absolute"   showStatusBar="false" showTitleBar="false" showInAutomationHierarchy="false" showGripper="false" minHeight="152" minWidth="374" maxHeight="152" maxWidth="374">
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" showCloseButton="true" title="Sign In" x="168" y="86" creationComplete="creationCompleteHandler(event)" close="closingHandler(event)" width="374" height="152" layout="absolute"  showInAutomationHierarchy="false" minHeight="152" minWidth="374" maxHeight="152" maxWidth="374">
 	
 	<mx:Metadata>
 		[Event(name="signInEvent", type="cSignInEvent")]
@@ -8,6 +8,7 @@
 	<mx:Script>
 		<![CDATA[
 			
+			import mx.managers.PopUpManager;
 			import mx.controls.Alert;
 			
 			///////////////////////////////////////////////////////////////////////////////////
@@ -93,7 +94,8 @@
 				e.mPassword = mPasswordTextBox.text;
 				e.mType = e.SIGN_IN;
 				this.dispatchEvent(e);
-				this.close();
+				PopUpManager.removePopUp(this);
+
 			}
 			
 			/**
@@ -104,18 +106,18 @@
 				var e:cSignInEvent = new cSignInEvent("cSignInEvent");
 				e.mType = e.CANCEL;
 				this.dispatchEvent(e);
-				this.close();
+				PopUpManager.removePopUp(this);
+
 			}
 			
 			
 		]]>
 	</mx:Script>
 	
-	<mx:Label x="41" y="57" text="Email :" />
-	<mx:Label x="23" y="83" text="Password :" />
-	<mx:TextInput width="263" keyDown="userNameKeyDownHandler(event)" id="mEmailTextBox" x="94" y="55" toolTip="Enter the account user name"/>
-	<mx:TextInput x="94" y="81" keyDown="passwordKeyDownHandler(event)" width="263" displayAsPassword="true" id="mPasswordTextBox" toolTip="Enter the account password"/>
-	<mx:Label x="156" y="10" text="Sign In" styleName="pageTitle" />
-	<mx:Button label="Sign In" id="mSignInButton" click="signInClickHandler(event)" x="301" y="111" />
-	<mx:Button label="Cancel" id="mCancelButton" click="cancelClickHandler(event)" x="230" y="111" />
-</mx:Window>
+	<mx:Label x="29" y="27" text="Email :" />
+	<mx:Label x="11" y="53" text="Password :" />
+	<mx:TextInput width="263" keyDown="userNameKeyDownHandler(event)" id="mEmailTextBox" x="82" y="25" toolTip="Enter the account user name"/>
+	<mx:TextInput x="82" y="51" keyDown="passwordKeyDownHandler(event)" width="263" displayAsPassword="true" id="mPasswordTextBox" toolTip="Enter the account password"/>
+	<mx:Button label="Sign In" id="mSignInButton" click="signInClickHandler(event)" x="279" y="81" />
+	<mx:Button label="Cancel" id="mCancelButton" click="cancelClickHandler(event)" x="208" y="81" />
+</mx:TitleWindow>
