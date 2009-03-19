@@ -147,7 +147,7 @@
 				
 				mMyCommVBox.removeAllChildren();
 				
-				var delay:int = 100;
+				// var delay:int = 100;
 				var i:int;
 				var communityGroupEntry:cCommunityGroupEntry;
 				for(i = 0; i < mUserAccountInformation.mCommunities.length; i++) {
@@ -165,7 +165,7 @@
 															communityGroupEntry.mWebsites.length.toString(),
 															communityGroupEntry.mId,
 															justCreated);								
-					commGroupGraphicEntry.alpha = 0.3;					
+					// commGroupGraphicEntry.alpha = 0.3;					
 					mMyCommVBox.addChild(commGroupGraphicEntry);
 					// animate
 					/* too corny

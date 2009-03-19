@@ -186,13 +186,13 @@
 		]]>
 	</mx:Script>
 	
-	<mx:Canvas label="Websites in Community" creationComplete="websiteCanvasShowHandler(event)" show="websiteCanvasShowHandler(event)" width="100%" height="100%" id="mWebsitesCanvas" toolTip="Websites that the creator has grouped under this community">
+	<mx:Canvas label="Websites in Community" creationComplete="websiteCanvasShowHandler(event)" show="websiteCanvasShowHandler(event)" width="100%" height="100%" id="mWebsitesCanvas" toolTip="Websites that the creator has grouped under this community" horizontalScrollPolicy="off">
 		<mx:Label text="No Websites Available" horizontalCenter="0" verticalCenter="-218" id="mNoWebsitesAvailableLabel" toolTip="Perhaps no websites are registered"/>
 		</mx:Canvas>
-	<mx:Canvas label="Keywords Spoken" width="100%" height="100%" creationComplete="keywordSpokenCanvasShowHandler(event)" show="keywordSpokenCanvasShowHandler(event)" id="mKeywordsSpokenCanvas" toolTip="Keywords spoken by people in the websites under this community">
+	<mx:Canvas label="Keywords Spoken" width="100%" height="100%" creationComplete="keywordSpokenCanvasShowHandler(event)" show="keywordSpokenCanvasShowHandler(event)" id="mKeywordsSpokenCanvas" toolTip="Keywords spoken by people in the websites under this community" horizontalScrollPolicy="off">
 		<mx:Label text="No Keywords Available" horizontalCenter="0" verticalCenter="-218" id="mNoKeywordsAvailableLabel" toolTip="Perhaps no keywords where registered"/>
 		</mx:Canvas>
-	<mx:Canvas label="Links Spoken" width="100%" height="100%" creationComplete="linksSpokenCanvasShowHandler(event)" show="linksSpokenCanvasShowHandler(event)" id="mLinksSpokenCanvas" toolTip="URL's spoken by people in the websites under this community.  These could have been links to images or external websites.">
+	<mx:Canvas label="Links Spoken" width="100%" height="100%" creationComplete="linksSpokenCanvasShowHandler(event)" show="linksSpokenCanvasShowHandler(event)" id="mLinksSpokenCanvas" toolTip="URL's spoken by people in the websites under this community.  These could have been links to images or external websites." horizontalScrollPolicy="off">
 		<mx:Label text="No Links Available" horizontalCenter="0" verticalCenter="-218" id="mNoLinksAvailableLabel" toolTip="Perhaps no links where found"/>
 	</mx:Canvas>
 	

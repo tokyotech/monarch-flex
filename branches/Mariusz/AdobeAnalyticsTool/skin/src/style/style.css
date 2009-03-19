@@ -1145,3 +1145,13 @@ Window
 .breadCrumbSeparator {
 	fontSize: 16;	
 }
+
+.communitySelectName {
+	fontSize: 14;	
+	fontWeight: bold;
+	textDecoration: underline;
+}
+
+.communitySelectStat {
+	color: #cccccc;
+}

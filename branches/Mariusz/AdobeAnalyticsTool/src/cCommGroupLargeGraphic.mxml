@@ -255,10 +255,10 @@
 		]]>
 	</mx:Script>
 	<mx:Canvas width="377" id="mMainPanelCanvas" horizontalCenter="-1" verticalCenter="0">
-		<mx:Label x="89" y="34" text="Created on December 12, 2030" width="276" id="mDateLabel" />
-		<mx:Label x="89" y="45" text="Creator : Mariusz Choroszy" width="276" id="mCreatorLabel" />
-		<mx:Label x="89" y="57" text="Number of Websites : 0" width="276" id="mNumWebsiteLabel" />
-		<mx:Label x="89" y="12" text="Some Communty Group" fontSize="16" width="276" id="mCommNameLabel" />
+		<mx:Label x="89" y="34" text="Created on December 12, 2030" width="276" id="mDateLabel" styleName="communitySelectStat" />
+		<mx:Label x="89" y="45" text="Creator : Mariusz Choroszy" width="276" id="mCreatorLabel" styleName="communitySelectStat" />
+		<mx:Label x="89" y="57" text="Number of Websites : 0" width="276" id="mNumWebsiteLabel" styleName="communitySelectStat" />
+		<mx:Label x="89" y="12" text="Some Communty Group" width="276" id="mCommNameLabel" styleName="communitySelectName" />
 		<mx:Canvas x="17" y="8" width="64" height="64" backgroundImage="@Embed(source='../images/ps.png')" id="mImageCanvas">
 		</mx:Canvas>
 		<mx:Canvas x="0" y="0" click="graphicClickedHandler(event)" width="375" height="78" id="mOverlayCanvas">

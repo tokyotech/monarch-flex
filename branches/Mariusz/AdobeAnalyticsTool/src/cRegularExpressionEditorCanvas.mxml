@@ -151,8 +151,9 @@
 				}	
 				else { // viewstack1.selectedChild == finalView
 					// Store user input in Site Event
-					RegExProcessingCompleteEvent.topLevelBreadth = int(mNumToplevelTextInput.text);
-					RegExProcessingCompleteEvent.crawlingPeriod = int(mMinutesBetweenCrawlsTextInput.text);
+					// TODO: determine if casting to int is still necesssary:
+					RegExProcessingCompleteEvent.topLevelBreadth = int(mNumToplevelTextInput.value);
+					RegExProcessingCompleteEvent.crawlingPeriod = int(mMinutesBetweenCrawlsTextInput.value);
 					
 					// Dispatch event: will be handled by the server
 					trace("RegEx:");
@@ -225,8 +226,8 @@
 			
 			private function initializeFinalView(event:Event):void {
 				// Initialize this view's text inputs to the values carried by the event
-				mNumToplevelTextInput.text = ""+RegExProcessingCompleteEvent .topLevelBreadth;
-				mMinutesBetweenCrawlsTextInput.text = ""+RegExProcessingCompleteEvent .crawlingPeriod;
+				mNumToplevelTextInput.value = RegExProcessingCompleteEvent.topLevelBreadth;
+				mMinutesBetweenCrawlsTextInput.value = RegExProcessingCompleteEvent.crawlingPeriod;
 			}
 			
 			private function initializePageOfPostsVerify(event:Event):void {
@@ -448,11 +449,11 @@
 			<mx:Text x="10" y="10" text="Select your crawling preferences:" width="441" fontSize="12"/>
 			<mx:HBox x="91" y="71" width="100%" height="22">
 				<mx:Text text="Minutes to wait between crawls:" width="393" fontSize="12"/>
-				<mx:TextInput id="mMinutesBetweenCrawlsTextInput" width="115" borderStyle="solid" borderThickness="0" />
+				<mx:NumericStepper id="mMinutesBetweenCrawlsTextInput"  value="30" minimum="5" maximum="500" stepSize="1"/>
 			</mx:HBox>
 			<mx:HBox x="91" y="114" width="100%" height="22">
 				<mx:Text text="Number of top-level pages to explore per crawl:" width="393" height="22" fontSize="12"/>
-				<mx:TextInput id="mNumToplevelTextInput" width="115" borderStyle="solid" borderThickness="0"/>
+				<mx:NumericStepper id="mNumToplevelTextInput"  value="2" minimum="1" maximum="20" stepSize="1"/>
 			</mx:HBox>
 			<mx:Text x="91" y="178" text="Note: we will do our best to accomodate your crawling preferences. However, please note that we are in possession of only finite resources. As a general guideline, the default values should be suitable for most sites." width="441" fontSize="12"/>
 		</mx:Canvas>

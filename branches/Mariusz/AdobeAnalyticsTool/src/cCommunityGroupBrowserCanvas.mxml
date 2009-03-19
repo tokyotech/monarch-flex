@@ -518,7 +518,7 @@
 	<ns1:cStatOptionsAccordion id="mStatOptionAccordion"
 							   AccordionWebsiteGraphicEvent="accordionWebsiteGraphicEventHandler(event)"
 							   AccordionKeywordGraphicEvent="accordionKeywordGraphicHandler(event)"
-							   height="348.45" horizontalCenter="-412" verticalCenter="-88">
+							   height="355" horizontalCenter="-412" verticalCenter="-88">
 	</ns1:cStatOptionsAccordion>
 	<mx:Button label="Add Website" click="addWebsiteClickHandler(event)" id="mAddWebsiteButton" styleName="buttonBlack"  x="897" y="4" icon="@Embed(source='../images/application_add.png')"/>
 	<mx:Button label="Edit Community Group" click="editCommunityGroupButtonClickHandler(event)" id="mEditCommunityGroupButton" styleName="buttonBlack"  x="723" y="4" icon="@Embed(source='../images/pencil.png')"/>
