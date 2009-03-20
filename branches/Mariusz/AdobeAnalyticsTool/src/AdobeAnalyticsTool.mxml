@@ -208,12 +208,19 @@
 			private function createAccountClickHandler(event:Event):void
 			{
 				if(mConnectedToInternet) {
+					var createAccountWindow:cCreateAccountWindow = cCreateAccountWindow(PopUpManager.createPopUp(this, cCreateAccountWindow, true));
+					
+					// TODO: the centering code does not work, so I just hardcoded the coordinates
+					createAccountWindow.x = 350;
+					createAccountWindow.y = 200;
+					/*
 					var createAccountWindow:cCreateAccountWindow = new cCreateAccountWindow();
 					createAccountWindow.open(true);
 					createAccountWindow.nativeWindow.x = nativeWindow.x + (nativeWindow.width - createAccountWindow.nativeWindow.width) / 2;
 					createAccountWindow.nativeWindow.y = nativeWindow.y + (nativeWindow.height - createAccountWindow.nativeWindow.height) / 2;
+					*/
 					createAccountWindow.addEventListener("cCreateAccountEvent", createAccountWindowCloseHandler);
-					createAccountWindow.alwaysInFront = true;
+					// createAccountWindow.alwaysInFront = true;
 					this.enabled = false;
 				}
 			}
