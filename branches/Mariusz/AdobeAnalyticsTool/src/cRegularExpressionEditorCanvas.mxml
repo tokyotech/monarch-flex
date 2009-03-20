@@ -449,7 +449,7 @@
 			<mx:Text x="10" y="10" text="Select your crawling preferences:" width="441" fontSize="12"/>
 			<mx:HBox x="91" y="71" width="100%" height="22">
 				<mx:Text text="Minutes to wait between crawls:" width="393" fontSize="12"/>
-				<mx:NumericStepper id="mMinutesBetweenCrawlsTextInput"  value="30" minimum="5" maximum="500" stepSize="1"/>
+				<mx:NumericStepper id="mMinutesBetweenCrawlsTextInput"  value="30" minimum="5" maximum="255" stepSize="1"/>
 			</mx:HBox>
 			<mx:HBox x="91" y="114" width="100%" height="22">
 				<mx:Text text="Number of top-level pages to explore per crawl:" width="393" height="22" fontSize="12"/>
