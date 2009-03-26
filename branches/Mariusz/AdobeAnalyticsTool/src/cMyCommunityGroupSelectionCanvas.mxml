@@ -206,7 +206,7 @@
 	</mx:Button>
 	<mx:Button label="Next &#187;" horizontalCenter="158" verticalCenter="286" id="mNextCommButton" enabled="false"/>
 	<mx:Button label="&#171; Previous" horizontalCenter="-146" verticalCenter="286" id="mPreviousCommButton" enabled="false"/>
-	<mx:Button label="Newest" width="120" id="mNewestButton" horizontalCenter="-134" verticalCenter="-261" icon="@Embed(source='../images/clock.png')"/>
+	<mx:Button label="Newest" width="120" id="mNewestButton" horizontalCenter="-134" verticalCenter="-261" icon="@Embed(source='../images/clock.png')" enabled="false"/>
 	<mx:Button label="Most Viewed" width="120" id="mMostViewedButton" horizontalCenter="-2" verticalCenter="-261" icon="@Embed(source='../images/eye.png')"/>
 	<mx:Button label="Alphabetical" width="120" id="mAlphabeticalButton" horizontalCenter="134" verticalCenter="-261" icon="@Embed(source='../images/text_uppercase.png')"/>
 	<mx:VRule height="20" horizontalCenter="-69" verticalCenter="-262" />
