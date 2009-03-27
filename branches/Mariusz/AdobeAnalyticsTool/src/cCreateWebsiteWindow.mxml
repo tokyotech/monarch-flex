@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="creationCompleteHandler(event)" show="creationCompleteHandler(event)" close="closingHandler(event)" layout="absolute" width="444" height="440" showInAutomationHierarchy="false" maxHeight="440" maxWidth="444" minHeight="440" minWidth="444" disabledOverlayAlpha=".7" backgroundDisabledColor="#000000" horizontalScrollPolicy="off" showCloseButton="true" title="Add Website">
+<mx:Window xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="creationCompleteHandler(event)" show="creationCompleteHandler(event)" close="closingHandler(event)" layout="absolute" width="444" height="440" showStatusBar="false" showInAutomationHierarchy="false" showGripper="false" showTitleBar="false" maxHeight="440" maxWidth="444" minHeight="440" minWidth="444" disabledOverlayAlpha=".7" backgroundDisabledColor="#000000" horizontalScrollPolicy="off" xmlns:local="*">
 
-	<mx:Metadata>
+<mx:Metadata>
 		[Event(name="CreateWebsiteEvent", type="cCreateWebsiteEvent")]
-	</mx:Metadata>
+</mx:Metadata>
+
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="creationCompleteHandler(event)" show="creationCompleteHandler(event)" close="closingHandler(event)" layout="absolute" width="444" height="440" showInAutomationHierarchy="false" maxHeight="440" maxWidth="444" minHeight="440" minWidth="444" disabledOverlayAlpha=".7" backgroundDisabledColor="#000000" horizontalScrollPolicy="off" showCloseButton="true" title="Add Website">
+	
 	<mx:Script>
 		<![CDATA[
+			import mx.controls.Label;
+			import mx.collections.ArrayCollection;
 			import mx.managers.PopUpManager;
 			import mx.controls.Alert;
 		
@@ -75,6 +80,9 @@
 			 */
 			private function addPreviousWebsiteChangeHandler(event:Event):void
 			{
+				// request to fetch all of the websites from the server.
+				mEngine.getAllWebsites();
+				
 				mAddNewWebsiteContainer.enabled = false;
 				mAddPrevWebsiteContainer.enabled = true;	
 				cCreateWebsiteButton.toolTip = "Add the previously setup website(s) selected";
@@ -125,7 +133,8 @@
 				e.mWebsiteName = mWebsiteNameTextBox.text;
 				e.mWebsiteURL = mWebsiteURLTextBox.text;
 				this.dispatchEvent(e);
-				PopUpManager.removePopUp(this);
+				this.close()
+				//PopUpManager.removePopUp(this);
 			}
 			
 			/**
@@ -133,6 +142,27 @@
 			 */
 			private function addWebsiteProcess():void
 			{
+				var ids:ArrayCollection = new ArrayCollection();
+				// grab all of the websites which have been selected
+				for(var i:int = 0; i < mAddPrevWebsiteContainer.getChildren().length; i++) {
+					if(mAddPrevWebsiteContainer.getChildAt(i) is cWebsiteGraphic) {
+						var websiteEntry:cWebsiteGraphic = cWebsiteGraphic(mAddPrevWebsiteContainer.getChildAt(i));
+						if(websiteEntry.isSelected()) {
+							ids.addItem(websiteEntry.getWebsiteId());
+						}
+					}
+				}
+				// concat a string of id's separated by commas
+				var s:String = "";
+				for(i = 0; i < ids.length; i++) {
+					if(i){
+						s = s + "," + ids.getItemAt(i);
+					}
+					else {
+						s = ids.getItemAt(i).toString();
+					}
+				}
+				
 				
 			}
 			
@@ -144,7 +174,16 @@
 				var e:cCreateWebsiteEvent = new cCreateWebsiteEvent("cCreateWebsiteEvent");
 				e.mType = e.CANCEL;
 				this.dispatchEvent(e);
-				PopUpManager.removePopUp(this);
+				this.close()
+				//PopUpManager.removePopUp(this);
+			}
+			
+			/**
+			 * 	Updates the internal information of this component.
+			 */
+			public function updateInformation(websites:ArrayCollection):void
+			{
+				mWebsites = websites;
 			}
 			
 			
@@ -163,6 +202,15 @@
 				mAddPrevWebsiteContainer.enabled = false;
 				mAddNewWebsiteContainer.enabled = true;
 				cCreateWebsiteButton.toolTip = "Create the website specified";
+				
+				mAddPrevWebsiteContainer.removeAllChildren();
+				for(var i:int = 0; i < mWebsites.length; i++) {
+					var websiteEntry:cWebsiteEntry = cWebsiteEntry(mWebsites.getItemAt(i));
+					
+					var entry:cWebsiteGraphic = new cWebsiteGraphic();
+					entry.updateInformation(websiteEntry.mName, websiteEntry.mId);
+					mAddPrevWebsiteContainer.addChild(entry);
+				}
 			}
 			
 			/**
@@ -173,8 +221,19 @@
 				cancelProcess();
 			}
 			
+			
+			///////////////////////////////////////////////////////////////////////////////////
+			//
+			//								DATA MEMBERS
+			//
+			///////////////////////////////////////////////////////////////////////////////////
+			
+			// collection of websites
+			private var mWebsites:ArrayCollection = null;
+			
 		]]>
 	</mx:Script>
+	
 	<mx:Button click="createWebsiteClickHandler(event)" id="cCreateWebsiteButton" label="Add Website(s)" horizontalCenter="153" verticalCenter="188"/>
 	<mx:Button click="cancelClickHandler(event)" id="mCancelButton" label="Cancel" toolTip="Cancel the create account aperation" horizontalCenter="56" verticalCenter="188"/>
 	<mx:Canvas width="418" height="113" id="mAddNewWebsiteContainer" horizontalCenter="2" verticalCenter="-111" enabled="true" disabledOverlayAlpha=".9" alpha="1" backgroundDisabledColor="#333333">
@@ -196,4 +255,10 @@
 	<mx:VBox height="166" width="418" enabled="false" disabledOverlayAlpha=".9" alpha="1" backgroundDisabledColor="#333333" id="mAddPrevWebsiteContainer" horizontalCenter="2" verticalCenter="86" verticalScrollPolicy="on" horizontalScrollPolicy="off">
 	</mx:VBox>
 	
-</mx:TitleWindow>
+	<local:cEngine id="mEngine">
+		
+	</local:cEngine>
+
+</mx:TitleWindow>	
+</mx:Window>
+

@@ -24,10 +24,6 @@
 			
 			// Called when the wizard is added to the stage
 			private function initWizard(event:Event):void {
-				trace("wizard inited");
-				pageLoader = new URLLoader(new URLRequest(urlToLoad));
-				pageLoader.addEventListener(Event.COMPLETE, handlePageLoaded);
-				html = new HTMLLoader();
 				
 				mCommunityGroupNameLabel.label = mCommunityGroupName;
 				mWebsiteNameLabel.label = mWebsiteName;
@@ -53,6 +49,8 @@
 				//mWebsiteNameLabel.x =+ mSep3.x + mSep3.measureText(mSep3.text).width + 10;
 				//mSep4.x =+ mWebsiteNameLabel.x + mWebsiteNameLabel.width + 10;
 				mRexExEditorLabel.x =+ mSep3.x + mSep3.measureText(mSep3.text).width + 10;
+				
+				
 			}
 			
 			///////////////////////////////////////////////////////////////////////////////////
@@ -74,6 +72,15 @@
 				
 				urlToLoad = event.mWebsiteURL;
 				RegExProcessingCompleteEvent  = event;
+				
+				if(urlToLoad.substr(0, 7) != "http://") {
+					urlToLoad = "http://" + urlToLoad;
+				}
+				
+				trace("wizard inited");
+				pageLoader = new URLLoader(new URLRequest(urlToLoad));
+				pageLoader.addEventListener(Event.COMPLETE, handlePageLoaded);
+				html = new HTMLLoader();
 			}
 		
 			///////////////////////////////////////////////////////////////////////////////////

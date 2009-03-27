@@ -3,7 +3,7 @@
 
 	<mx:Metadata>
 		[Event(name="BackLabelClickedEvent", type="flash.events.Event")]
-		[Event(name="OpenWebsiteStatBrowserCanvasEvent", type="cWebsiteGraphicClickedEvent")]
+		[Event(name="OpenWebsiteStatBrowserCanvasEvent", type="cAllPurposeEvent")]
 		[Event(name="OpenWebsiteCreatorWindowEvent", type="cCreateWebsiteEvent")]
 		[Event(name="EditWebsiteLabelClickedEvent", type="cEditWebsiteEvent")]
 	</mx:Metadata>
@@ -107,8 +107,8 @@
 					if(mMyWebsitesVBox.getChildren().length > 0) {
 						var i:int = 0;
 						for(i; i < mMyWebsitesVBox.getChildren().length; i++) {
-							if(mMyWebsitesVBox.getChildAt(i) is cWebsiteDynamicLargeGraphic) {
-								var websiteGraphic:cWebsiteDynamicLargeGraphic = cWebsiteDynamicLargeGraphic(mMyWebsitesVBox.getChildAt(i));
+							if(mMyWebsitesVBox.getChildAt(i) is cWebsiteGraphic) {
+								var websiteGraphic:cWebsiteGraphic = cWebsiteGraphic(mMyWebsitesVBox.getChildAt(i));
 								websiteGraphic.showRemoveWebsiteLabel();
 							}
 						}
@@ -168,8 +168,8 @@
 					if(mMyWebsitesVBox.getChildren().length > 0) {
 						var i:int = 0;
 						for(i; i < mMyWebsitesVBox.getChildren().length; i++) {
-							if(mMyWebsitesVBox.getChildAt(i) is cWebsiteDynamicLargeGraphic) {
-								var websiteGraphic:cWebsiteDynamicLargeGraphic = cWebsiteDynamicLargeGraphic(mMyWebsitesVBox.getChildAt(i));
+							if(mMyWebsitesVBox.getChildAt(i) is cWebsiteGraphic) {
+								var websiteGraphic:cWebsiteGraphic = cWebsiteGraphic(mMyWebsitesVBox.getChildAt(i));
 								websiteGraphic.showEditWebsiteLabel();
 							}
 						}
@@ -212,8 +212,8 @@
 			{
 				var i:int = 0;
 				for(i; i < mMyWebsitesVBox.getChildren().length; i++) {
-					if(mMyWebsitesVBox.getChildAt(i) is cWebsiteDynamicLargeGraphic) {
-						var websiteGraphic:cWebsiteDynamicLargeGraphic = cWebsiteDynamicLargeGraphic(mMyWebsitesVBox.getChildAt(i));
+					if(mMyWebsitesVBox.getChildAt(i) is cWebsiteGraphic) {
+						var websiteGraphic:cWebsiteGraphic = cWebsiteGraphic(mMyWebsitesVBox.getChildAt(i));
 						websiteGraphic.hideRemoveWebsiteLabel();
 					}
 				}
@@ -264,8 +264,8 @@
 			{
 				var i:int = 0;
 				for(i; i < mMyWebsitesVBox.getChildren().length; i++) {
-					if(mMyWebsitesVBox.getChildAt(i) is cWebsiteDynamicLargeGraphic) {
-						var websiteGraphic:cWebsiteDynamicLargeGraphic = cWebsiteDynamicLargeGraphic(mMyWebsitesVBox.getChildAt(i));
+					if(mMyWebsitesVBox.getChildAt(i) is cWebsiteGraphic) {
+						var websiteGraphic:cWebsiteGraphic = cWebsiteGraphic(mMyWebsitesVBox.getChildAt(i));
 						websiteGraphic.hideEditWebsiteLabel();
 					}
 				}
@@ -339,10 +339,10 @@
 			 * 	Event handler called when the user clicks on the website graphic whithin this canvas.
 			 * 	Fires an event signaling that a website has been selected by the user.
 			 */
-			private function websiteGraphicClickedHandler(event:cWebsiteGraphicClickedEvent):void
+			private function websiteGraphicClickedHandler(event:cAllPurposeEvent):void
 			{
 				if(mRemoveWebsitesLabel.enabled) {
-					var e:cWebsiteGraphicClickedEvent = new cWebsiteGraphicClickedEvent("OpenWebsiteStatBrowserCanvasEvent");
+					var e:cAllPurposeEvent = new cAllPurposeEvent("OpenWebsiteStatBrowserCanvasEvent");
 					e.mWebsiteName = event.mWebsiteName;
 					e.mWebsiteURL = event.mWebsiteURL;
 					e.mWebsiteType = event.mWebsiteType;
@@ -393,7 +393,7 @@
 				var delay:int = 100;
 				for(i = 0; i < mWebsites.length; i++) {
 					var websiteEntry:cWebsiteEntry = cWebsiteEntry(mWebsites.getItemAt(i));
-					var websiteGraphic:cWebsiteDynamicLargeGraphic = new cWebsiteDynamicLargeGraphic();
+					var websiteGraphic:cWebsiteGraphic = new cWebsiteGraphic();
 					websiteGraphic.addEventListener("cWebsiteGraphicClickedEvent", websiteGraphicClickedHandler);
 					websiteGraphic.addEventListener("cEditWebsiteEvent", editWebsiteHandler);
 					websiteGraphic.updateInformation(websiteEntry.mName,
@@ -510,7 +510,7 @@
 			 */
 			public function addWebsiteToVBoxes(websiteEntry:cWebsiteEntry):void {
 				
-				var websiteGraphic:cWebsiteDynamicLargeGraphic = new cWebsiteDynamicLargeGraphic();
+				var websiteGraphic:cWebsiteGraphic = new cWebsiteGraphic();
 				websiteGraphic.addEventListener("cWebsiteGraphicClickedEvent", websiteGraphicClickedHandler);
 				websiteGraphic.addEventListener("cEditWebsiteEvent", editWebsiteHandler);
 				websiteGraphic.updateInformation(websiteEntry.mName,

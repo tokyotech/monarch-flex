@@ -98,20 +98,15 @@
 			{
 				mAccountInformation.mSelectedCommunityId = event.mCommunityGroupId;	
 				mAccountInformation.mSelectedCommunityName = event.mCommunityGroupName;
-				var websiteCreatorWindow:cCreateWebsiteWindow = cCreateWebsiteWindow(PopUpManager.createPopUp(this, cCreateWebsiteWindow, true));
+				//var websiteCreatorWindow:cCreateWebsiteWindow = cCreateWebsiteWindow(PopUpManager.createPopUp(this, cCreateWebsiteWindow, true));
 				
 				// TODO: the centering code does not work, so I just hardcoded the coordinates
-				websiteCreatorWindow.x = 350;
-				websiteCreatorWindow.y = 150;
+				//websiteCreatorWindow.x = 350;
+				//websiteCreatorWindow.y = 150;
 				
-				// websiteCreatorWindow.open(true);
-				/*
-				websiteCreatorWindow.nativeWindow.x = nativeWindow.x + (nativeWindow.width - websiteCreatorWindow.nativeWindow.width) / 2;
-				websiteCreatorWindow.nativeWindow.y = nativeWindow.y + (nativeWindow.height - websiteCreatorWindow.nativeWindow.height) / 2;
-				*/
-				websiteCreatorWindow.addEventListener("cCreateWebsiteEvent", createWebsiteWindowCloseHandler);
-				// websiteCreatorWindow.alwaysInFront = true;
-				this.enabled = false;
+				mEngine.getAllWebsites();
+				
+				
 			}
 			
 			/**
@@ -248,7 +243,7 @@
 			 * 	Detects that website statistics data should be fetched from the server. It requests
 			 *  this through the engine.
 			 */
-			private function requestWebsiteStatHandler(event:cWebsiteGraphicClickedEvent):void
+			private function requestWebsiteStatHandler(event:cAllPurposeEvent):void
 			{
 				mEngine.getAnalytics(event.mCommGroupId, event.mWebsiteName);
 				
@@ -330,10 +325,10 @@
 			 * 	Event handler which signals to the main window that the engine has recieved
 			 *  website created event.
 			 */
-			private function newWebsiteCreatedServiceHandler(event:cNewWebsiteEvent):void
+			private function newWebsiteCreatedServiceHandler(event:cNewWebsitesEvent):void
 			{				
 				/* adds the newly website entry to the appropriate community group entry */
-				for(var i:int = 0; i < mAccountInformation.mCommunities.length; i++) {
+				/*for(var i:int = 0; i < mAccountInformation.mCommunities.length; i++) {
 					var entry:cCommunityGroupEntry = cCommunityGroupEntry(mAccountInformation.mCommunities.getItemAt(i));
 					if(entry.mId == mAccountInformation.mSelectedCommunityId) {
 						
@@ -341,7 +336,7 @@
 					}
 				}
 				mLoggedInCanvas.updateInformation(mAccountInformation);
-				mLoggedInCanvas.addWebsiteToCommGroupBrowerCanvas(event.mWebsiteEntry);
+				mLoggedInCanvas.addWebsiteToCommGroupBrowerCanvas(event.mWebsiteEntry);*/
 				
 				//mLoader.stop();
 	            //mLoader.visible = false;
@@ -354,6 +349,24 @@
 			{
 				//mLoader.stop();
 				//mLoader.visible = false;
+			}
+			
+			/**
+			 * 	Event handler called when mEngine receives the 
+			 */
+			private function allWebsitesReadyServiceHandler(event:cNewWebsitesEvent):void
+			{
+				var websiteCreatorWindow:cCreateWebsiteWindow = new cCreateWebsiteWindow();
+				websiteCreatorWindow.updateInformation(event.mWebsites);
+				
+				websiteCreatorWindow.open(true);
+				
+				websiteCreatorWindow.nativeWindow.x = nativeWindow.x + (nativeWindow.width - websiteCreatorWindow.nativeWindow.width) / 2;
+				websiteCreatorWindow.nativeWindow.y = nativeWindow.y + (nativeWindow.height - websiteCreatorWindow.nativeWindow.height) / 2;
+				
+				websiteCreatorWindow.addEventListener("cCreateWebsiteEvent", createWebsiteWindowCloseHandler);
+				websiteCreatorWindow.alwaysInFront = true;
+				this.enabled = false;
 			}
 			
 			
@@ -482,7 +495,9 @@
 							 	NewCommunityCreatedEvent="newCommunityCreatedServiceHandler(event)"
 							  	AnalyticsReadyEvent="analyticsReadyServiceHandler(event)"
 							  	FailedEvent="failedServiceHandler(event)"
-							  	NewWebsiteCreatedEvent="newWebsiteCreatedServiceHandler(event)" verticalCenter="-354" horizontalCenter="-519">
+							  	NewWebsiteCreatedEvent="newWebsiteCreatedServiceHandler(event)" verticalCenter="-354" horizontalCenter="-519"
+							  	AllWebsitesReadyEvent="allWebsitesReadyServiceHandler(event)">
+							  	
 	</local:cEngine>
 	<!--
 	I forgot where Puneet said to put this:

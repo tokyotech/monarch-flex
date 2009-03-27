@@ -5,8 +5,9 @@
 		[Event(name="AccountCreatedEvent", type="cLoggedinEvent")]
 		[Event(name="CommunityCreatedEvent", type="flash.events.Event")]
 		[Event(name="NewCommunityCreatedEvent", type="cNewCommunityEvent")]
-		[Event(name="NewWebsiteCreatedEvent", type="cNewWebsiteEvent")]
+		[Event(name="NewWebsiteCreatedEvent", type="cNewWebsitesEvent")]
 		[Event(name="AnalyticsReadyEvent", type="cAnalysisDataReadyEvent")]
+		[Event(name="AllWebsitesReadyEvent", type="cNewWebsitesEvent")]
 		[Event(name="FailedEvent", type="flash.events.Event")]
 	</mx:Metadata>
 
@@ -153,6 +154,14 @@
     			
     			mAnalyticsRequestHTTPService.send();
     		}
+    		
+    		/**
+    		 * 	Reuqests a to fetch all websites from the server.
+    		 */
+    		public function getAllWebsites():void
+    		{
+    			mAllWebsitesRequestHTTPService.send();
+    		} 
     		
     		//////////////////////////////////////////////////////////////////////////////////////
 			//
@@ -334,10 +343,10 @@
     		 */
     		private function addWebsiteHTTPServiceResultHandler(event:ResultEvent):void
     		{        		    					    	    							    			    			    			
-    			var xmlTree:XML = XML(event.result);
+    			/*var xmlTree:XML = XML(event.result);
     			var  newWebsiteInformationList:XMLListCollection = new XMLListCollection(xmlTree.elements("WebsiteInformation"));
 				if(newWebsiteInformationList.children().length() > 0) { 
-					var e:cNewWebsiteEvent = new cNewWebsiteEvent("NewWebsiteCreatedEvent");
+					var e:cNewWebsitesEvent = new cNewWebsitesEvent("NewWebsiteCreatedEvent");
 					var id:int = int(newWebsiteInformationList.elements("websiteId"));
     				var name:String = newWebsiteInformationList.elements("websiteName");
 					var URL:String = newWebsiteInformationList.elements("websiteURL");
@@ -354,7 +363,7 @@
     				Alert.show("The website name you chose is already in use. Please choose a different website name.", 
     				           "Website Creation Failed Message");
     			}
-    			return;
+    			return;*/
     		}
     		
     		/**
@@ -367,6 +376,30 @@
 				var e:cAnalysisDataReadyEvent = new cAnalysisDataReadyEvent("AnalyticsReadyEvent");
 				e.mAnalysisParser = analysisParser;				
 				dispatchEvent(e);
+    		}
+    		
+    		/**
+    		 * 	Detetcs that the HTTP service component has returned a collection of all of the websites.
+    		 */
+    		private function allWebsitesHTTPServiceResultHandler(event:ResultEvent):void
+    		{   			
+    			var e:cNewWebsitesEvent = new cNewWebsitesEvent("AllWebsitesReadyEvent");
+    			
+    			var xmlTree:XML = XML(event.result);
+    			var  websites:XMLListCollection = new XMLListCollection(xmlTree.elements("AllWebsites"));
+				var numberOfWebsites:int = int(websites.elements("numberOfWebsites"));				
+				for(var i:int = 0; i < numberOfWebsites; i++) {
+					var  website:XMLListCollection = new XMLListCollection(websites.elements("Website" + i));
+
+					var id:int = int(website.elements("id"));
+					var name:String = website.elements("name");
+					var type:String = website.elements("type");
+					
+					var websiteEntry:cWebsiteEntry = new cWebsiteEntry(id, name, "", type, 0);
+					e.mWebsites.addItem(websiteEntry);
+				}
+				
+				this.dispatchEvent(e);
     		}
     		
     	]]>
@@ -427,5 +460,7 @@
 			<community>{mCommunityId}</community>
 			<websiteName>{mWebsiteName}</websiteName>
 		</mx:request>
+	</mx:HTTPService>
+	<mx:HTTPService id="mAllWebsitesRequestHTTPService" result="allWebsitesHTTPServiceResultHandler(event)" url="http://csil-srprj-2.cs.uiuc.edu/Client/getAllWebsites.php" resultFormat="e4x" method="GET" useProxy="false">
 	</mx:HTTPService>		
 </mx:Module>

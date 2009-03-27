@@ -2,7 +2,7 @@
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="1013" height="625" xmlns:local="*">
 	<mx:Metadata>
 		[Event(name="CreateCommunityGroupEvent", type="cCreateCommunityGroupEvent")]
-		[Event(name="RequestWebsiteStatsEvent", type="cWebsiteGraphicClickedEvent")]
+		[Event(name="RequestWebsiteStatsEvent", type="cAllPurposeEvent")]
 		[Event(name="OpenWebsiteCreatorWindowEvent", type="cCreateWebsiteEvent")]
 		[Event(name="EditWebsiteLabelClickedEvent", type="cEditWebsiteEvent")]
 		[Event(name="OpenAddWebsiteWindowEvent", type="cCreateWebsiteEvent")]
@@ -136,26 +136,6 @@
 			}
 			
 			/**
-			 *	Detects request to view particular website statistics and fires a request to the engine.
-			 */
-			private function openWebsiteStatBrowserCanvasHandler(event:cWebsiteGraphicClickedEvent):void
-			{
-				var e:cWebsiteGraphicClickedEvent = new cWebsiteGraphicClickedEvent("RequestWebsiteStatsEvent");
-				e.mWebsiteName = event.mWebsiteName;
-				e.mCommGroupId = event.mCommGroupId;
-				e.mWebsiteType = event.mWebsiteType;
-				e.mWebsiteURL = event.mWebsiteURL;
-				e.mWebsiteCreatedTime = event.mWebsiteCreatedTime;
-				
-				mWebsiteSelectedName = e.mWebsiteName;
-				mWebsiteSelectedURL = e.mWebsiteURL;
-				mWebsiteSelectedType = e.mWebsiteType;
-				mWebsiteSelectedCreatedTime = e.mWebsiteCreatedTime;
-				
-				this.dispatchEvent(e);
-			}
-			
-			/**
 			 * 	Detects a request to open the create website window and fires a request to the main window.
 			 */
 			private function openWebsiteCreatorWindowHandler(event:cCreateWebsiteEvent):void
@@ -183,7 +163,6 @@
 			private function OpenRegExCanvasHandler(event:cEditWebsiteEvent):void
 			{
 				//mMyCommViewStack.selectedIndex = 6;
-				
 				//mRegularExpressionEditorCanvas.updateInformation(event);
 			}
 			
@@ -222,9 +201,9 @@
 			/**
 			 * 
 			 */
-			private function fetchWebsiteAnalyticsHandler(event:cWebsiteGraphicClickedEvent):void
+			private function fetchWebsiteAnalyticsHandler(event:cAllPurposeEvent):void
 			{
-				var e:cWebsiteGraphicClickedEvent = new cWebsiteGraphicClickedEvent("RequestWebsiteStatsEvent");
+				var e:cAllPurposeEvent = new cAllPurposeEvent("RequestWebsiteStatsEvent");
 				e.mWebsiteName = event.mWebsiteName;
 				e.mCommGroupId = event.mCommGroupId;
 				this.dispatchEvent(e);

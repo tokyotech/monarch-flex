@@ -6,7 +6,7 @@
 		[Event(name="OpenCommunityGroupHomeCanvasEvent", type="flash.events.Event")]
 		[Event(name="OpenAdditionalWebsiteInformationEvent", type="cAccordionWebsiteGraphicEvent")]
 		[Event(name="OpenCommunityGroupEditorCanvasEvent", type="cCommunityGroupEditorEvent")]
-		[Event(name="FetchWebsiteAnalytics", type="cWebsiteGraphicClickedEvent")]
+		[Event(name="FetchWebsiteAnalytics", type="cAllPurposeEvent")]
 		[Event(name="OpenAddWebsiteWindowEvent", type="cCreateWebsiteEvent")]
 	</mx:Metadata>
 
@@ -170,7 +170,7 @@
 					this.dispatchEvent(e);
 				}
 				else if(event.mType == event.WEBSITE_CHECKED) {
-					var e1:cWebsiteGraphicClickedEvent = new cWebsiteGraphicClickedEvent("FetchWebsiteAnalytics");
+					var e1:cAllPurposeEvent = new cAllPurposeEvent("FetchWebsiteAnalytics");
 					e1.mWebsiteName = event.mWebsiteName;
 					e1.mCommGroupId = mCommGroupId;
 					this.dispatchEvent(e1);
