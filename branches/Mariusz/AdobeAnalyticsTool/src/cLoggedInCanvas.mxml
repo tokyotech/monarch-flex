@@ -199,7 +199,7 @@
 			}
 			
 			/**
-			 * 
+			 * 	
 			 */
 			private function fetchWebsiteAnalyticsHandler(event:cAllPurposeEvent):void
 			{
@@ -209,6 +209,13 @@
 				this.dispatchEvent(e);
 			}
 			
+			/**
+			 * Called when the mRegularExpressionEditorCanvas recieves the RegExProcessingCompleteEvent.
+			 */
+			private function regExProcessingCompleteHandler(event:cCreateWebsiteEvent):void
+			{
+				Alert.show("RegEx Processing Complete");
+			}
 			
 			///////////////////////////////////////////////////////////////////////////////////
 			//
@@ -283,17 +290,42 @@
 		<mx:ViewStack id="mMyCommViewStack" label="My Community Groups" width="1013" height="625">
 			<local:cMyCommunityGroupHomeCanvas id="mMyCommunityGroupHomeCanvas" MyCommunityGroupClickedEvent="myCommunityGroupClickedHandler(event)" height="616" width="1012">
 			</local:cMyCommunityGroupHomeCanvas>
-			<local:cMyCommunityGroupSelectionCanvas id="mMyCommHomeCanvas" OpenCommunityGroupHomeCanvasEvent="openCommunityGroupHomeCanvas(event)" show="showMyCommunityGroupsSelectionCanvasHandler(event)" OpenCommunityGroupBrowserCanvasEvent="openCommunityGroupBrowserCanvasHandler(event)" OpenCreateCommunityGroupCanvasEvent="openCreateCommGroupCanvasHandler(event)" label="My Community Groups" height="616" width="1012">
+			<local:cMyCommunityGroupSelectionCanvas id="mMyCommHomeCanvas" OpenCommunityGroupHomeCanvasEvent="openCommunityGroupHomeCanvas(event)" 
+																		   show="showMyCommunityGroupsSelectionCanvasHandler(event)" 
+																		   OpenCommunityGroupBrowserCanvasEvent="openCommunityGroupBrowserCanvasHandler(event)" 
+																		   OpenCreateCommunityGroupCanvasEvent="openCreateCommGroupCanvasHandler(event)" 
+																		   label="My Community Groups" height="616" width="1012">
 			</local:cMyCommunityGroupSelectionCanvas>
-			<local:cCreateCommunityGroupCanvas id="mCreateCommunityGroupCanvas" OpenCommunityGroupSelectionClickedEvent="myCommunityGroupClickedHandler(event)" OpenCommunityGroupHomeCanvasEvent="openCommunityGroupHomeCanvas(event)" BackLabelClickedEvent="createCommBackLabelClickedHandler(event)" height="577" width="1003">
+			<local:cCreateCommunityGroupCanvas id="mCreateCommunityGroupCanvas" OpenCommunityGroupSelectionClickedEvent="myCommunityGroupClickedHandler(event)" 
+																				OpenCommunityGroupHomeCanvasEvent="openCommunityGroupHomeCanvas(event)" 
+																				BackLabelClickedEvent="createCommBackLabelClickedHandler(event)" 
+																				height="577" width="1003">
 			</local:cCreateCommunityGroupCanvas>
-			<local:cCommunityGroupBrowserCanvas id="mCommunityGroupBrowserCanvas" OpenAddWebsiteWindowEvent="openAddWebsiteWindowHandler(event)" FetchWebsiteAnalytics="fetchWebsiteAnalyticsHandler(event)" OpenCommunityGroupEditorCanvasEvent="openCommunityGroupEditorCanvasHandler(event)" OpenAdditionalWebsiteInformationEvent="openAdditionalWebsiteInformationHandler(event)" OpenCommunityGroupSelectionClickedEvent="openCommunityGroupSelectionCanvas(event)" OpenCommunityGroupHomeCanvasEvent="openCommunityGroupHomeCanvas(event)" >
+			<local:cCommunityGroupBrowserCanvas id="mCommunityGroupBrowserCanvas" OpenAddWebsiteWindowEvent="openAddWebsiteWindowHandler(event)" 
+																				  FetchWebsiteAnalytics="fetchWebsiteAnalyticsHandler(event)" 
+																				  OpenCommunityGroupEditorCanvasEvent="openCommunityGroupEditorCanvasHandler(event)" 
+																				  OpenAdditionalWebsiteInformationEvent="openAdditionalWebsiteInformationHandler(event)" 
+																				  OpenCommunityGroupSelectionClickedEvent="openCommunityGroupSelectionCanvas(event)" 
+																				  OpenCommunityGroupHomeCanvasEvent="openCommunityGroupHomeCanvas(event)" >
 			</local:cCommunityGroupBrowserCanvas>
-			<local:cWebsiteAdditionalStatsBrowserCanvas id="mWebsiteAdditionalInformationStatBrowserCanvas" OpenRegExCanvasEvent="OpenRegExCanvasHandler(event)" OpenCommunityGroupBrowserCanvasEvent="reOpenCommunityGroupBrowserCanvasHandler(event)" OpenCommunityGroupHomeCanvasEvent="openCommunityGroupHomeCanvas(event)" OpenCommunityGroupSelectionClickedEvent="openCommunityGroupSelectionCanvas(event)">
+			<local:cWebsiteAdditionalStatsBrowserCanvas id="mWebsiteAdditionalInformationStatBrowserCanvas" 
+																		OpenRegExCanvasEvent="OpenRegExCanvasHandler(event)" 
+																		OpenCommunityGroupBrowserCanvasEvent="reOpenCommunityGroupBrowserCanvasHandler(event)" 
+																		OpenCommunityGroupHomeCanvasEvent="openCommunityGroupHomeCanvas(event)" 
+																		OpenCommunityGroupSelectionClickedEvent="openCommunityGroupSelectionCanvas(event)">
 			</local:cWebsiteAdditionalStatsBrowserCanvas>
-			<local:cCommunityGroupEditorCanvas OpenAddWebsiteWindowEvent="openAddWebsiteWindowHandler(event)" id="communityGroupEditorCanvas" OpenCommunityGroupBrowserCanvasEvent="reOpenCommunityGroupBrowserCanvasHandler(event)" OpenCommunityGroupHomeCanvasEvent="openCommunityGroupHomeCanvas(event)" OpenCommunityGroupSelectionClickedEvent="openCommunityGroupSelectionCanvas(event)">
+			<local:cCommunityGroupEditorCanvas id="communityGroupEditorCanvas"  
+											   OpenAddWebsiteWindowEvent="openAddWebsiteWindowHandler(event)"
+				                   			   OpenCommunityGroupBrowserCanvasEvent="reOpenCommunityGroupBrowserCanvasHandler(event)" 
+				                   			   OpenCommunityGroupHomeCanvasEvent="openCommunityGroupHomeCanvas(event)" 
+				                   			   OpenCommunityGroupSelectionClickedEvent="openCommunityGroupSelectionCanvas(event)">
 			</local:cCommunityGroupEditorCanvas>
-			<local:cRegularExpressionEditorCanvas id="mRegularExpressionEditorCanvas" OpenWebsiteAdditionalStatBrowserCanvasEvent="reOpenWebsiteAdditionalStatBrowserCanvasHandler(event)" OpenCommunityGroupBrowserCanvasEvent="reOpenCommunityGroupBrowserCanvasHandler(event)" OpenCommunityGroupHomeCanvasEvent="openCommunityGroupHomeCanvas(event)" OpenCommunityGroupSelectionClickedEvent="openCommunityGroupSelectionCanvas(event)">
+			<local:cRegularExpressionEditorCanvas id="mRegularExpressionEditorCanvas" 
+												OpenWebsiteAdditionalStatBrowserCanvasEvent="reOpenWebsiteAdditionalStatBrowserCanvasHandler(event)" 
+												OpenCommunityGroupBrowserCanvasEvent="reOpenCommunityGroupBrowserCanvasHandler(event)" 
+												OpenCommunityGroupHomeCanvasEvent="openCommunityGroupHomeCanvas(event)" 
+												RegExProcessingCompleteEvent="regExProcessingCompleteHandler(event)"
+												OpenCommunityGroupSelectionClickedEvent="openCommunityGroupSelectionCanvas(event)">
 			</local:cRegularExpressionEditorCanvas>
 		</mx:ViewStack>
 		<mx:ViewStack id="mAllCommViewStack" label="All Community Groups" width="1013" height="585">

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="creationCompleteHandler(event)" close="closeHandler(event)" layout="absolute" width="1040" height="710" title="Adobe Community Analytics" showGripper="false" xmlns:local="*">
+<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="creationCompleteHandler(event)" close="closeHandler(event)" layout="absolute" width="1040" height="710" title="Adobe Community Analytics" showGripper="false" xmlns:local="*" viewSourceURL="srcview/index.html">
 <mx:Style source="../skin/src/style/style.css"/>	
 	<mx:Script>
 		<![CDATA[
@@ -22,8 +22,6 @@
 			{
 				if(event.mType == event.SIGN_IN) {
 					mEngine.loginToAccount(event.mEmail, event.mPassword);
-					//mLoader.visible = true;
-	            	//mLoader.play();
 				}
 				this.enabled = true;
 			}
@@ -35,8 +33,6 @@
 			{
 				if(event.mType == event.CREATE_ACCOUNT) {
 					mEngine.createAccount(event.mFullName, event.mEmail, event.mPassword);
-					//mLoader.visible = true;
-	            	//mLoader.play();
 				}
 				this.enabled = true;
 			}
@@ -49,26 +45,15 @@
 				if(mConnectedToInternet) {
 					
 					var signInWindow:cSignInWindow = cSignInWindow(PopUpManager.createPopUp(this, cSignInWindow, true));
-
-	                // TODO: the centering code does not work, so I just hardcoded the coordinates
-	                signInWindow.x = 350;
-	                signInWindow.y = 250;
-
-					/*
-					var signInWindow:cSignInWindow = new cSignInWindow();
-					signInWindow.open(true);
-					signInWindow.nativeWindow.x = nativeWindow.x + (nativeWindow.width - signInWindow.nativeWindow.width) / 2;
-					signInWindow.nativeWindow.y = nativeWindow.y + (nativeWindow.height - signInWindow.nativeWindow.height) / 2;
-					*/
+					signInWindow.x = (nativeWindow.width - signInWindow.width) / 2;
+					signInWindow.y = (nativeWindow.height - signInWindow.height) / 2;
 
 					signInWindow.addEventListener("cSignInEvent", signInWindowCloseHandler);
-					// signInWindow.alwaysInFront = true;
-					// this.enabled = false;
 				}
 			}
 			
 			/**
-			 * 	Event handler which listens to the create website window events.
+			 * 	Event handler which listens to the create or add website window events.
 			 */
 			private function createWebsiteWindowCloseHandler(event:cCreateWebsiteEvent):void
 			{
@@ -88,6 +73,9 @@
 					//mLoader.visible = true;
 	            	//mLoader.play();
 				}
+				else if(event.mType == event.ADD_WEBSITES) {
+					mEngine.addWebsites(mAccountInformation.mSelectedCommunityId, event.mWebsiteIds);
+				}
 				this.enabled = true;
 			}
 			
@@ -98,88 +86,15 @@
 			{
 				mAccountInformation.mSelectedCommunityId = event.mCommunityGroupId;	
 				mAccountInformation.mSelectedCommunityName = event.mCommunityGroupName;
-				//var websiteCreatorWindow:cCreateWebsiteWindow = cCreateWebsiteWindow(PopUpManager.createPopUp(this, cCreateWebsiteWindow, true));
 				
-				// TODO: the centering code does not work, so I just hardcoded the coordinates
-				//websiteCreatorWindow.x = 350;
-				//websiteCreatorWindow.y = 150;
+				var websiteCreatorWindow:cCreateWebsiteWindow = cCreateWebsiteWindow(PopUpManager.createPopUp(this, cCreateWebsiteWindow, true));
 				
-				mEngine.getAllWebsites();
+				websiteCreatorWindow.x = (nativeWindow.width - websiteCreatorWindow.width) / 2;
+				websiteCreatorWindow.y = (nativeWindow.height - websiteCreatorWindow.height) / 2;
 				
-				
+				websiteCreatorWindow.addEventListener("cCreateWebsiteEvent", createWebsiteWindowCloseHandler);
+				this.enabled = false;			
 			}
-			
-			/**
-			 * 	Called when the user hovers the mouse over the sign in label.
-			 */
-			/*
-			private function signInRollOverHandler(event:Event):void
-			{
-				if(mConnectedToInternet) {
-					mSignInLabel.setStyle("color", "0xFF6666");
-				}
-			}
-			*/
-			
-			/**
-			 * 	Called when the user hovers the mouse away from the sign in label.
-			 */
-			/*
-			private function signInRollOutHandler(event:Event):void
-			{
-				if(mConnectedToInternet) {
-					mSignInLabel.setStyle("color", "0x11d30c");
-				}
-			}
-			*/
-			
-			/**
-			 * 	Called when the user hovers the mouse over the sign out label.
-			 */
-			/*
-			private function signOutRollOverHandler(event:Event):void
-			{
-				if(mConnectedToInternet) {
-					mSignOutButton.setStyle("color", "0xFF6666");
-				}
-			}
-			*/
-			
-			/**
-			 * 	Called when the user hovers the mouse away from the sign out label.
-			 */
-			/*
-			private function signOutRollOutHandler(event:Event):void
-			{
-				if(mConnectedToInternet) {
-					mSignOutButton.setStyle("color", "0x11d30c");
-				}
-			}
-			*/
-			
-			/**
-			 * 	Called when the user hovers the mouse over the create account label.
-			 */
-			/*
-			private function createAccountRollOverHandler(event:Event):void
-			{
-				if(mConnectedToInternet) {
-					mCreateAccountButton.setStyle("color", "0xFF6666");
-				}
-			}
-			*/
-			
-			/**
-			 * 	Called when the user hovers the mouse away from the sign out label.
-			 */
-			/*
-			private function createAccountRollOutHandler(event:Event):void
-			{
-				if(mConnectedToInternet) {
-					mCreateAccountButton.setStyle("color", "0x11d30c");
-				}
-			}
-			*/
 			
 			/**
 			 * 	Function which lanuches a sign out window.
@@ -205,15 +120,9 @@
 				if(mConnectedToInternet) {
 					var createAccountWindow:cCreateAccountWindow = cCreateAccountWindow(PopUpManager.createPopUp(this, cCreateAccountWindow, true));
 					
-					// TODO: the centering code does not work, so I just hardcoded the coordinates
-					createAccountWindow.x = 350;
-					createAccountWindow.y = 200;
-					/*
-					var createAccountWindow:cCreateAccountWindow = new cCreateAccountWindow();
-					createAccountWindow.open(true);
-					createAccountWindow.nativeWindow.x = nativeWindow.x + (nativeWindow.width - createAccountWindow.nativeWindow.width) / 2;
-					createAccountWindow.nativeWindow.y = nativeWindow.y + (nativeWindow.height - createAccountWindow.nativeWindow.height) / 2;
-					*/
+					createAccountWindow.x = (nativeWindow.width - createAccountWindow.width) / 2;
+					createAccountWindow.y = (nativeWindow.height - createAccountWindow.height) / 2;
+					
 					createAccountWindow.addEventListener("cCreateAccountEvent", createAccountWindowCloseHandler);
 					// createAccountWindow.alwaysInFront = true;
 					this.enabled = false;
@@ -234,9 +143,6 @@
 			private function createCommunityGroupEventHandler(event:cCreateCommunityGroupEvent):void
 			{
 				mEngine.createCommunity(event.mCommName, event.mKeywords, mAccountInformation.mUserId);
-				
-				//mLoader.visible = true;
-	            //mLoader.play();
 			}
 			
 			/**
@@ -246,9 +152,6 @@
 			private function requestWebsiteStatHandler(event:cAllPurposeEvent):void
 			{
 				mEngine.getAnalytics(event.mCommGroupId, event.mWebsiteName);
-				
-				//mLoader.visible = true;
-            	//mLoader.play();
 			}
 			
 			
@@ -271,9 +174,6 @@
 													event.mCommunities);
 				mLoggedInCanvas.updateInformation(mAccountInformation);
 				mMainViewStack.selectedIndex = 1;
-				
-	            //mLoader.stop();
-	            //mLoader.visible = false;
 			}
 			
 			/**
@@ -290,9 +190,6 @@
 				mLoggedInCanvas.updateInformation(mAccountInformation);
 				mMainViewStack.selectedIndex = 1; 
 				mLoggedInCanvas.openMyCommHomeCanvas();
-				
-				//mLoader.stop();
-	            //mLoader.visible = false;
 			}
 			
 			/**
@@ -304,9 +201,6 @@
 				mAccountInformation.mCommunities.addItemAt(event.mCommunityGroupEntry, 0);
 				mLoggedInCanvas.updateInformation(mAccountInformation);
 				mLoggedInCanvas.openMyCommHomeCanvas();
-				
-				//mLoader.stop();
-	            //mLoader.visible = false;
 			}
 			
 			/**
@@ -316,9 +210,6 @@
 			private function analyticsReadyServiceHandler(event:cAnalysisDataReadyEvent):void
 			{
 				mLoggedInCanvas.updateWebsiteAnalytics(event.mAnalysisParser);
-				
-				//mLoader.stop();
-	            //mLoader.visible = false;
 			}
 			
 			/**
@@ -349,24 +240,6 @@
 			{
 				//mLoader.stop();
 				//mLoader.visible = false;
-			}
-			
-			/**
-			 * 	Event handler called when mEngine receives the 
-			 */
-			private function allWebsitesReadyServiceHandler(event:cNewWebsitesEvent):void
-			{
-				var websiteCreatorWindow:cCreateWebsiteWindow = new cCreateWebsiteWindow();
-				websiteCreatorWindow.updateInformation(event.mWebsites);
-				
-				websiteCreatorWindow.open(true);
-				
-				websiteCreatorWindow.nativeWindow.x = nativeWindow.x + (nativeWindow.width - websiteCreatorWindow.nativeWindow.width) / 2;
-				websiteCreatorWindow.nativeWindow.y = nativeWindow.y + (nativeWindow.height - websiteCreatorWindow.nativeWindow.height) / 2;
-				
-				websiteCreatorWindow.addEventListener("cCreateWebsiteEvent", createWebsiteWindowCloseHandler);
-				websiteCreatorWindow.alwaysInFront = true;
-				this.enabled = false;
 			}
 			
 			
@@ -495,8 +368,7 @@
 							 	NewCommunityCreatedEvent="newCommunityCreatedServiceHandler(event)"
 							  	AnalyticsReadyEvent="analyticsReadyServiceHandler(event)"
 							  	FailedEvent="failedServiceHandler(event)"
-							  	NewWebsiteCreatedEvent="newWebsiteCreatedServiceHandler(event)" verticalCenter="-354" horizontalCenter="-519"
-							  	AllWebsitesReadyEvent="allWebsitesReadyServiceHandler(event)">
+							  	NewWebsiteCreatedEvent="newWebsiteCreatedServiceHandler(event)" verticalCenter="-354" horizontalCenter="-519">
 							  	
 	</local:cEngine>
 	<!--

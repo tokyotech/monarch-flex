@@ -114,16 +114,18 @@
 				var seriesCollection:Array = new Array();
 				var x:Number, j:int, y:Number, timeStamp:int;
 				var dateString:String;
+				// loop through all of the keywords for the community 
 				for(var i:int = 0; i < analyticsParser.mKeywordData.length; i++)
 				{
 					var keyword:cKeywordAnalyticsEntry = cKeywordAnalyticsEntry(analyticsParser.mSortedData.getItemAt(i));
 					var hasKeyword:Boolean = false;
+					// check if the keyword has been selected for viewing by the user
 					for(var word:int = 0; word < selectedKeywords.length; word++) {
 						if(selectedKeywords.getItemAt(word).toString() == keyword.mName) {
 							hasKeyword = true;
 						}
 					}
-				
+					// if the keyword was selected for viewing then extract its data points
 					if(hasKeyword) {
 						var series:LineSeries = new LineSeries();
 						

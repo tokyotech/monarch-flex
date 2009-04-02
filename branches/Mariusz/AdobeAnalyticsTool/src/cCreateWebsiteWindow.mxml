@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Window xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="creationCompleteHandler(event)" show="creationCompleteHandler(event)" close="closingHandler(event)" layout="absolute" width="444" height="440" showStatusBar="false" showInAutomationHierarchy="false" showGripper="false" showTitleBar="false" maxHeight="440" maxWidth="444" minHeight="440" minWidth="444" disabledOverlayAlpha=".7" backgroundDisabledColor="#000000" horizontalScrollPolicy="off" xmlns:local="*">
-
-<mx:Metadata>
-		[Event(name="CreateWebsiteEvent", type="cCreateWebsiteEvent")]
-</mx:Metadata>
-
-<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="creationCompleteHandler(event)" show="creationCompleteHandler(event)" close="closingHandler(event)" layout="absolute" width="444" height="440" showInAutomationHierarchy="false" maxHeight="440" maxWidth="444" minHeight="440" minWidth="444" disabledOverlayAlpha=".7" backgroundDisabledColor="#000000" horizontalScrollPolicy="off" showCloseButton="true" title="Add Website">
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="creationCompleteHandler(event)" show="creationCompleteHandler(event)" close="closingHandler(event)" layout="absolute" width="444" height="440" showInAutomationHierarchy="false" maxHeight="440" maxWidth="444" minHeight="440" minWidth="444" disabledOverlayAlpha=".7" backgroundDisabledColor="#000000" horizontalScrollPolicy="off" showCloseButton="true" title="Add Website" xmlns:local="*">
 	
+	<mx:Metadata>
+		[Event(name="CreateWebsiteEvent", type="cCreateWebsiteEvent")]
+		[Event(name="AddWebsitesEvent", type="cCreateWebsiteEvent")]
+	</mx:Metadata>
 	<mx:Script>
 		<![CDATA[
 			import mx.controls.Label;
@@ -88,6 +86,21 @@
 				cCreateWebsiteButton.toolTip = "Add the previously setup website(s) selected";
 			}
 			
+			/**
+			 * 	Event handler called when mEngine receives the AllWebsitesReadyEvent.
+			 */
+			private function allWebsitesReadyServiceHandler(event:cNewWebsitesEvent):void
+			{
+				mAddPrevWebsiteContainer.removeAllChildren();
+				for(var i:int = 0; i < event.mWebsites.length; i++) {
+					var websiteEntry:cWebsiteEntry = cWebsiteEntry(event.mWebsites.getItemAt(i));
+					
+					var entry:cWebsiteGraphic = new cWebsiteGraphic();
+					entry.updateInformation(websiteEntry.mName, websiteEntry.mId);
+					mAddPrevWebsiteContainer.addChild(entry);
+				}
+			}
+			
 
 			///////////////////////////////////////////////////////////////////////////////////
 			//
@@ -133,8 +146,8 @@
 				e.mWebsiteName = mWebsiteNameTextBox.text;
 				e.mWebsiteURL = mWebsiteURLTextBox.text;
 				this.dispatchEvent(e);
-				this.close()
-				//PopUpManager.removePopUp(this);
+				//this.close()
+				PopUpManager.removePopUp(this);
 			}
 			
 			/**
@@ -143,7 +156,7 @@
 			private function addWebsiteProcess():void
 			{
 				var ids:ArrayCollection = new ArrayCollection();
-				// grab all of the websites which have been selected
+				// grab all of the websites (ids) which have been selected
 				for(var i:int = 0; i < mAddPrevWebsiteContainer.getChildren().length; i++) {
 					if(mAddPrevWebsiteContainer.getChildAt(i) is cWebsiteGraphic) {
 						var websiteEntry:cWebsiteGraphic = cWebsiteGraphic(mAddPrevWebsiteContainer.getChildAt(i));
@@ -152,18 +165,30 @@
 						}
 					}
 				}
-				// concat a string of id's separated by commas
-				var s:String = "";
-				for(i = 0; i < ids.length; i++) {
-					if(i){
-						s = s + "," + ids.getItemAt(i);
-					}
-					else {
-						s = ids.getItemAt(i).toString();
-					}
+				
+				// check to make sure the user has selected at least one website before proceeding
+				if(ids.length == 0) {
+					Alert.show("Please select at least one website before proceeding.", "Error", 1, this);
+					return;
 				}
 				
-				
+				// concat a string of id's separated by commas
+				var string:String = "";
+				for(i = 0; i < ids.length; i++) {
+					if(i) {
+						string = string + "," + ids.getItemAt(i);
+					}
+					else {
+						string = ids.getItemAt(i).toString();
+					}
+				}
+				// fire the event signaling that existing websites should be added 
+				var e:cCreateWebsiteEvent = new cCreateWebsiteEvent("cCreateWebsiteEvent");
+				e.mType = e.ADD_WEBSITES;
+				e.mWebsiteIds = string;				
+				this.dispatchEvent(e);
+				//this.close();
+				PopUpManager.removePopUp(this);
 			}
 			
 			/**
@@ -174,16 +199,8 @@
 				var e:cCreateWebsiteEvent = new cCreateWebsiteEvent("cCreateWebsiteEvent");
 				e.mType = e.CANCEL;
 				this.dispatchEvent(e);
-				this.close()
-				//PopUpManager.removePopUp(this);
-			}
-			
-			/**
-			 * 	Updates the internal information of this component.
-			 */
-			public function updateInformation(websites:ArrayCollection):void
-			{
-				mWebsites = websites;
+				//this.close()
+				PopUpManager.removePopUp(this);
 			}
 			
 			
@@ -202,15 +219,6 @@
 				mAddPrevWebsiteContainer.enabled = false;
 				mAddNewWebsiteContainer.enabled = true;
 				cCreateWebsiteButton.toolTip = "Create the website specified";
-				
-				mAddPrevWebsiteContainer.removeAllChildren();
-				for(var i:int = 0; i < mWebsites.length; i++) {
-					var websiteEntry:cWebsiteEntry = cWebsiteEntry(mWebsites.getItemAt(i));
-					
-					var entry:cWebsiteGraphic = new cWebsiteGraphic();
-					entry.updateInformation(websiteEntry.mName, websiteEntry.mId);
-					mAddPrevWebsiteContainer.addChild(entry);
-				}
 			}
 			
 			/**
@@ -227,9 +235,6 @@
 			//								DATA MEMBERS
 			//
 			///////////////////////////////////////////////////////////////////////////////////
-			
-			// collection of websites
-			private var mWebsites:ArrayCollection = null;
 			
 		]]>
 	</mx:Script>
@@ -254,11 +259,8 @@
 	</mx:RadioButton>
 	<mx:VBox height="166" width="418" enabled="false" disabledOverlayAlpha=".9" alpha="1" backgroundDisabledColor="#333333" id="mAddPrevWebsiteContainer" horizontalCenter="2" verticalCenter="86" verticalScrollPolicy="on" horizontalScrollPolicy="off">
 	</mx:VBox>
-	
-	<local:cEngine id="mEngine">
+	<local:cEngine id="mEngine" AllWebsitesReadyEvent="allWebsitesReadyServiceHandler(event)">
 		
 	</local:cEngine>
-
 </mx:TitleWindow>	
-</mx:Window>
 

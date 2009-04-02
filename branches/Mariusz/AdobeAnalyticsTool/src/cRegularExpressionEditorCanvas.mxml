@@ -5,7 +5,7 @@
 		[Event(name="OpenCommunityGroupHomeCanvasEvent", type="flash.events.Event")]
 		[Event(name="OpenCommunityGroupBrowserCanvasEvent", type="flash.events.Event")]
 		[Event(name="OpenWebsiteAdditionalStatBrowserCanvasEvent", type="flash.events.Event")]
-		[Event(name="RegExProcessingCompleteEvent ", type="cCreateWebsiteEvent")]
+		[Event(name="RegExProcessingCompleteEvent", type="cCreateWebsiteEvent")]
 	</mx:Metadata>
 	
 	<mx:Script>
@@ -165,6 +165,7 @@
 					// Dispatch event: will be handled by the server
 					trace("RegEx:");
 					trace(RegExProcessingCompleteEvent);
+					var e:cCreateWebsiteEvent = new cCreateWebsiteEvent("RegExProcessingCompleteEvent");
 					this.dispatchEvent(RegExProcessingCompleteEvent);
 				}	
 						
