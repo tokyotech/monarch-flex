@@ -121,6 +121,9 @@
 					var hasKeyword:Boolean = false;
 					// check if the keyword has been selected for viewing by the user
 					for(var word:int = 0; word < selectedKeywords.length; word++) {
+						trace("selectedKeywords.getItemAt(word).toString() = "+selectedKeywords.getItemAt(word).toString());
+						trace("keyword.mName = "+keyword.mName);
+						
 						if(selectedKeywords.getItemAt(word).toString() == keyword.mName) {
 							hasKeyword = true;
 						}
@@ -137,16 +140,17 @@
 							    Number(keyword.mEnglishProficiencyCollection.getItemAt(j)) * statOptionSelected.mGoodnessWeight  +
 							    Number(keyword.mCountCollection.getItemAt(j)) * statOptionSelected.mCountWeight;
 							
-							mLineGraphData.push({(i.toString()):dateString, ((i+1).toString()):y});
+							mLineGraphData.push({(i.toString()):dateString, (i.toString()+"b"):y});
 						}		
 						
+						trace("timeCollection length = "+keyword.mTimeCollection.length);
 						var stroke:Stroke = new Stroke();
 						// move this out 
 		        		stroke.color = keyword.mColor;
 		        		stroke.weight = 3;
 		 				series.setStyle("lineStroke", stroke);
 		        		series.xField = i.toString();
-		        		series.yField = (i+1).toString();  
+		        		series.yField = i.toString()+"b";  
 		        		
 		        		series.displayName = keyword.mName; 
 						
