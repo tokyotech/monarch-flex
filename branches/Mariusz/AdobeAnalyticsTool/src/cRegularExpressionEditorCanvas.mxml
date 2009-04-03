@@ -77,10 +77,12 @@
 					urlToLoad = "http://" + urlToLoad;
 				}
 				
+				// Initialize variables
+				urlContents = "<html>No website loaded</html>";
+				pageOfPostsContents = "<html>No website loaded</html>";
 				trace("wizard inited");
 				pageLoader = new URLLoader(new URLRequest(urlToLoad));
 				pageLoader.addEventListener(Event.COMPLETE, handlePageLoaded);
-				html = new HTMLLoader();
 			}
 		
 			///////////////////////////////////////////////////////////////////////////////////
@@ -103,9 +105,13 @@
 		
 			private function handlePageLoaded(event:Event):void {
 				trace("Page loaded");
-				urlContents = pageLoader.data;
-				html.loadString(pageLoader.data);
-				
+				urlContents = pageLoader.data;		
+			}
+			
+			private function handlePageOfPostsLoaded(event:Event):void {
+				trace("Page of posts loaded: length of data");
+				if(pageOfPostsLoader.data != null)
+					pageOfPostsContents = pageOfPostsLoader.data;		
 			}
 			
 			// Called when the user clicks the forward button:
@@ -127,8 +133,6 @@
 					if(index == topLevelRegexes.length - 1) { // this is last toplevel regex
 						trace("last toplevel regex");
 						mMainViewStack.selectedChild = pageOfPostsVerify;
-						
-
 					}
 					else if(index == -1) { // must be a sub-level regular expression
 						trace("must be a sub-level regular expression");
@@ -152,9 +156,6 @@
 				else if(mMainViewStack.selectedChild == pageOfPostsVerify) {
 					mMainViewStack.selectedChild = RegexEntry;
 					currState = subLevelRegexes[0];
-					
-					// Trigger event that current regex has changed
-					dispatchEvent(new Event("regexChanged"));
 				}	
 				else { // viewstack1.selectedChild == finalView
 					// Store user input in Site Event
@@ -174,11 +175,13 @@
 					// If the user has already entered a regular expression for this
 					// state, set regexString.text to it
 					if(RegExProcessingCompleteEvent .regularExpressionMap.hasOwnProperty(currState)) {
-						regexString.text = RegExProcessingCompleteEvent .regularExpressionMap[currState];
+						regexString.text = RegExProcessingCompleteEvent.regularExpressionMap[currState];
 					}
 					else {
 						regexString.text = "";
 					}
+					// We have changed text so call text-changed handler
+					onTextInputChange(new Event(Event.CHANGE));
 				}
 			}
 			
@@ -229,6 +232,8 @@
 					else {
 						regexString.text = "";
 					}
+					// We have changed text so call text-changed handler
+					onTextInputChange(new Event(Event.CHANGE));
 				}	
 			}
 			
@@ -246,7 +251,8 @@
 				threadUrlMatch = threadUrlRegex.exec(mPageSourceText.text);
 				if(threadUrlMatch.length > 1) {
 					searchTerms.text = threadUrlMatch[1];
-					pageOfPostsHTML.location = threadUrlMatch[1];
+					pageOfPostsLoader = new URLLoader(new URLRequest(searchTerms.text));
+					pageOfPostsLoader.addEventListener(Event.COMPLETE, handlePageOfPostsLoaded);
 				}
 				else {
 					// TODO: load a dummy page
@@ -254,11 +260,11 @@
 				}
 			}
 			private function viewAppearanceHandler(event:Event):void {
-				var myComponent:UIComponent  = new UIComponent();  
-				myComponent.addChild(html);
-				htmlBox.addChild(myComponent);
-				html.width = htmlBox.width;
-    			html.height = 2880;
+//				var myComponent:UIComponent  = new UIComponent();  
+//				myComponent.addChild(html);
+//				htmlBox.addChild(myComponent);
+//				html.width = htmlBox.width;
+//    			html.height = 2880;
 			}
 			
 			/**
@@ -296,6 +302,12 @@
 						// Set matches test to string of text matches
 						matchesText.text = matchesString;
 					}
+				}
+				else {
+					// Clear highlighting
+					if(feedbackTabs.selectedChild == sourceTab && highlighter) {
+						highlighter.reset();
+					}
 				}		
 			}
 			
@@ -319,6 +331,14 @@
 			//							EVENT HANDLERS
 			//
 			///////////////////////////////////////////////////////////////////////////////////
+			
+			/**
+			 * Called when the HTML view is added to the stage
+			 */
+			private function htmlViewAddedHandler(event:Event):void 
+			{
+				// htmlComponent.htmlText = urlContents;
+			}
 			
 			/**
 			 * 	Called when the user clicks on the home label.
@@ -386,10 +406,13 @@
 			private var currState:String;
 			
 			private var pageLoader:URLLoader;
+			private var pageOfPostsLoader:URLLoader;
 			private var urlToLoad:String; // in application this will be given
 			
 			[Bindable]
-			private var urlContents:String;
+			private var urlContents:String = "<html>No website loaded</html>";
+			[Bindable]
+			private var pageOfPostsContents:String = "<html>No website loaded</html>";
 			private var html:HTMLLoader;
 			
 			// name of the community group
@@ -427,8 +450,7 @@
 			<mx:TextInput id="regexString" change="onTextInputChange(event)"  width="292" horizontalCenter="-340" verticalCenter="-231" borderStyle="solid" borderThickness="0" color="#EFEFEF"/>
 			<mx:TabNavigator id="feedbackTabs" width="974.95" height="481" horizontalCenter="2" verticalCenter="35" change="onTextInputChange(event)">
 	    		<mx:Canvas label="View" id="htmlViewTab" width="100%" height="100%" color="#EFEFEF">
-	    		    <mx:VBox height="449" width="968.95" id="htmlBox" label="Page View"  verticalCenter="-1" horizontalCenter="-2">
-	    		    </mx:VBox>
+	    		    <mx:HTML id="htmlComponent" htmlText="{urlContents}" x="10" y="10" width="952.95" height="440" addedToStage="htmlViewAddedHandler(event)"/>
 	    		</mx:Canvas>
 	    		<mx:VBox label="Source" id="sourceTab" width="100%" height="100%" color="#EFEFEF">
 	    		    <mx:TextArea creationComplete="mPageSourceTextCreationCompleteHandler(event)" show="mPageSourceTextCreationCompleteHandler(event)" width="972" height="447" id="mPageSourceText" selectable="true" verticalScrollPolicy="on" editable="false" wordWrap="true"/>
@@ -447,7 +469,7 @@
 				  		  			<mx:Label text="Website ;"  width="68" fontSize="12"/>
 				  		  			<mx:TextInput id="searchTerms"  borderStyle="solid" borderThickness="0" width="189"/>
 				  		  		</mx:HBox>
-				  		  		<mx:HTML x="0" y="30" width="961" height="407" id="pageOfPostsHTML"/>
+				  		  		<mx:HTML x="0" y="30" width="961" height="407" id="pageOfPostsHTML" htmlText="{pageOfPostsContents}" addedToStage="initializePageOfPostsVerify(event)"/>
 				  		</mx:Canvas>
 				</mx:TabNavigator>
 				<mx:Text x="10" y="10" text="If a &quot;page of posts is shown below click the right arrow. Otherwise revise the &quot;thread url&quot; regular expression in the previous screen." width="972" fontSize="12"/>
