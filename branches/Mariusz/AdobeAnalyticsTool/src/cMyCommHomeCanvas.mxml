@@ -143,6 +143,9 @@
 				var communityGroupEntry:cCommunityGroupEntry;
 				for(i = 0; i < mUserAccountInformation.mCommunities.length; i++) {
 					communityGroupEntry = cCommunityGroupEntry(mUserAccountInformation.mCommunities.getItemAt(i));
+					
+					// Download image for this community
+					
 					var commGroupGraphicEntry:cCommGroupLargeGraphic = new cCommGroupLargeGraphic();
 					commGroupGraphicEntry.addEventListener("cCommGroupGraphicClickedEvent", commGroupGraphicClickedHandler);
 					var justCreated:Boolean = false;

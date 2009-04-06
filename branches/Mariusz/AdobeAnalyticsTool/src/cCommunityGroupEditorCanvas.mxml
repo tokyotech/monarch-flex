@@ -172,6 +172,41 @@
 			}*/
 		}
 		
+		// Called when user clicks to browse for file to upload
+		private function fileBrowseHandler(event:Event):void {
+			mUploadFileReference = new FileReference();
+			mUploadFileReference.addEventListener(Event.SELECT, fileSelectedHandler);
+			mUploadFileReference.browse([new FileFilter("JPEG images", "*.jpg;*.jpeg;*.JPG;*.JPEG")]);
+		}
+		
+		private function fileSelectedHandler(event:Event):void {
+			mUploadFileReference.addEventListener(DataEvent.UPLOAD_COMPLETE_DATA, uploadCompletedHandler);
+			mIconTextBox.text = mUploadFileReference.name;
+		}
+		
+		private function saveClickedHandler(event:Event):void {
+			var uploadRequest:URLRequest = new URLRequest(IMAGE_UPLOAD_URL);
+			
+			// Pass community ID as a parameter during upload
+			var params:URLVariables = new URLVariables();
+    		params.id = mCommunityGroupId;
+    		
+    		uploadRequest.method = URLRequestMethod.POST;
+    		uploadRequest.data = params;
+   			
+   			try {
+				mUploadFileReference.upload(uploadRequest, "Filedata");
+				trace("Uploading... ");
+			} catch (error:Error) {
+				trace("unable to upload file");
+			}
+		}
+		private function uploadCompletedHandler(event:DataEvent):void {
+			mIconTextBox.text = "";
+			Alert.show(event.data);
+			// Do something
+		}
+		
 		
 		///////////////////////////////////////////////////////////////////////////////////
 		//
@@ -204,11 +239,15 @@
 		private var mCommunityGroupName:String = "";
 		// id of the community group
 		private var mCommunityGroupId:int = -1;
+		// FileReference for user image upload
+		private var mUploadFileReference:FileReference;
 		// community group keywords
 		public var mKeywords:ArrayCollection = null;
 		// community group websites
 		public var mWebsites:ArrayCollection = null;
-		
+		// Constant specifying URL of the script to use to upload images; 
+		// TODO: make this a shared constant; also used in cCommGroupLargeGraphic.mxml
+		public var IMAGE_UPLOAD_URL:String = "http://csil-srprj-2.cs.uiuc.edu/monarch/imageUpload.php";
 			
 		]]>
 	</mx:Script>
@@ -227,8 +266,8 @@
 		</mx:Canvas>
 		<mx:TextArea x="94" y="151" height="63" selectable="false" wordWrap="true" editable="false" text="Import an icon to represent your community group. The icon must be a JPEG file with dimensions 64 x 64." width="236" borderThickness="0"/>
 		<mx:TextInput x="18" y="222" width="236" id="mIconTextBox"/>
-		<mx:Button x="262" y="222" label="Browse" id="mBrowseButton"/>
-		<mx:Button x="18" y="252" label="Save"   id="mSaveButton"/>
+		<mx:Button x="262" y="222" label="Browse" id="mBrowseButton" click="fileBrowseHandler(event)"/>
+		<mx:Button x="18" y="252" label="Save"   id="mSaveButton" click="saveClickedHandler(event)"/>
 	</mx:Panel>
 
 	<mx:Panel x="370" y="55" width="313" height="551" layout="absolute" title="Keywords" horizontalScrollPolicy="off" verticalScrollPolicy="off">
