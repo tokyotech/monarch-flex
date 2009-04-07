@@ -110,7 +110,7 @@
 						descriptionText = "What did each replyer say?";
 						break;
 					
-					// TODO: this was taken out of the backend, but your regex thing still asks for it.
+					// TODO: this was taken out of the backend, but your regex thing still asks for it. (not anymores)
 					case "parent URL for thread":
 						break;
 					
@@ -119,14 +119,15 @@
 						break;
 				}
 				
-				image.source = "@Embed('../images/regex" + screenshot + ".jpg')";
+				image.source = IMAGE_URL + screenshot + ".jpg";
 				description.text = descriptionText;
 			}
 	
+		private var IMAGE_URL:String = "http://csil-srprj-2.cs.uiuc.edu/images/";
 		]]>
 	</mx:Script>
 	
-	<mx:Image x="6" y="8" source="@Embed('../images/regexStartPage.jpg')" id="image"/>
+	<mx:Image x="6" y="8" source="" id="image"/>
 	<mx:Text x="10" y="316" text="A lenghthier description of what this regex is." width="596" height="143" id="description"/>
 
 </mx:TitleWindow>

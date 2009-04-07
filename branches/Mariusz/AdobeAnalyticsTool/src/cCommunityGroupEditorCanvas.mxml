@@ -193,7 +193,6 @@
     		
     		uploadRequest.method = URLRequestMethod.POST;
     		uploadRequest.data = params;
-   			
    			try {
 				mUploadFileReference.upload(uploadRequest, "Filedata");
 				trace("Uploading... ");
@@ -248,7 +247,7 @@
 		// Constant specifying URL of the script to use to upload images; 
 		// TODO: make this a shared constant; also used in cCommGroupLargeGraphic.mxml
 		// TODO: unhardcode this URL. Not going to work when they move it to Puneet's lair. 
-		public var IMAGE_UPLOAD_URL:String = "http://csil-srprj-2.cs.uiuc.edu/monarch/imageUpload.php";
+		public var IMAGE_UPLOAD_URL:String = "http://csil-srprj-2.cs.uiuc.edu/imageUpload.php";
 			
 		]]>
 	</mx:Script>

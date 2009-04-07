@@ -129,7 +129,7 @@
 				}		
 			}
 			
-<<<<<<< .mine
+
 			private function handlePageOfPostsError(event:Event):void {
 				// When there is an error in loading a page of posts, alert
 				// the user and return to previous page
@@ -139,7 +139,6 @@
 				
 			}
 			
-=======
 			// ================================================================
 			// regexHelp
 			//    args:  nigger, don't ask me. I don't know what an event is. 
@@ -154,13 +153,12 @@
 				helpWindow.x = 100;
 				helpWindow.y = 50;
 				helpWindow.init(currState);
-				
+				trace("REGEX HELP: "+currState);
 				// TODO: why is nativeWindow undefined whenever I use it but is defined when Mariusz uses it?
 				// helpWindow.x = (nativeWindow.width - helpWindow.width) / 2;
 				// helpWindow.y = (nativeWindow.height - helpWindow.height) / 2;
 			}
 			
->>>>>>> .r156
 			// Called when the user clicks the forward button:
 			//  advances to the next screen
 			private function advanceWizard(event:Event):void {
@@ -452,12 +450,12 @@
 			
 			// TODO: populate these from the database
 			// nextPageOfThreads, threadUrl, threadNumPosts, threadNumViews. Once these are collected, the threadUrl 
-			private var topLevelRegexes:Array = new Array("next page of threads", "number of threads in post", 
-												  "number of views for thread", "thread url");
+			private var topLevelRegexes:Array = new Array("next page of threads", "number of views for thread", "thread url");
 			private var usrRegexes:Object = new Object();
-			private var subLevelRegexes:Array = new Array("next page of posts", "thread title", "first post author", 
+			private var subLevelRegexes:Array = new Array("next page of posts", "thread title", "first post author", "first post author URL",
 												  "first post time", "first post message", "reply author", "reply time",
-												  "reply message", "parent URL for thread");
+												  "reply message");
+
 			[Bindable]
 			private var currState:String;
 			
@@ -500,7 +498,7 @@
 	<mx:Button id="rightButton" click="advanceWizard(event)" horizontalCenter="478" verticalCenter="-284" icon="@Embed(source='../images/arrow_right.png')" toolTip="next regex" width="30" height="30" />
 	<mx:Button horizontalCenter="370" verticalCenter="-284" id="mExitButton" click="exitButtonClickHandler(event)" toolTip="exit" icon="@Embed(source='../images/door_out.png')" width="30" height="30"/>
 	<mx:Button click="backWizard(event)" horizontalCenter="427" verticalCenter="-284" icon="@Embed(source='../images/arrow_left.png')" toolTip="previous regex" width="30" height="30"/>
-	<mx:Button click="regexHelp(event)" horizontalCenter="315" verticalCenter="-284" icon="@Embed(source='../images/help.png')" toolTip="previous regex" width="30" height="30"/>
+	<mx:Button click="regexHelp(event)" horizontalCenter="315" verticalCenter="-284" icon="@Embed(source='../images/help.png')" toolTip="Help" width="30" height="30"/>
 	
 	<mx:ViewStack x="10" y="55" id="mMainViewStack" width="992" height="551">
 		<mx:Canvas id="OpeningScreen" width="100%" height="100%">
