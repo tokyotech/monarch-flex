@@ -42,18 +42,22 @@
 		/**
 		 * 	Called when the user hovers the mouse over the home label.
 		 */
+		/*
 		private function homeLabelRollOverHandler(event:Event):void
 		{
 			mHomeLabel.setStyle("color", "0xFF6666");
 		}
+		*/
 		
 		/**
 		 * 	Called when the user hovers the mouse away from the home label.
 		 */
+		/*
 		private function homeLabelRollOutHandler(event:Event):void
 		{
 			mHomeLabel.setStyle("color", "0x11d30c");
 		}
+		*/
 		
 		/**
 		 * 	Called when the user clicks on the community label.
@@ -67,18 +71,22 @@
 		/**
 		 * 	Called when the user hovers the mouse over the community label.
 		 */
+		/*
 		private function communityLabelRollOverHandler(event:Event):void
 		{
 			mCommunityGroupLabel.setStyle("color", "0xFF6666");
 		}
+		*/
 		
 		/**
 		 * 	Called when the user hovers the mouse away from the community label.
 		 */
+		/*
 		private function communityLabelRollOutHandler(event:Event):void
 		{
 			mCommunityGroupLabel.setStyle("color", "0x11d30c");
 		}
+		*/
 		
 		/**
 		 * 	Called when the user clicks on the community group name label.
@@ -92,18 +100,22 @@
 		/**
 		 * 	Called when the user hovers the mouse over the community group name label.
 		 */
+		/*
 		private function communityNameLabelRollOverHandler(event:Event):void
 		{
 			mCommunityGroupNameLabel.setStyle("color", "0xFF6666");
 		}
+		*/
 		
 		/**
 		 * 	Called when the user hovers the mouse away from the community group name label.
 		 */
+		/*
 		private function communityNameLabelRollOutHandler(event:Event):void
 		{
 			mCommunityGroupNameLabel.setStyle("color", "0x11d30c");
 		}
+		*/
 		
 		/**
 		 *	 
@@ -261,10 +273,8 @@
 	<mx:Panel x="0" y="55" width="352" height="551" layout="absolute" title="Basic Info">
 		<mx:Label x="20" y="25" text="Name :"/>
 		<mx:TextInput x="20" y="51" width="236" id="mNameTextBox"/>
-		<mx:Label x="19" y="120" text="Icon :"/>
-		<mx:Canvas x="18" y="150" width="64" height="64" backgroundImage="@Embed(source='../images/ps.png')">
-		</mx:Canvas>
-		<mx:TextArea x="94" y="151" height="63" selectable="false" wordWrap="true" editable="false" text="Import an icon to represent your community group. The icon must be a JPEG file with dimensions 64 x 64." width="236" borderThickness="0"/>
+		<mx:Label x="19" y="120" text="Icon :" />
+		<mx:Image x="18" y="150" width="64" height="64" source="../images/ps.png" id="communityIcon" />
 		<mx:TextInput x="18" y="222" width="236" id="mIconTextBox"/>
 		<mx:Button x="262" y="222" label="Browse" id="mBrowseButton" click="fileBrowseHandler(event)"/>
 		<mx:Button x="18" y="252" label="Save"   id="mSaveButton" click="saveClickedHandler(event)"/>

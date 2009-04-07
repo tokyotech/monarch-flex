@@ -498,7 +498,7 @@
 	<mx:Button id="rightButton" click="advanceWizard(event)" horizontalCenter="478" verticalCenter="-284" icon="@Embed(source='../images/arrow_right.png')" toolTip="next regex" width="30" height="30" />
 	<mx:Button horizontalCenter="370" verticalCenter="-284" id="mExitButton" click="exitButtonClickHandler(event)" toolTip="exit" icon="@Embed(source='../images/door_out.png')" width="30" height="30"/>
 	<mx:Button click="backWizard(event)" horizontalCenter="427" verticalCenter="-284" icon="@Embed(source='../images/arrow_left.png')" toolTip="previous regex" width="30" height="30"/>
-	<mx:Button click="regexHelp(event)" horizontalCenter="315" verticalCenter="-284" icon="@Embed(source='../images/help.png')" toolTip="Help" width="30" height="30"/>
+	<mx:Button click="regexHelp(event)" horizontalCenter="315" verticalCenter="-284" icon="@Embed(source='../images/help.png')" toolTip="help on this particular regex" width="30" height="30"/>
 	
 	<mx:ViewStack x="10" y="55" id="mMainViewStack" width="992" height="551">
 		<mx:Canvas id="OpeningScreen" width="100%" height="100%">

@@ -4,7 +4,7 @@
 	showCloseButton="true" 
 	title="Regex Help" 
 	width="620" 
-	height="500" 
+	height="400" 
 	layout="absolute" 
 	close="closingHandler(event)"
 >
@@ -13,7 +13,6 @@
 		<![CDATA[
 			
 			import mx.managers.PopUpManager;
-			import mx.controls.Alert;
 			
 			// ================================================================
 			// closingHandler
@@ -35,9 +34,8 @@
 			// ----------------------------------------------------------------
 			public function init(whichRegex:String):void
 			{
-				var screenshot:String = "error"
-				var descriptionText:String = "Self explanatory. You do not need help, biotch.";
-				
+				var screenshot:String;
+				var descriptionText:String;
 				
 				switch(whichRegex)
 				{
@@ -115,19 +113,22 @@
 						break;
 					
 					default:
-						Alert.show("Sorry. Unable to find help text");
+						screenshot = "NotFound";
+						descriptionText = "Sorry. This page does not have help.";
 						break;
 				}
 				
-				image.source = IMAGE_URL + screenshot + ".jpg";
+				image.source = IMAGE_URL + "regex" + screenshot + ".jpg";	
 				description.text = descriptionText;
 			}
 	
+		// TODO: make the base URL global so we don't have 100 pages with hardcoded URL's
 		private var IMAGE_URL:String = "http://csil-srprj-2.cs.uiuc.edu/images/";
+		
 		]]>
 	</mx:Script>
 	
-	<mx:Image x="6" y="8" source="" id="image"/>
-	<mx:Text x="10" y="316" text="A lenghthier description of what this regex is." width="596" height="143" id="description"/>
+	<mx:Image x="6" y="8" source="" id="image" width="600" height="300"/>
+	<mx:Text x="10" y="316" text="" width="596" height="53" id="description"/>
 
 </mx:TitleWindow>
