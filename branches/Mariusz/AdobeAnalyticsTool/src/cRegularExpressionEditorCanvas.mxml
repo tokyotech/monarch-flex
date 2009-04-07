@@ -84,6 +84,8 @@
 				trace("wizard inited");
 				pageLoader = new URLLoader(new URLRequest(urlToLoad));
 				pageLoader.addEventListener(Event.COMPLETE, handlePageLoaded);
+				pageIsLoading = true;
+				
 			}
 		
 			///////////////////////////////////////////////////////////////////////////////////
@@ -95,7 +97,7 @@
 			/**
 			 * 	Called when the the mPageSourceText objects is created and shown.
 			 */
-			private function mPageSourceTextCreationCompleteHandler(event:Event):void
+			private function initializePageSourceText(event:Event):void
 			{
 				mPageSourceText.text = urlContents;
 				trace("Page Source set to string of length "+urlContents.length);
@@ -105,16 +107,39 @@
 			}
 		
 			private function handlePageLoaded(event:Event):void {
+				// Enable source tab and text matches tab
+				if(sourceTab) {
+					sourceTab.enabled = true;
+				}
+				if(textMatchesTab) {
+					textMatchesTab.enabled = true;
+				}
+				pageIsLoading = false;
 				trace("Page loaded");
 				urlContents = pageLoader.data;		
 			}
 			
 			private function handlePageOfPostsLoaded(event:Event):void {
 				trace("Page of posts loaded: length of data");
-				if(pageOfPostsLoader.data != null)
-					pageOfPostsContents = pageOfPostsLoader.data;		
+				
+				// Must use if because sometimes the event received is not the right one
+				if(pageOfPostsLoader.data != null) {
+					pageIsLoading = false;
+					pageOfPostsContents = pageOfPostsLoader.data;
+				}		
 			}
 			
+<<<<<<< .mine
+			private function handlePageOfPostsError(event:Event):void {
+				// When there is an error in loading a page of posts, alert
+				// the user and return to previous page
+				Alert.show("Your regular expression for Thread URL did not return a valid URL");
+				mMainViewStack.selectedChild = RegexEntry;
+				currState = topLevelRegexes[topLevelRegexes.length - 1];
+				
+			}
+			
+=======
 			// ================================================================
 			// regexHelp
 			//    args:  nigger, don't ask me. I don't know what an event is. 
@@ -135,9 +160,12 @@
 				// helpWindow.y = (nativeWindow.height - helpWindow.height) / 2;
 			}
 			
+>>>>>>> .r156
 			// Called when the user clicks the forward button:
 			//  advances to the next screen
 			private function advanceWizard(event:Event):void {
+				trace("Advance: currState = "+currState);
+				
 				// Modify state variables and store user input in Site Event 
 				if(mMainViewStack.selectedChild == OpeningScreen) {
 					mMainViewStack.selectedChild = RegexEntry;
@@ -153,7 +181,11 @@
 					
 					if(index == topLevelRegexes.length - 1) { // this is last toplevel regex
 						trace("last toplevel regex");
+
 						mMainViewStack.selectedChild = pageOfPostsVerify;
+						if(pageOfPostsHTML) {
+							initializePageOfPostsVerify(new Event("dummy"));
+						}
 					}
 					else if(index == -1) { // must be a sub-level regular expression
 						trace("must be a sub-level regular expression");
@@ -161,8 +193,6 @@
 
 						if(index == subLevelRegexes.length -1) { // this is last sub-level regex
 							mMainViewStack.selectedChild = finalView;
-							
-
 						}
 						else {								
 							// Set the regex to be collected to the next in the list
@@ -268,16 +298,20 @@
 				// Match text of "thread url" regular expression and load page from that
 				// url.
 				var threadUrlMatch:Object;
-				var threadUrlRegex:RegExp = new RegExp(RegExProcessingCompleteEvent .regularExpressionMap["thread url"], "g");
-				threadUrlMatch = threadUrlRegex.exec(mPageSourceText.text);
-				if(threadUrlMatch.length > 1) {
+				var threadUrlRegex:RegExp = new RegExp(RegExProcessingCompleteEvent.regularExpressionMap["thread url"], "g");
+				trace(threadUrlRegex);
+				trace(mPageSourceText);
+				threadUrlMatch = threadUrlRegex.exec(urlContents);
+				if(threadUrlMatch && threadUrlMatch.length > 1) {
 					searchTerms.text = threadUrlMatch[1];
 					pageOfPostsLoader = new URLLoader(new URLRequest(searchTerms.text));
 					pageOfPostsLoader.addEventListener(Event.COMPLETE, handlePageOfPostsLoaded);
+					pageOfPostsLoader.addEventListener(ErrorEvent.ERROR, handlePageOfPostsError);
+					pageIsLoading = true;
 				}
 				else {
 					// TODO: load a dummy page
-					trace("No matching page");
+					handlePageOfPostsError(new Event(ErrorEvent.ERROR));
 				}
 			}
 			private function viewAppearanceHandler(event:Event):void {
@@ -352,6 +386,7 @@
 			//							EVENT HANDLERS
 			//
 			///////////////////////////////////////////////////////////////////////////////////
+
 			
 			/**
 			 * Called when the HTML view is added to the stage
@@ -450,6 +485,10 @@
 			private var highlighter:Highlighter;
 			// We will populate this event using user input
 			private var RegExProcessingCompleteEvent :cCreateWebsiteEvent;	
+			// Boolean used to signal that a page is still being loaded
+			private var pageIsLoading:Boolean = false;
+			
+			private var IMAGE_URL:String = "http://csil-srprj-2.cs.uiuc.edu/monarch/images";
 			
 		]]>
 	</mx:Script>
@@ -475,7 +514,7 @@
 	    		    <mx:HTML id="htmlComponent" htmlText="{urlContents}" x="10" y="10" width="952.95" height="440" addedToStage="htmlViewAddedHandler(event)"/>
 	    		</mx:Canvas>
 	    		<mx:VBox label="Source" id="sourceTab" width="100%" height="100%" color="#EFEFEF">
-	    		    <mx:TextArea creationComplete="mPageSourceTextCreationCompleteHandler(event)" show="mPageSourceTextCreationCompleteHandler(event)" width="972" height="447" id="mPageSourceText" selectable="true" verticalScrollPolicy="on" editable="false" wordWrap="true"/>
+	    		    <mx:TextArea creationComplete="initializePageSourceText(event)" show="initializePageSourceText(event)" width="972" height="447" id="mPageSourceText" selectable="true" verticalScrollPolicy="on" editable="false" wordWrap="true"/>
 	    		</mx:VBox>
 	   		    <mx:HBox label="Text Matches" id="textMatchesTab" width="100%" height="100%" color="#EFEFEF">
 	    		    <mx:TextArea id="matchesText" width="970" height="446">
