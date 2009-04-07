@@ -182,6 +182,9 @@
 				graphic.addEventListener("cLabelEntryClickedEvent", removeWebsiteClickedEvent);
 				mWebsitesVBox.addChild(graphic);
 			}*/
+			
+			// TODO: move link to global variable
+			communityIcon.source = "http://csil-srprj-2.cs.uiuc.edu/images/" + mCommunityGroupId + ".jpg"; 
 		}
 		
 		// Called when user clicks to browse for file to upload
@@ -212,10 +215,15 @@
 				trace("unable to upload file");
 			}
 		}
+		
 		private function uploadCompletedHandler(event:DataEvent):void {
 			mIconTextBox.text = "";
 			Alert.show(event.data);
 			// Do something
+			
+			// TODO: move link to global variable
+			communityIcon.source = "ifIDontDoThisTheImageWontRefresh";
+			communityIcon.source = "http://csil-srprj-2.cs.uiuc.edu/images/" + mCommunityGroupId + ".jpg"; 
 		}
 		
 		
