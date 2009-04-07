@@ -15,6 +15,7 @@
 			import mx.controls.textClasses.TextRange;
 			import mx.controls.Alert;
 			import controls.Highlighter;
+			import mx.managers.PopUpManager;
 			
 			///////////////////////////////////////////////////////////////////////////////////
 			//
@@ -112,6 +113,26 @@
 				trace("Page of posts loaded: length of data");
 				if(pageOfPostsLoader.data != null)
 					pageOfPostsContents = pageOfPostsLoader.data;		
+			}
+			
+			// ================================================================
+			// regexHelp
+			//    args:  nigger, don't ask me. I don't know what an event is. 
+			//           Aint even used in this mofo.
+			//    ret:   void
+			//    about: Pops up a help window showing an screenshot of 
+			//           Threadless and some more descriptive text.
+			// ----------------------------------------------------------------
+			private function regexHelp(event:Event):void 
+			{
+				var helpWindow:cRegexHelpWindow = cRegexHelpWindow(PopUpManager.createPopUp(this, cRegexHelpWindow, true));
+				helpWindow.x = 100;
+				helpWindow.y = 50;
+				helpWindow.init(currState);
+				
+				// TODO: why is nativeWindow undefined whenever I use it but is defined when Mariusz uses it?
+				// helpWindow.x = (nativeWindow.width - helpWindow.width) / 2;
+				// helpWindow.y = (nativeWindow.height - helpWindow.height) / 2;
 			}
 			
 			// Called when the user clicks the forward button:
@@ -440,6 +461,7 @@
 	<mx:Button id="rightButton" click="advanceWizard(event)" horizontalCenter="478" verticalCenter="-284" icon="@Embed(source='../images/arrow_right.png')" toolTip="next regex" width="30" height="30" />
 	<mx:Button horizontalCenter="370" verticalCenter="-284" id="mExitButton" click="exitButtonClickHandler(event)" toolTip="exit" icon="@Embed(source='../images/door_out.png')" width="30" height="30"/>
 	<mx:Button click="backWizard(event)" horizontalCenter="427" verticalCenter="-284" icon="@Embed(source='../images/arrow_left.png')" toolTip="previous regex" width="30" height="30"/>
+	<mx:Button click="regexHelp(event)" horizontalCenter="315" verticalCenter="-284" icon="@Embed(source='../images/help.png')" toolTip="previous regex" width="30" height="30"/>
 	
 	<mx:ViewStack x="10" y="55" id="mMainViewStack" width="992" height="551">
 		<mx:Canvas id="OpeningScreen" width="100%" height="100%">

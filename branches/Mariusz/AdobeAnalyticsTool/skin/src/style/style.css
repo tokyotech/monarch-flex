@@ -928,6 +928,7 @@ TitleWindow
 .windowTitle
 {
 	verticalAlign:middle; 
+	font-weight: bold;
 }
 .windowControlBar
 {
