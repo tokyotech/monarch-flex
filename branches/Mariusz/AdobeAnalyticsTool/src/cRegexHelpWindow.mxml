@@ -42,7 +42,9 @@
 					case "next page of threads":
 						screenshot = "NextPageOfThreads";
 						descriptionText = "The URL that takes you to the next page of threads. " +
-							"For example, if you were on page 1, how do you get to page 2?";
+							"Usually the current page has a class like 'selected'. You'll need " +
+							"to find the page after the 'selected' page.  In the example above " +
+							"we are currently on page one and need to enter the regex for page 2.";
 						break;	
 						
 					// TODO: didn't we remove this? It's done automatically for the user now
@@ -52,18 +54,21 @@
 					case "number of views for thread":
 						screenshot = "ThreadNumViews";
 						descriptionText = "The number of times this thread has been viewed by " +
-							"the users of this website";
+							"the users of this website.  Many websites don't show this number. " +
+							"In this case, just leave the regex as //.";
 						break;
 					
 					case "thread url":
 						screenshot = "ThreadUrl";
-						descriptionText = "The URL that takes you into a thread";
+						descriptionText = "The URL that takes you into a thread.";
 						break;
 					
 					case "next page of posts":
 						screenshot = "NextPageOfPosts";
 						descriptionText = "A thread may be divided into several pages. " +
-							"How does one traverse to the next page?";
+							"How does one traverse to the next page? A good idea is to look " + 
+							"for the current page - it usually has a class like 'selected'. " +
+							"Then find the page after this one.";
 						break;
 					
 					case "thread title":
@@ -73,26 +78,26 @@
 						
 					case "first post author":
 						screenshot = "FirstPostAuthor";
-						descriptionText = "The very first post of the thread has a different appearance " +
+						descriptionText = "The very first post of the thread often has a different appearance " +
 							"than the replies. What is the name of the first poster?";
 						break;
 					
 					case "first post time": 
 						screenshot = "FirstPostTime";
-						descriptionText = "The very first post of the thread has a different appearance " +
-							"than the replies. What time was the first post written? Don't worry if you " +
+						descriptionText = "The very first post of the thread often has a different appearance " +
+							"than the replies. What time was the first post written? Don't worry if " +
 							"the time is in plain English.  We'll know how to handle it.";
 						break;
 						
 					case "first post message": 
 						screenshot = "FirstPostMessage";
-						descriptionText = "The very first post of the thread has a different appearance " +
+						descriptionText = "The very first post of the thread often has a different appearance " +
 							"than the replies. What did the first poster say?";
 						break;
 						
 					case "reply author":
 						screenshot = "ReplyAuthor";
-						descriptionText = "What is the name of a person that responded to this thread? " +
+						descriptionText = "What are the names of the people that responded to this thread? " +
 							"This excludes the very first poster.";
 						break;
 					
@@ -108,7 +113,7 @@
 						descriptionText = "What did each replyer say?";
 						break;
 					
-					// TODO: this was taken out of the backend, but your regex thing still asks for it. (not anymores)
+					// TODO: this was taken out of the backend, but your regex thing still asks for it. (not anymores) [O RLY?]
 					case "parent URL for thread":
 						break;
 					
