@@ -1,17 +1,10 @@
 #summary Description of the files in the Adobe Flex GUI for Monarch
 #labels Phase-Implementation
 
-= Introduction =
-
-
-
-
-= Details =
-
-*src*
+= src =
   * AdobeAnalyticsTool.mxml - main window which user sees when launching app
   * AdobeAnalyticsTool-app.xml		
-  * _cCommunityGroupBrowserCanvas.mxml	
+  * \_cCommunityGroupBrowserCanvas.mxml	
   * cAccordionKeywordGraphicCanvas.mxml	
   * cAccordionKeywordGraphicEvent.as	
   * cAccordionLinkGraphicCanvas.mxml	
@@ -73,7 +66,3 @@
   * cWebsiteStaticLargeGraphic.mxml	
   * cWebsiteStaticLargeGraphicClickedEvent.as	
   * cWebsiteStatsBrowserCanvas.mxml
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
