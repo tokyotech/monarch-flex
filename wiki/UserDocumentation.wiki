@@ -1,0 +1,23 @@
+#summary Documentation for users.
+
+= Introduction =
+
+This page includes everything that users need to know to use Monarch productively.
+
+
+= Installation =
+
+In order to install and use Monarch you need the [http://get.adobe.com/air/ Adobe AIR runtime]. You will then be able to install our application using the installer available under [http://code.google.com/p/monarch-flex/downloads/list downloads].
+
+= Adding a Website =
+
+TODO
+
+== Regular Expression Syntax ==
+
+TODO
+
+= Bug Reporting =
+
+This is a very early beta so there are sure to be bugs and usability issues. Please help us by reporting issues [http://code.google.com/p/monarch-flex/issues/entry here].
+
