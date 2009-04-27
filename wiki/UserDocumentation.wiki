@@ -11,13 +11,16 @@ In order to install and use Monarch you need the [http://get.adobe.com/air/ Adob
 
 = Adding a Website =
 
-TODO
+The website creation wizard will tell you everything you need to know. Try it out!
 
 == Regular Expression Syntax ==
 
-TODO
+Adapter creation requires you to construct PCRE regular expressions. Your adapter provides a schema that our servers can overlay on existing pages and new pages in order to make sense out of the online communities that you are interested in. There are many great resources available for learning more about regular expressions.
+A few:
+[http://www.phpguru.org/downloads/PCRE%20Cheat%20Sheet/PHP%20PCRE%20Cheat%20Sheet.pdf Printable cheat sheet]
+[http://en.wikipedia.org/wiki/PCRE Where else]
+[http://xkcd.com/208/ Hmm..yes]
 
 = Bug Reporting =
 
 This is a very early beta so there are sure to be bugs and usability issues. Please help us by reporting issues [http://code.google.com/p/monarch-flex/issues/entry here].
-
