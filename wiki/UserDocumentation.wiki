@@ -23,6 +23,16 @@ A few:
 [http://en.wikipedia.org/wiki/PCRE Where else]
 [http://xkcd.com/208/ Hmm..yes]
 
+== Explanation of Crawling Preferences ==
+
+Once you have completed the "Add Website" process our servers will schedule information collection tasks to gather up information from your website. The following pieces of information provided by you serve as guides to scheduling these events. 
+
+*Minutes to wait between crawls* - our servers schedule tasks on a minute granularity and depending on how often new content is available on a site this parameter may be adjusted so no new stuff slips through the cracks. However, if you get too greedy just know that justice will be served.
+
+*Number of top-level pages to explore per crawl* - our software abstraction of a crawl, or information gathering session, assumes that the pages of a website are organized into tree-like structures where more general pages link to more specific pages. Pages within the same level may also link to each other. Typically, a site will have a set of pages with lists of threads of conversation or lists of headlines. We refer to these pages as "top-level". As top-level pages are explored, the more specific pages below them in the hierarchy are also explored. The total scope of exploration is therefore defined by the limit set on the number of top-level pages. 
+
+Generally, it is better to set a low number of top-level pages to explore with a relatively low period between crawls as this ensures that statistics will be updated most frequently.
+
 = Bug Reporting =
 
 This is a very early beta so there are sure to be bugs and usability issues. Please help us by reporting issues [http://code.google.com/p/monarch-flex/issues/entry here].
